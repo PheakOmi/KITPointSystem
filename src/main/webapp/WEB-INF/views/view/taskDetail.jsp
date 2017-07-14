@@ -2,9 +2,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
+
+<%-- <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>
 <spring:url value="/resources/Bootstrap/css/sweetalert.css" var="alertStyle"/>
       <link rel="stylesheet" href="${alertStyle}">
 <spring:url value="/resources/Bootstrap/js/sweetalert.min.js" var="alertJS"/>
@@ -17,7 +18,7 @@
 <link rel="stylesheet" href="${dateStyle}">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-</head>
+</head> --%>
 <body onload="load();">
 <script type="text/javascript">
 	load = function(){	
@@ -44,19 +45,19 @@
 		
 	}
 </script>		
-
+<form id="myForm">
 <div class="wrapper">
  <div class="row">
-                 <form role="form">
+                 
                     <div class="col-lg-6">
 
                             <div class="form-group">
                                 <label>Task Name</label>
-                                <input class="form-control" id="name">
+                                <input class="form-control" id="name" type="text" required>
                         	</div>
                             <div class="form-group">
                                 <label>Project: </label>
-                                <select class="form-control" id="project">
+                                <select class="form-control" id="project" type="text" required>
                                     
                                 </select>
                         	</div>
@@ -68,11 +69,11 @@
                             </div>
                             <div class="form-group">
                                 <label>Planning Hour</label>
-                                <input class="form-control" id="time">
+                                <input class="form-control" id="time" type="text" required>
                         	</div>
     						<div class="form-group">
                                 <label>Description</label>
-                                <input class="form-control" id="description">
+                                <input class="form-control" id="description" type="text" required>
                         	</div>
                                  
                             
@@ -83,15 +84,15 @@
                            
                             <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">Start Date</label>
-                                  <input class="form-control" id="startdate" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                  <input class="form-control" id="startdate" name="date" placeholder="MM/DD/YYY" type="text" required/>
                             </div>
     					 <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">End Date</label>
-                              <input class="form-control" id="enddate" name="date" placeholder="MM/DD/YYY" type="text"/>
+                              <input class="form-control" id="enddate" name="date" placeholder="MM/DD/YYY" type="text" required/>
                             </div>
                                  <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">Deadline</label>
-                                <input class="form-control" id="deadline" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                <input class="form-control" id="deadline" name="date" placeholder="MM/DD/YYY" type="text" required/>
                         </div>
                                  <div class="form-group col-lg-6">
                                 <label>Status</label>
@@ -103,15 +104,12 @@
                                     
                                 </select>
                             </div>                      
-                  		  </div>
-                   
-                    	
-	                    </form>
-	                    
+                  		  </div>  
         </div>            
-
 </div>
-<button id="btnSubmit" class="btn btn-default">Save Changes</button>
+<button type="submit" class="btn btn-default">Save Changes</button>
+</form>
+
 <script>
                     $(document).ready(function(){
                     	var date_input=$('input[name="date"]');
@@ -121,42 +119,44 @@
                           autoclose: true,
                         };
                         date_input.datepicker(options);
-                    	$("#btnSubmit").click(function(){                         
-                            $.ajax({
-                    		url:'saveTask',
-                    		type:'POST',
-                    		data:{		project_id:$("#project").val(),
-                    					name:$("#name").val(),
-                    					assigned_to:$("#user").val(),
-                    					description:$("#description").val(),
-                    					status:$("#status").val(),
-                    					time_spend:parseInt($("#time").val()),
-                    					deadline:$("#deadline").val(),
-                    					start_date:$("#startdate").val(),
-                    					end_date:$("#enddate").val(),},
-                    		traditional: true,			
-                    		success: function(response){
-                    				if(response.status=="200")
-                    					{
-                    					swal("Good job!", "You clicked the button!", "success")
-                    					}
-                    				//var obj = jQuery.parseJSON(response);
-                    				    
-                    				else 
-                    					{
-                    					swal("Oops!", "It is not saved!", "error")
-                    					
-                    					}
-                    				},
-                    		error: function(err){
-                    				console.log(JSON.stringify(err));
-                    				console.log("Hello");
-                    				}
-                    		
-                    			});			
-                    	
-                    	});
-                    });	
+                		$("#myForm").on('submit',function(e){
+                			e.preventDefault();
+                			 if($("#myForm").validate())
+                				{
+                				 $.ajax({
+                             		url:'saveTask',
+                             		type:'POST',
+                             		data:{		project_id:$("#project").val(),
+                             					name:$("#name").val(),
+                             					assigned_to:$("#user").val(),
+                             					description:$("#description").val(),
+                             					status:$("#status").val(),
+                             					time_spend:parseInt($("#time").val()),
+                             					deadline:$("#deadline").val(),
+                             					start_date:$("#startdate").val(),
+                             					end_date:$("#enddate").val(),},
+                             		traditional: true,			
+                             		success: function(response){
+                             				if(response.status=="200")
+                             					{
+                             					swal("Good job!", "You clicked the button!", "success")
+                             					}
+                             				//var obj = jQuery.parseJSON(response);
+                             				    
+                             				else 
+                             					{
+                             					swal("Oops!", "It is not saved!", "error")
+                             					
+                             					}
+                             				},
+                             		error: function(err){
+                             				console.log(JSON.stringify(err));
+                             				console.log("Hello");
+                             				}
+                             		
+                             			});		
+                				}
+                		});
+                	});		
 					</script>
 </body>
-</html>
