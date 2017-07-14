@@ -13,4 +13,5 @@ public interface kitPointDao {
 	public KIT_Point addPointValue1(KIT_Point model1);
 	public List<KIT_Point> getAllPointValue();
 	public boolean deletePoint(KIT_Point kitPointValue);
+	public boolean createOrUpdate(KIT_Point kitPoint);
 }

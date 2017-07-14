@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -67,7 +68,23 @@ public class ValuePerHourController {
 					return map;
 				}	
 	}
-
+	//=================get project stage list and project=======================
+	@RequestMapping("/getProjectBasedOnStatus")
+	public @ResponseBody Map<String,?> showBasedOnProjectStatus(@RequestParam("status") String project_status){
+		 Map<String,List> map = new HashMap<String,List>();
+		 Map<String,Object> error = new HashMap<String,Object>();
+			List<Project_Master> listProject= listData.getProjectBasedOnStatus(project_status);
+			if (listProject==null)
+				{
+					error.put("message","batch not found");
+					return error;
+				}
+			else
+				{
+					map.put("project", listProject);
+					return map;
+				}	
+	}
 	@RequestMapping(value="/getHour", method=RequestMethod.POST)
 	public @ResponseBody Map<String,Object> getSaved(ValuePerHourModel valuePerHourData){
 
