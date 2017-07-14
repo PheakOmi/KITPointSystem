@@ -1,0 +1,5 @@
+target/m2e-wtp/web-resources/META-INF/maven/com.java/SpringRegister3/pom.properties
+target/classes/hibernate.cfg.xml
+src/main/resources/hibernate.cfg.xml
+src/main/java/com/ATable/Create.java
+src/main/java/com/ATable/creation.java

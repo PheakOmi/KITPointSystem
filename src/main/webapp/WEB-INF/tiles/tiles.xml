@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	<definition name="base.definition"
+		template="/WEB-INF/views/template/layout.jsp">
+		<put-attribute name="title" value="" />
+		<put-attribute name="header" value="/WEB-INF/views/layout/header.jsp" />
+		<put-attribute name="sidebar" value="/WEB-INF/views/layout/sidebar.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
+	</definition>
+	<definition name="base.definition2"
+		template="/WEB-INF/views/template/login.jsp">
+		<put-attribute name="title" value="" />
+	</definition>
+
+	<definition name="project" extends="base.definition">
+		<put-attribute name="title" value="Hello Spring MVC" />
+		<put-attribute name="body" value="/WEB-INF/views/view/viewProject.jsp" />
+	</definition>
+	<definition name="projectDetail" extends="base.definition">
+		<put-attribute name="title" value="Hello Spring MVC" />
+		<put-attribute name="body" value="/WEB-INF/views/view/projectDetail.jsp" />
+	</definition>
+	<definition name="updateProjectDetail" extends="base.definition">
+		<put-attribute name="title" value="Hello Spring MVC" />
+		<put-attribute name="body" value="/WEB-INF/views/view/updateProjectDetail.jsp" />
+	</definition>
+	<definition name="updateTaskDetail" extends="base.definition">
+		<put-attribute name="title" value="Hello Spring MVC" />
+		<put-attribute name="body" value="/WEB-INF/views/view/updateTaskDetail.jsp" />
+	</definition>
+	<definition name="taskDetail" extends="base.definition">
+		<put-attribute name="title" value="Hello Spring MVC" />
+		<put-attribute name="body" value="/WEB-INF/views/view/taskDetail.jsp" />
+	</definition>
+	<definition name="login" extends="base.definition2">
+		<put-attribute name="title" value="Hello Spring MVC" />
+		<put-attribute name="body" value="/WEB-INF/views/view/login.jsp" />
+	</definition>
+	<definition name="taskView" extends="base.definition">
+		<put-attribute name="title" value="Hello Spring MVC" />
+		<put-attribute name="body" value="/WEB-INF/views/view/taskView.jsp" />
+	</definition>
+	<definition name="viewSetting" extends="base.definition">
+		<put-attribute name="title" value="setting" />
+		<put-attribute name="body" value="/WEB-INF/views/view/setting.jsp" />
+	</definition>
+		<definition name="viewBatch" extends="base.definition">
+		<put-attribute name="title" value="setting" />
+		<put-attribute name="body" value="/WEB-INF/views/view/batch.jsp" />
+	</definition>
+		<definition name="viewProjectCaterory" extends="base.definition">
+		<put-attribute name="title" value="setting" />
+		<put-attribute name="body" value="/WEB-INF/views/view/projectCategory.jsp" />
+	</definition>
+	<definition name="viewSuccess" extends="base.definition">
+		<put-attribute name="title" value="setting" />
+		<put-attribute name="body" value="/WEB-INF/views/view/success.jsp" />
+	</definition>
+		<definition name="viewValuePerHour" extends="base.definition">
+		<put-attribute name="title" value="setting" />
+		<put-attribute name="body" value="/WEB-INF/views/view/valuePerHour.jsp" />
+	</definition>
+		<definition name="viewKitPoint" extends="base.definition">
+		<put-attribute name="title" value="setting" />
+		<put-attribute name="body" value="/WEB-INF/views/view/kitpoint.jsp" />
+	</definition>
+		<definition name="createUser" extends="base.definition">
+		<put-attribute name="title" value="setting" />
+		<put-attribute name="body" value="/WEB-INF/views/view/createUser.jsp" />
+	</definition>
+	<definition name="createBatch" extends="base.definition">
+		<put-attribute name="title" value="setting" />
+		<put-attribute name="body" value="/WEB-INF/views/view/createBatch.jsp" />
+	</definition>
+	<definition name="updateBatch" extends="base.definition">
+		<put-attribute name="title" value="setting" />
+		<put-attribute name="body" value="/WEB-INF/views/view/updateBatch.jsp" />
+	</definition>
+	<definition name="changePassword" extends="base.definition">
+		<put-attribute name="title" value="Profile" />
+		<put-attribute name="body" value="/WEB-INF/views/view/profile.jsp" />
+	</definition>
+</tiles-definitions>
