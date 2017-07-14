@@ -17,12 +17,20 @@
 
  
  <body onload="load();">
+   <!-- Page Heading -->
+                <div class="row">
+                        <h3 class="page-header">
+                            KIT Point 
+                        </h3>
+                </div>
+   <!-- /.row -->
  <div class="row" id="margin-body">
                  <form class="form-horizontal" id="myForm">
                     <div class="col-lg-10">
-                            <div class="form-group">
+                            <div class="form-group ">
                                 <label class="col-sm-2 control-label" id="point">1 KIT Point</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-10 input-group">
+                                	<span class="input-group-addon">$</span>
                                		 <input type="text" class="form-control" id="value1" name="value" required>
                                 </div>
                         </div>

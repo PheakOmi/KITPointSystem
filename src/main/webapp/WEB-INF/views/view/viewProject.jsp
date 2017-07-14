@@ -19,15 +19,32 @@
 			success: function(response){
 					console.log(response);
 					project=response.project;
-					
 					for(i=0; i<response.project.length; i++){
 						project[i].deadline=formatDate(project[i].deadline);
 						project[i].start_date=formatDate(project[i].start_date);
+						var panel;
+						 switch(project[i].status){
+							case "To approve Project":
+								panel="panel-default";
+								break;
+							case "Approved Project":
+								panel="panel-primary";
+								break;
+							case "Completed Project":
+								panel="panel-success";
+								break;
+							case "Pending Project":
+								panel="panel-danger";
+								break;
+							default:
+								panel="panel-default";
+								break;
 						
+						 }
 						var projectDiv =
 						"<div class='col-sm-4' data-project-status='"+response.project[i].status+
 						"'>"+
-						"<div class='panel panel-success'>"+
+						"<div class='panel "+panel+"'>"+
 							"<div class='panel-heading'>"+
 								"<h3 class='panel-title'>"+ response.project[i].project_name+"</h3>"+
                             "</div>"+
@@ -134,11 +151,29 @@
 				for(i=0; i<response.project.length; i++){
 					project[i].deadline=formatDate(project[i].deadline);
 					project[i].start_date=formatDate(project[i].start_date);
+					var panel;
+					 switch(project[i].status){
+						case "To approve Project":
+							panel="panel-default";
+							break;
+						case "Approved Project":
+							panel="panel-primary";
+							break;
+						case "Completed Project":
+							panel="panel-success";
+							break;
+						case "Pending Project":
+							panel="panel-danger";
+							break;
+						default:
+							panel="panel-default";
+							break;
 					
+					 }
 					var projectDiv =
 						"<div class='col-sm-4' data-project-status='"+response.project[i].status+
 						"'>"+
-						"<div class='panel panel-success'>"+
+						"<div class='panel "+panel+"'>"+
 							"<div class='panel-heading'>"+
 								"<h3 class='panel-title'>"+ response.project[i].project_name+"</h3>"+
                             "</div>"+
@@ -184,10 +219,10 @@
 
 </script>
 <body onload="load();">
-	    <div class="navbar navbar-default">
-                    <div class="container" data-project-status="">
-                        <div class="navbar-collapse collapse">
-                            <ul class="nav navbar-nav" >
+                    <div class="container">
+                       
+                            <ul class="nav nav-tabs" >
+                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
                                 <li id="id1" onclick='showProjectBasedStatus("all");'><a>ALL</a>
                                 </li>
                                 <li id="id2" onclick='showProjectBasedStatus("Approved Project");'><a >Approved Project</a>
@@ -198,13 +233,16 @@
                                 </li>
                                 <li id="id5" onclick='showProjectBasedStatus("Completed Project");'><a>Completed Project</a>
                                 </li>
+                                <li> <a href="projectDetail" style="color:#3a3939"><b>CREATE</b></a>
+                                </li>
                             </ul>
-                        </div>
+                        
                         <!--/.nav-collapse -->
                     </div>
-                </div>
-                <a href="projectDetail" class="btn btn-default">Create</a>
-                <br><br>
+                    <br><br>
+              
+                
+                
                 <div class="row">
                 
                 <div id="project">

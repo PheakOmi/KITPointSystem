@@ -1,5 +1,13 @@
 
 <body onload="load();">
+  <!-- Page Heading -->
+                <div class="row">
+                        <h3 class="page-header">
+                            Value Per Hour
+                        </h3>
+                </div>
+   <!-- /.row -->
+
 <form id="myForm">
  <div class="row">
                  <div class="form-horizontal">

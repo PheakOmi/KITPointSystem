@@ -1,14 +1,32 @@
-
-
+ <script type="text/javascript">
+			load = function(){	
+				$.ajax({
+					url:'getBatchList',
+					type:'POST',
+					success: function(response){
+							console.log(response);
+							data = response.batch;
+							for(i=0; i<response.batch.length; i++){					
+								$("#batch").append("<option value="+response.batch[i].id+">"+response.batch[i].name+" </option>");
+							}
+					}				
+				});
+				
+			}
+	</script>
 <body onload='load();'>
+   <!-- Page Heading -->
+                <div class="row">
+                        <h3 class="page-header">
+                            Create User
+                        </h3>
+                </div>
+   <!-- /.row -->
  <div class="row" id="margin-body">
     
 				 <form class="form-horizontal">
 				 <div class="col-sm-2">
-                            <div class="form-group">
-                            <img src="#" alt="" class="img-thumbnail">
-                                <label>image</label>
-                        </div>
+
                	</div>
 				 <div class="col-sm-8"> 
 						  <div class="form-group">
@@ -65,20 +83,6 @@
                     
                  	
  <script type="text/javascript">
-			load = function(){	
-				$.ajax({
-					url:'getBatchList',
-					type:'POST',
-					success: function(response){
-							console.log(response);
-							data = response.batch;
-							for(i=0; i<response.batch.length; i++){					
-								$("#batch").append("<option value="+response.batch[i].id+">"+response.batch[i].name+" </option>");
-							}
-					}				
-				});
-				
-			}
 			var data = "";
 			submit_ = function(){
 					$.ajax({
