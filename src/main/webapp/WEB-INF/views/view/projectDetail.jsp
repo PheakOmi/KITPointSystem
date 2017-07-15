@@ -108,7 +108,7 @@ for(i=0; i<user.length; i++){
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Planning Hours</label>
                                 <div class="col-sm-8">
-                                	<input type="text" class="form-control" id="planninghour" required>
+                                	<input type="text" oninput="kitPointCalculate(this.value)" class="form-control" id="planninghour" required>
                                 </div>
                         </div>
                          <div class="form-group">
@@ -135,19 +135,19 @@ for(i=0; i<user.length; i++){
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Start Date</label>
                                 <div class="col-sm-8">
-                                	<input class="form-control" id="startdate"  name="date" placeholder="MM/DD/YYY" type="text"/>
+                                	<input class="form-control" id="startdate"  name="date" placeholder="MM/DD/YYY" type="text" required/>
                                 </div>
                             </div>
     					 <div class="form-group">
                                 <label class="col-sm-4 control-label">End Date</label>
                               	<div class="col-sm-8">
-                              		<input class="form-control" id="enddate"  name="date" placeholder="MM/DD/YYY" type="text"/>
+                              		<input class="form-control" id="enddate"  name="date" placeholder="MM/DD/YYY" type="text" required/>
                               	</div>
                             </div>
                                  <div class="form-group ">
                                 <label class="col-sm-4 control-label">Deadline</label>
                                 <div class="col-sm-8">
-                                	<input class="form-control" name="date" id="deadline" placeholder="MM/DD/YYY" type="text"/>
+                                	<input class="form-control" name="date" id="deadline" placeholder="MM/DD/YYY" type="text" required/>
                                 </div>
                         </div>
 <%--                                  <div class="form-group">
@@ -238,6 +238,21 @@ for(i=0; i<user.length; i++){
                         			});	
             			
                     	});	
+                    	kitPointCalculate=function (hour){
+                    		  $.ajax({
+                    		   url:'getKitPoint',
+                    		   type:'POST',
+                    		   success: function(response){
+                    		    kitpoint=response.kitPoint;
+                    		    var value=kitpoint[0].value;
+                    		    var point=hour*value;
+                    		    $("#kitpoint").val(point);
+                    		   }
+                    		   
+                    		   
+                    		  });
+                    		  
+                    		 }
             	});
                     	<%-- $("#btnSubmit").click(function(){		 
                    		var val = [];
