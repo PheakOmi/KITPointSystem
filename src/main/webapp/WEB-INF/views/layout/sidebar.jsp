@@ -5,10 +5,10 @@
                         </i><span>Project</span> </a>
                     </li>
                     <li>
-                        <a href="taskDetail"><i class="fa fa-fw fa-file fa-3x"></i> Tasks</a>
+                        <a href="task"><i class="fa fa-fw fa-file fa-3x"></i> Tasks</a>
                     </li>
                     <li>
-                        <a href="updateProjectDetail?id=62"><i class="fa fa-fw fa-bar-chart-o fa-3x"></i> Report</a>
+                        <a href="updateProjectDetail?id=68"><i class="fa fa-fw fa-bar-chart-o fa-3x"></i> Report</a>
                     </li>
                     <li>
                         <a href="setting"><i class="fa fa-fw fa-wrench fa-3x"></i> Setting</a>

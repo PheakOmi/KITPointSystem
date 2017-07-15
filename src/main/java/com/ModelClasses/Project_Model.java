@@ -11,7 +11,7 @@ public class Project_Model {
 	private int project_type;
 	private int project_co;
 	private int project_leader;
-	private String project_member;
+	//private String project_member;
 	private String description;
 	private int initially_planned;
 	private int budget;
@@ -21,10 +21,17 @@ public class Project_Model {
 	private String end_date;
 	private Timestamp created_at;
 	private Timestamp updated_at;
-	//private int stage[];
+	private String status;
+	private int member[];
 	
 	
 	
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	public int getId() {
 		return id;
 	}
@@ -73,11 +80,11 @@ public class Project_Model {
 	public void setProject_leader(int project_leader) {
 		this.project_leader = project_leader;
 	}
-	public String getProject_member() {
-		return project_member;
+	public int[] getMember() {
+		return member;
 	}
-	public void setProject_member(String project_member) {
-		this.project_member = project_member;
+	public void setMember(int[] member) {
+		this.member = member;
 	}
 	public String getDescription() {
 		return description;

@@ -61,6 +61,7 @@
 					else if(user[i].user_type=="s")
 					$("#teamleader").append("<option value="+user[i].id+">"+user[i].name+" </option>");
 				}
+				$("#status").val(currentproject.status);
 				$("#project_name").val(currentproject.project_name);
 				$("#projectcode").val(currentproject.project_code);
 				$("#projectcategory").val(currentproject.project_type);
@@ -127,7 +128,17 @@
                                 	<input class="form-control" id="planninghour">
                                 </div>
                         </div>
-                           
+                           <div class="form-group">
+                                <label class="col-sm-4 control-label">Status</label>
+	                            <div class="col-sm-8">    
+	                                <select class="form-control" id="status">
+	                                   <option value="In Progress">In Progress</option>
+                                    	<option value="Completed">Completed</option>
+                                    	<option value="Delayed">Delayed</option>
+                                    	<option value="Postponed">Postponed</option> 
+	                                </select>
+	                            </div>
+                            </div>       
                   		  </div>
                   		    
                          <div class="col-sm-6">
@@ -213,6 +224,7 @@
                     		url:'updateProject',
                     		type:'POST',
                     		data:{		id:id,
+                    					status:$("#status").val(),
                     					project_name:$("#project_name").val(),
                     					project_code:$("#projectcode").val(),
                     					project_type:$("#projectcategory").val(),

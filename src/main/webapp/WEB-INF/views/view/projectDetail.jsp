@@ -7,8 +7,12 @@
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>
 <spring:url value="/resources/Bootstrap/css/checkbox/build.css" var="checkboxStyle"/>
       <link rel="stylesheet" href="${checkboxStyle}">
+<spring:url value="/resources/Bootstrap/css/multipleselect/multiple-select.css" var="multipleSelectStyle"/>
+      <link rel="stylesheet" href="${multipleSelectStyle}">
 <spring:url value="/resources/Bootstrap/css/sweetalert.css" var="alertStyle"/>
       <link rel="stylesheet" href="${alertStyle}">
+<spring:url value="/resources/Bootstrap/js/multipleselect/multiple-select.js" var="multipleSelectJS"/>
+      <script src="${multipleSelectJS}"></script>
 <spring:url value="/resources/Bootstrap/js/sweetalert.min.js" var="alertJS"/>
       <script src="${alertJS}"></script>
 <spring:url value="/resources/Bootstrap/js/date/jquery.js" var="dateJS"/>
@@ -39,9 +43,11 @@
 				for(i=0; i<user.length; i++){
 					if(user[i].user_type=="t")
 					$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
-					else if(user[i].user_type=="s")
-					$("#teamleader").append("<option value="+user[i].id+">"+user[i].name+" </option>");
-				}
+					else if(user[i].user_type=="s"){
+						$("#teamleader").append("<option value="+user[i].id+">"+user[i].name+" </option>");						
+						$("#member").append("<option value="+user[i].id+">"+user[i].name+" </option>");
+						}
+					}
 			},
 		error: function(err){
 			console.log("KKKKKKK");
@@ -87,7 +93,16 @@
 	                                    
 	                                </select>
 	                            </div>
-                            </div>                                 
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Project Member</label>
+	                            <div class="col-sm-8">    
+	                                <select class="form-control" id="member" multiple>
+	                                    
+	                                </select>
+	                            </div>
+                            </div>                                    
                             
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Planning Hours</label>
@@ -95,7 +110,18 @@
                                 	<input type="text" class="form-control" id="planninghour" required>
                                 </div>
                         </div>
-                           
+                         <div class="form-group">
+                                <label class="col-sm-4 control-label">Status</label>
+	                            <div class="col-sm-8">    
+	                                <select class="form-control" id="status">
+	                                   <option value="In Progress">In Progress</option>
+                                    	<option value="Completed">Completed</option>
+                                    	<option value="Delayed">Delayed</option>
+                                    	<option value="Postponed">Postponed</option> 
+	                                </select>
+	                            </div>
+                            </div>       
+                               
                   		  </div>
                   		    
                          <div class="col-sm-6">
@@ -159,7 +185,7 @@
                   	
 	                    </div>
                     </div>
-     </form>              
+     </form>            
                     <script>
                     $(document).ready(function(){
                     	var date_input=$('input[name="date"]');
@@ -170,13 +196,13 @@
                         };
                         date_input.datepicker(options);
                     	$("#myForm").on('submit',function(e){
+                    		var member = $('#member').val(); 
                     		e.preventDefault();
-                        if($("#myForm").validate())
-            			{
                         	$.ajax({
                         		url:'saveProject',
                         		type:'POST',
-                        		data:{		project_name:$("#project_name").val(),
+                        		data:{		status:$("#status").val(),
+                        					project_name:$("#project_name").val(),
                         					project_code:$("#projectcode").val(),
                         					project_type:$("#projectcategory").val(),
                         					project_co:$("#projectcoordinator").val(),
@@ -187,8 +213,8 @@
                         					kit_point:$("#kitpoint").val(),
                         					deadline:$("#deadline").val(),
                         					start_date:$("#startdate").val(),
-                        					end_date:$("#enddate").val()
-                        				<%--stage:val,--%>},
+                        					end_date:$("#enddate").val(),
+                        					member:member,},
                         		traditional: true,			
                         		success: function(response){
                         				if(response.status=="200")
@@ -209,7 +235,7 @@
                         				}
                         		
                         			});	
-            			}
+            			
                     	});	
             	});
                     	<%-- $("#btnSubmit").click(function(){		 

@@ -188,10 +188,13 @@ public class ControllerFile {
 //========================Save Project========================================================
 			@RequestMapping(value="/saveProject", method=RequestMethod.POST)
 			public @ResponseBody Map<String,Object> toSaveProject(Project_Model pm) throws ParseException{
-	        		//int[] s = pm.getStage();
+	        		int[] m = pm.getMember();
+	        		System.out.println("Length of m is "+m.length);
 					Map<String,Object> map = new HashMap<String,Object>();				
-					if(userDaoImpl.saveProject(pm))
+					int id = userDaoImpl.saveProject(pm);
+					if(id!=0)
 					{
+						userDaoImpl.saveMember(id,m);
 						map.put("status","200");
 						map.put("message","Your record has been saved successfully");
 						return map;
