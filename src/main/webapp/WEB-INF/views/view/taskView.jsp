@@ -120,14 +120,13 @@
 								   $(".projects").append(projectcard);
 							for (j=0;j<task.length;j++)
 								{
-								
-								if(task[j].project_id==project[i].id)	
-									{var taskcard= 
-										'<a href="updateTaskDetail?id='+task[j].id+'">'+'<div class="project-task">'+ 
-									       '<p>'+task[j].name+'</p>'+
-									      '</div>'+"</a>";
+								var taskcard= 
+									'<a href="updateTaskDetail?id='+task[j].id+'">'+'<div class="project-task">'+ 
+								       '<p>'+task[j].name+'</p>'+
+								      '</div>'+"</a>";
+								if(task[j].project_id==project[i].id)										
 									$(".project-tasks__wrapper").append(taskcard);
-								}
+								
 								}
 							     
 						
@@ -141,6 +140,7 @@
 			});
 		}
 	</script>
+	<a href="taskDetail" class="btn btn-default">Create</a>
 	<div class="project-list__wrapper">
 		<div class="inner">
 			<div class="projects">

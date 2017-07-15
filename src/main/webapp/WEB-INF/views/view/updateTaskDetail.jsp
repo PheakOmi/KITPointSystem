@@ -135,7 +135,7 @@
         </div>            
 
 </div>
-<button id="btnSubmit" class="btn btn-default">Save Changes</button>
+<button id="btnSubmit" class="btn btn-default">Update</button>
 <script>
                     $(document).ready(function(){
                     	var date_input=$('input[name="date"]');

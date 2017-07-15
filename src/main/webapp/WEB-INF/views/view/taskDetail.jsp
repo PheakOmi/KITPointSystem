@@ -13,7 +13,6 @@
 <spring:url value="/resources/Bootstrap/js/date/jquery.js" var="dateJS"/>
 <spring:url value="/resources/Bootstrap/js/date/jquery-ui.js" var="dateJS2"/>
 <script src="${dateJS}"></script>
-<script src="${dateJS2}"></script>
 <spring:url value="/resources/Bootstrap/css/date/jquery-ui.css" var="dateStyle"/>
 <link rel="stylesheet" href="${dateStyle}">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">

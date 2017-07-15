@@ -1,6 +1,6 @@
 package com.EntityClasses;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 public class Project_Member {
 		private int id;

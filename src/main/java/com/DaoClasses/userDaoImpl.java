@@ -15,9 +15,11 @@ import org.springframework.stereotype.Repository;
 //import org.springframework.stereotype.Service;
 
 
+
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Project_Category_Master;
 import com.EntityClasses.Project_Master;
+import com.EntityClasses.Project_Member;
 import com.EntityClasses.Project_Stage;
 import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
@@ -402,7 +404,7 @@ public class userDaoImpl implements usersDao{
         return true;
     }
 //=================================Save project=========================================
-    public static boolean saveProject(Project_Model project) throws ParseException
+    public static int saveProject(Project_Model project) throws ParseException
     {
     	Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -421,7 +423,7 @@ public class userDaoImpl implements usersDao{
     		pm.setProject_type(project.getProject_type());
     		pm.setProject_co(project.getProject_co());
     		pm.setProject_leader(project.getProject_leader());
-    		pm.setProject_member(project.getProject_member());
+    		//pm.setProject_member(project.getProject_member());
     		pm.setDescription(project.getDescription());
     		pm.setInitially_planned(project.getInitially_planned());
     		pm.setBudget(project.getBudget());
@@ -430,10 +432,11 @@ public class userDaoImpl implements usersDao{
     		pm.setEnd_date(end_date);
     		pm.setDeadline(deadline);
     		pm.setCreated_at(created_at);
+    		pm.setStatus(project.getStatus());
     		session.save(pm); 
-    	    //int id = pm.getId();
+    	    int id = pm.getId();
     		session.getTransaction().commit();
-    		
+    		return id;
     		
         } catch (RuntimeException e) {
         	if (trns != null) {
@@ -441,12 +444,12 @@ public class userDaoImpl implements usersDao{
             }
             e.printStackTrace();
             System.out.println("Catch runs");
-            return false;
+            return 0;
         } finally {
             session.flush();
             session.close();
         }
-        return true;
+        
     }
 //=================================Update project=========================================
     public static boolean updateProject(Project_Model project) throws ParseException
@@ -470,7 +473,7 @@ public class userDaoImpl implements usersDao{
     		pm.setProject_type(project.getProject_type());
     		pm.setProject_co(project.getProject_co());
     		pm.setProject_leader(project.getProject_leader());
-    		pm.setProject_member(project.getProject_member());
+    		//pm.setProject_member(project.getProject_member());
     		pm.setDescription(project.getDescription());
     		pm.setInitially_planned(project.getInitially_planned());
     		pm.setBudget(project.getBudget());
@@ -478,6 +481,7 @@ public class userDaoImpl implements usersDao{
     		pm.setStart_date(start_date);
     		pm.setEnd_date(end_date);
     		pm.setDeadline(deadline);
+    		pm.setStatus(project.getStatus());
     		pm.setUpdated_at(updated_at);
     		session.update(pm); 
     	    //int id = pm.getId();
@@ -542,21 +546,24 @@ public class userDaoImpl implements usersDao{
         return true;
     }
 //=================================Save Stage==================================================
-    public static void saveStage(int projectid, int arr[])
+    public static void saveMember(int projectid, int arr[])
     {
     	Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
-
+        Timestamp created_at = new Timestamp(System.currentTimeMillis());
+        System.out.println("Arr length "+arr.length);
+        for (int i=0; i<arr.length;i++)
+        	System.out.println(arr[i]);
         try {
         	
             trns = session.beginTransaction();
     		for (int i = 0; i<arr.length; i++)
     		{
-    			Project_Stage ps = new Project_Stage();
-    			ps.setProject_id(projectid);
-    			ps.setStage_id(arr[i]);
-        		//ps.setCreated_at(created_at);
-    			session.save(ps);
+    			Project_Member pm = new Project_Member();
+    			pm.setProject_id(projectid);
+    			pm.setUser_id(arr[i]);
+        		pm.setCreated_at(created_at);
+    			session.save(pm);
     			
     		}  
     		session.getTransaction().commit();
@@ -565,7 +572,7 @@ public class userDaoImpl implements usersDao{
                 trns.rollback();
             }
             e.printStackTrace();
-            System.out.println("Catch runs");
+            System.out.println("Catch in member runs");
         } finally {
             session.flush();
             session.close();
