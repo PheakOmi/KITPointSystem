@@ -57,6 +57,7 @@
 		});
 		
 	}
+	
 </script>		
 <form id="myForm">
  			<div class="row">

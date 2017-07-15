@@ -1,5 +1,13 @@
 
 <body onload="load();">
+  <!-- Page Heading -->
+                <div class="row">
+                        <h3 class="page-header">
+                            Value Per Hour
+                        </h3>
+                </div>
+   <!-- /.row -->
+
 <form id="myForm">
  <div class="row">
                  <div class="form-horizontal">
@@ -86,7 +94,6 @@
 			success: function(response){
 					console.log(response);
 					data = response.batch;
-					//$('.tr').remove();
 					for(i=0; i<response.batch.length; i++){					
 						$("#batch_name").append("<option value='"+response.batch[i].id+"'>"+response.batch[i].name+" </option>");
 					}
@@ -112,7 +119,7 @@
 							value_7:$('#semester7').val(),
 							value_8:$('#semester8').val()},
 						success: function(response){
-								alert(response.message);
+							swal(response.message, "success")
 						}				
 					});		
 				}
