@@ -56,9 +56,9 @@
     
 }	--%>
 				for(i=0; i<user.length; i++){
-					if(user[i].user_type=="t")
+					if((user[i].user_type=="Super Admin")||(user[i].user_type=="Admin"))
 					$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
-					else if(user[i].user_type=="s")
+					else
 					$("#teamleader").append("<option value="+user[i].id+">"+user[i].name+" </option>");
 				}
 				$("#status").val(currentproject.status);
@@ -132,10 +132,10 @@
                                 <label class="col-sm-4 control-label">Status</label>
 	                            <div class="col-sm-8">    
 	                                <select class="form-control" id="status">
-	                                   <option value="In Progress">In Progress</option>
-                                    	<option value="Completed">Completed</option>
-                                    	<option value="Delayed">Delayed</option>
-                                    	<option value="Postponed">Postponed</option> 
+	                                   <option value="In Progress">Approved Project</option>
+                                    	<option value="Completed">To approve Project</option>
+                                    	<option value="Delayed">Pending Project</option>
+                                    	<option value="Postponed">Completed Project</option> 
 	                                </select>
 	                            </div>
                             </div>       

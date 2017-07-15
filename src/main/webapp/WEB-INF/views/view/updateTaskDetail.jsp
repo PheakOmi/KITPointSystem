@@ -46,12 +46,12 @@
 				for(i=0; i<project.length; i++)					
 					$("#project").append("<option value="+project[i].id+">"+project[i].project_name+" </option>");
 				for(i=0; i<user.length; i++){
-					if(user[i].user_type=="t")
+					if(user[i].user_type=="User")
 					$("#user").append("<option value="+user[i].id+">"+user[i].name+" </option>");
 				}
 				$("#project").val(currenttask.project_id);
 				$("#name").val(currenttask.name);
-				$("#assigned_to").val(currenttask.assigned_to);
+				$("#user").val(currenttask.assigned_to);
 				$("#description").val(currenttask.description);
 				$("#status").val(currenttask.status);
 				$("#time").val(currenttask.time_spend);

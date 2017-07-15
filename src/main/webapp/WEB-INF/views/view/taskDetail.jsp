@@ -30,8 +30,8 @@
 				user = response.user;
 				for(i=0; i<project.length; i++)					
 					$("#project").append("<option value="+project[i].id+">"+project[i].project_name+" </option>");
-				for(i=0; i<user.length; i++){
-					if(user[i].user_type=="t")
+				for(i=0; i<user.length; i++){	
+					if(user[i].user_type=="User")
 					$("#user").append("<option value="+user[i].id+">"+user[i].name+" </option>");
 				}
 			},

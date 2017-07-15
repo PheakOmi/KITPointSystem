@@ -12,7 +12,15 @@
 </head>
 
 <body>
-<h1>Hiiii</h1>
- 
+<h1>${message}</h1>
+  <div class="login-page">
+  <div class="form">
+    <form class="login-form" action="validate" method="post">
+      <input type="text" placeholder="Email" name="email" />
+      <input type="password" placeholder="Password" name="password" />
+      <input type="submit" class="a" value="Login">
+    </form>
+  </div>
+</div>
 </body>
 </html>
