@@ -2,22 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<%-- <head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>
-<spring:url value="/resources/Bootstrap/css/sweetalert.css" var="alertStyle"/>
-      <link rel="stylesheet" href="${alertStyle}">
-<spring:url value="/resources/Bootstrap/js/sweetalert.min.js" var="alertJS"/>
-      <script src="${alertJS}"></script>
-<spring:url value="/resources/Bootstrap/js/date/jquery.js" var="dateJS"/>
-<spring:url value="/resources/Bootstrap/js/date/jquery-ui.js" var="dateJS2"/>
-<script src="${dateJS}"></script>
-<spring:url value="/resources/Bootstrap/css/date/jquery-ui.css" var="dateStyle"/>
-<link rel="stylesheet" href="${dateStyle}">
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head> --%>
 <body onload="load();">
 <script type="text/javascript">
 	load = function(){	

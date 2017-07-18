@@ -29,11 +29,11 @@
 	<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
 	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
     
-<!--  jQuery Validation -->
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script> 
+	<!--  jQuery Validation -->
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script> 
 
-<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
-<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+	<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
+	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
 
 
 <!-- Bootstrap Date-Picker Plugin -->
