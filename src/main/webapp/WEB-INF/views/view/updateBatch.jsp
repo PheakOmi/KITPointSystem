@@ -1,19 +1,3 @@
- <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
- <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
-
-<head>
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
- <spring:url value="/resources/Bootstrap/css/sweetalert.css" var="alertStyle"/>
-      <link rel="stylesheet" href="${alertStyle}">
-<spring:url value="/resources/Bootstrap/js/sweetalert.min.js" var="alertJS"/>
-      <script src="${alertJS}"></script>
-</head>
-
-
-
 <body onload="load();">
 <script type="text/javascript">
 load = function(){	
@@ -60,7 +44,7 @@ $(document).ready(function(){
 				if(response.status=="200")
 					{
 					$('#name1').val('');
-					swal("Good job!", "You clicked the button!", "success")
+					swal("Done!", "You have updated it successfully!", "success")
 					}
 				//var obj = jQuery.parseJSON(response);
 				    
@@ -110,5 +94,4 @@ $(document).ready(function(){
 						</div>
                     </div>	
           </body>
-       </html>
        

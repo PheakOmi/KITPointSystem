@@ -1,4 +1,3 @@
-
 <div class="row " id="margin-body">
 	<div class="col-sm-12">
                     <div class="col-sm-4">

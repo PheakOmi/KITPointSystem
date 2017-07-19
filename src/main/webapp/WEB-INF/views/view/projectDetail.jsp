@@ -1,27 +1,3 @@
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<!DOCTYPE html>
-<html>
-<head> 	
-<title>Project</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>
-<spring:url value="/resources/Bootstrap/css/checkbox/build.css" var="checkboxStyle"/>
-      <link rel="stylesheet" href="${checkboxStyle}">
-<spring:url value="/resources/Bootstrap/css/multipleselect/multiple-select.css" var="multipleSelectStyle"/>
-      <link rel="stylesheet" href="${multipleSelectStyle}">
-<spring:url value="/resources/Bootstrap/css/sweetalert.css" var="alertStyle"/>
-      <link rel="stylesheet" href="${alertStyle}">
-<spring:url value="/resources/Bootstrap/js/multipleselect/multiple-select.js" var="multipleSelectJS"/>
-      <script src="${multipleSelectJS}"></script>
-<spring:url value="/resources/Bootstrap/js/sweetalert.min.js" var="alertJS"/>
-      <script src="${alertJS}"></script>
-<spring:url value="/resources/Bootstrap/js/date/jquery.js" var="dateJS"/>
-<spring:url value="/resources/Bootstrap/js/date/jquery-ui.js" var="dateJS2"/>
-<script src="${dateJS}"></script>
-<script src="${dateJS2}"></script>
-<spring:url value="/resources/Bootstrap/css/date/jquery-ui.css" var="dateStyle"/>
-<link rel="stylesheet" href="${dateStyle}">
-</head>
 <body onload="load();">
 <script type="text/javascript">
 	load = function(){	
@@ -108,17 +84,17 @@ for(i=0; i<user.length; i++){
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Planning Hours</label>
                                 <div class="col-sm-8">
-                                	<input type="text" oninput="kitPointCalculate(this.value)" class="form-control" id="planninghour" required>
+                                	<input type="text" class="form-control" id="planninghour" required>
                                 </div>
                         </div>
                          <div class="form-group">
                                 <label class="col-sm-4 control-label">Status</label>
 	                            <div class="col-sm-8">    
 	                                <select class="form-control" id="status">
-	                                   <option value="In Progress">Approved Project</option>
-                                    	<option value="Completed">To approve Project</option>
-                                    	<option value="Delayed">Pending Project</option>
-                                    	<option value="Postponed">Completed Project</option> 
+	                                   <option value="Approved Project">Approved Project</option>
+                                    	<option value="To approve Project">To approve Project</option>
+                                    	<option value="Pending Project">Pending Project</option>
+                                    	<option value="Completed Project">Completed Project</option> 
 	                                </select>
 	                            </div>
                             </div>       
@@ -189,13 +165,7 @@ for(i=0; i<user.length; i++){
      </form>            
                     <script>
                     $(document).ready(function(){
-                    	var date_input=$('input[name="date"]');
-                        var options={
-                          format: 'mm/dd/yyyy',
-                          todayHighlight: true,
-                          autoclose: true,
-                        };
-                        date_input.datepicker(options);
+                    	
                     	$("#myForm").on('submit',function(e){
                     		var member = $('#member').val(); 
                     		e.preventDefault();
@@ -220,7 +190,7 @@ for(i=0; i<user.length; i++){
                         		success: function(response){
                         				if(response.status=="200")
                         					{
-                        					swal("Good job!", "You clicked the button!", "success")
+                        					swal("Done!", "You have created it successfully!", "success")
                         					}
                         				//var obj = jQuery.parseJSON(response);
                         				    
@@ -238,7 +208,7 @@ for(i=0; i<user.length; i++){
                         			});	
             			
                     	});	
-                    	kitPointCalculate=function (hour){
+/*                    	kitPointCalculate=function (hour){
                     		  $.ajax({
                     		   url:'getKitPoint',
                     		   type:'POST',
@@ -252,7 +222,7 @@ for(i=0; i<user.length; i++){
                     		   
                     		  });
                     		  
-                    		 }
+                    		 }	*/
             	});
                     	<%-- $("#btnSubmit").click(function(){		 
                    		var val = [];
@@ -266,7 +236,5 @@ for(i=0; i<user.length; i++){
                     	});
                     });	 --%>
 					</script>
-                    </body>
-                    </html>
-                    
+                    </body>                    
 			

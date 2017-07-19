@@ -1,26 +1,3 @@
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<!DOCTYPE html>
-<html>
-<head> 	
-<title>Project</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<spring:url value="/resources/Bootstrap/css/checkbox/build.css" var="checkboxStyle"/>
-      <link rel="stylesheet" href="${checkboxStyle}">
-<spring:url value="/resources/Bootstrap/css/sweetalert.css" var="alertStyle"/>
-      <link rel="stylesheet" href="${alertStyle}">
-<spring:url value="/resources/Bootstrap/js/sweetalert.min.js" var="alertJS"/>
-      <script src="${alertJS}"></script>
-      
-      
-      
-      
-<spring:url value="/resources/Bootstrap/js/date/jquery.js" var="dateJS"/>
-<spring:url value="/resources/Bootstrap/js/date/jquery-ui.js" var="dateJS2"/>
-<script src="${dateJS}"></script>
-<script src="${dateJS2}"></script>
-<spring:url value="/resources/Bootstrap/css/date/jquery-ui.css" var="dateStyle"/>
-<link rel="stylesheet" href="${dateStyle}">
-</head>
 <body onload="load();">
 <script type="text/javascript">
 	load = function(){	
@@ -132,10 +109,10 @@
                                 <label class="col-sm-4 control-label">Status</label>
 	                            <div class="col-sm-8">    
 	                                <select class="form-control" id="status">
-	                                   <option value="In Progress">Approved Project</option>
-                                    	<option value="Completed">To approve Project</option>
-                                    	<option value="Delayed">Pending Project</option>
-                                    	<option value="Postponed">Completed Project</option> 
+	                                   <option value="Approved Project">Approved Project</option>
+                                    	<option value="To approve Project">To approve Project</option>
+                                    	<option value="Pending Project">Pending Project</option>
+                                    	<option value="Completed Project">Completed Project</option> 
 	                                </select>
 	                            </div>
                             </div>       
@@ -263,6 +240,5 @@
                     });	
 					</script>
                     </body>
-                    </html>
                     
 			

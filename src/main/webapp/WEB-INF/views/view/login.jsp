@@ -1,16 +1,15 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<!DOCTYPE html>
-<html >
+<%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Flat HTML5/CSS3 Login Form</title>
-  
-  
-  <spring:url value="/resources/Bootstrap/css/style.css" var="loginStyle"/>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+  <!-- Login CSS -->
+<spring:url value="/resources/Bootstrap/css/style.css" var="loginStyle"/>
       <link rel="stylesheet" href="${loginStyle}">
- 
-</head>
 
+
+  </head>
 <body>
 <h1>${message}</h1>
   <div class="login-page">

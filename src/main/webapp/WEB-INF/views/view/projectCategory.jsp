@@ -1,23 +1,3 @@
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
-
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Users</title>
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script
-	src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>
-<spring:url value="/resources/Bootstrap/css/sweetalert.css"
-	var="alertStyle" />
-<link rel="stylesheet" href="${alertStyle}">
-<spring:url value="/resources/Bootstrap/js/sweetalert.min.js"
-	var="alertJS" />
-<script src="${alertJS}"></script>
-</head>
 <body>
 	<div class="row" id="margin-body">
 		<form id="myForm">
@@ -40,7 +20,7 @@
 			</div>
 		</form>
 	</div>
-	<script type="text/javascript">
+<script type="text/javascript">
 $(document).ready(function(){
 	$("#myForm").on("submit",function(e){
 		e.preventDefault();
@@ -54,7 +34,7 @@ $(document).ready(function(){
 					if(response.status=="200")
 						{
 						$('#name1').val('');
-						swal("Good job!", "You clicked the button!", "success")
+						swal("Done!", "You have created successfully!", "success")
 						}
 					//var obj = jQuery.parseJSON(response);
 					    
@@ -74,6 +54,6 @@ $(document).ready(function(){
 				
 	});
 });    
-                    </script>
+</script>
 </body>
 </html>
