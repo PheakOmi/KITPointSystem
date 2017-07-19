@@ -37,7 +37,6 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 
-<<<<<<< HEAD
 <!-- Sweet alert -->
 <spring:url value="/resources/Bootstrap/css/sweetalert.css" var="alertStyle"/>
       <link rel="stylesheet" href="${alertStyle}">
@@ -55,10 +54,6 @@
 <script src="${dateJS2}"></script>
 <spring:url value="/resources/Bootstrap/css/date/jquery-ui.css" var="dateStyle"/>
 <link rel="stylesheet" href="${dateStyle}">
-
-
-=======
->>>>>>> e01425459d83fd24f1a01133d39143d7ea5cc830
 
 </head>
 

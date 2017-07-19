@@ -1,29 +1,3 @@
-<<<<<<< HEAD
-=======
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<!DOCTYPE html>
-<html>
-<%-- <head> 	
-<title>Project</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<spring:url value="/resources/Bootstrap/css/checkbox/build.css" var="checkboxStyle"/>
-      <link rel="stylesheet" href="${checkboxStyle}">
-<spring:url value="/resources/Bootstrap/css/sweetalert.css" var="alertStyle"/>
-      <link rel="stylesheet" href="${alertStyle}">
-<spring:url value="/resources/Bootstrap/js/sweetalert.min.js" var="alertJS"/>
-      <script src="${alertJS}"></script>
-      
-      
-      
-      
-<spring:url value="/resources/Bootstrap/js/date/jquery.js" var="dateJS"/>
-<spring:url value="/resources/Bootstrap/js/date/jquery-ui.js" var="dateJS2"/>
-<script src="${dateJS}"></script>
-<script src="${dateJS2}"></script>
-<spring:url value="/resources/Bootstrap/css/date/jquery-ui.css" var="dateStyle"/>
-<link rel="stylesheet" href="${dateStyle}">
-</head> --%>
->>>>>>> e01425459d83fd24f1a01133d39143d7ea5cc830
 <body onload="load();">
 <script type="text/javascript">
 	load = function(){	
@@ -269,9 +243,3 @@
                     </div>
                     </form>
                     </body>
-<<<<<<< HEAD
-=======
-               
->>>>>>> e01425459d83fd24f1a01133d39143d7ea5cc830
-                    
-			
