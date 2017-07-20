@@ -47,16 +47,63 @@
 		});
 		
 	}
+	
+	$(document).ready(function(){
+    	var date_input=$('input[name="date"]');
+        var options={
+          format: 'mm/dd/yyyy',
+          todayHighlight: true,
+          autoclose: true,
+        };
+        date_input.datepicker(options);
+    	$("#myForm").on("submit",function(e){    
+    		e.preventDefault();
+    		id = ${id};
+            $.ajax({
+    		url:'updateTask',
+    		type:'POST',
+    		data:{		id:id,
+    					project_id:$("#project").val(),
+    					name:$("#name").val(),
+    					assigned_to:$("#user").val(),
+    					description:$("#description").val(),
+    					status:$("#status").val(),
+    					time_spend:parseInt($("#time").val()),
+    					deadline:$("#deadline").val(),
+    					start_date:$("#startdate").val(),
+    					end_date:$("#enddate").val(),},
+    		traditional: true,			
+    		success: function(response){
+    				if(response.status=="200")
+    					{
+    					swal("Good job!", "You clicked the button!", "success")
+    					}
+    				//var obj = jQuery.parseJSON(response);
+    				    
+    				else 
+    					{
+    					swal("Oops!", "It is not saved!", "error")
+    					
+    					}
+    				},
+    		error: function(err){
+    				console.log(JSON.stringify(err));
+    				console.log("Hello");
+    				}
+    		
+    			});			
+    	
+    	});
+    });	
 </script>		
-
+<form role="form" id="myForm">
 <div class="wrapper">
- <div class="row">
-                 <form role="form">
+ <div class="row">     
                     <div class="col-lg-6">
 
                             <div class="form-group">
                                 <label>Task Name</label>
-                                <input class="form-control" id="name">
+                                <input class="form-control" id="name" type="text" required>
                         	</div>
                             <div class="form-group">
                                 <label>Project: </label>
@@ -72,7 +119,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Planning Hour</label>
-                                <input class="form-control" id="time">
+                                <input class="form-control" id="time" type="text" required>
                         	</div>
     						<div class="form-group">
                                 <label>Description</label>
@@ -87,15 +134,15 @@
                            
                             <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">Start Date</label>
-                                  <input class="form-control" id="startdate" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                  <input class="form-control" id="startdate" name="date" placeholder="MM/DD/YYY" type="text" required/>
                             </div>
     					 <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">End Date</label>
-                              <input class="form-control" id="enddate" name="date" placeholder="MM/DD/YYY" type="text"/>
+                              <input class="form-control" id="enddate" name="date" placeholder="MM/DD/YYY" type="text" required/>
                             </div>
                                  <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">Deadline</label>
-                                <input class="form-control" id="deadline" name="date" placeholder="MM/DD/YYY" type="text"/>
+                                <input class="form-control" id="deadline" name="date" placeholder="MM/DD/YYY" type="text" required/>
                         </div>
                                  <div class="form-group col-lg-6">
                                 <label>Status</label>
@@ -109,59 +156,11 @@
                             </div>                      
                   		  </div>
                    
-                    	
-	                    </form>
-	                    
+             
+	                                        
         </div>            
 
 </div>
-<button id="btnSubmit" class="btn btn-default">Update</button>
-<script>
-                    $(document).ready(function(){
-                    	var date_input=$('input[name="date"]');
-                        var options={
-                          format: 'mm/dd/yyyy',
-                          todayHighlight: true,
-                          autoclose: true,
-                        };
-                        date_input.datepicker(options);
-                    	$("#btnSubmit").click(function(){    
-                    		id = ${id};
-                            $.ajax({
-                    		url:'updateTask',
-                    		type:'POST',
-                    		data:{		id:id,
-                    					project_id:$("#project").val(),
-                    					name:$("#name").val(),
-                    					assigned_to:$("#user").val(),
-                    					description:$("#description").val(),
-                    					status:$("#status").val(),
-                    					time_spend:parseInt($("#time").val()),
-                    					deadline:$("#deadline").val(),
-                    					start_date:$("#startdate").val(),
-                    					end_date:$("#enddate").val(),},
-                    		traditional: true,			
-                    		success: function(response){
-                    				if(response.status=="200")
-                    					{
-                    					swal("Good job!", "You clicked the button!", "success")
-                    					}
-                    				//var obj = jQuery.parseJSON(response);
-                    				    
-                    				else 
-                    					{
-                    					swal("Oops!", "It is not saved!", "error")
-                    					
-                    					}
-                    				},
-                    		error: function(err){
-                    				console.log(JSON.stringify(err));
-                    				console.log("Hello");
-                    				}
-                    		
-                    			});			
-                    	
-                    	});
-                    });	
-					</script>
+<button type="submit" class="btn btn-default">Update</button>
+</form>
 </body>

@@ -34,6 +34,78 @@ for(i=0; i<user.length; i++){
 		
 	}
 	
+	$(document).ready(function(){
+    	
+    	$("#myForm").on('submit',function(e){
+    		var member = $('#member').val(); 
+    		e.preventDefault();
+        	$.ajax({
+        		url:'saveProject',
+        		type:'POST',
+        		data:{		status:$("#status").val(),
+        					project_name:$("#project_name").val(),
+        					project_code:$("#projectcode").val(),
+        					project_type:$("#projectcategory").val(),
+        					project_co:$("#projectcoordinator").val(),
+        					project_leader:$("#teamleader").val(),
+        					initially_planned:$("#planninghour").val(),
+        					budget:$("#budget").val(),
+        					skillset:$("#skillset").val(),
+        					kit_point:$("#kitpoint").val(),
+        					deadline:$("#deadline").val(),
+        					start_date:$("#startdate").val(),
+        					end_date:$("#enddate").val(),
+        					member:member,},
+        		traditional: true,			
+        		success: function(response){
+        				if(response.status=="200")
+        					{
+        					swal("Done!", "You have created it successfully!", "success")
+        					}
+        				//var obj = jQuery.parseJSON(response);
+        				    
+        				else 
+        					{
+        					swal("Oops!", "It is not saved!", "error")
+        					
+        					}
+        				},
+        		error: function(err){
+        				console.log(JSON.stringify(err));
+        				console.log("Hello");
+        				}
+        		
+        			});	
+		
+    	});	
+/*                    	kitPointCalculate=function (hour){
+    		  $.ajax({
+    		   url:'getKitPoint',
+    		   type:'POST',
+    		   success: function(response){
+    		    kitpoint=response.kitPoint;
+    		    var value=kitpoint[0].value;
+    		    var point=hour*value;
+    		    $("#kitpoint").val(point);
+    		   }
+    		   
+    		   
+    		  });
+    		  
+    		 }	*/
+});
+    	<%-- $("#btnSubmit").click(function(){		 
+   		var val = [];
+            $('.checkbox:checked').each(function(i){
+              val[i] = $(this).val();
+            });		
+            console.log("Name is: "+$("#project_name").val());	
+            
+    				
+    	
+    	});
+    });	 --%>
+    
 </script>		
 <form id="myForm">
  			<div class="row">
@@ -163,78 +235,6 @@ for(i=0; i<user.length; i++){
 	                    </div>
                     </div>
      </form>            
-                    <script>
-                    $(document).ready(function(){
-                    	
-                    	$("#myForm").on('submit',function(e){
-                    		var member = $('#member').val(); 
-                    		e.preventDefault();
-                        	$.ajax({
-                        		url:'saveProject',
-                        		type:'POST',
-                        		data:{		status:$("#status").val(),
-                        					project_name:$("#project_name").val(),
-                        					project_code:$("#projectcode").val(),
-                        					project_type:$("#projectcategory").val(),
-                        					project_co:$("#projectcoordinator").val(),
-                        					project_leader:$("#teamleader").val(),
-                        					initially_planned:$("#planninghour").val(),
-                        					budget:$("#budget").val(),
-                        					skillset:$("#skillset").val(),
-                        					kit_point:$("#kitpoint").val(),
-                        					deadline:$("#deadline").val(),
-                        					start_date:$("#startdate").val(),
-                        					end_date:$("#enddate").val(),
-                        					member:member,},
-                        		traditional: true,			
-                        		success: function(response){
-                        				if(response.status=="200")
-                        					{
-                        					swal("Done!", "You have created it successfully!", "success")
-                        					}
-                        				//var obj = jQuery.parseJSON(response);
-                        				    
-                        				else 
-                        					{
-                        					swal("Oops!", "It is not saved!", "error")
-                        					
-                        					}
-                        				},
-                        		error: function(err){
-                        				console.log(JSON.stringify(err));
-                        				console.log("Hello");
-                        				}
-                        		
-                        			});	
-            			
-                    	});	
-/*                    	kitPointCalculate=function (hour){
-                    		  $.ajax({
-                    		   url:'getKitPoint',
-                    		   type:'POST',
-                    		   success: function(response){
-                    		    kitpoint=response.kitPoint;
-                    		    var value=kitpoint[0].value;
-                    		    var point=hour*value;
-                    		    $("#kitpoint").val(point);
-                    		   }
-                    		   
-                    		   
-                    		  });
-                    		  
-                    		 }	*/
-            	});
-                    	<%-- $("#btnSubmit").click(function(){		 
-                   		var val = [];
-                            $('.checkbox:checked').each(function(i){
-                              val[i] = $(this).val();
-                            });		
-                            console.log("Name is: "+$("#project_name").val());	
-                            
-                    				
-                    	
-                    	});
-                    });	 --%>
-					</script>
+                   
                     </body>                    
 			
