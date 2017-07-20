@@ -78,10 +78,7 @@
             console.log("Name is: "+$("#project_name").val());	--%>
             e.preventDefault();
             id = ${id};
-            if($("#myForm").validate())
-            	{
-   	
-    		$.ajax({
+             		$.ajax({
     		url:'updateProject',
     		type:'POST',
     		data:{		id:id,
@@ -117,9 +114,7 @@
     				console.log(JSON.stringify(err));
     				console.log("Hello");
     				}
-    		
-    			});	
-            	}
+    			});		
     	});
     });	
 </script>	
@@ -217,7 +212,7 @@
                               <div class="form-group">
                                 <label class="col-sm-4 control-label">Skill Set</label>
                                 <div class="col-sm-8">
-                                	<input class="form-control" id="skillset" type="text" required>
+                                	<input class="form-control" id="skillset" type="text">
                                 </div>
                             </div> 
                              <div class="form-group">
@@ -237,9 +232,7 @@
 			                   <button type="reset" class="btn btn-default">Cancel</button>
 	                    </div>
                   		  </div>
-                  	
-	                    </div>
-	                    
+	                    </div>                   
                     </div>
                     </form>
                     </body>

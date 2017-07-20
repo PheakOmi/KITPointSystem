@@ -23,6 +23,52 @@
 		});
 		
 	}
+	$(document).ready(function(){
+    	var date_input=$('input[name="date"]');
+        var options={
+          format: 'mm/dd/yyyy',
+          todayHighlight: true,
+          autoclose: true,
+        };
+        date_input.datepicker(options);
+		$("#myForm").on('submit',function(e){
+			e.preventDefault();
+			
+				 $.ajax({
+             		url:'saveTask',
+             		type:'POST',
+             		data:{		project_id:$("#project").val(),
+             					name:$("#name").val(),
+             					assigned_to:$("#user").val(),
+             					description:$("#description").val(),
+             					status:$("#status").val(),
+             					time_spend:parseInt($("#time").val()),
+             					deadline:$("#deadline").val(),
+             					start_date:$("#startdate").val(),
+             					end_date:$("#enddate").val(),},
+             		traditional: true,			
+             		success: function(response){
+             				if(response.status=="200")
+             					{
+             					swal("Good job!", "You clicked the button!", "success")
+             					}
+             				//var obj = jQuery.parseJSON(response);
+             				    
+             				else 
+             					{
+             					swal("Oops!", "It is not saved!", "error")
+             					
+             					}
+             				},
+             		error: function(err){
+             				console.log(JSON.stringify(err));
+             				console.log("Hello");
+             				}
+             		
+             			});		
+				
+		});
+	});		
 </script>		
 <form id="myForm">
 <div class="wrapper">
@@ -54,9 +100,6 @@
                                 <label>Description</label>
                                 <input class="form-control" id="description" type="text" required>
                         	</div>
-                                 
-                            
-                           
                         </div>
                            
                          <div class="col-lg-6">
@@ -88,54 +131,4 @@
 </div>
 <button type="submit" class="btn btn-default">Save Changes</button>
 </form>
-
-<script>
-                    $(document).ready(function(){
-                    	var date_input=$('input[name="date"]');
-                        var options={
-                          format: 'mm/dd/yyyy',
-                          todayHighlight: true,
-                          autoclose: true,
-                        };
-                        date_input.datepicker(options);
-                		$("#myForm").on('submit',function(e){
-                			e.preventDefault();
-                			 if($("#myForm").validate())
-                				{
-                				 $.ajax({
-                             		url:'saveTask',
-                             		type:'POST',
-                             		data:{		project_id:$("#project").val(),
-                             					name:$("#name").val(),
-                             					assigned_to:$("#user").val(),
-                             					description:$("#description").val(),
-                             					status:$("#status").val(),
-                             					time_spend:parseInt($("#time").val()),
-                             					deadline:$("#deadline").val(),
-                             					start_date:$("#startdate").val(),
-                             					end_date:$("#enddate").val(),},
-                             		traditional: true,			
-                             		success: function(response){
-                             				if(response.status=="200")
-                             					{
-                             					swal("Good job!", "You clicked the button!", "success")
-                             					}
-                             				//var obj = jQuery.parseJSON(response);
-                             				    
-                             				else 
-                             					{
-                             					swal("Oops!", "It is not saved!", "error")
-                             					
-                             					}
-                             				},
-                             		error: function(err){
-                             				console.log(JSON.stringify(err));
-                             				console.log("Hello");
-                             				}
-                             		
-                             			});		
-                				}
-                		});
-                	});		
-</script>
 </body>
