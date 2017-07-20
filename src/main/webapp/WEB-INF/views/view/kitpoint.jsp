@@ -11,11 +11,24 @@
 			}
 			
 		});
-		
+		$(document).ready(function(){
+			$("#myForm").on('submit',function(e){
+				e.preventDefault();
+				 
+					 $.ajax({
+							url:'submit1',
+							type:'POST',
+							data:{id:$('#point').val(),value:$('#value1').val()},
+							success: function(response){
+
+								swal(response.message, "success")
+							}				
+						});
+					
+			});
+		});	
 	}
 </script>		
-
- 
  <body onload="load();">
    <!-- Page Heading -->
                 <div class="row">
@@ -24,8 +37,9 @@
                         </h3>
                 </div>
    <!-- /.row -->
+   <form class="form-horizontal" id="myForm">
  <div class="row" id="margin-body">
-                 <form class="form-horizontal" id="myForm">
+                 
                     <div class="col-lg-10">
                             <div class="form-group ">
                                 <label class="col-sm-2 control-label" id="point">1 KIT Point</label>
@@ -39,28 +53,6 @@
                             <button type="reset" class="btn btn-default">Cancel</button>
 						</div>      
                       </div>
-                           
-                     </form>
                     </div>
-	<script type="text/javascript">
-	$(document).ready(function(){
-		$("#myForm").on('submit',function(e){
-			e.preventDefault();
-			 if($("#myForm").validate())
-				{
-				 $.ajax({
-						url:'submit1',
-						type:'POST',
-						data:{id:$('#point').val(),value:$('#value1').val()},
-						success: function(response){
-
-							swal(response.message, "success")
-						}				
-					});
-				}
-		});
-	});	
-	
-	
-  </script>
+       </form>
 	

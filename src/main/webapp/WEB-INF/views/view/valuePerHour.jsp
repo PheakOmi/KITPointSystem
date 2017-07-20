@@ -104,8 +104,7 @@
 	$(document).ready(function(){
 		$("#myForm").on('submit',function(e){
 			e.preventDefault();
-			 if($("#myForm").validate())
-				{
+			 
 				 $.ajax({
 						url:'getHour',
 						type:"POST",
@@ -122,7 +121,7 @@
 							swal(response.message, "success")
 						}				
 					});		
-				}
+				
 			
 		});
 	});	

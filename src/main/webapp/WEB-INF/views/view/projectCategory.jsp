@@ -24,8 +24,7 @@
 $(document).ready(function(){
 	$("#myForm").on("submit",function(e){
 		e.preventDefault();
-		if($("#myForm").validate())
-		{
+		
 			$.ajax({
 				url:'projectCategoryCreate',
 				type:'POST',
@@ -49,9 +48,7 @@ $(document).ready(function(){
 				error: function(err){
 					console.log(JSON.stringify(err));
 				}
-			});
-		}
-				
+			});			
 	});
 });    
 </script>
