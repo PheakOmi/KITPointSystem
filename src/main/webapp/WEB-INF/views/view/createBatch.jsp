@@ -9,7 +9,6 @@
 						      <input type="text" class="form-control" id ="name1" name="name" required>
 						    </div>
 						  </div>
-                            
                           <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester</label>
                                 <div class="col-sm-10">
@@ -46,8 +45,7 @@ load = function()
 $(document).ready(function(){
 	$("#myForm").on('submit',function(e){
 		e.preventDefault();
-		 if($("#myForm").validate())
-			{
+		
 			 $.ajax({
 				url:'batchSubmit',
 				type:'POST',
@@ -69,10 +67,10 @@ $(document).ready(function(){
 					},
 				error: function(err){
 						console.log(JSON.stringify(err));
-						}
+						 } 
 				
 					}); 
-			}
+			 
 		
 	});
 });	

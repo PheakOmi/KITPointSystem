@@ -87,8 +87,7 @@
 			$(document).ready(function(){
 				$("#myForm").on('submit',function(e){
 					e.preventDefault();
-					 if($("#myForm").validate())
-						{
+					 
 						 $.ajax({
 								url:'addUser',
 								type:"POST",
@@ -101,7 +100,7 @@
 									swal(response.message, "success")
 								}				
 							});		
-						}		
+						
 				});
 			});	
 				
