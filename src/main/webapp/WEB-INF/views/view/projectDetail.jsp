@@ -98,7 +98,10 @@ for(i=0; i<user.length; i++){
 	                                </select>
 	                            </div>
                             </div>       
-                               
+                              <div class="form-group">
+                                <button type="submit" id="btnSubmit" class="btn btn-default">Create</button>
+			                   <button type="reset" class="btn btn-default">Cancel</button>
+                            </div> 
                   		  </div>
                   		    
                          <div class="col-sm-6">
@@ -154,10 +157,8 @@ for(i=0; i<user.length; i++){
                                 	<input type="text" class="form-control" id="budget" required>
                                 </div>
                             </div>
-                          	 <div class="ol-sm-offset-2 col-sm-10">	
-			                   <button type="submit" id="btnSubmit" class="btn btn-default">Create</button>
-			                   <button type="reset" class="btn btn-default">Cancel</button>
-	                    </div>
+                            
+                          	
                   		  </div>
                   	
 	                    </div>

@@ -1,10 +1,3 @@
-<<<<<<< HEAD
-=======
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
->>>>>>> e01425459d83fd24f1a01133d39143d7ea5cc830
 <body onload="load();">
 <script type="text/javascript">
 	load = function(){	
