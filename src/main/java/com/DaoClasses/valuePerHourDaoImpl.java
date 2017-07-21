@@ -6,12 +6,17 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.crypto.SecretKey;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.EncryptionDecryption.Decryption;
+import com.EncryptionDecryption.Encryption;
+import com.EncryptionDecryption.SecretKeyClass;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Stage_Master;
@@ -23,7 +28,8 @@ import com.ModelClasses.ValuePerHourModel;
 @Repository
 public class valuePerHourDaoImpl implements valuePerHourDao {
 
-
+	Encryption encrypt= new Encryption();
+	Decryption decrypt= new Decryption();
 	public boolean addValuePerHour(ValuePerHourModel valuePerHour) {
 
 
@@ -41,9 +47,10 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 			        {
 			        	 String[] s1 = s_value_1.split(","); 
 			    		 String s2 = s1[i];  		 
-			    		 Integer s3= Integer.valueOf(s2);
+			    		 SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+			    		 String valueEncryp =encrypt.encryptText(s2, secKey) ;
 			    		 v=i+1;
-			    		 Value_Per_Hour value_per_hour= new Value_Per_Hour(v,s3,created_at,batch_id);
+			    		 Value_Per_Hour value_per_hour= new Value_Per_Hour(v,valueEncryp,created_at,batch_id);
 			    		 session.save(value_per_hour);
 			        }
 				    

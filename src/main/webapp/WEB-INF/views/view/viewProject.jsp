@@ -1,5 +1,9 @@
 
 <script type="text/javascript">
+
+$(document).ready(function() {
+    $('li#projectStlye').addClass('active');
+});
 	formatDate =function (date) {
 	    var d = new Date(date),
 	        month = '' + (d.getMonth() + 1),

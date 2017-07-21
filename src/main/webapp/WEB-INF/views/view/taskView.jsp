@@ -138,9 +138,20 @@
 
 			});
 		}
-	</script>
-	<h1>Task</h1><br><br>	
-	<a href="taskDetail" class="btn btn-default">Create</a>
+		
+		$(document).ready(function() {
+		    $('li#taskStlye').addClass('active');
+		});
+	</script> 
+	<!-- Page Heading -->
+                <div class="row">
+                        <h3 class="page-header">
+                            Task
+                           <a href="taskDetail" class="btn btn-default pull-right" style="margin-right:40px;margin-bottom:10px;">Create</a>
+                        </h3>
+                         
+                </div>
+   <!-- /.row -->
 	<div class="project-list__wrapper">
 		<div class="inner">
 			<div class="projects">

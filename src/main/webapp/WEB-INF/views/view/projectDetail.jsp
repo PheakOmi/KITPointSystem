@@ -35,7 +35,7 @@ for(i=0; i<user.length; i++){
 	}
 	
 	$(document).ready(function(){
-    	
+		$('li#projectStlye').addClass('active');
     	$("#myForm").on('submit',function(e){
     		var member = $('#member').val(); 
     		e.preventDefault();

@@ -102,6 +102,7 @@
 		
 	}
 	$(document).ready(function(){
+		 $('li#settingStlye').addClass('active');
 		$("#myForm").on('submit',function(e){
 			e.preventDefault();
 			 

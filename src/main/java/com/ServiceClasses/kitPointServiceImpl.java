@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.DaoClasses.kitPointDao;
 import com.EntityClasses.KIT_Point;
+import com.ModelClasses.KIT_Point_Model;
 
 @Service
 public class kitPointServiceImpl implements kitPointService{
@@ -19,7 +20,7 @@ public class kitPointServiceImpl implements kitPointService{
 		return kitpoint.addPointValue(kitPointValue);
 	}
 
-	public List<KIT_Point> getAllPointValue() {
+	public List<KIT_Point_Model> getAllPointValue() {
 		
 		return kitpoint.getAllPointValue();
 	}

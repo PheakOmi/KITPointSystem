@@ -515,6 +515,11 @@ public class ControllerFile {
 			map.put("status","200");
 			map.put("message","Your record has been saved successfully");
 		}
+		else {
+			map.put("status","999");
+			map.put("message","Email already existed");
+			return map;
+		}
 		
 		return map;
 	}

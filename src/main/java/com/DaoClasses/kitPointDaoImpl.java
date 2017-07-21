@@ -4,30 +4,37 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.crypto.SecretKey;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 
+import com.EncryptionDecryption.Decryption;
+import com.EncryptionDecryption.Encryption;
+import com.EncryptionDecryption.SecretKeyClass;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.KIT_Point;
 import com.HibernateUtil.HibernateUtil;
-
-
+import com.ModelClasses.KIT_Point_Model;
 
 
 @Repository
 public class kitPointDaoImpl implements kitPointDao {
 	
 
-	public boolean addPointValue(KIT_Point kitPointValue) {
+	Encryption encrypt= new Encryption();
+	Decryption decrypt= new Decryption();
+	public boolean addPointValue(KIT_Point kitPointValue)  {
 		Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
-
-        Timestamp created_at= new Timestamp(System.currentTimeMillis()); 
-        kitPointValue.setKit_point("1 Kit point");
-	    kitPointValue.setCreated_at(created_at);
         try {
+            SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+            String valueEncryp =encrypt.encryptText(kitPointValue.getValue(), secKey) ;
+            Timestamp created_at= new Timestamp(System.currentTimeMillis()); 
+            kitPointValue.setKit_point("1 Kit point");
+    	    kitPointValue.setCreated_at(created_at);
             trns = session.beginTransaction();
             session.save(kitPointValue);
             session.getTransaction().commit();
@@ -37,7 +44,11 @@ public class kitPointDaoImpl implements kitPointDao {
             }
             e.printStackTrace();
             return false;
-        } finally {
+        }catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        finally {
             session.flush();
             session.close();
         }
@@ -64,22 +75,28 @@ public class kitPointDaoImpl implements kitPointDao {
 		    e.printStackTrace();
 		    return false;
 		}
+		catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		finally{
 
 		}
+		return false;
 		
 	}
-	public boolean updateKITPoint( KIT_Point kitPoint,KIT_Point DatabasePoint)
+	public boolean updateKITPoint( KIT_Point kitPoint,KIT_Point DatabasePoint) throws Exception
 	{
 		Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Timestamp updated_at= new Timestamp(System.currentTimeMillis());
-        //int id=kitPoint.getId();
-        int kit=kitPoint.getValue();
-        //DatabasePoint.setId(id);
-        DatabasePoint.setValue(kit);
+        
+      
         DatabasePoint.setUpdated_at(updated_at);
         try {
+        	SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+            String valueEncryp =encrypt.encryptText( kitPoint.getValue(), secKey) ;
+            DatabasePoint.setValue(valueEncryp);
             trns = session.beginTransaction();
            
             session.update(DatabasePoint);
@@ -101,11 +118,11 @@ public class kitPointDaoImpl implements kitPointDao {
 	}
 	public KIT_Point addPointValue1(KIT_Point model1) {
         Transaction trns = null;
-	    int kit_point_value=model1.getValue();
+	   // int kit_point_value=model1.getValue();
         Timestamp created_at= new Timestamp(System.currentTimeMillis()); 
 	   
 	    KIT_Point kitPointValue= new KIT_Point();
-	    kitPointValue.setValue(kit_point_value);
+	   // kitPointValue.setValue(kit_point_value);
 	    kitPointValue.setKit_point("Kit point");
 	    kitPointValue.setCreated_at(created_at);
 		
@@ -129,18 +146,29 @@ public class kitPointDaoImpl implements kitPointDao {
     }
 
 
-	public List<KIT_Point> getAllPointValue() {
-		List<KIT_Point> kitpoint= new ArrayList < KIT_Point > ();
+	public List<KIT_Point_Model> getAllPointValue() {
+		List<KIT_Point_Model> kitpoint= new ArrayList < KIT_Point_Model > ();
 		   Transaction trns = null;
 		   Session session = HibernateUtil.getSessionFactory().openSession();
 		   try {
 		    trns = session.beginTransaction();
-		    kitpoint = session.createQuery("from KIT_Point").list();
-		    
+		    List<KIT_Point> kitpointDatabase = session.createQuery("from KIT_Point").list();
+		    SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+		    String decryptedText;
+		    for(int i=0;i<kitpointDatabase.size();i++)
+		    { 
+		    	kitpoint.add(new KIT_Point_Model());
+		    	decryptedText = decrypt.decryptText(kitpointDatabase.get(i).getValue(), secKey);
+		    	kitpoint.get(i).setValue(decryptedText);
+		    	
+		    }
 		   } catch (RuntimeException e) {
 		    e.printStackTrace();
-		    return kitpoint;
-		   } finally {
+		    return null;
+		   } catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
 		    session.flush();
 		    session.close();
 		   }
@@ -154,5 +182,6 @@ public class kitPointDaoImpl implements kitPointDao {
 		return false;
 	}
 
-	
+    
+
 }

@@ -1,4 +1,11 @@
 <body onload="load();">
+   <!-- Page Heading -->
+                <div class="row">
+                        <h3 class="page-header">
+                            Create Batch 
+                        </h3>
+                </div>
+   <!-- /.row -->
 <div class="row" id="margin-body">
     <form id="myForm">
 				 <div class="form-horizontal">
@@ -43,6 +50,7 @@ load = function()
 			});
 	}
 $(document).ready(function(){
+	$('li#settingStlye').addClass('active');
 	$("#myForm").on('submit',function(e){
 		e.preventDefault();
 		

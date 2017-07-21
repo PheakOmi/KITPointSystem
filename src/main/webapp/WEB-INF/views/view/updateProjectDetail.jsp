@@ -61,7 +61,9 @@
 		});
 		
 	}
+
 	$(document).ready(function(){
+		$('li#projectStlye').addClass('active');
     	var date_input=$('input[name="date"]');
         var options={
           format: 'mm/dd/yyyy',

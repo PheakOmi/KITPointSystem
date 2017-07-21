@@ -35,6 +35,7 @@ load = function(){
 	});
 }
 $(document).ready(function(){
+	$('li#settingStlye').addClass('active');
 	$("#btnSubmit").click(function(){		 
 	$.ajax({
 		url:'updateBatch',
@@ -64,6 +65,13 @@ $(document).ready(function(){
 	});
 });	
 </script>
+   <!-- Page Heading -->
+                <div class="row">
+                        <h3 class="page-header">
+                            Update Batch 
+                        </h3>
+                </div>
+   <!-- /.row -->
  <div class="row" id="margin-body">
     
 				 <div class="form-horizontal">

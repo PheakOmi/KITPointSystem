@@ -24,6 +24,7 @@
 		
 	}
 	$(document).ready(function(){
+		 $('li#taskStlye').addClass('active');
     	var date_input=$('input[name="date"]');
         var options={
           format: 'mm/dd/yyyy',

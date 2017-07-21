@@ -16,6 +16,7 @@ import com.DaoClasses.kitPointDao;
 import com.EntityClasses.KIT_Point;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.User_Info;
+import com.ModelClasses.KIT_Point_Model;
 import com.ModelClasses.submit;
 import com.ServiceClasses.kitPointService;
 
@@ -64,7 +65,7 @@ public class KitPointController {
 				
 				 Map<String,List> map = new HashMap<String,List>();
 				 Map<String,Object> error = new HashMap<String,Object>();
-					List<KIT_Point> listProject= valueKitPoint.getAllPointValue();
+					List<KIT_Point_Model> listProject= valueKitPoint.getAllPointValue();
 							map.put("kitPoint", listProject);
 							return map;
 					

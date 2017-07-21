@@ -6,7 +6,7 @@ public class Value_Per_Hour {
 		private int id;
 		private int semester_id;
 		private int batch_id;
-		private int value;
+		private String value;
 		private Timestamp created_at;
 		private Timestamp updated_at;
 		
@@ -38,10 +38,10 @@ public class Value_Per_Hour {
 			this.batch_id = batch_id;
 		}
 
-		public int getValue() {
+		public String getValue() {
 			return value;
 		}
-		public void setValue(int value) {
+		public void setValue(String value) {
 			this.value = value;
 		}
 		public Timestamp getCreated_at() {
@@ -56,10 +56,10 @@ public class Value_Per_Hour {
 		public void setUpdated_at(Timestamp updated_at) {
 			this.updated_at = updated_at;
 		}
-		public Value_Per_Hour( int v3 , int hour,Timestamp created_at_date,int b ) {
+		public Value_Per_Hour( int v3 , String valuePerHour,Timestamp created_at_date,int b ) {
 			
 			this.semester_id = v3;
-			this.value= hour;
+			this.value= valuePerHour;
 			this.created_at=created_at_date;
 			this.batch_id=b;
 			

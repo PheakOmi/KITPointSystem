@@ -1,8 +1,8 @@
-package com.EntityClasses;
+package com.ModelClasses;
 
 import java.sql.Timestamp;
 
-public class KIT_Point {
+public class KIT_Point_Model {
 	private int id;
 	private String value;
 	private String kit_point;
@@ -38,6 +38,5 @@ public class KIT_Point {
 	public void setUpdated_at(Timestamp updated_at) {
 		this.updated_at = updated_at;
 	}
-	
 	
 }

@@ -60,6 +60,7 @@
  <script type="text/javascript">
 			
 			$(document).ready(function(){
+				$('li#settingStlye').addClass('active');
 				$("#myForm").on('submit',function(e){
 					e.preventDefault();
 					 
@@ -72,7 +73,13 @@
 									user_type:$('#user_type').val(),
 									batch:$('#batch').val()},
 								success: function(response){
+									if(response.status=="200")
+									{
 									swal("Success!", "You have created successfully!", "success")
+									}
+									else{
+										swal("Oops!", response.message, "error")
+									}
 								}				
 							});		
 						

@@ -24,3 +24,8 @@
                    </div>
                 </div>
               </div>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('li#settingStlye').addClass('active');
+});
+</script>

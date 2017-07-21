@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.crypto.SecretKey;
+
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -16,6 +18,12 @@ import org.springframework.stereotype.Repository;
 
 
 
+
+
+
+import com.EncryptionDecryption.Decryption;
+import com.EncryptionDecryption.Encryption;
+import com.EncryptionDecryption.SecretKeyClass;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Project_Category_Master;
 import com.EntityClasses.Project_Master;
@@ -37,7 +45,8 @@ import com.ModelClasses.submit;
 @Repository
 public class userDaoImpl implements usersDao{
 	
-	
+	Encryption encrypt= new Encryption();
+	Decryption decrypt= new Decryption();
 	public submit addUser1(submit model1) {
         Transaction trns = null;
         
@@ -58,7 +67,7 @@ public class userDaoImpl implements usersDao{
 		user.setCreated_at(created_at);
 		
         Session session = HibernateUtil.getSessionFactory().openSession();
-        try {
+        try {  
             trns = session.beginTransaction();
             session.save(user);
             session.getTransaction().commit();
@@ -78,28 +87,43 @@ public class userDaoImpl implements usersDao{
 
     public boolean addUser2(User_Info user) {
         Transaction trns = null;
-        int id=user.getBatch();
         Session session = HibernateUtil.getSessionFactory().openSession();
         Timestamp created_at= new Timestamp(System.currentTimeMillis()); 
- 	   
+        String password=user.getPassword();
+        String email=user.getEmail();
         try {
 
-          
+        	String queryString = "from User_Info where email= :email";
+            Query query = session.createQuery(queryString);
+            query.setString("email",email );
+            List<User_Info> userDataBase=query.list();
+        	if (userDataBase.size()==0){
+            SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+            String passwordEncryp =encrypt.encryptText(password, secKey) ;
+            user.setPassword(passwordEncryp);
             user.setCreated_at(created_at);
             trns = session.beginTransaction();
             session.save(user);
             session.getTransaction().commit();
+            return true;
+        	}
+        	else{
+        		return false;
+        	}
         } catch (RuntimeException e) {
             if (trns != null) {
                 trns.rollback();
             }
             e.printStackTrace();
             return false;
-        } finally {
+        } catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		} finally {
             session.flush();
             session.close();
         }
-		return true;
+		
     }
     
     

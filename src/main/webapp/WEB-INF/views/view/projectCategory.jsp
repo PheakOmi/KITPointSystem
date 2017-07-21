@@ -1,4 +1,11 @@
 <body>
+   <!-- Page Heading -->
+                <div class="row">
+                        <h3 class="page-header">
+                            Project Category 
+                        </h3>
+                </div>
+   <!-- /.row -->
 	<div class="row" id="margin-body">
 		<form id="myForm">
 			<div class="form-horizontal">
@@ -22,6 +29,7 @@
 	</div>
 <script type="text/javascript">
 $(document).ready(function(){
+	$('li#settingStlye').addClass('active');
 	$("#myForm").on("submit",function(e){
 		e.preventDefault();
 		
