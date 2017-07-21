@@ -61,7 +61,8 @@
 	padding: 10px;
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 15px;
-	background: #f5f5f5;
+	background: #ABD0CE;
+	text-align: center;
 }
 
 .project.card .card-heading h3 {
@@ -104,7 +105,7 @@
 					task = response.task;
 					project = response.project;
 					console.log(response);
-					
+
 					for (i=0;i<project.length;i++)
 						{
 						var projectcard =
@@ -118,7 +119,7 @@
 								    '</div>'+
 								   '</div>';
 								   $(".projects").append(projectcard);
-							for (j=0;j<task.length;j++)
+						 	for (j=0;j<task.length;j++)
 								{
 								var taskcard= 
 									'<a href="updateTaskDetail?id='+task[j].id+'">'+'<div class="project-task">'+ 
@@ -127,9 +128,7 @@
 								if(task[j].project_id==project[i].id)										
 									$(".project-tasks__wrapper").append(taskcard);
 								
-								}
-							     
-						
+								} 			
 						}
 				},
 				error : function(err) {
@@ -140,6 +139,7 @@
 			});
 		}
 	</script>
+	<h1>Task</h1><br><br>	
 	<a href="taskDetail" class="btn btn-default">Create</a>
 	<div class="project-list__wrapper">
 		<div class="inner">

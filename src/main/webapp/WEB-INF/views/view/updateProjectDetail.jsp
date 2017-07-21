@@ -100,7 +100,7 @@
     		success: function(response){
     				if(response.status=="200")
     					{
-    					swal("Good job!", "You clicked the button!", "success")
+    					swal("Success!", "You have updated it successfully!", "success")
     					}
     				//var obj = jQuery.parseJSON(response);
     				    
@@ -218,7 +218,7 @@
                              <div class="form-group">
                                 <label class="col-sm-4 control-label">KIT point</label>
                                 <div class="col-sm-8">	
-                                	<input class="form-control" id="kitpoint">
+                                	<input class="form-control" id="kitpoint" required>
                                 </div>
                             </div>
                             <div class="form-group">

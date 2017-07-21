@@ -50,7 +50,7 @@
              		success: function(response){
              				if(response.status=="200")
              					{
-             					swal("Good job!", "You clicked the button!", "success")
+             					swal("Success!", "You have created it successfully!", "success")
              					}
              				//var obj = jQuery.parseJSON(response);
              				    
@@ -129,6 +129,6 @@
                   		  </div>  
         </div>            
 </div>
-<button type="submit" class="btn btn-default">Save Changes</button>
+<button type="submit" class="btn btn-default">Create</button>
 </form>
 </body>

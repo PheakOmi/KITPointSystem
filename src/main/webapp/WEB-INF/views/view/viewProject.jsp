@@ -216,6 +216,10 @@
 			});
 		
 	}
+	function relocate_create()
+	{
+	     location.href = "projectDetail";
+	}
 
 </script>
 <body onload="load();">
@@ -233,7 +237,7 @@
                                 </li>
                                 <li id="id5" onclick='showProjectBasedStatus("Completed Project");'><a>Completed Project</a>
                                 </li>
-                                <li> <a href="projectDetail" style="color:#3a3939"><b>CREATE</b></a>
+                                <li class="pull-right"> <button class="btn btn-default" onclick="relocate_create()">CREATE</button>
                                 </li>
                             </ul>
                         

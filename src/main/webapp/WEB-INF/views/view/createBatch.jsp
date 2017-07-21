@@ -55,14 +55,14 @@ $(document).ready(function(){
 						if(response.status=="200")
 							{
 								$('#name1').val('');
-								swal("Good job!", "You clicked the button!", "success")
+								swal("Success!", "You have created it successfully!", "success")
 							}
 						//var obj = jQuery.parseJSON(response);
 						    
 						else 
 							{
 								$('#name1').val('');
-								swal("Oops!", "Category name already existed", "error")
+								swal("Oops!", "Batch name already existed", "error")
 							}
 					},
 				error: function(err){

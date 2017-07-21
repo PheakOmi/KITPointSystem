@@ -84,12 +84,7 @@ public class userDaoImpl implements usersDao{
  	   
         try {
 
-            String queryString = "from Batch_Master where id = :id";
-            Query query = session.createQuery(queryString);
-            query.setInteger("id", id);
-            Batch_Master batch=(Batch_Master)query.uniqueResult();
-            int semester =batch.getSemester_id();
-            user.setSemester(semester);
+          
             user.setCreated_at(created_at);
             trns = session.beginTransaction();
             session.save(user);
@@ -482,6 +477,7 @@ public class userDaoImpl implements usersDao{
     		pm.setEnd_date(end_date);
     		pm.setDeadline(deadline);
     		pm.setStatus(project.getStatus());
+    		pm.setCreated_at(project.getCreated_at());
     		pm.setUpdated_at(updated_at);
     		session.update(pm); 
     	    //int id = pm.getId();

@@ -29,6 +29,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 
+
+
 import com.DaoClasses.userDaoImpl;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Login;
@@ -187,7 +189,7 @@ public class ControllerFile {
 					}
 //========================Save Project========================================================
 			@RequestMapping(value="/saveProject", method=RequestMethod.POST)
-			public @ResponseBody Map<String,Object> toSaveProject(Project_Model pm) throws ParseException{
+			public @ResponseBody Map<String,Object> toSaveProject(Project_Model pm) throws Exception{
 	        		int[] m = pm.getMember();
 	        		System.out.println("Length of m is "+m.length);
 					Map<String,Object> map = new HashMap<String,Object>();				
@@ -208,7 +210,7 @@ public class ControllerFile {
 				}
 //========================Update Project========================================================
 			@RequestMapping(value="/updateProject", method=RequestMethod.POST)
-			public @ResponseBody Map<String,Object> toUpdateProject(Project_Model pm) throws ParseException{
+			public @ResponseBody Map<String,Object> toUpdateProject(Project_Model pm) throws Exception{
 	        		//int[] s = pm.getStage();
 					Map<String,Object> map = new HashMap<String,Object>();				
 					if(userDaoImpl.updateProject(pm))

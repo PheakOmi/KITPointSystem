@@ -5,8 +5,9 @@
 			type:'POST',
 			success: function(response){
 				kitpoint=response.kitPoint;
+				if(response.kitPoint[0]!=null){
 				$("#point").val(kitpoint[0].id);
-				$("#value1").val(kitpoint[0].value);
+				$("#value1").val(kitpoint[0].value);}
 
 			}
 			
@@ -18,10 +19,10 @@
 					 $.ajax({
 							url:'submit1',
 							type:'POST',
-							data:{id:$('#point').val(),value:$('#value1').val()},
+							data:{value:$('#value1').val()},
 							success: function(response){
 
-								swal(response.message, "success")
+								swal("Success!", "You have created it successfully!", "success")
 							}				
 						});
 					

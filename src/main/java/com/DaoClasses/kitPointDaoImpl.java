@@ -14,6 +14,8 @@ import com.EntityClasses.KIT_Point;
 import com.HibernateUtil.HibernateUtil;
 
 
+
+
 @Repository
 public class kitPointDaoImpl implements kitPointDao {
 	
@@ -72,9 +74,9 @@ public class kitPointDaoImpl implements kitPointDao {
 		Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Timestamp updated_at= new Timestamp(System.currentTimeMillis());
-        int id=kitPoint.getId();
+        //int id=kitPoint.getId();
         int kit=kitPoint.getValue();
-        DatabasePoint.setId(id);
+        //DatabasePoint.setId(id);
         DatabasePoint.setValue(kit);
         DatabasePoint.setUpdated_at(updated_at);
         try {
@@ -152,6 +154,5 @@ public class kitPointDaoImpl implements kitPointDao {
 		return false;
 	}
 
-    
-
+	
 }

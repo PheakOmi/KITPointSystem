@@ -65,16 +65,9 @@ public class KitPointController {
 				 Map<String,List> map = new HashMap<String,List>();
 				 Map<String,Object> error = new HashMap<String,Object>();
 					List<KIT_Point> listProject= valueKitPoint.getAllPointValue();
-					if (listProject==null)
-						{
-							error.put("message","batch not found");
-							return error;
-						}
-					else
-						{
 							map.put("kitPoint", listProject);
 							return map;
-						}	
+					
 			}
 
 }

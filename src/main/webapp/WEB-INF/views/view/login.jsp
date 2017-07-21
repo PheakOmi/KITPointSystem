@@ -11,7 +11,7 @@
 
   </head>
 <body>
-<h1>${message}</h1>
+<h1 align="center">${message}</h1>
   <div class="login-page">
   <div class="form">
     <form class="login-form" action="validate" method="post">

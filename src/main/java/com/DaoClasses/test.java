@@ -8,32 +8,33 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.User_Info;
 import com.HibernateUtil.HibernateUtil;
 
 class A{
-	public static List<Project_Stage_Master> getAllStage() {
-        List<Project_Stage_Master> stages= new ArrayList<Project_Stage_Master>();
-        Transaction trns = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        try {
-            trns = session.beginTransaction();
-            stages = session.createQuery("from Project_Stage_Master").list();
-            System.out.println("Size is "+stages.size());
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            return stages;
-        } finally {
-            session.flush();
-            session.close();
-        }
-        return stages;
-    }  }
-public class test { 
-	public static void main(String args[])
+	public static List < Project_Master > getAllProjectData() {
+		  List < Project_Master > project = new ArrayList < Project_Master > ();
+		  Transaction trns = null;
+		  Session session = HibernateUtil.getSessionFactory().openSession();
+		  try {
+		   trns = session.beginTransaction();
+		   project = session.createQuery("from Project_Master").list();
+		   //for ()
+		   
+		  } catch (RuntimeException e) {
+		   e.printStackTrace();
+		   return project;
+		  } finally {
+		   session.flush();
+		   session.close();
+		  }
+		  return project;
+		 }
+	public void main(String args[])
 	{
-		
+		List < Project_Master > project = A.getAllProjectData();
 	}
 
 }

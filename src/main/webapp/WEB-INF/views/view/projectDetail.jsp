@@ -220,7 +220,7 @@ for(i=0; i<user.length; i++){
                              <div class="form-group">
                                 <label class="col-sm-4 control-label">KIT point</label>
                                 <div class="col-sm-8">	
-                                	<input class="form-control" id="kitpoint">
+                                	<input class="form-control" id="kitpoint" required>
                                 </div>
                             </div>
                             <div class="form-group">

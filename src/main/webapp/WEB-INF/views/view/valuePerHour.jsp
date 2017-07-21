@@ -79,7 +79,7 @@
                   		  </div>
                   		 
                     <div class="col-sm-6">
-                           	<button type="submit" class="btn btn-default">Save</button>
+                           	<button type="submit" class="btn btn-default">Create</button>
                             <button type="reset" class="btn btn-default">Cancel</button>
                     	</div>
 	                    </div>
@@ -118,7 +118,7 @@
 							value_7:$('#semester7').val(),
 							value_8:$('#semester8').val()},
 						success: function(response){
-							swal(response.message, "success")
+							swal("Success!", "You have created it successfully!", "success")
 						}				
 					});		
 				

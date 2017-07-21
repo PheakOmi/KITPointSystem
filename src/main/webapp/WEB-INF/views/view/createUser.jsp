@@ -1,20 +1,4 @@
- <script type="text/javascript">
-			load = function(){	
-				$.ajax({
-					url:'getBatchList',
-					type:'POST',
-					success: function(response){
-							console.log(response);
-							data = response.batch;
-							for(i=0; i<response.batch.length; i++){					
-								$("#batch").append("<option value="+response.batch[i].id+">"+response.batch[i].name+" </option>");
-							}
-					}				
-				});
-				
-			}
-	</script>
-<body onload='load();'>
+<body>
    <!-- Page Heading -->
                 <div class="row">
                         <h3 class="page-header">
@@ -56,18 +40,9 @@
 		                                <label class="radio-inline">
 		                                    <input type="radio" id="user_type"  name="optionsRadiosInline" value="Admin">Admin
 		                                </label>
-		                                <label class="radio-inline">
-		                                    <input type="radio" id="user_type" name="optionsRadiosInline"  value="User">User
-		                                </label>
+		                                
 		                           </div>
 		                            
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Batch</label>
-                                <div class="col-sm-10">
-                                <select class="form-control" name="Batch" id="batch">
-                                </select>
-                                </div>
                             </div>
 						  <div class="form-group">
 						    <div class="col-sm-offset-2 col-sm-10">
@@ -97,7 +72,7 @@
 									user_type:$('#user_type').val(),
 									batch:$('#batch').val()},
 								success: function(response){
-									swal(response.message, "success")
+									swal("Success!", "You have created successfully!", "success")
 								}				
 							});		
 						

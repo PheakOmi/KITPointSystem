@@ -76,7 +76,7 @@
     		success: function(response){
     				if(response.status=="200")
     					{
-    					swal("Good job!", "You clicked the button!", "success")
+    					swal("Success!", "You have updated it successfully!", "success")
     					}
     				//var obj = jQuery.parseJSON(response);
     				    
