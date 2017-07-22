@@ -33,6 +33,7 @@ public class kitPointDaoImpl implements kitPointDao {
             SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
             String valueEncryp =encrypt.encryptText(kitPointValue.getValue(), secKey) ;
             Timestamp created_at= new Timestamp(System.currentTimeMillis()); 
+            kitPointValue.setValue(valueEncryp);
             kitPointValue.setKit_point("1 Kit point");
     	    kitPointValue.setCreated_at(created_at);
             trns = session.beginTransaction();
