@@ -7,7 +7,7 @@
 				kitpoint=response.kitPoint;
 				if(response.kitPoint[0]!=null){
 				$("#point").val(kitpoint[0].id);
-				$("#value1").val(kitpoint[0].value);}
+				$("#value1").val(kitpoint[0].value);}	
 
 			}
 			
@@ -23,7 +23,7 @@
 							data:{value:$('#value1').val()},
 							success: function(response){
 
-								swal("Success!", "You have created it successfully!", "success")
+								swal("Success!", "You have updated it successfully!", "success")
 							}				
 						});
 					
@@ -51,8 +51,7 @@
                                 </div>
                         </div>
                          <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-default">Save</button>
-                            <button type="reset" class="btn btn-default">Cancel</button>
+                            <button type="submit" class="btn btn-default">Update</button>
 						</div>      
                       </div>
                     </div>

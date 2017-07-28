@@ -11,12 +11,11 @@ import java.util.Map;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-class A
-{
-	
-	public void main(String args[]) throws XmlRpcException, MalformedURLException
-	{
-		final String url = "192.168.7.253";
+
+public class kk {
+
+	public static void main(String[] args) throws Exception {
+		final String url = "http://96.9.67.154";
 	     final String db = "Hotel_Test";
 	     final String username ="admin";
 	     final String password = "123";
@@ -76,6 +75,7 @@ class A
 	        for(Object t:a){
 	         System.out.println(t);
 	        }
+
 	}
 
 }
