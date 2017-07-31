@@ -156,7 +156,7 @@ for(i=0; i<user.length; i++){
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Planning Hours</label>
                                 <div class="col-sm-8">
-                                	<input type="text" class="form-control" id="planninghour" required>
+                                	<input type="number" class="form-control" id="planninghour" required>
                                 </div>
                         </div>
                          <div class="form-group">

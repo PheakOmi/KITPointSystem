@@ -95,7 +95,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Planning Hour</label>
-                                <input class="form-control" id="time" type="text" required>
+                                <input class="form-control" id="time" type="number" required>
                         	</div>
     						<div class="form-group">
                                 <label>Description</label>

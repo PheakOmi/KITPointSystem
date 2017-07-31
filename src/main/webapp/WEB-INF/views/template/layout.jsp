@@ -27,7 +27,8 @@
 	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
     
 	<!--  jQuery Validation -->
-	<!-- <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script> --> 
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script> 
 
 	<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
 	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
