@@ -42,7 +42,15 @@
       <link rel="stylesheet" href="${alertStyle}">
 <spring:url value="/resources/Bootstrap/js/sweetalert.min.js" var="alertJS"/>
       <script src="${alertJS}"></script>
-
+      
+      
+<!-- Multiple Select -->
+<spring:url value="/resources/Bootstrap/css/multipleselect/multiple.css" var="multipleselectCSS"/>
+      <link rel="stylesheet" href="${multipleselectCSS}"> 
+<spring:url value="/resources/Bootstrap/js/multipleselect/multiple.js" var="multipleselectJS"/>
+      <script src="${multipleselectJS}"></script>
+         
+          
 <!-- Checkbox CSS -->
 <spring:url value="/resources/Bootstrap/css/checkbox/build.css" var="checkboxStyle"/>
       <link rel="stylesheet" href="${checkboxStyle}"> 
