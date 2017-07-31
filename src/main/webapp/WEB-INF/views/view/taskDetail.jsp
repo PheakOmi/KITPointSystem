@@ -8,12 +8,12 @@
 				console.log(response);
 				project = response.project;
 				user = response.user;
+				student = response.student;
 				for(i=0; i<project.length; i++)					
 					$("#project").append("<option value="+project[i].id+">"+project[i].project_name+" </option>");
-				for(i=0; i<user.length; i++){	
-					if(user[i].user_type=="User")
-					$("#user").append("<option value="+user[i].id+">"+user[i].name+" </option>");
-				}
+				for(i=0; i<student.length; i++)
+					$("#user").append("<option value="+student[i].id+">"+student[i].name+" </option>");
+				
 			},
 		error: function(err){
 			console.log("KKKKKKK");
