@@ -8,6 +8,7 @@
 				console.log(response);
 				category = response.category;
 				user = response.user;
+				student = response.student;
 <%--				stage = response.stage;	--%>
 				for(i=0; i<category.length; i++)					
 					$("#projectcategory").append("<option value="+category[i].id+">"+category[i].name+" </option>");
@@ -16,14 +17,13 @@
     			checkBox.appendTo('#stage');
     
 }	--%>
-for(i=0; i<user.length; i++){
-	if((user[i].user_type=="Super Admin")||(user[i].user_type=="Admin"))
+for(i=0; i<user.length; i++)
 	$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
-	else{
-	$("#teamleader").append("<option value="+user[i].id+">"+user[i].name+" </option>");
-	$("#member").append("<option value="+user[i].id+">"+user[i].name+" </option>");}
+for(i=0; i<student.length; i++){
+	$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
+	$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");}
 					
-					}
+					
 			},
 		error: function(err){
 			console.log("KKKKKKK");

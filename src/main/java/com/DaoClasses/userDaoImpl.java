@@ -23,6 +23,10 @@ import org.springframework.stereotype.Repository;
 
 
 
+
+
+
+
 import com.EncryptionDecryption.Decryption;
 import com.EncryptionDecryption.Encryption;
 import com.EncryptionDecryption.SecretKeyClass;
@@ -48,7 +52,7 @@ import com.ModelClasses.submit;
 public class userDaoImpl implements usersDao{
 	
 	static Encryption encrypt= new Encryption();
-	Decryption decrypt= new Decryption();
+	static Decryption decrypt= new Decryption();
 	public submit addUser1(submit model1) {
         Transaction trns = null;
         
@@ -427,7 +431,7 @@ public class userDaoImpl implements usersDao{
         return true;
     }
 //=================================Save project=========================================
-    public static int saveProject(Project_Model project) throws ParseException
+    public static int saveProject(Project_Model project) throws Exception
     {
     	Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -439,6 +443,8 @@ public class userDaoImpl implements usersDao{
     		Date start_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getStart_date());
     		Date end_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getEnd_date());
     		Date deadline = new SimpleDateFormat("MM/dd/yyyy").parse(project.getDeadline());
+    		//SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+   		 	//String encryptedPoint =encrypt.encryptText(project.getKit_point(), secKey) ;
     		Project_Master pm = new Project_Master();
     		pm.setProject_name(project.getProject_name());
     		pm.setProject_code(project.getProject_code());
@@ -475,7 +481,7 @@ public class userDaoImpl implements usersDao{
         
     }
 //=================================Update project=========================================
-    public static boolean updateProject(Project_Model project) throws ParseException
+    public static boolean updateProject(Project_Model project) throws Exception
     {
     	Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -483,6 +489,8 @@ public class userDaoImpl implements usersDao{
         try {
         	
             trns = session.beginTransaction();
+            SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+   		 	String encryptedPoint =encrypt.encryptText(project.getKit_point(), secKey) ;
     		Timestamp updated_at = new Timestamp(System.currentTimeMillis());
     		Date start_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getStart_date());
     		Date end_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getEnd_date());
@@ -500,7 +508,7 @@ public class userDaoImpl implements usersDao{
     		pm.setDescription(project.getDescription());
     		pm.setInitially_planned(project.getInitially_planned());
     		pm.setBudget(project.getBudget());
-    		pm.setKit_point(project.getKit_point());
+    		pm.setKit_point(encryptedPoint);
     		pm.setStart_date(start_date);
     		pm.setEnd_date(end_date);
     		pm.setDeadline(deadline);
@@ -714,8 +722,9 @@ public class userDaoImpl implements usersDao{
         return tasks;
     }
 //==================Get project by id=======================
-    public static Project_Master getProjectById(int id) throws ParseException
+    public static Project_Master getProjectById(int id) throws Exception
     {
+    	System.out.println("Hi");
     	Project_Master project= new Project_Master();
         Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
@@ -725,6 +734,11 @@ public class userDaoImpl implements usersDao{
             Query query = session.createQuery(queryString);
             query.setInteger("id",id);
             project=(Project_Master)query.uniqueResult();
+//            SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+//		    String decryptedPoint;
+//		    decryptedPoint = decrypt.decryptText(project.getKit_point(), secKey);
+//		    decryptedPoint.trim();
+//		    project.setKit_point(decryptedPoint);
         } catch (RuntimeException e) {
             e.printStackTrace();
             return project;
