@@ -31,6 +31,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 
+
 import com.DaoClasses.userDaoImpl;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Login;
@@ -70,7 +71,7 @@ public class ControllerFile {
 	}
 // ================================Login Validate================================================	
 		@RequestMapping(value="/validate", method=RequestMethod.POST)
-		public ModelAndView toValidate(User_Info user, BindingResult result)
+		public ModelAndView toValidate(User_Info user, BindingResult result) throws Exception
 		{
 			if(result.hasErrors())
 			   {

@@ -21,6 +21,8 @@ import org.springframework.stereotype.Repository;
 
 
 
+
+
 import com.EncryptionDecryption.Decryption;
 import com.EncryptionDecryption.Encryption;
 import com.EncryptionDecryption.SecretKeyClass;
@@ -45,7 +47,7 @@ import com.ModelClasses.submit;
 @Repository
 public class userDaoImpl implements usersDao{
 	
-	Encryption encrypt= new Encryption();
+	static Encryption encrypt= new Encryption();
 	Decryption decrypt= new Decryption();
 	public submit addUser1(submit model1) {
         Transaction trns = null;
@@ -249,7 +251,7 @@ public class userDaoImpl implements usersDao{
         }
     }
     
-    public static User_Info validate(User_Info user)
+    public static User_Info validate(User_Info user) throws Exception
     {
     	Transaction trns = null;
         
@@ -264,7 +266,9 @@ public class userDaoImpl implements usersDao{
             String queryString = "from User_Info where email = :email and password = :password";
             Query query = session.createQuery(queryString);
             query.setString("email", email);
-            query.setString("password", password);
+            SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+   		 	String encryptedPassword =encrypt.encryptText(password, secKey) ;
+            query.setString("password", encryptedPassword);
             
             user = (User_Info) query.uniqueResult();
             System.out.println("Try "+user);

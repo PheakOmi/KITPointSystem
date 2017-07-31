@@ -15,10 +15,10 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 public class kk {
 
 	public static void main(String[] args) throws Exception {
-		final String url = "http://96.9.67.154";
-	     final String db = "Hotel_Test";
+		final String url = "http://96.9.67.154:8081";
+	     final String db = "Kirirom_Institute_of_Technology";
 	     final String username ="admin";
-	     final String password = "123";
+	     final String password = "admin";
 	     
 	     
 	     final XmlRpcClient authClient = new XmlRpcClient();
@@ -36,6 +36,7 @@ public class kk {
 	        
 	        int uid = (Integer)authClient.execute(
 	                authStartConfig, "authenticate", configList);
+	        System.out.println("Connection Success");
 
 	        final XmlRpcClient objClient = new XmlRpcClient();
 	        final XmlRpcClientConfigImpl objStartConfig = new XmlRpcClientConfigImpl();
@@ -55,18 +56,19 @@ public class kk {
 	        configList.add(db);
 	        configList.add(uid);
 	        configList.add(password);
-	        configList.add("sale.order");
+	        configList.add("op.student");
 	        configList.add("search_read");
 	        
-	        list3.add("partner_id");
-	        list3.add("=");
-	        list3.add(1);
+	        list3.add("id");
+	        list3.add(">");
+	        list3.add(0);
 	        list2.add(list3);
 	        list1.add(list2);
 
 	        configList.add(list1);
+	        
 	        field.add("name");
-	        field.add("state");
+	        field.add("gender");
 	        paramMap.put("fields", field);
 	        configList.add(paramMap);
 
@@ -75,6 +77,7 @@ public class kk {
 	        for(Object t:a){
 	         System.out.println(t);
 	        }
+	        
 
 	}
 
