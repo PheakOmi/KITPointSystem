@@ -1,5 +1,34 @@
+		
+  <!-- <body onload="load();"> --> 
+  <img src onerror="load()"> 
+   <!-- Page Heading -->
+                <div class="row">
+                        <h3 class="page-header">
+                            KIT Point 
+                        </h3>
+                </div>
+   <!-- /.row -->
+   <form class="form-horizontal" id="myForm">
+ <div class="row" id="margin-body">
+                 
+                    <div class="col-lg-10">
+                            <div class="form-group ">
+                                <label class="col-sm-2 control-label" id="point">1 KIT Point</label>
+                                <div class="col-sm-10 input-group">
+                                	<span class="input-group-addon">$</span>
+                               		 <input type="number" class="form-control" id="value1" name="value" required>
+                                </div>
+                        </div>
+                         <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default">Save</button>
+                            <button type="reset" class="btn btn-default">Cancel</button>
+						</div>      
+                      </div>
+                    </div>
+       </form>
 <script type="text/javascript">
-	load = function(){	
+
+	function load(){	
 		$.ajax({
 			url:'getKitPoint',
 			type:'POST',
@@ -16,45 +45,17 @@
 			$('li#settingStlye').addClass('active');
 			$("#myForm").on('submit',function(e){
 				e.preventDefault();
-				 
-					 $.ajax({
-							url:'submit1',
-							type:'POST',
-							data:{value:$('#value1').val()},
-							success: function(response){
-
-								swal("Success!", "You have created it successfully!", "success")
-							}				
-						});
 					
+						 	$.ajax({
+						url:'submit1',
+						type:'POST',
+						data:{value:$('#value1').val()},
+						success: function(response){
+
+							swal("Success!", "You have created it successfully!", "success")
+						}				
+					});  					
 			});
 		});	
 	}
-</script>		
- <body onload="load();">
-   <!-- Page Heading -->
-                <div class="row">
-                        <h3 class="page-header">
-                            KIT Point 
-                        </h3>
-                </div>
-   <!-- /.row -->
-   <form class="form-horizontal" id="myForm">
- <div class="row" id="margin-body">
-                 
-                    <div class="col-lg-10">
-                            <div class="form-group ">
-                                <label class="col-sm-2 control-label" id="point">1 KIT Point</label>
-                                <div class="col-sm-10 input-group">
-                                	<span class="input-group-addon">$</span>
-                               		 <input type="text" class="form-control" id="value1" name="value" required>
-                                </div>
-                        </div>
-                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-default">Save</button>
-                            <button type="reset" class="btn btn-default">Cancel</button>
-						</div>      
-                      </div>
-                    </div>
-       </form>
-	
+</script>
