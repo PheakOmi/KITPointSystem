@@ -11,15 +11,14 @@ import java.util.Map;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-class A
-{
-	
-	public void main(String args[]) throws XmlRpcException, MalformedURLException
-	{
-		final String url = "192.168.7.253";
-	     final String db = "Hotel_Test";
+
+public class kk {
+
+	public static void main(String[] args) throws Exception {
+		final String url = "http://96.9.67.154:8081";
+	     final String db = "Kirirom_Institute_of_Technology";
 	     final String username ="admin";
-	     final String password = "123";
+	     final String password = "admin";
 	     
 	     
 	     final XmlRpcClient authClient = new XmlRpcClient();
@@ -37,6 +36,7 @@ class A
 	        
 	        int uid = (Integer)authClient.execute(
 	                authStartConfig, "authenticate", configList);
+	        System.out.println("Connection Success");
 
 	        final XmlRpcClient objClient = new XmlRpcClient();
 	        final XmlRpcClientConfigImpl objStartConfig = new XmlRpcClientConfigImpl();
@@ -56,18 +56,19 @@ class A
 	        configList.add(db);
 	        configList.add(uid);
 	        configList.add(password);
-	        configList.add("sale.order");
+	        configList.add("op.student");
 	        configList.add("search_read");
 	        
-	        list3.add("partner_id");
-	        list3.add("=");
-	        list3.add(1);
+	        list3.add("id");
+	        list3.add(">");
+	        list3.add(0);
 	        list2.add(list3);
 	        list1.add(list2);
 
 	        configList.add(list1);
+	        
 	        field.add("name");
-	        field.add("state");
+	        field.add("gender");
 	        paramMap.put("fields", field);
 	        configList.add(paramMap);
 
@@ -76,6 +77,8 @@ class A
 	        for(Object t:a){
 	         System.out.println(t);
 	        }
+	        
+
 	}
 
 }

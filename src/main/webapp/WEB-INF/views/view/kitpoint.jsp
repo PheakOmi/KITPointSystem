@@ -1,4 +1,3 @@
-		
   <!-- <body onload="load();"> --> 
   <img src onerror="load()"> 
    <!-- Page Heading -->
@@ -20,8 +19,7 @@
                                 </div>
                         </div>
                          <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-default">Save</button>
-                            <button type="reset" class="btn btn-default">Cancel</button>
+                            <button type="submit" class="btn btn-default">Update</button>
 						</div>      
                       </div>
                     </div>
