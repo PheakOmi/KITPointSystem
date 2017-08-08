@@ -2,8 +2,17 @@ package com.EntityClasses;
 
 public class Student {
 	private String name;
+	private String text;
 	private String id;
 	private String gender;
+	
+	
+	public String getText() {
+		return text;
+	}
+	public void setText(String text) {
+		this.text = text;
+	}
 	public String getName() {
 		return name;
 	}

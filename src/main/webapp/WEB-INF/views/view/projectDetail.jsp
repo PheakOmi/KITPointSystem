@@ -19,10 +19,12 @@
 }	--%>
 for(i=0; i<user.length; i++)
 	$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
-for(i=0; i<student.length; i++){
+for(i=0; i<student.length; i++)
 	$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
-	$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");}
-					
+	//$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");
+$('#member').select2({
+	  data: student
+	});					
 					
 			},
 		error: function(err){
@@ -35,6 +37,7 @@ for(i=0; i<student.length; i++){
 	}
 	
 	$(document).ready(function(){
+		
 		$('li#projectStlye').addClass('active');
     	$("#myForm").on('submit',function(e){
     		var member = $('#member').val(); 
@@ -60,7 +63,16 @@ for(i=0; i<student.length; i++){
         		success: function(response){
         				if(response.status=="200")
         					{
-        					swal("Done!", "You have created it successfully!", "success")
+        					setTimeout(function() {
+        				        swal({
+        				            title: "Done!",
+        				            text: "You have created it successfully!",
+        				            type: "success"
+        				        }, function() {
+        				            window.location = "project";
+        				        });
+        				    }, 10);
+        					
         					}
         				//var obj = jQuery.parseJSON(response);
         				    
@@ -104,9 +116,9 @@ for(i=0; i<student.length; i++){
     				
     	
     	});
-    });	 --%>
+    });	 --%>		
     
-</script>		
+</script>
 <form id="myForm">
  			<div class="row">
                  <div class="form-horizontal">
@@ -144,15 +156,15 @@ for(i=0; i<student.length; i++){
 	                            </div>
                             </div>
                             
+                                                          
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Project Member</label>
 	                            <div class="col-sm-8">    
-	                                <select class="form-control" id="member" multiple>
-	                                    
-	                                </select>
+	                                <select class="js-example-basic-multiple form-control" id="member" multiple="multiple">
+										  
+									</select>
 	                            </div>
-                            </div>                                    
-                            
+                            </div>    
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Planning Hours</label>
                                 <div class="col-sm-8">
@@ -236,6 +248,6 @@ for(i=0; i<student.length; i++){
 	                    </div>
                     </div>
      </form>            
-                   
+
                     </body>                    
 			

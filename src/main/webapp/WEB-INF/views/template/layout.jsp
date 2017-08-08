@@ -32,7 +32,8 @@
 	<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
 	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
 
-
+<!-- Bootstrap Core JavaScript -->
+    <script src="/KIT Point Management System/resources/Bootstrap/js/bootstrap.min.js"></script>
 <!-- Bootstrap Date-Picker Plugin -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
@@ -41,14 +42,7 @@
 <spring:url value="/resources/Bootstrap/css/sweetalert.css" var="alertStyle"/>
       <link rel="stylesheet" href="${alertStyle}">
 <spring:url value="/resources/Bootstrap/js/sweetalert.min.js" var="alertJS"/>
-      <script src="${alertJS}"></script>
-      
-      
-<!-- Multiple Select -->
-<spring:url value="/resources/Bootstrap/css/multipleselect/multiple.css" var="multipleselectCSS"/>
-      <link rel="stylesheet" href="${multipleselectCSS}"> 
-<spring:url value="/resources/Bootstrap/js/multipleselect/multiple.js" var="multipleselectJS"/>
-      <script src="${multipleselectJS}"></script>
+      <script src="${alertJS}"></script>	
          
           
 <!-- Checkbox CSS -->
@@ -62,6 +56,14 @@
 <script src="${dateJS2}"></script>
 <spring:url value="/resources/Bootstrap/css/date/jquery-ui.css" var="dateStyle"/>
 <link rel="stylesheet" href="${dateStyle}">
+
+<!-- Multiple Select -->     
+<spring:url value="/resources/Bootstrap/js/multipleselect/select2.full.min.js" var="MultipleJS"/>
+<spring:url value="/resources/Bootstrap/js/multipleselect/en.js" var="MultipleJS2"/>
+<script src="${MultipleJS}"></script>
+<script src="${MultipleJS2}"></script>
+<spring:url value="/resources/Bootstrap/css/multipleselect/select2.min.css" var="MultipleCSS"/>
+<link rel="stylesheet" href="${MultipleCSS}">
 
 </head>
 
@@ -82,11 +84,11 @@
     
   </div>
   	
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/KIT Point Management System/resources/Bootstrap/js/bootstrap.min.js"></script>
+    
 
 <script>
                     $(document).ready(function(){
+                    	$(".js-example-basic-multiple").select2();
                     	var date_input=$('input[name="date"]');
                         var options={
                           format: 'mm/dd/yyyy',

@@ -7,12 +7,12 @@
 			success: function(response){
 				console.log(response);
 				project = response.project;
-				user = response.user;
-				student = response.student;
+				//user = response.user;
+				//student = response.student;
 				for(i=0; i<project.length; i++)					
 					$("#project").append("<option value="+project[i].id+">"+project[i].project_name+" </option>");
-				for(i=0; i<student.length; i++)
-					$("#user").append("<option value="+student[i].id+">"+student[i].name+" </option>");
+				//for(i=0; i<student.length; i++)
+					//$("#user").append("<option value="+student[i].id+">"+student[i].name+" </option>");
 				
 			},
 		error: function(err){
@@ -84,13 +84,13 @@
                             <div class="form-group">
                                 <label>Project: </label>
                                 <select class="form-control" id="project" type="text" required>
-                                    
+                                    <option></option>
                                 </select>
                         	</div>
                             <div class="form-group">
                                 <label>Assign to:</label>
                                 <select class="form-control" id="user">
-                                    
+                                   
                                 </select>
                             </div>
                             <div class="form-group">
@@ -132,4 +132,30 @@
 </div>
 <button type="submit" class="btn btn-default">Create</button>
 </form>
+<script type="text/javascript">
+$('#project').on('change', function() {
+	var projectid = this.value;
+	$.ajax({
+		url:'studentInTask',
+		type:'POST',
+		data: {id: projectid},
+		success: function(response){
+		student=response.student;
+		$('#user')
+	    .find('option')
+	    .remove()
+	    .end();
+
+		for(i=0; i<student.length; i++)
+			$("#user").append("<option value="+student[i].id+">"+student[i].user_name+" </option>");
+		
+		},
+		error: function (err)
+		{
+			console.log(JSON.stringify(err));
+		}
+	});
+	  
+	})
+</script>
 </body>

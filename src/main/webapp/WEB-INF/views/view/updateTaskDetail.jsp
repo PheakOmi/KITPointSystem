@@ -1,9 +1,11 @@
 <body onload="load();">
 <script type="text/javascript">
-	load = function(){	
+	load = function(){
+		var id = ${id};
 		$.ajax({
-			url:'ProjectNUser?id=${id}',
+			url:'ProjectNUser',
 			type:'POST',
+			data: {id: id},
 			success: function(response){
 				console.log(response);
 				project = response.project;
