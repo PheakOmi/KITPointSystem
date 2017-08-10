@@ -109,7 +109,7 @@
                         	</div>
                             <div class="form-group">
                                 <label>Project: </label>
-                                <select class="form-control" id="project">
+                                <select class="form-control" id="project" disabled="disabled">
                                     
                                 </select>
                         	</div>
