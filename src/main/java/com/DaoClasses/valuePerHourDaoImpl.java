@@ -71,7 +71,7 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		   return true;
 		  }
 		  /*=====================  show batch list ============================*/
-		 public static List < Batch_Master > getAllBatch() {
+		 public List < Batch_Master > getAllBatch() {
 		   List < Batch_Master > batch = new ArrayList < Batch_Master > ();
 		   Transaction trns = null;
 		   Session session = HibernateUtil.getSessionFactory().openSession();
@@ -90,7 +90,7 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		   return batch;
 		  }
 		  /*=====================  show Project Stage ============================*/
-		 public static List < Project_Stage_Master > getAllProjectStage() {
+		 public List < Project_Stage_Master > getAllProjectStage() {
 		   List < Project_Stage_Master > project_Stage = new ArrayList < Project_Stage_Master > ();
 		   Transaction trns = null;
 		   Session session = HibernateUtil.getSessionFactory().openSession();
@@ -108,7 +108,7 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		   return project_Stage;
 		  }
 		  /*=====================  show Project data ============================*/
-		 public static List < Project_Master > getAllProjectData() {
+		 public List < Project_Master > getAllProjectData() {
 		  List < Project_Master > project = new ArrayList < Project_Master > ();
 		  Transaction trns = null;
 		  Session session = HibernateUtil.getSessionFactory().openSession();
@@ -143,7 +143,7 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 				 return project ;
 		}
 		 /*=====================  show Project data by status============================*/
-		public static List < Project_Master > getProjectBasedOnStatus(String statusData) {
+		public List < Project_Master > getProjectBasedOnStatus(String statusData) {
 		 List < Project_Master > project = new ArrayList < Project_Master > ();
 		 Transaction trns = null;
 		 Session session = HibernateUtil.getSessionFactory().openSession();

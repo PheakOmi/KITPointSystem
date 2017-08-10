@@ -26,7 +26,6 @@ import com.ServiceClasses.valuePerHourService;
 public class ValuePerHourController {
 	@Autowired
 	valuePerHourService  valuePerHour;
-	valuePerHourDaoImpl  listData;
 	
 //	=================view Value Per Hour============================
 	@RequestMapping("/valuePerHour")
@@ -38,7 +37,7 @@ public class ValuePerHourController {
 	public @ResponseBody Map<String,?> showBatch(){
 		 Map<String,List> map = new HashMap<String,List>();
 		 Map<String,Object> error = new HashMap<String,Object>();
-			List<Batch_Master> listBatch = listData.getAllBatch();
+			List<Batch_Master> listBatch = valuePerHour.getAllBatch();
 			if (listBatch == null)
 				{
 					error.put("message","batch not found");
@@ -56,7 +55,7 @@ public class ValuePerHourController {
 	public @ResponseBody Map<String,?> showProjectSatge(){
 		 Map<String,List> map = new HashMap<String,List>();
 		 Map<String,Object> error = new HashMap<String,Object>();
-			List<Project_Master> listProject= listData.getAllProjectData();
+			List<Project_Master> listProject= valuePerHour.getAllProjectData();
 			if (listProject==null)
 				{
 					error.put("message","batch not found");
@@ -73,7 +72,7 @@ public class ValuePerHourController {
 	public @ResponseBody Map<String,?> showBasedOnProjectStatus(@RequestParam("status") String project_status){
 		 Map<String,List> map = new HashMap<String,List>();
 		 Map<String,Object> error = new HashMap<String,Object>();
-			List<Project_Master> listProject= listData.getProjectBasedOnStatus(project_status);
+			List<Project_Master> listProject= valuePerHour.getProjectBasedOnStatus(project_status);
 			if (listProject==null)
 				{
 					error.put("message","batch not found");
