@@ -158,7 +158,7 @@ public class userDaoImpl implements usersDao{
         return projects;
     }
 
-    
+//=========================To validate user whilw loging in====================================================    
      public User_Info validate(User_Info user) throws Exception
     {
     	Transaction trns = null;
@@ -179,7 +179,7 @@ public class userDaoImpl implements usersDao{
             query.setString("password", encryptedPassword);
             
             user = (User_Info) query.uniqueResult();
-            System.out.println("Try "+user);
+            //System.out.println("Try "+user);
 			
         } catch (RuntimeException e) {
             e.printStackTrace();

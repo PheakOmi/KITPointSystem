@@ -220,6 +220,8 @@ public class ControllerFile {
 					List<Project_Master> listProject = usersService1.getAllProject();
 					//List<User_Info> listUser = userDaoImpl.getAllUser();
 					//List<Student> student = new StudentFromOdoo().getStudent();
+					//List<Project_Member> listMember = usersService1.getMemberByProjectId();
+				     
 					 		
 					if (listProject == null)
 						{
@@ -230,6 +232,7 @@ public class ControllerFile {
 					else
 						{
 							//map.put("user", listUser);
+							if(id==0)
 							map.put("project", listProject);
 							if(currenttask!=null)
 								map.put("currenttask",currenttask);
@@ -319,7 +322,7 @@ public class ControllerFile {
 				return map;
 			}
 			else {
-				System.out.println("Else Runs");
+				//System.out.println("Else Runs");
 				map.put("status","999");
 				map.put("message","Your record already existed");
 				return map;
@@ -420,7 +423,7 @@ public class ControllerFile {
 //================================Update Batch============================================
 				@RequestMapping(value="/updateBatch", method=RequestMethod.POST)
 				public @ResponseBody Map<String,Object> toUpdateBatch(Batch_Master batch){
-						System.out.println("Name in controller "+batch.getName()+" "+batch.getSemester_id());
+						//System.out.println("Name in controller "+batch.getName()+" "+batch.getSemester_id());
 						Map<String,Object> map = new HashMap<String,Object>();				
 						if(usersService1.updateBatch(batch)){
 							map.put("status","200");
@@ -446,7 +449,7 @@ public class ControllerFile {
 							return map;
 						}
 						else {
-							System.out.println("Else Runs");
+							//System.out.println("Else Runs");
 							map.put("status","999");
 							map.put("message","Your record already existed");
 							return map;
@@ -505,7 +508,7 @@ public class ControllerFile {
 	@RequestMapping(value="/updateProjectDetail", method = RequestMethod.GET)
 	public ModelAndView updateProjectDetail(@RequestParam(value = "id", required=false) Integer id){
 		ModelAndView view =new ModelAndView("updateProjectDetail");
-		System.out.println("ID in Controller is "+id);
+		//System.out.println("ID in Controller is "+id);
 		view.addObject("id",id);
 		return view;
 		}
@@ -513,7 +516,7 @@ public class ControllerFile {
 	@RequestMapping(value="/updateTaskDetail", method = RequestMethod.GET)
 	public ModelAndView updateTask(@RequestParam(value = "id", required=false) Integer id){
 		ModelAndView view =new ModelAndView("updateTaskDetail");
-		System.out.println("ID in Controller is "+id);
+		//System.out.println("ID in Controller is "+id);
 		view.addObject("id",id);
 		return view;
 		}
