@@ -21,6 +21,7 @@ import java.util.List;
 
 
 
+
 import org.apache.xmlrpc.XmlRpcException;
 
 import com.EntityClasses.Batch_Master;
@@ -31,6 +32,7 @@ import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User_Info;
+import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.Project_Model;
 import com.ModelClasses.Task_Model;
 import com.ModelClasses.retrieve;
@@ -57,7 +59,7 @@ public interface usersDao {
 	public List<Batch_Master> getAllBatch();
 	public List<Project_Stage_Master> getAllStages();
 	public List<Task_Master> getAllTask();
-	public Project_Master getProjectById(int id) throws Exception;
+	public ProjectView_Model getProjectById(int id) throws Exception;
 	public Task_Master getTaskById(int id);
     
     

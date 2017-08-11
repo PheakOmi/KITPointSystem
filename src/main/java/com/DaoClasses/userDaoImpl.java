@@ -32,6 +32,7 @@ import org.springframework.stereotype.Repository;
 
 
 
+
 import com.EncryptionDecryption.Decryption;
 import com.EncryptionDecryption.Encryption;
 import com.EncryptionDecryption.SecretKeyClass;
@@ -46,6 +47,7 @@ import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User_Info;
 import com.HibernateUtil.HibernateUtil;
+import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.Project_Model;
 import com.ModelClasses.Task_Model;
 import com.ModelClasses.retrieve;
@@ -347,9 +349,9 @@ public class userDaoImpl implements usersDao{
     		Date start_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getStart_date());
     		Date end_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getEnd_date());
     		Date deadline = new SimpleDateFormat("MM/dd/yyyy").parse(project.getDeadline());
-    		//SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
-   		 	//String encryptedPoint =encrypt.encryptText(project.getKit_point(), secKey) ;
-    		Project_Master pm = new Project_Master();
+    		SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+   		 	String encryptedPoint =encrypt.encryptText(project.getKit_point(), secKey) ;
+   			Project_Master pm = new Project_Master();
     		pm.setProject_name(project.getProject_name());
     		pm.setProject_code(project.getProject_code());
     		pm.setSkillset(project.getSkillset());
@@ -366,7 +368,9 @@ public class userDaoImpl implements usersDao{
     		pm.setDeadline(deadline);
     		pm.setCreated_at(created_at);
     		pm.setStatus(project.getStatus());
+    		pm.setKit_point(encryptedPoint);
     		session.save(pm); 
+    		
     	    int id = pm.getId();
     		session.getTransaction().commit();
     		return id;
@@ -393,14 +397,13 @@ public class userDaoImpl implements usersDao{
         try {
         	
             trns = session.beginTransaction();
-            //SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
-   		 	//String encryptedPoint =encrypt.encryptText(project.getKit_point(), secKey) ;
+            SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+   		 	String encryptedPoint =encrypt.encryptText(project.getKit_point(), secKey) ;
     		Timestamp updated_at = new Timestamp(System.currentTimeMillis());
     		Date start_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getStart_date());
     		Date end_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getEnd_date());
     		Date deadline = new SimpleDateFormat("MM/dd/yyyy").parse(project.getDeadline());
     		Project_Master pm = new Project_Master();
-    		System.out.println("ID in DAO is "+project.getId());
     		pm.setId(project.getId());
     		pm.setProject_name(project.getProject_name());
     		pm.setProject_code(project.getProject_code());
@@ -408,6 +411,7 @@ public class userDaoImpl implements usersDao{
     		pm.setProject_type(project.getProject_type());
     		pm.setProject_co(project.getProject_co());
     		pm.setProject_leader(project.getProject_leader());
+    		
     		//pm.setProject_member(project.getProject_member());
     		pm.setDescription(project.getDescription());
     		pm.setInitially_planned(project.getInitially_planned());
@@ -420,7 +424,7 @@ public class userDaoImpl implements usersDao{
     		pm.setCreated_at(project.getCreated_at());
     		pm.setUpdated_at(updated_at);
     		session.update(pm); 
-    	    //int id = pm.getId();
+    		pm.setKit_point(encryptedPoint);
     		session.getTransaction().commit();
     		
     		
@@ -615,31 +619,50 @@ public class userDaoImpl implements usersDao{
         return tasks;
     }
 //==================Get project by id=======================
-    public Project_Master getProjectById(int id) throws Exception
+    public ProjectView_Model getProjectById(int id) throws Exception
     {
-    	System.out.println("Hi");
+    	
     	Project_Master project= new Project_Master();
         Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
+        ProjectView_Model projectViewData= new ProjectView_Model();
         try {
             trns = session.beginTransaction();
             String queryString = "from Project_Master where id=:id";
             Query query = session.createQuery(queryString);
             query.setInteger("id",id);
             project=(Project_Master)query.uniqueResult();
-//            SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
-//		    String decryptedPoint;
-//		    decryptedPoint = decrypt.decryptText(project.getKit_point(), secKey);
-//		    decryptedPoint.trim();
-//		    project.setKit_point(decryptedPoint);
+            SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+ 		    String decryptedPoint;
+		    decryptedPoint = decrypt.decryptText(project.getKit_point(), secKey);
+			  
+			   projectViewData.setId(project.getId());
+			   projectViewData.setProject_name(project.getProject_name());
+			   projectViewData.setProject_code(project.getProject_code());
+			   projectViewData.setProject_type(project.getProject_type());
+			   projectViewData.setProject_leader(project.getProject_leader());
+			   projectViewData.setProject_member(project.getProject_member());
+			   projectViewData.setProject_co(project.getProject_co());
+			   projectViewData.setDeadline(project.getDeadline());
+			   projectViewData.setStart_date(project.getStart_date());
+			   projectViewData.setEnd_date(project.getEnd_date());
+			   projectViewData.setSkillset(project.getSkillset());
+			   projectViewData.setDescription(project.getDescription());
+			   projectViewData.setStatus(project.getStatus());
+			   projectViewData.setBudget(project.getBudget());
+			   projectViewData.setInitially_planned(project.getInitially_planned());
+			   projectViewData.setKit_point(decryptedPoint);
+			   projectViewData.setCreated_at(project.getCreated_at());
+			   projectViewData.setUpdated_at(project.getUpdated_at());
+			   
         } catch (RuntimeException e) {
             e.printStackTrace();
-            return project;
+            return  projectViewData;
         } finally {
             session.flush();
             session.close();
         }
-        return project;
+        return  projectViewData;
     }
 
 	public Task_Master getTaskById(int id) {

@@ -9,6 +9,7 @@ import com.DaoClasses.valuePerHourDao;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.Value_Per_Hour;
+import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.ValuePerHourModel;
 
 @Service
@@ -43,12 +44,16 @@ public class valuePerHourServiceImpl implements valuePerHourService {
 		return valuePerHourDao.getAllBatch();
 	}
 
-	public List<Project_Master> getAllProjectData() {
+	public List<ProjectView_Model> getAllProjectData() {
 		return valuePerHourDao.getAllProjectData();
 	}
 
-	public List<Project_Master> getProjectBasedOnStatus(String statusData) {
+	public List<ProjectView_Model> getProjectBasedOnStatus(String statusData) {
 		return valuePerHourDao.getProjectBasedOnStatus(statusData);
+	}
+
+	public boolean approveProject(int id) {
+		return valuePerHourDao.approveProject(id);
 	}
 
 }

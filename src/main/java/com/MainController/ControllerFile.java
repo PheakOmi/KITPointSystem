@@ -50,6 +50,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 
+
 import com.DaoClasses.StudentFromOdoo;
 import com.DaoClasses.userDaoImpl;
 import com.EntityClasses.Batch_Master;
@@ -63,6 +64,7 @@ import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User;
 import com.EntityClasses.User_Info;
+import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.Project_Model;
 import com.ModelClasses.Task_Model;
 import com.ModelClasses.retrieve;
@@ -160,7 +162,7 @@ public class ControllerFile {
 			@RequestMapping(value="/userNProjectCategoryList", method=RequestMethod.POST)
 			public @ResponseBody Map<?,?> getUserNProjectCategoryListNStage(@RequestParam(value = "id", required=false, defaultValue = "0") Integer id) throws Exception{
 				System.out.println("Id is"+id);
-				 Project_Master project = usersService1.getProjectById(id);
+				ProjectView_Model project = usersService1.getProjectById(id);
 				 Map<String,Object> map = new HashMap<String,Object>();
 				 Map<String,Object> error = new HashMap<String,Object>();
 					List<Project_Category_Master> listProjectCategory = usersService1.getProjectCategories();

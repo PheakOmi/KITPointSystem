@@ -7,9 +7,11 @@ import java.util.List;
 
 
 
+
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.Value_Per_Hour;
+import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.ValuePerHourModel;
 
 public interface valuePerHourDao {
@@ -19,6 +21,7 @@ public interface valuePerHourDao {
 	public List<Value_Per_Hour> getBatchSemester();
 	public boolean deletePoint(Value_Per_Hour kitPointValue);
 	public List < Batch_Master > getAllBatch();
-	public List < Project_Master > getAllProjectData();
-	public List < Project_Master > getProjectBasedOnStatus(String statusData) ;
+	public List < ProjectView_Model > getAllProjectData();
+	public List < ProjectView_Model > getProjectBasedOnStatus(String statusData) ;
+	public boolean approveProject(int id);
 }

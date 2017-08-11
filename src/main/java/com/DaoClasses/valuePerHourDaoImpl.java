@@ -23,6 +23,8 @@ import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Value_Per_Hour;
 import com.HibernateUtil.HibernateUtil;
 import com.MainController.ValuePerHourController;
+import com.ModelClasses.KIT_Point_Model;
+import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.ValuePerHourModel;
 
 @Repository
@@ -108,21 +110,52 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		   return project_Stage;
 		  }
 		  /*=====================  show Project data ============================*/
-		 public List < Project_Master > getAllProjectData() {
+		 public List < ProjectView_Model > getAllProjectData() {
 		  List < Project_Master > project = new ArrayList < Project_Master > ();
+		  List < ProjectView_Model > projectList = new ArrayList < ProjectView_Model > ();
 		  Transaction trns = null;
 		  Session session = HibernateUtil.getSessionFactory().openSession();
 		  try {
 		   trns = session.beginTransaction();
 		   project = session.createQuery("from Project_Master").list();
+		   SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+		   for (int i =0;i< project.size();i++){
+			   String kitPoint=project.get(i).getKit_point();
+			   String decryptedText = decrypt.decryptText( kitPoint, secKey);
+			   ProjectView_Model projectViewData= new ProjectView_Model();
+			   projectViewData.setId(project.get(i).getId());
+			   projectViewData.setProject_name(project.get(i).getProject_name());
+			   projectViewData.setProject_code(project.get(i).getProject_code());
+			   projectViewData.setProject_type(project.get(i).getProject_type());
+			   projectViewData.setProject_leader(project.get(i).getProject_leader());
+			   projectViewData.setProject_member(project.get(i).getProject_member());
+			   projectViewData.setProject_co(project.get(i).getProject_co());
+			   projectViewData.setDeadline(project.get(i).getDeadline());
+			   projectViewData.setStart_date(project.get(i).getStart_date());
+			   projectViewData.setEnd_date(project.get(i).getEnd_date());
+			   projectViewData.setSkillset(project.get(i).getSkillset());
+			   projectViewData.setDescription(project.get(i).getDescription());
+			   projectViewData.setStatus(project.get(i).getStatus());
+			   projectViewData.setBudget(project.get(i).getBudget());
+			   projectViewData.setInitially_planned(project.get(i).getInitially_planned());
+			   projectViewData.setKit_point(decryptedText);
+			   projectViewData.setCreated_at(project.get(i).getCreated_at());
+			   projectViewData.setUpdated_at(project.get(i).getUpdated_at());
+			   projectList.add(projectViewData);
+			   
+		   }
+		   
 		  } catch (RuntimeException e) {
 		   e.printStackTrace();
-		   return project;
-		  } finally {
+		   return projectList;
+		  } catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
 		   session.flush();
 		   session.close();
 		  }
-		  return project;
+		  return projectList;
 		 }
 		 /*=====================  show Project data ============================*/
 		public static List<Object> countAllTask() {
@@ -143,8 +176,9 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 				 return project ;
 		}
 		 /*=====================  show Project data by status============================*/
-		public List < Project_Master > getProjectBasedOnStatus(String statusData) {
+		public List < ProjectView_Model > getProjectBasedOnStatus(String statusData) {
 		 List < Project_Master > project = new ArrayList < Project_Master > ();
+		 List < ProjectView_Model > projectListView = new ArrayList < ProjectView_Model > ();
 		 Transaction trns = null;
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 try {
@@ -154,15 +188,45 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		  query.setString("statusData", statusData);
 		 // project = session.createQuery("from Project_Master where status:statusData").list();
 		  project=query.list();
+		  SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+		  for (int i=0; i<project.size();i++)
+		  {
+			  String kitPointValue =project.get(i).getKit_point();
+			  String decryptedText = decrypt.decryptText( kitPointValue, secKey);
+			   ProjectView_Model projectViewData= new ProjectView_Model();
+			   projectViewData.setId(project.get(i).getId());
+			   projectViewData.setProject_name(project.get(i).getProject_name());
+			   projectViewData.setProject_code(project.get(i).getProject_code());
+			   projectViewData.setProject_type(project.get(i).getProject_type());
+			   projectViewData.setProject_leader(project.get(i).getProject_leader());
+			   projectViewData.setProject_member(project.get(i).getProject_member());
+			   projectViewData.setProject_co(project.get(i).getProject_co());
+			   projectViewData.setDeadline(project.get(i).getDeadline());
+			   projectViewData.setStart_date(project.get(i).getStart_date());
+			   projectViewData.setDescription(project.get(i).getDescription());
+			   projectViewData.setEnd_date(project.get(i).getEnd_date());
+			   projectViewData.setSkillset(project.get(i).getSkillset());
+			   projectViewData.setStatus(project.get(i).getStatus());
+			   projectViewData.setBudget(project.get(i).getBudget());
+			   projectViewData.setInitially_planned(project.get(i).getInitially_planned());
+			   projectViewData.setKit_point(decryptedText);
+			   projectViewData.setCreated_at(project.get(i).getCreated_at());
+			   projectViewData.setUpdated_at(project.get(i).getUpdated_at());
+			   projectListView.add(projectViewData);
+		  }
+		  
 		 
 		 } catch (RuntimeException e) {
 		  e.printStackTrace();
-		  return project;
-		 } finally {
+		  return  projectListView;
+		 } catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
 		  session.flush();
 		  session.close();
 		 }
-		 return project;
+		 return  projectListView;
 		}
 		 public Value_Per_Hour addPointValue1(Value_Per_Hour model1) {
 		  // TODO Auto-generated method stub
@@ -183,7 +247,33 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		  // TODO Auto-generated method stub
 		  return false;
 		 }
-
+		  /*+++++++++++++++++++++++To Apporve project+++++++++++++++++++++++++++++++*/
+		 public boolean approveProject(int id){
+			 int project_id=id;
+			 Project_Master project= new Project_Master();
+		        Transaction trns = null;
+		        Session session = HibernateUtil.getSessionFactory().openSession();
+		        ProjectView_Model projectViewData= new ProjectView_Model();
+		        try {
+		            trns = session.beginTransaction();
+		            String queryString = "from Project_Master where id=:id";
+		            Query query = session.createQuery(queryString);
+		            query.setInteger("id", project_id);
+		            project=(Project_Master)query.uniqueResult();
+		            project.setStatus("Approved Project");
+		            session.update(project);
+				    
+					   
+		        } catch (RuntimeException e) {
+		            e.printStackTrace();
+		            return false;
+		        } finally {
+		            session.flush();
+		            session.close();
+		        }
+			return true;
+			 
+		 }
 
 
 }
