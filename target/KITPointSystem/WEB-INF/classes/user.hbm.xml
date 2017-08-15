@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+ 	<class name="com.EntityClasses.User" table="user_info">
+ 	 	
+ 	 <id name="user_id" column="id" >    <!-- Here user_id is pojo class datamember and id is Database table column name -->
+ 	    <generator class="assigned"/>    <!-- Hibernate first column must have primary key that's why we are giving like this -->
+ 	 </id>
+ 	 	
+    <property name="user_name"  column="name"  />
+    <property name="user_salary" column="salary"/>
+ 	 	
+ 	</class>
+</hibernate-mapping>

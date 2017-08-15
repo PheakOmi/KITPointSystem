@@ -11,6 +11,8 @@
   <spring:url value="/resources/Bootstrap/css/bootstrap.min.css" var="bootatrapCore"/>
   <spring:url value="/resources/Bootstrap/css/sb-admin.css" var="CustomCSS"/>
   <spring:url value="/resources/Bootstrap/font-awesome/css/font-awesome.min.css" var="customfontCSS"/>
+    	<!-- Bootstrap Core JavaScript -->
+    <script src="/KIT Point Management System/resources/Bootstrap/js/bootstrap.min.js"></script>
     	<link href="${bootatrapCore}" rel="stylesheet">
    		 <!-- Custom CSS -->
     	<link href="${CustomCSS}" rel="stylesheet">
@@ -27,7 +29,7 @@
 	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
     
 	<!--  jQuery Validation -->
-	<!-- <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script> --> 
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script> 
 
 	<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
 	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
@@ -82,9 +84,7 @@
     
   </div>
   	
-    <!-- Bootstrap Core JavaScript -->
-    <script src="/KIT Point Management System/resources/Bootstrap/js/bootstrap.min.js"></script>
-
+    
 <script>
                     $(document).ready(function(){
                     	var date_input=$('input[name="date"]');

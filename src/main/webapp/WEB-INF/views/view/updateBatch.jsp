@@ -22,15 +22,12 @@ load = function(){
 						  if(response.batch[i].id==batchValue)
 							  {
 							  batchValue = response.batch[i].semester_id;
+							  break;
 							  }
 					  }
 					$("#semester").val(batchValue);
 					
-				
-					
-				    
 				});
-
 		}				
 	});
 }

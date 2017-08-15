@@ -489,8 +489,8 @@ public class userDaoImpl implements usersDao{
         try {
         	
             trns = session.beginTransaction();
-            SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
-   		 	String encryptedPoint =encrypt.encryptText(project.getKit_point(), secKey) ;
+            //SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+   		 	//String encryptedPoint =encrypt.encryptText(cc, secKey) ;
     		Timestamp updated_at = new Timestamp(System.currentTimeMillis());
     		Date start_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getStart_date());
     		Date end_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getEnd_date());
@@ -508,7 +508,7 @@ public class userDaoImpl implements usersDao{
     		pm.setDescription(project.getDescription());
     		pm.setInitially_planned(project.getInitially_planned());
     		pm.setBudget(project.getBudget());
-    		pm.setKit_point(encryptedPoint);
+    		pm.setKit_point(project.getKit_point());
     		pm.setStart_date(start_date);
     		pm.setEnd_date(end_date);
     		pm.setDeadline(deadline);
