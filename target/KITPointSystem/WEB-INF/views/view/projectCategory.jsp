@@ -14,7 +14,7 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Category Name</label>
 						<div class="col-sm-10">
-							<input class="form-control" type="text" name="name" id="name1"
+							<input class="form-control" id="projectCategory" type="text" maxlength="60" name="name" id="name1"
 								required>
 						</div>
 					</div>
@@ -29,6 +29,13 @@
 	</div>
 <script type="text/javascript">
 $(document).ready(function(){
+
+		$("#projectCategory").keyup(function () {
+	        console.log("Hello World");
+	      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
+	         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+	      }
+		});
 	$('li#settingStlye').addClass('active');
 	$("#myForm").on("submit",function(e){
 		e.preventDefault();

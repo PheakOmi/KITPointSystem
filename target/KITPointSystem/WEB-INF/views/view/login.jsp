@@ -21,7 +21,7 @@ $(document).ready(function(){
   <div class="form">
     <form class="login-form" id="myForm" action="validate" method="post">
       <input type="email" placeholder="Email" name="email" required/>
-      <input type="password" placeholder="Password" name="password" />
+      <input type="password" placeholder="Password" name="password" required/>
       <input type="submit" class="a" value="Login">
     </form>
   </div>

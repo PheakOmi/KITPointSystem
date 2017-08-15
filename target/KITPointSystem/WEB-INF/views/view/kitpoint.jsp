@@ -40,6 +40,9 @@
 	
 </script>		
  <body onload="load();">
+
+ <!-- <img src onerror="load()">  --> 
+
    <!-- Page Heading -->
                 <div class="row">
                         <h3 class="page-header">
@@ -55,7 +58,7 @@
                                 <label class="col-sm-2 control-label" id="point">1 KIT Point</label>
                                 <div class="col-sm-10 input-group">
                                 	<span class="input-group-addon">$</span>
-                               		 <input type="text" class="form-control" id="value1" name="value" required>
+                               		 <input type="text" maxlength="10" class="form-control" id="value1" name="value" required>
                                 </div>
                         </div>
                          <div class="col-sm-offset-2 col-sm-10">
@@ -64,4 +67,4 @@
                       </div>
                     </div>
        </form>
-	
+</script>

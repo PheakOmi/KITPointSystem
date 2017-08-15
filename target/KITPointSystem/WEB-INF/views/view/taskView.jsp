@@ -107,29 +107,28 @@
 					console.log(response);
 
 					for (i=0;i<project.length;i++)
-						{
-						var projectcard =
-							   '<div class="project card">' +
-							    '<div class="card-heading">' +
-							     '<h3>'+project[i].project_name+'</h3>' +
-							    '</div>' +
-							    '<div class="card-body">'+
-							     '<div class="project-tasks__wrapper"'+'id='+project[i].id+'>'+
-							     '</div>'+
-								    '</div>'+
-								   '</div>';
-								   $(".projects").append(projectcard);
-						 	for (j=0;j<task.length;j++)
-								{
-								var taskcard= 
-									'<a href="updateTaskDetail?id='+task[j].id+'">'+'<div class="project-task">'+ 
-								       '<p>'+task[j].name+'</p>'+
-								      '</div>'+"</a>";
-								if(task[j].project_id==project[i].id)										
-									$(".project-tasks__wrapper").append(taskcard);
-								
-								} 			
-						}
+				      {
+				      var projectcard =
+				          '<div class="project card">' +
+				           '<div class="card-heading">' +
+				            '<h3>'+project[i].project_name+'</h3>' +
+				           '</div>' +
+				           '<div class="card-body">'+
+				            '<div class="project-tasks__wrapper"'+'id='+project[i].id+'>'+
+				            '</div>'+
+				            '</div>'+
+				           '</div>';
+				           $(".projects").append(projectcard);
+				      }
+				     for (i=0;i<task.length;i++)
+				      {
+				       var taskcard=
+				       '<a href="updateTaskDetail?id='+task[i].id+'">'+'<div class="project-task">'+
+				             '<p>'+task[i].name+'</p>'+
+				            '</div>'+"</a>";
+				      //if(task[j].project_id==project[i].id)
+				       $("#"+task[i].project_id).append(taskcard);
+				      }
 				},
 				error : function(err) {
 					console.log("Error");

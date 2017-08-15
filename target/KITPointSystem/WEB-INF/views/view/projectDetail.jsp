@@ -19,10 +19,12 @@
 }	--%>
 for(i=0; i<user.length; i++)
 	$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
-for(i=0; i<student.length; i++){
+for(i=0; i<student.length; i++)
 	$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
-	$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");}
-					
+	//$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");
+$('#member').select2({
+	  data: student
+	});					
 					
 			},
 		error: function(err){
@@ -35,6 +37,33 @@ for(i=0; i<student.length; i++){
 	}
 	
 	$(document).ready(function(){
+		
+		$("#project_name").keyup(function () {
+	      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
+	         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+	      }
+		});
+		$("#projectcode").keyup(function () {
+		      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
+		         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+		      }
+			});
+		$("#skillset").keyup(function () {
+		      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
+		         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+		      }
+			});
+		
+		$("#planninghour").keyup(function () {
+			if (this.value != this.value.replace(/[^1-9\.]/g, '')) {
+		         this.value = this.value.replace(/[^1-9\.]/g, '');
+		      }
+			});
+		$("#budget").keyup(function () {
+			if (this.value != this.value.replace(/[^1-9\.]/g, '')) {
+		         this.value = this.value.replace(/[^1-9\.]/g, '');
+		      }
+			});
 		$('li#projectStlye').addClass('active');
     	$("#myForm").on('submit',function(e){
     		var member = $('#member').val(); 
@@ -60,7 +89,16 @@ for(i=0; i<student.length; i++){
         		success: function(response){
         				if(response.status=="200")
         					{
-        					swal("Done!", "You have created it successfully!", "success")
+        					setTimeout(function() {
+        				        swal({
+        				            title: "Done!",
+        				            text: "You have created it successfully!",
+        				            type: "success"
+        				        }, function() {
+        				            window.location = "project";
+        				        });
+        				    }, 10);
+        					
         					}
         				//var obj = jQuery.parseJSON(response);
         				    
@@ -104,9 +142,9 @@ for(i=0; i<student.length; i++){
     				
     	
     	});
-    });	 --%>
+    });	 --%>		
     
-</script>		
+</script>
 <form id="myForm">
  			<div class="row">
                  <div class="form-horizontal">
@@ -144,19 +182,19 @@ for(i=0; i<student.length; i++){
 	                            </div>
                             </div>
                             
+                                                          
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Project Member</label>
 	                            <div class="col-sm-8">    
-	                                <select class="form-control" id="member" multiple>
-	                                    
-	                                </select>
+	                                <select class="js-example-basic-multiple form-control" id="member" multiple="multiple">
+										  
+									</select>
 	                            </div>
-                            </div>                                    
-                            
+                            </div>    
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Planning Hours</label>
                                 <div class="col-sm-8">
-                                	<input type="text" class="form-control" id="planninghour" required>
+                                	<input type="text" maxlength="4" class="form-control" id="planninghour" required>
                                 </div>
                         </div>
                          <div class="form-group">
@@ -226,7 +264,7 @@ for(i=0; i<student.length; i++){
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Budget</label>
                                 <div class="col-sm-8">	
-                                	<input type="text" class="form-control" id="budget" required>
+                                	<input type="text" class="form-control" maxlength="7" id="budget" required>
                                 </div>
                             </div>
                             
@@ -236,6 +274,6 @@ for(i=0; i<student.length; i++){
 	                    </div>
                     </div>
      </form>            
-                   
+
                     </body>                    
 			

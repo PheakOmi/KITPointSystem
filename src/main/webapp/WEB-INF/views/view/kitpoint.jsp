@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <script type="text/javascript">
 	load = function(){	
 		$.ajax({
@@ -59,7 +58,7 @@
                                 <label class="col-sm-2 control-label" id="point">1 KIT Point</label>
                                 <div class="col-sm-10 input-group">
                                 	<span class="input-group-addon">$</span>
-                               		 <input type="number" class="form-control" id="value1" name="value" required>
+                               		 <input type="text" maxlength="10" class="form-control" id="value1" name="value" required>
                                 </div>
                         </div>
                          <div class="col-sm-offset-2 col-sm-10">
@@ -68,36 +67,4 @@
                       </div>
                     </div>
        </form>
-<script type="text/javascript">
-
-	function load(){	
-		$.ajax({
-			url:'getKitPoint',
-			type:'POST',
-			success: function(response){
-				kitpoint=response.kitPoint;
-				if(response.kitPoint[0]!=null){
-				$("#point").val(kitpoint[0].id);
-				$("#value1").val(kitpoint[0].value);}
-
-			}
-			
-		});
-		$(document).ready(function(){
-			$('li#settingStlye').addClass('active');
-			$("#myForm").on('submit',function(e){
-				e.preventDefault();
-					
-						 	$.ajax({
-						url:'submit1',
-						type:'POST',
-						data:{value:$('#value1').val()},
-						success: function(response){
-
-							swal("Success!", "You have created it successfully!", "success")
-						}				
-					});  					
-			});
-		});	
-	}
 </script>

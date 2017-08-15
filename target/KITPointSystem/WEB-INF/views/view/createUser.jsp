@@ -60,6 +60,13 @@
  <script type="text/javascript">
 			
 			$(document).ready(function(){
+				
+				$(".form-control").keyup(function () {
+			        console.log("Hello World");
+			      if (this.value != this.value.replace(/[^a-zA-Z0-9\@.]/g, '')) {
+			         this.value = this.value.replace(/[^a-zA-Z0-9\@.]/g, '');
+			      }
+				});
 				$('li#settingStlye').addClass('active');
 				$("#myForm").on('submit',function(e){
 					e.preventDefault();
