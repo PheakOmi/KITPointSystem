@@ -1,4 +1,3 @@
-
 <body onload="load();">
   <!-- Page Heading -->
                 <div class="row">
@@ -26,26 +25,26 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester 1</label>
                                 <div class="col-sm-10">
-                                	<input type="text" class="form-control" id="semester1" required>
+                                	<input type="number" class="form-control" id="semester1" required>
                                 	</div>
                         </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester 2 </label>
                                 <div class="col-sm-10">
-                                	<input type="text" class="form-control" id="semester2" required>
+                                	<input type="number" class="form-control" id="semester2" required>
                                 	</div>
                         </div> 
                            <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester 3</label>
                                 <div class="col-sm-10">
-                                	<input type="text" class="form-control" id="semester3" required>
+                                	<input type="number" class="form-control" id="semester3" required>
                                 </div>
                         </div>
   							  <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester 4</label>
                                 <div class="col-sm-10">
-                                	<input type="text" class="form-control" id="semester4" required>
+                                	<input type="number" class="form-control" id="semester4" required>
                                 </div>
                         </div>
                   		  </div>
@@ -54,26 +53,26 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester 5 </label>
                                 <div class="col-sm-10">
-                                	<input type="text" class="form-control" id="semester5" required>
+                                	<input type="number" class="form-control" id="semester5" required>
                                 </div>
                         </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester 6 </label>
                                 <div class="col-sm-10">
-                                	<input type="text" class="form-control" id="semester6" required>
+                                	<input type="number" class="form-control" id="semester6" required>
                                 </div>
                         </div> 
                            <div class="form-group">
                                 <label  class="col-sm-2 control-label">Semester 7</label>
                                 <div class="col-sm-10" >
-                                	<input type="text" class="form-control" id="semester7" required>
+                                	<input type="number" class="form-control" id="semester7" required>
                                 </div>
                         </div>
   							  <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester 8</label>
                                 <div class="col-sm-10">
-                                	<input type="text" class="form-control" id="semester8" required>
+                                	<input type="number" class="form-control" id="semester8" required>
                                 </div>
                         </div>
                   		  </div>

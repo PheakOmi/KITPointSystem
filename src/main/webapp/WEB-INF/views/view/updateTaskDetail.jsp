@@ -1,9 +1,11 @@
 <body onload="load();">
 <script type="text/javascript">
-	load = function(){	
+	load = function(){
+		var id = ${id};
 		$.ajax({
-			url:'ProjectNUser?id=${id}',
+			url:'ProjectNUser',
 			type:'POST',
+			data: {id: id},
 			success: function(response){
 				console.log(response);
 				project = response.project;
@@ -107,7 +109,7 @@
                         	</div>
                             <div class="form-group">
                                 <label>Project: </label>
-                                <select class="form-control" id="project">
+                                <select class="form-control" id="project" disabled="disabled">
                                     
                                 </select>
                         	</div>
@@ -119,7 +121,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Planning Hour</label>
-                                <input class="form-control" id="time" type="text" required>
+                                <input class="form-control" id="time" type="number" required>
                         	</div>
     						<div class="form-group">
                                 <label>Description</label>

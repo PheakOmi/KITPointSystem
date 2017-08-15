@@ -18,6 +18,7 @@ import com.DaoClasses.valuePerHourDaoImpl;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Stage_Master;
+import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.ValuePerHourModel;
 import com.ServiceClasses.valuePerHourService;
 
@@ -26,7 +27,6 @@ import com.ServiceClasses.valuePerHourService;
 public class ValuePerHourController {
 	@Autowired
 	valuePerHourService  valuePerHour;
-	valuePerHourDaoImpl  listData;
 	
 //	=================view Value Per Hour============================
 	@RequestMapping("/valuePerHour")
@@ -38,7 +38,7 @@ public class ValuePerHourController {
 	public @ResponseBody Map<String,?> showBatch(){
 		 Map<String,List> map = new HashMap<String,List>();
 		 Map<String,Object> error = new HashMap<String,Object>();
-			List<Batch_Master> listBatch = listData.getAllBatch();
+			List<Batch_Master> listBatch = valuePerHour.getAllBatch();
 			if (listBatch == null)
 				{
 					error.put("message","batch not found");
@@ -56,7 +56,7 @@ public class ValuePerHourController {
 	public @ResponseBody Map<String,?> showProjectSatge(){
 		 Map<String,List> map = new HashMap<String,List>();
 		 Map<String,Object> error = new HashMap<String,Object>();
-			List<Project_Master> listProject= listData.getAllProjectData();
+			List<ProjectView_Model> listProject= valuePerHour.getAllProjectData();
 			if (listProject==null)
 				{
 					error.put("message","batch not found");
@@ -73,7 +73,7 @@ public class ValuePerHourController {
 	public @ResponseBody Map<String,?> showBasedOnProjectStatus(@RequestParam("status") String project_status){
 		 Map<String,List> map = new HashMap<String,List>();
 		 Map<String,Object> error = new HashMap<String,Object>();
-			List<Project_Master> listProject= listData.getProjectBasedOnStatus(project_status);
+			List<ProjectView_Model> listProject= valuePerHour.getProjectBasedOnStatus(project_status);
 			if (listProject==null)
 				{
 					error.put("message","batch not found");
@@ -109,5 +109,15 @@ public class ValuePerHourController {
 		
 		return map;
 	}
+	@RequestMapping("/aprroveTheProject")
+	public @ResponseBody Map<String,?> aprroveProject(@RequestParam("id") int project_id){
+		Map<String,Object> map = new HashMap<String,Object>();
+		if( valuePerHour.approveProject(project_id)){
+			map.put("status","200");
+			map.put("message","Your record has been saved successfully");
+		}
+		return map;
+	}
+	
 	
 }

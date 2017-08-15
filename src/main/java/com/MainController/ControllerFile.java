@@ -48,17 +48,23 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 
+
+
+
+import com.DaoClasses.StudentFromOdoo;
 import com.DaoClasses.userDaoImpl;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Login;
 import com.EntityClasses.Project_Category_Master;
 import com.EntityClasses.Project_Master;
+import com.EntityClasses.Project_Member;
 import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
 import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User;
 import com.EntityClasses.User_Info;
+import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.Project_Model;
 import com.ModelClasses.Task_Model;
 import com.ModelClasses.retrieve;
@@ -96,7 +102,7 @@ public class ControllerFile {
 				model2.addObject("message", "Enter the correct format");  
 				return model2;	
 			   }
-			user = userDaoImpl.validate(user);
+			user = usersService1.validate(user);
 			if(user!=null)
 				{return new ModelAndView("project");}
 			else 
@@ -119,7 +125,7 @@ public class ControllerFile {
 				 Map<String,Object> map = new HashMap<String,Object>();
 			
 				   // DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
-					List<Project_Category_Master> list = userDaoImpl.getProjectCategories();
+					List<Project_Category_Master> list = usersService1.getProjectCategories();
 					 		
 					if (list != null)
 						map.put("data", list);
@@ -135,8 +141,8 @@ public class ControllerFile {
 				 Map<String,List> map = new HashMap<String,List>();
 				 Map<String,Object> error = new HashMap<String,Object>();
 				   // DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
-					List<Project_Master> listProject = userDaoImpl.getAllProject();
-					List<Task_Master> listTask = userDaoImpl.getAllTask();
+					List<Project_Master> listProject = usersService1.getAllProject();
+					List<Task_Master> listTask = usersService1.getAllTask();
 					 		
 					if (listProject == null || listTask == null)
 						{
@@ -156,110 +162,14 @@ public class ControllerFile {
 			@RequestMapping(value="/userNProjectCategoryList", method=RequestMethod.POST)
 			public @ResponseBody Map<?,?> getUserNProjectCategoryListNStage(@RequestParam(value = "id", required=false, defaultValue = "0") Integer id) throws Exception{
 				System.out.println("Id is"+id);
-				 Project_Master project = userDaoImpl.getProjectById(id);
+				ProjectView_Model project = usersService1.getProjectById(id);
 				 Map<String,Object> map = new HashMap<String,Object>();
 				 Map<String,Object> error = new HashMap<String,Object>();
-					List<Project_Category_Master> listProjectCategory = userDaoImpl.getProjectCategories();
-					List<User_Info> listUser = userDaoImpl.getAllUser();
+					List<Project_Category_Master> listProjectCategory = usersService1.getProjectCategories();
+					List<User_Info> listUser = usersService1.getAllUser();
+					List<Student> student = new StudentFromOdoo().getStudent();
 					//List<Project_Stage_Master> listProjectStage = userDaoImpl.getAllStages();	
-					final String url = "http://96.9.67.154:8081";
-				     final String db = "Kirirom_Institute_of_Technology";
-				     final String username ="admin";
-				     final String password = "admin";
-				     
-				     
-				     final XmlRpcClient authClient = new XmlRpcClient();
-				        final XmlRpcClientConfigImpl authStartConfig = new XmlRpcClientConfigImpl();
-				        authStartConfig.setServerURL(
-				                new URL(String.format("%s/xmlrpc/2/common", url)));
-				        
-				        List configList = new ArrayList();
-				        Map paramMap = new HashMap();
-				        
-				        configList.add(db);
-				        configList.add(username);
-				        configList.add(password);
-				        configList.add(paramMap);
-				        
-				        int uid = (Integer)authClient.execute(
-				                authStartConfig, "authenticate", configList);
-				        System.out.println("Connection Success");
-
-				        final XmlRpcClient objClient = new XmlRpcClient();
-				        final XmlRpcClientConfigImpl objStartConfig = new XmlRpcClientConfigImpl();
-				        objStartConfig.setServerURL(
-				                new URL(String.format("%s/xmlrpc/2/object", url)));
-				        objClient.setConfig(objStartConfig);
-				        
-				        List paramList = new ArrayList();
-				        List list1 = new ArrayList();
-				        List list2 = new ArrayList();
-				        List list3 = new ArrayList();
-				        List field = new ArrayList();
-				        configList.clear();
-				        paramMap.clear();
-				        paramList.clear();
-				        
-				        configList.add(db);
-				        configList.add(uid);
-				        configList.add(password);
-				        configList.add("op.student");
-				        configList.add("search_read");
-				        
-				        list3.add("id");
-				        list3.add(">");
-				        list3.add(0);
-				        list2.add(list3);
-				        list1.add(list2);
-
-				        configList.add(list1);
-				        
-				        field.add("name");
-				        field.add("gender");
-				        paramMap.put("fields", field);
-				        configList.add(paramMap);
-
-				        List<Object> a= Arrays.asList((Object[])objClient.execute("execute_kw", configList));
-				        
-				        List <Student> student=new ArrayList<Student>();
-				        String str[]=new String[a.size()];
-				        //Student s=new Student();
-				        for(int i=0;i<a.size();i++)
-				        {
-				        	Student s=new Student();
-				        	str[i]=a.get(i).toString();
-//				        	System.out.println(str[i]);
-				        	String str1[]=str[i].split(",");
-				        	int cnt=0;
-				        	for(int j=0;j<str1.length;j++)
-				        	{
-				        		String []str2=str1[j].split("=");
-				        		if(cnt==0)
-				        		{
-				        			s.setGender(str2[1]);
-//				        			System.out.println(str2[1]);
-				        			cnt++;
-				        		}
-				        		else if(cnt==1)
-				        		{
-				        			s.setName(str2[1]);
-//				        			System.out.println(str2[1]);
-				        			cnt++;
-				        		}
-				        		else if(cnt==2)
-				        		{
-				        			s.setId(str2[1].replace("}","").trim());
-				        			
-//				        			System.out.println(str2[1]);
-				        			cnt=0;
-				        		}
-				        		
-				        		
-				        	}
-				        	
-				        	student.add(s);
-				        }
-					
+										
 					if (listProjectCategory == null || listUser == null)
 						{
 							error.put("message","Data not found");
@@ -277,116 +187,45 @@ public class ControllerFile {
 							return map;
 						}	
 					}
-//==================get Project and User===========================
+						 
+						 
+//=======================get right students base on project. To be used in Task=================================
+   @RequestMapping(value="/studentInTask", method=RequestMethod.POST)
+   public @ResponseBody Map<?,?> getRightStudent(@RequestParam(value = "id", required=false,defaultValue = "0") Integer projectid) throws ParseException, MalformedURLException, XmlRpcException{
+     Map<String,Object> map = new HashMap<String,Object>();
+     Map<String,Object> error = new HashMap<String,Object>();
+       // DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
+     List<Project_Member> listMember = usersService1.getMemberByProjectId(projectid);
+     if (listMember == null)
+      {
+       error.put("message","Data not found");
+       return error;
+      }
+     else
+      {
+       map.put("student", listMember);
+       return map;
+      }
+     }   
+			 
+						 
+						 
+						 
+//=======================get Project and User===========================
 			@RequestMapping(value="/ProjectNUser", method=RequestMethod.POST)
 			public @ResponseBody Map<?,?> getProjectNUser(@RequestParam(value = "id", required=false,defaultValue = "0") Integer id) throws ParseException, MalformedURLException, XmlRpcException{
 				 System.out.println("ID in controlle is "+id);
-				Task_Master currenttask = userDaoImpl.getTaskById(id);	
+				Task_Master currenttask = usersService1.getTaskById(id);	
 				 Map<String,Object> map = new HashMap<String,Object>();
 				 Map<String,Object> error = new HashMap<String,Object>();
 				   // DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
-					List<Project_Master> listProject = userDaoImpl.getAllProject();
-					List<User_Info> listUser = userDaoImpl.getAllUser();
-					final String url = "http://96.9.67.154:8081";
-				     final String db = "Kirirom_Institute_of_Technology";
-				     final String username ="admin";
-				     final String password = "admin";
+					List<Project_Master> listProject = usersService1.getAllProject();
+					//List<User_Info> listUser = userDaoImpl.getAllUser();
+					//List<Student> student = new StudentFromOdoo().getStudent();
+					//List<Project_Member> listMember = usersService1.getMemberByProjectId();
 				     
-				     
-				     final XmlRpcClient authClient = new XmlRpcClient();
-				        final XmlRpcClientConfigImpl authStartConfig = new XmlRpcClientConfigImpl();
-				        authStartConfig.setServerURL(
-				                new URL(String.format("%s/xmlrpc/2/common", url)));
-				        
-				        List configList = new ArrayList();
-				        Map paramMap = new HashMap();
-				        
-				        configList.add(db);
-				        configList.add(username);
-				        configList.add(password);
-				        configList.add(paramMap);
-				        
-				        int uid = (Integer)authClient.execute(
-				                authStartConfig, "authenticate", configList);
-				        System.out.println("Connection Success");
-
-				        final XmlRpcClient objClient = new XmlRpcClient();
-				        final XmlRpcClientConfigImpl objStartConfig = new XmlRpcClientConfigImpl();
-				        objStartConfig.setServerURL(
-				                new URL(String.format("%s/xmlrpc/2/object", url)));
-				        objClient.setConfig(objStartConfig);
-				        
-				        List paramList = new ArrayList();
-				        List list1 = new ArrayList();
-				        List list2 = new ArrayList();
-				        List list3 = new ArrayList();
-				        List field = new ArrayList();
-				        configList.clear();
-				        paramMap.clear();
-				        paramList.clear();
-				        
-				        configList.add(db);
-				        configList.add(uid);
-				        configList.add(password);
-				        configList.add("op.student");
-				        configList.add("search_read");
-				        
-				        list3.add("id");
-				        list3.add(">");
-				        list3.add(0);
-				        list2.add(list3);
-				        list1.add(list2);
-
-				        configList.add(list1);
-				        
-				        field.add("name");
-				        field.add("gender");
-				        paramMap.put("fields", field);
-				        configList.add(paramMap);
-
-				        List<Object> a= Arrays.asList((Object[])objClient.execute("execute_kw", configList));
-				        
-				        List <Student> student=new ArrayList<Student>();
-				        String str[]=new String[a.size()];
-				        //Student s=new Student();
-				        for(int i=0;i<a.size();i++)
-				        {
-				        	Student s=new Student();
-				        	str[i]=a.get(i).toString();
-//				        	System.out.println(str[i]);
-				        	String str1[]=str[i].split(",");
-				        	int cnt=0;
-				        	for(int j=0;j<str1.length;j++)
-				        	{
-				        		String []str2=str1[j].split("=");
-				        		if(cnt==0)
-				        		{
-				        			s.setGender(str2[1]);
-//				        			System.out.println(str2[1]);
-				        			cnt++;
-				        		}
-				        		else if(cnt==1)
-				        		{
-				        			s.setName(str2[1]);
-//				        			System.out.println(str2[1]);
-				        			cnt++;
-				        		}
-				        		else if(cnt==2)
-				        		{
-				        			s.setId(str2[1].replace("}","").trim());
-				        			
-//				        			System.out.println(str2[1]);
-				        			cnt=0;
-				        		}
-				        		
-				        		
-				        	}
-				        	
-				        	student.add(s);
-				        }
-
 					 		
-					if (listProject == null || listUser == null)
+					if (listProject == null)
 						{
 							error.put("message","Data not found");
 							return error;
@@ -394,9 +233,9 @@ public class ControllerFile {
 						
 					else
 						{
-							map.put("user", listUser);
+							//map.put("user", listUser);
+							if(id==0)
 							map.put("project", listProject);
-							map.put("student", student);
 							if(currenttask!=null)
 								map.put("currenttask",currenttask);
 							return map;
@@ -406,12 +245,11 @@ public class ControllerFile {
 			@RequestMapping(value="/saveProject", method=RequestMethod.POST)
 			public @ResponseBody Map<String,Object> toSaveProject(Project_Model pm) throws Exception{
 	        		int[] m = pm.getMember();
-	        		System.out.println("Length of m is "+m.length);
 					Map<String,Object> map = new HashMap<String,Object>();				
-					int id = userDaoImpl.saveProject(pm);
+					int id = usersService1.saveProject(pm);
 					if(id!=0)
 					{
-						userDaoImpl.saveMember(id,m);
+						usersService1.saveMember(id,m);
 						map.put("status","200");
 						map.put("message","Your record has been saved successfully");
 						return map;
@@ -428,7 +266,7 @@ public class ControllerFile {
 			public @ResponseBody Map<String,Object> toUpdateProject(Project_Model pm) throws Exception{
 	        		//int[] s = pm.getStage();
 					Map<String,Object> map = new HashMap<String,Object>();				
-					if(userDaoImpl.updateProject(pm))
+					if(usersService1.updateProject(pm))
 					{
 						map.put("status","200");
 						map.put("message","Your record has been saved successfully");
@@ -446,7 +284,7 @@ public class ControllerFile {
 			public @ResponseBody Map<String,Object> toUpdateTask(Task_Model tm) throws ParseException{
 	        		//int[] s = pm.getStage();
 					Map<String,Object> map = new HashMap<String,Object>();				
-					if(userDaoImpl.updateTask(tm))
+					if(usersService1.updateTask(tm))
 					{
 						map.put("status","200");
 						map.put("message","Your record has been saved successfully");
@@ -480,13 +318,13 @@ public class ControllerFile {
 			
 			//System.out.println("Name is: "+projectCategoryName.getName());
 			Map<String,Object> map = new HashMap<String,Object>();				
-			if(userDaoImpl.toSaveTask(task)){
+			if(usersService1.toSaveTask(task)){
 				map.put("status","200");
 				map.put("message","Your record has been saved successfully");
 				return map;
 			}
 			else {
-				System.out.println("Else Runs");
+				//System.out.println("Else Runs");
 				map.put("status","999");
 				map.put("message","Your record already existed");
 				return map;
@@ -522,7 +360,7 @@ public class ControllerFile {
 		public @ResponseBody Map<String,Object> toCreateProjectCategory(Project_Category_Master projectCategoryName){
 				
 				Map<String,Object> map = new HashMap<String,Object>();				
-				if(userDaoImpl.createProjectCategory(projectCategoryName)){
+				if(usersService1.createProjectCategory(projectCategoryName)){
 					map.put("status","200");
 					map.put("message","Your record has been saved successfully");
 					return map;
@@ -559,7 +397,7 @@ public class ControllerFile {
 			 Map<String,Object> map = new HashMap<String,Object>();
 		
 			   // DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
-				List<Semester_Master> list = userDaoImpl.getAllSemester();
+				List<Semester_Master> list = usersService1.getAllSemester();
 				 		
 				if (list != null)
 					map.put("data", list);
@@ -575,7 +413,7 @@ public class ControllerFile {
 					 Map<String,Object> map = new HashMap<String,Object>();
 				
 					   // DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
-						List<User_Info> list = userDaoImpl.getAllUser();
+						List<User_Info> list = usersService1.getAllUser();
 						 		
 						if (list != null)
 							map.put("data", list);
@@ -587,9 +425,9 @@ public class ControllerFile {
 //================================Update Batch============================================
 				@RequestMapping(value="/updateBatch", method=RequestMethod.POST)
 				public @ResponseBody Map<String,Object> toUpdateBatch(Batch_Master batch){
-						System.out.println("Name in controller "+batch.getName()+" "+batch.getSemester_id());
+						//System.out.println("Name in controller "+batch.getName()+" "+batch.getSemester_id());
 						Map<String,Object> map = new HashMap<String,Object>();				
-						if(userDaoImpl.updateBatch(batch)){
+						if(usersService1.updateBatch(batch)){
 							map.put("status","200");
 							map.put("message","Your record has been saved successfully");
 							return map;
@@ -607,13 +445,13 @@ public class ControllerFile {
 						
 						//System.out.println("Name is: "+projectCategoryName.getName());
 						Map<String,Object> map = new HashMap<String,Object>();				
-						if(userDaoImpl.saveBatch(batch)){
+						if(usersService1.saveBatch(batch)){
 							map.put("status","200");
 							map.put("message","Your record has been saved successfully");
 							return map;
 						}
 						else {
-							System.out.println("Else Runs");
+							//System.out.println("Else Runs");
 							map.put("status","999");
 							map.put("message","Your record already existed");
 							return map;
@@ -633,8 +471,8 @@ public class ControllerFile {
 				 Map<String,List> map = new HashMap<String,List>();
 				 Map<String,Object> error = new HashMap<String,Object>();
 				   // DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
-					List<Semester_Master> listSemester = userDaoImpl.getAllSemester();
-					List<Batch_Master> listBatch = userDaoImpl.getAllBatch();
+					List<Semester_Master> listSemester = usersService1.getAllSemester();
+					List<Batch_Master> listBatch = usersService1.getAllBatch();
 					 		
 					if (listSemester == null || listBatch == null)
 						{
@@ -650,78 +488,6 @@ public class ControllerFile {
 						}	
 					}
 
-//=========================create user=========================================	
-	@RequestMapping(value="/submit", method=RequestMethod.POST)                                            
-	public ModelAndView Submit(submit newUser,BindingResult result)        
-	{                                                                                                
-	   if(result.hasErrors())
-	   {
-		ModelAndView model2 = new ModelAndView("createUser");  //if it is error send it back to submit.jsp 
-		model2.addObject("headerMsg", "Enter the correct format");  
-		return model2;	
-	   }
-	   
-	  // usersServiceImpl dao = new usersServiceImpl();
-	    		
-		newUser=usersService1.addUser1(newUser);
-				
-		ModelAndView model2 = new ModelAndView("createUser");
-		model2.addObject("headerMsg", "Value inserted successfully");  
-		
-		model2.addObject("msg", newUser);    //This name will store the value in msg
-
-		return model2;
-	}
-	
-	
-	
-	
-	
-	
-	
-//2.Second Method using Restful API
-	
-//==================Restful API====================================
-	
-	
-	@RequestMapping(value="/allusers", method = RequestMethod.GET)
-	public ModelAndView getPage2(){
-		ModelAndView view =new ModelAndView("allusersOutput");
-		return view;
-	}
-	
-	
-	@RequestMapping(value="/list", method=RequestMethod.POST)
-	public @ResponseBody Map<String,Object> getAll(){
-				
-		 Map<String,Object> map = new HashMap<String,Object>();
-	
-		   // DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
-			List<User_Info> list = usersService1.getAllUsers();
-			 		
-			if (list != null){
-				map.put("status","200");
-				map.put("message","Data found");
-				map.put("data", list);
-			}else{
-				map.put("status","404");
-				map.put("message","Data not found");			
-			}
-		
-		  return map;
-	}
-	
-	
- //===========================================================
-	
-	
-	@RequestMapping(value="/add2", method = RequestMethod.GET)
-	public ModelAndView getPage4(){
-		ModelAndView view =new ModelAndView("save");
-		return view;
-	}
-
-	
 	@RequestMapping(value="/addUser", method=RequestMethod.POST)
 	public @ResponseBody Map<String,Object> getSaved(User_Info users){
 		
@@ -740,29 +506,11 @@ public class ControllerFile {
 	}
 		
 	
-//=========================================================
 
-	@RequestMapping(value="/remove", method = RequestMethod.GET)
-	public ModelAndView getPage5(){
-		ModelAndView view =new ModelAndView("delete");
-		return view;
-	}
-	
-	@RequestMapping(value="/delete", method=RequestMethod.POST)
-	public @ResponseBody Map<String,Object> delete(User_Info users){
-		Map<String,Object> map = new HashMap<String,Object>();		
-		 //DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
-		if(usersService1.deleteUser(users)){
-			map.put("status","200");
-			map.put("message","Your record has been deleted successfully");
-		}
-		
-		return map;
-	}
 	@RequestMapping(value="/updateProjectDetail", method = RequestMethod.GET)
 	public ModelAndView updateProjectDetail(@RequestParam(value = "id", required=false) Integer id){
 		ModelAndView view =new ModelAndView("updateProjectDetail");
-		System.out.println("ID in Controller is "+id);
+		//System.out.println("ID in Controller is "+id);
 		view.addObject("id",id);
 		return view;
 		}
@@ -770,7 +518,7 @@ public class ControllerFile {
 	@RequestMapping(value="/updateTaskDetail", method = RequestMethod.GET)
 	public ModelAndView updateTask(@RequestParam(value = "id", required=false) Integer id){
 		ModelAndView view =new ModelAndView("updateTaskDetail");
-		System.out.println("ID in Controller is "+id);
+		//System.out.println("ID in Controller is "+id);
 		view.addObject("id",id);
 		return view;
 		}

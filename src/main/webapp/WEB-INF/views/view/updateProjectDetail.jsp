@@ -160,7 +160,7 @@ for(i=0; i<student.length; i++){
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Planning Hours</label>
                                 <div class="col-sm-8">
-                                	<input class="form-control" id="planninghour" type="text" required>
+                                	<input class="form-control" id="planninghour" type="number" required>
                                 </div>
                         </div>
                            <div class="form-group">
