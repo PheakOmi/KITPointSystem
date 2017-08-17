@@ -51,6 +51,7 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 			    		 String valueEncryp =encrypt.encryptText(s2, secKey) ;
 			    		 v=i+1;
 			    		 Value_Per_Hour value_per_hour= new Value_Per_Hour(v,valueEncryp,created_at,batch_id);
+			    		 value_per_hour.setSemester_name("Semester "+v);
 			    		 session.save(value_per_hour);
 			        }
 				    

@@ -1,10 +1,34 @@
 package com.EntityClasses;
 
 import java.security.Timestamp;
+import java.util.Date;
 
 public class Semester_Master {
 	private int id;
-	private String semester;
+	private String name;
+	private String start_date;
+	private String end_date;
+	private String batch_id;
+	public String getBatch_id() {
+		return batch_id;
+	}
+	public void setBatch_id(String batch_id) {
+		this.batch_id = batch_id;
+	}
+	
+	public String getStart_date() {
+		return start_date;
+	}
+	public void setStart_date(String start_date) {
+		this.start_date = start_date;
+	}
+	public String getEnd_date() {
+		return end_date;
+	}
+	public void setEnd_date(String end_date) {
+		this.end_date = end_date;
+	}
+
 	private Timestamp created_at;
 	private Timestamp updated_at;
 	public int getId() {
@@ -13,11 +37,12 @@ public class Semester_Master {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getSemester() {
-		return semester;
+	
+	public String getName() {
+		return name;
 	}
-	public void setSemester(String semester) {
-		this.semester = semester;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public Timestamp getCreated_at() {
 		return created_at;

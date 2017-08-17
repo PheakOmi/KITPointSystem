@@ -1,9 +1,31 @@
 package com.EntityClasses;
 
 import java.sql.Timestamp;
+import java.util.Date;
 public class Batch_Master {
 	private int id;
-	private int semester_id;
+	private String semester;
+	private int odoo_id;
+	private Date start_date;
+	private Date end_date;
+	public int getOdoo_id() {
+		return odoo_id;
+	}
+	public void setOdoo_id(int odoo_id) {
+		this.odoo_id = odoo_id;
+	}
+	public Date getStart_date() {
+		return start_date;
+	}
+	public void setStart_date(Date start_date) {
+		this.start_date = start_date;
+	}
+	public Date getEnd_date() {
+		return end_date;
+	}
+	public void setEnd_date(Date end_date) {
+		this.end_date = end_date;
+	}
 	private String name;
 	private Timestamp created_at;
 	private Timestamp updated_at;
@@ -28,11 +50,12 @@ public class Batch_Master {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getSemester_id() {
-		return semester_id;
+	
+	public String getSemester() {
+		return semester;
 	}
-	public void setSemester_id(int semester_id) {
-		this.semester_id = semester_id;
+	public void setSemester(String semester) {
+		this.semester = semester;
 	}
 	public String getName() {
 		return name;

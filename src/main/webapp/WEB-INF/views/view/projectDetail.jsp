@@ -37,11 +37,20 @@ $('#member').select2({
 	}
 	
 	$(document).ready(function(){
-		
 		$('li#projectStlye').addClass('active');
     	$("#myForm").on('submit',function(e){
     		var member = $('#member').val(); 
+    		member.push($('#teamleader').val());
+    		console.log(member);
     		e.preventDefault();
+    		var deadline = Date.parse($("#deadline").val());
+            var startdate = Date.parse($("#startdate").val());
+            var enddate = Date.parse($("#enddate").val());
+            if(startdate>enddate)
+        		swal("Oops!", "Your End Date is before Start Date", "error")
+        	else if(startdate>deadline)
+               	swal("Oops!", "Your Deadline is before Start Date", "error")
+    		else{
         	$.ajax({
         		url:'saveProject',
         		type:'POST',
@@ -78,7 +87,7 @@ $('#member').select2({
         				    
         				else 
         					{
-        					swal("Oops!", "It is not saved!", "error")
+        					swal("Oops!", "Project Name already existed!", "error")
         					
         					}
         				},
@@ -88,6 +97,7 @@ $('#member').select2({
         				}
         		
         			});	
+    		}
 		
     	});	
 /*                    	kitPointCalculate=function (hour){
@@ -142,7 +152,7 @@ $('#member').select2({
                                 <label class="col-sm-4 control-label">Project Coordinator</label>
 	                            <div class="col-sm-8">    
 	                                <select class="form-control" id="projectcoordinator">
-	                                    
+	                                   
 	                                </select>
 	                            </div>
                             </div>
@@ -232,7 +242,7 @@ $('#member').select2({
                              <div class="form-group">
                                 <label class="col-sm-4 control-label">KIT point</label>
                                 <div class="col-sm-8">	
-                                	<input class="form-control" id="kitpoint" required>
+                                	<input class="form-control" id="kitpoint" disabled>
                                 </div>
                             </div>
                             <div class="form-group">

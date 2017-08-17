@@ -8,10 +8,9 @@
 			data: {id: id},
 			success: function(response){
 				console.log(response);
-				project = response.project;
-				user = response.user;
-				student = response.student;
+				member = response.member;
 				currenttask =response.currenttask;
+				project = response.project;
 				function formatDate(date) {
 				    var d = new Date(date),
 				        month = '' + (d.getMonth() + 1),
@@ -26,11 +25,10 @@
 				currenttask.start_date=formatDate(currenttask.start_date);
 				currenttask.end_date=formatDate(currenttask.end_date);
 				currenttask.deadline=formatDate(currenttask.deadline);
-				for(i=0; i<project.length; i++)					
-					$("#project").append("<option value="+project[i].id+">"+project[i].project_name+" </option>");
-				for(i=0; i<student.length; i++)
-					$("#user").append("<option value="+student[i].id+">"+student[i].name+" </option>");
-				$("#project").val(currenttask.project_id);
+				for(i=0; i<member.length; i++)
+					$("#user").append("<option value="+member[i].id+">"+member[i].user_name+" </option>");
+				$("#project").append("<option value="+project.id+">"+project.project_name+" </option>");
+				$("#project").attr("disabled", "disabled");
 				$("#name").val(currenttask.name);
 				$("#user").val(currenttask.assigned_to);
 				$("#description").val(currenttask.description);
@@ -51,16 +49,17 @@
 	
 	$(document).ready(function(){
 		$('li#taskStlye').addClass('active');
-    	var date_input=$('input[name="date"]');
-        var options={
-          format: 'mm/dd/yyyy',
-          todayHighlight: true,
-          autoclose: true,
-        };
-        date_input.datepicker(options);
     	$("#myForm").on("submit",function(e){    
     		e.preventDefault();
     		id = ${id};
+    		var deadline = Date.parse($("#deadline").val());
+            var startdate = Date.parse($("#startdate").val());
+            var enddate = Date.parse($("#enddate").val());
+            if(startdate>enddate)
+        		swal("Oops!", "Your End Date is before Start Date", "error")
+        	else if(startdate>deadline)
+               	swal("Oops!", "Your Deadline is before Start Date", "error")
+            else{
             $.ajax({
     		url:'updateTask',
     		type:'POST',
@@ -76,10 +75,19 @@
     					end_date:$("#enddate").val(),},
     		traditional: true,			
     		success: function(response){
-    				if(response.status=="200")
-    					{
-    					swal("Success!", "You have updated it successfully!", "success")
-    					}
+    			if(response.status=="200")
+				{
+				setTimeout(function() {
+			        swal({
+			            title: "Done!",
+			            text: "You have updated it successfully!",
+			            type: "success"
+			        }, function() {
+			            window.location = "task";
+			        });
+			    }, 10);
+				
+				}
     				//var obj = jQuery.parseJSON(response);
     				    
     				else 
@@ -94,7 +102,7 @@
     				}
     		
     			});			
-    	
+            }
     	});
     });	
 </script>		
@@ -109,7 +117,7 @@
                         	</div>
                             <div class="form-group">
                                 <label>Project: </label>
-                                <select class="form-control" id="project" disabled="disabled">
+                                <select class="form-control" id="project">
                                     
                                 </select>
                         	</div>

@@ -10,8 +10,6 @@ public class User_Info {
 
 		private int id;
 		private String name;
-		private int batch;
-		private int semester;
 		private String email;
 		private String password;
 		private String user_type;
@@ -28,18 +26,6 @@ public class User_Info {
 		}
 		public void setName(String name) {
 			this.name = name;
-		}
-		public int getBatch() {
-			return batch;
-		}
-		public void setBatch(int batch) {
-			this.batch = batch;
-		}
-		public int getSemester() {
-			return semester;
-		}
-		public void setSemester(int semester) {
-			this.semester = semester;
 		}
 		public String getEmail() {
 			return email;

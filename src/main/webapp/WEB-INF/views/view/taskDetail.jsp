@@ -7,12 +7,8 @@
 			success: function(response){
 				console.log(response);
 				project = response.project;
-				//user = response.user;
-				//student = response.student;
 				for(i=0; i<project.length; i++)					
 					$("#project").append("<option value="+project[i].id+">"+project[i].project_name+" </option>");
-				//for(i=0; i<student.length; i++)
-					//$("#user").append("<option value="+student[i].id+">"+student[i].name+" </option>");
 				
 			},
 		error: function(err){
@@ -25,17 +21,17 @@
 	}
 	$(document).ready(function(){
 		 $('li#taskStlye').addClass('active');
-    	var date_input=$('input[name="date"]');
-        var options={
-          format: 'mm/dd/yyyy',
-          todayHighlight: true,
-          autoclose: true,
-        };
-        date_input.datepicker(options);
 		$("#myForm").on('submit',function(e){
 			e.preventDefault();
-			
-				 $.ajax({
+			var deadline = Date.parse($("#deadline").val());
+            var startdate = Date.parse($("#startdate").val());
+            var enddate = Date.parse($("#enddate").val());
+            if(startdate>enddate)
+        		swal("Oops!", "Your End Date is before Start Date", "error")
+        	else if(startdate>deadline)
+               	swal("Oops!", "Your Deadline is before Start Date", "error")
+			else {
+					$.ajax({
              		url:'saveTask',
              		type:'POST',
              		data:{		project_id:$("#project").val(),
@@ -49,17 +45,26 @@
              					end_date:$("#enddate").val(),},
              		traditional: true,			
              		success: function(response){
-             				if(response.status=="200")
-             					{
-             					swal("Success!", "You have created it successfully!", "success")
-             					}
-             				//var obj = jQuery.parseJSON(response);
-             				    
-             				else 
-             					{
-             					swal("Oops!", "It is not saved!", "error")
-             					
-             					}
+             			if(response.status=="200")
+    					{
+    					setTimeout(function() {
+    				        swal({
+    				            title: "Done!",
+    				            text: "You have created it successfully!",
+    				            type: "success"
+    				        }, function() {
+    				            window.location = "task";
+    				        });
+    				    }, 10);
+    					
+    					}
+    				//var obj = jQuery.parseJSON(response);
+    				    
+    				else 
+    					{
+    					swal("Oops!", "Task Name already existed!", "error")
+    					
+    					}
              				},
              		error: function(err){
              				console.log(JSON.stringify(err));
@@ -67,7 +72,7 @@
              				}
              		
              			});		
-				
+		}
 		});
 	});		
 </script>		

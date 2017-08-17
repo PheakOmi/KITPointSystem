@@ -5,8 +5,15 @@ public class Student {
 	private String text;
 	private String id;
 	private String gender;
+	private String batch_id;
 	
 	
+	public String getBatch_id() {
+		return batch_id;
+	}
+	public void setBatch_id(String batch_id) {
+		this.batch_id = batch_id;
+	}
 	public String getText() {
 		return text;
 	}

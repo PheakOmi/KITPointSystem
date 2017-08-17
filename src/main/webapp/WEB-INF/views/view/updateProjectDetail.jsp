@@ -36,8 +36,8 @@
 for(i=0; i<user.length; i++)
 	$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
 for(i=0; i<student.length; i++){
-	$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
-	$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");}
+				$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
+				$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");}
 				$("#status").val(currentproject.status);
 				$("#project_name").val(currentproject.project_name);
 				$("#projectcode").val(currentproject.project_code);
@@ -63,27 +63,23 @@ for(i=0; i<student.length; i++){
 	}
 
 	$(document).ready(function(){
-		$('li#projectStlye').addClass('active');
-    	var date_input=$('input[name="date"]');
-        var options={
-          format: 'mm/dd/yyyy',
-          todayHighlight: true,
-          autoclose: true,
-        };
-        date_input.datepicker(options);
-  	 
+		$('li#projectStlye').addClass('active');  	 
     	$("#myForm").on("submit",function(e){		 
-<%--                    		var val = [];
-            $('.checkbox:checked').each(function(i){
-              val[i] = $(this).val();
-            });		
-            console.log("Name is: "+$("#project_name").val());	--%>
             e.preventDefault();
             id = ${id};
-             		$.ajax({
-    		url:'updateProject',
-    		type:'POST',
-    		data:{		id:id,
+            var deadline = Date.parse($("#deadline").val());
+            var startdate = Date.parse($("#startdate").val());
+            var enddate = Date.parse($("#enddate").val());
+            if(startdate>enddate)
+        		swal("Oops!", "Your End Date is before Start Date", "error")
+        	else if(startdate>deadline)
+               	swal("Oops!", "Your Deadline is before Start Date", "error")
+           	else{
+	            $.ajax({
+	    		url:'updateProject',
+	    		type:'POST',
+	    		data:{		
+	    				id:id,
     					status:$("#status").val(),
     					project_name:$("#project_name").val(),
     					project_code:$("#projectcode").val(),
@@ -100,10 +96,19 @@ for(i=0; i<student.length; i++){
     				<%--stage:val,--%>},
     		traditional: true,			
     		success: function(response){
-    				if(response.status=="200")
-    					{
-    					swal("Success!", "You have updated it successfully!", "success")
-    					}
+    			if(response.status=="200")
+				{
+				setTimeout(function() {
+			        swal({
+			            title: "Done!",
+			            text: "You have updated it successfully!",
+			            type: "success"
+			        }, function() {
+			            window.location = "project";
+			        });
+			    }, 10);
+				
+				}
     				//var obj = jQuery.parseJSON(response);
     				    
     				else 
@@ -116,7 +121,8 @@ for(i=0; i<student.length; i++){
     				console.log(JSON.stringify(err));
     				console.log("Hello");
     				}
-    			});		
+    			});	
+    	}
     	});
     });	
 </script>	

@@ -50,7 +50,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 
+
+
+
+
+
 import com.DaoClasses.StudentFromOdoo;
+import com.DaoClasses.StudentFromOdoo_BatchId;
+import com.DaoClasses.test;
 import com.DaoClasses.userDaoImpl;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Login;
@@ -165,7 +172,7 @@ public class ControllerFile {
 				 Map<String,Object> error = new HashMap<String,Object>();
 					List<Project_Category_Master> listProjectCategory = usersService1.getProjectCategories();
 					List<User_Info> listUser = usersService1.getAllUser();
-					List<Student> student = new StudentFromOdoo().getStudent();
+					List<Student> student = new StudentFromOdoo_BatchId().getStudent_BatchId();
 					//List<Project_Stage_Master> listProjectStage = userDaoImpl.getAllStages();	
 										
 					if (listProjectCategory == null || listUser == null)
@@ -211,49 +218,64 @@ public class ControllerFile {
 						 
 //=======================get Project and User===========================
 			@RequestMapping(value="/ProjectNUser", method=RequestMethod.POST)
-			public @ResponseBody Map<?,?> getProjectNUser(@RequestParam(value = "id", required=false,defaultValue = "0") Integer id) throws ParseException, MalformedURLException, XmlRpcException{
-				 System.out.println("ID in controlle is "+id);
-				Task_Master currenttask = usersService1.getTaskById(id);	
+			public @ResponseBody Map<?,?> getProjectNUser(@RequestParam(value = "id", required=false,defaultValue = "0") Integer id) throws Exception{				
 				 Map<String,Object> map = new HashMap<String,Object>();
 				 Map<String,Object> error = new HashMap<String,Object>();
 				   // DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
+				if (id==0)	
+				 {
 					List<Project_Master> listProject = usersService1.getAllProject();
-					//List<User_Info> listUser = userDaoImpl.getAllUser();
-					//List<Student> student = new StudentFromOdoo().getStudent();
-					//List<Project_Member> listMember = usersService1.getMemberByProjectId();
-				     
-					 		
 					if (listProject == null)
 						{
 							error.put("message","Data not found");
 							return error;
 						}
-						
 					else
 						{
-							//map.put("user", listUser);
-							if(id==0)
 							map.put("project", listProject);
-							if(currenttask!=null)
-								map.put("currenttask",currenttask);
 							return map;
 						}	
+				}
+				
+				else
+				{
+					Task_Master currenttask = usersService1.getTaskById(id);
+					int projectId = usersService1.getProjectIdByTaskId(id);
+					List<Project_Member> listMember = usersService1.getMemberByProjectId(projectId);
+					Project_Master project = usersService1.getProjectById(projectId);
+					if (currenttask == null||listMember==null)
+					{
+						error.put("message","Data not found");
+						return error;
 					}
+				else
+					{
+						map.put("currenttask", currenttask);
+						map.put("member", listMember);
+						map.put("project", project);
+						return map;
+					}	
+				}
+}
 //========================Save Project========================================================
 			@RequestMapping(value="/saveProject", method=RequestMethod.POST)
 			public @ResponseBody Map<String,Object> toSaveProject(Project_Model pm) throws Exception{
 	        		int[] m = pm.getMember();
-					Map<String,Object> map = new HashMap<String,Object>();				
+					Map<String,Object> map = new HashMap<String,Object>();
+					Map<Integer, String> mm = usersService1.getStudentSemester(m);
+					float point =usersService1.pointCalculation(mm,pm.getInitially_planned());
+					pm.setKit_point(Float.toString(point));
 					int id = usersService1.saveProject(pm);
 					if(id!=0)
+						
 					{
 						usersService1.saveMember(id,m);
 						map.put("status","200");
 						map.put("message","Your record has been saved successfully");
+						
 						return map;
 					}
 					else {
-						System.out.println("Else Runs");
 						map.put("status","999");
 						map.put("message","Failed");
 						return map;

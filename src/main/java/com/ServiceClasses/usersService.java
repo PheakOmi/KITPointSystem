@@ -21,8 +21,11 @@ import java.util.List;
 
 
 
+import java.util.Map;
+
 import org.apache.xmlrpc.XmlRpcException;
 
+import com.DaoClasses.test;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Project_Category_Master;
 import com.EntityClasses.Project_Master;
@@ -58,9 +61,12 @@ public interface usersService {
 	public List<Task_Master> getAllTask();
 	public Project_Master getProjectById(int id) throws Exception;
 	public Task_Master getTaskById(int id);
-    
-    
-    
-    
+	public int getProjectIdByTaskId(int taskId);
+	public Map<Integer, String> getStudentSemester(int arr[]) throws Exception;
+	public float pointCalculation(Map<Integer, String> mm, int t) throws Exception;
+	public String getKitPoint();
+	public List<Semester_Master> getStudent_Semester(int batch_id) throws XmlRpcException,MalformedURLException, ParseException;
+	public String getSemesterByBatchId(int id) throws Exception;
+	public String getCurrentSemester(List<Semester_Master> semesters) throws ParseException;
 	
 }

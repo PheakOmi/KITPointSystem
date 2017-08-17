@@ -5,6 +5,14 @@ import java.sql.Timestamp;
 public class Value_Per_Hour {
 		private int id;
 		private int semester_id;
+		private String semester_name;
+		public String getSemester_name() {
+			return semester_name;
+		}
+
+		public void setSemester_name(String semester_name) {
+			this.semester_name = semester_name;
+		}
 		private int batch_id;
 		private String value;
 		private Timestamp created_at;

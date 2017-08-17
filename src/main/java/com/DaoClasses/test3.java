@@ -14,31 +14,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.crypto.SecretKey;
-
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.EncryptionDecryption.Decryption;
-import com.EncryptionDecryption.Encryption;
-import com.EncryptionDecryption.SecretKeyClass;
-import com.EntityClasses.Batch_Master;
-import com.EntityClasses.Project_Master;
 import com.EntityClasses.Semester_Master;
 import com.EntityClasses.Student;
-import com.HibernateUtil.HibernateUtil;
-public class test
+import com.ServiceClasses.usersService;
+public class test3
 {
-	Encryption encrypt= new Encryption();
-	Decryption decrypt= new Decryption();
+	@Autowired
+	usersService usersService1;	 
+	public static void main(String args[]) throws Exception { 
+		 int m[] = {77,78,79,80};
+		 Map<Integer, String> mm = usersService1.getStudentSemester(m);
+			float point = usersService1.pointCalculation(mm,100);
+			//System.out.println("POint is "+point);
+		 }
+
 	
-	
-	
-	
-			
-		 
 }

@@ -3,6 +3,7 @@ package com.ServiceClasses;
 import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,5 +95,26 @@ public class usersServiceImpl implements usersService{
 	public Task_Master getTaskById(int id){
 		return usersDao1.getTaskById(id);
 	}
-    
+	public int getProjectIdByTaskId(int taskId){
+		return usersDao1.getProjectIdByTaskId(taskId);
+	}
+	public Map<Integer, String> getStudentSemester(int arr[]) throws Exception{
+		return usersDao1.getStudentSemester(arr);
+	}
+	public float pointCalculation(Map<Integer, String> mm, int t) throws Exception{
+		return usersDao1.pointCalculation(mm,t);
+	}
+	public String getKitPoint(){
+		return usersDao1.getKitPoint();
+	}
+	public List<Semester_Master> getStudent_Semester(int batch_id) throws XmlRpcException,
+	MalformedURLException, ParseException{
+		return usersDao1.getStudent_Semester(batch_id);
+	}
+	public String getSemesterByBatchId(int id) throws Exception{
+		return usersDao1.getSemesterByBatchId(id);
+	}
+	public String getCurrentSemester(List<Semester_Master> semesters) throws ParseException{
+		return usersDao1.getCurrentSemester(semesters);
+	}
 }
