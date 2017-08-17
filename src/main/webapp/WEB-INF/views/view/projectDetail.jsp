@@ -37,6 +37,36 @@ $('#member').select2({
 	}
 	
 	$(document).ready(function(){
+<<<<<<< HEAD
+=======
+		
+		$("#project_name").keyup(function () {
+	      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
+	         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+	      }
+		});
+		$("#projectcode").keyup(function () {
+		      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
+		         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+		      }
+			});
+		$("#skillset").keyup(function () {
+		      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
+		         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+		      }
+			});
+		
+		$("#planninghour").keyup(function () {
+			if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+		         this.value = this.value.replace(/[^0-9\.]/g, '');
+		      }
+			});
+		$("#budget").keyup(function () {
+			if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+		         this.value = this.value.replace(/[^0-9\.]/g, '');
+		      }
+			});
+>>>>>>> f0d4696de261bd3137e4bcad37de925fd4326634
 		$('li#projectStlye').addClass('active');
     	$("#myForm").on('submit',function(e){
     		var member = $('#member').val(); 
@@ -178,7 +208,7 @@ $('#member').select2({
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Planning Hours</label>
                                 <div class="col-sm-8">
-                                	<input type="number" class="form-control" id="planninghour" required>
+                                	<input type="text" maxlength="4" class="form-control" id="planninghour" required>
                                 </div>
                         </div>
                          <div class="form-group">
@@ -248,7 +278,7 @@ $('#member').select2({
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Budget</label>
                                 <div class="col-sm-8">	
-                                	<input type="text" class="form-control" id="budget" required>
+                                	<input type="text" class="form-control" maxlength="7" id="budget" required>
                                 </div>
                             </div>
                             

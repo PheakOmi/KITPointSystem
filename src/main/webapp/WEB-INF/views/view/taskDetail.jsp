@@ -20,6 +20,20 @@
 		
 	}
 	$(document).ready(function(){
+		
+		$("#name").keyup(function () {
+	      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
+	         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+	      }
+		});
+		
+		$("#time").keyup(function () {
+	      if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+	         this.value = this.value.replace(/[^0-9\.]/g, '');
+	      }
+		});
+		
+		
 		 $('li#taskStlye').addClass('active');
 		$("#myForm").on('submit',function(e){
 			e.preventDefault();
@@ -100,7 +114,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Planning Hour</label>
-                                <input class="form-control" id="time" type="number" required>
+                                <input class="form-control" maxlength="4" id="time" type="text" required>
                         	</div>
     						<div class="form-group">
                                 <label>Description</label>
@@ -159,8 +173,7 @@ $('#project').on('change', function() {
 		{
 			console.log(JSON.stringify(err));
 		}
-	});
-	  
+	});	  
 	})
 </script>
 </body>

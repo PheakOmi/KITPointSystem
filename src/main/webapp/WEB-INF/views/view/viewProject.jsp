@@ -26,10 +26,12 @@ $(document).ready(function() {
 					for(i=0; i<response.project.length; i++){
 						project[i].deadline=formatDate(project[i].deadline);
 						project[i].start_date=formatDate(project[i].start_date);
-						var panel;
+						var panel, approved_button="";
 						 switch(project[i].status){
 							case "To approve Project":
 								panel="panel-default";
+								approved_button="<button type='submit' class='btn btn-warning' onclick='approveProject("+project[i].id+");'>Approve</button>";
+								
 								break;
 							case "Approved Project":
 								panel="panel-primary";
@@ -68,7 +70,7 @@ $(document).ready(function() {
                                     "</div>"+
                                "</div>"+
                                "<div class='row'>"+
-                               "<div class='col-xs-6'>"+
+                               "<div class='col-xs-6'>"+approved_button+
                                "</div>"+
                                "<div class='col-xs-6 text-right'>"+ 
                                "<div class='huge'>"+response.project[i].kit_point+"</div>"+ 
@@ -93,8 +95,47 @@ $(document).ready(function() {
 		});	
 	}
 
-	
-
+	 approveProject=function(id){
+		var project_id=id;
+		$.ajax({
+			url:'aprroveTheProject',
+			type:'POST',
+			data:{id:project_id},
+			success: function(response){
+				if(response.status=="200")
+					{
+					setTimeout(function() {
+				        swal({
+				            title: "Done!",
+				            text: "Project Have been approved!",
+				            type: "success"
+				        }, function() {
+				            window.location = "project";
+				        });
+				    }, 10);
+					
+					}
+				//var obj = jQuery.parseJSON(response);
+				    
+				else 
+					{
+					swal("Oops!", "It is not saved!", "error")
+					
+					}
+				},
+		error: function(err){
+				console.log(JSON.stringify(err));
+				console.log("Hello");
+				
+			}
+			
+		})
+		
+		
+	}
+	 
+	 
+		
 	showProjectBasedStatus=function(statusData){
 		var project_status;
 		if (statusData=="Completed Project")
@@ -155,10 +196,11 @@ $(document).ready(function() {
 				for(i=0; i<response.project.length; i++){
 					project[i].deadline=formatDate(project[i].deadline);
 					project[i].start_date=formatDate(project[i].start_date);
-					var panel;
+					var panel ,approved_button="";
 					 switch(project[i].status){
 						case "To approve Project":
 							panel="panel-default";
+							approved_button="<button class='btn btn-warning' onclick='approveProject("+project[i].id+")'>Approve</button>"
 							break;
 						case "Approved Project":
 							panel="panel-primary";
@@ -175,7 +217,7 @@ $(document).ready(function() {
 					
 					 }
 					var projectDiv =
-						"<div class='col-sm-4' data-project-status='"+response.project[i].status+
+						"<div id='myform' class='col-sm-4' data-project-status='"+response.project[i].status+
 						"'>"+
 						"<div class='panel "+panel+"'>"+
 							"<div class='panel-heading'>"+
@@ -197,7 +239,7 @@ $(document).ready(function() {
                                     "</div>"+
                                "</div>"+
                                "<div class='row'>"+
-                               "<div class='col-xs-6'>"+
+                               "<div class='col-xs-6'>"+approved_button+
                                "</div>"+
                                "<div class='col-xs-6 text-right'>"+ 
                                "<div class='huge'>"+response.project[i].kit_point+"</div>"+ 
@@ -224,7 +266,20 @@ $(document).ready(function() {
 	{
 	     location.href = "projectDetail";
 	}
+	/* $(document).ready(function(){
+		$("#myform").on('submit',function(e){
+			e.preventDefault();
+				
+					 	$.ajax({
+					url:'approveTheProject',
+					type:'POST',
+					data:{value:$('#value1').val()},
+					success: function(response){
 
+						swal("Success!", "You have created it successfully!", "success")
+					}				
+				});  					
+		}); */
 </script>
 <body onload="load();">
                     <div class="container">

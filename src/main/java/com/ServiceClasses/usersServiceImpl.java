@@ -21,6 +21,7 @@ import com.EntityClasses.Semester_Master;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User;
 import com.EntityClasses.User_Info;
+import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.Project_Model;
 import com.ModelClasses.Task_Model;
 import com.ModelClasses.retrieve;

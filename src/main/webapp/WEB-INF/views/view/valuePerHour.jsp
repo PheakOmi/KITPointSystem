@@ -15,7 +15,7 @@
                   <div class="form-group">
                                 <label class="col-sm-1 control-label">Batch</label>
                                <div class="col-sm-11">
-                                <select class="form-control" name="batch_name" id="batch_name">
+                                <select class="form-control" maxlength="10" name="batch_name" id="batch_name">
                                 </select>
                                 </div>
                             </div>
@@ -25,26 +25,26 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester 1</label>
                                 <div class="col-sm-10">
-                                	<input type="number" class="form-control" id="semester1" required>
+                                	<input type="text" maxlength="10" class="form-control" id="semester1" required>
                                 	</div>
                         </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester 2 </label>
                                 <div class="col-sm-10">
-                                	<input type="number" class="form-control" id="semester2" required>
+                                	<input type="text" maxlength="10" class="form-control" id="semester2" required>
                                 	</div>
                         </div> 
                            <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester 3</label>
                                 <div class="col-sm-10">
-                                	<input type="number" class="form-control" id="semester3" required>
+                                	<input type="text" maxlength="10" class="form-control" id="semester3" required>
                                 </div>
                         </div>
   							  <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester 4</label>
                                 <div class="col-sm-10">
-                                	<input type="number" class="form-control" id="semester4" required>
+                                	<input type="text" maxlength="10" class="form-control" id="semester4" required>
                                 </div>
                         </div>
                   		  </div>
@@ -53,26 +53,26 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester 5 </label>
                                 <div class="col-sm-10">
-                                	<input type="number" class="form-control" id="semester5" required>
+                                	<input type="text" maxlength="10" class="form-control" id="semester5" required>
                                 </div>
                         </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester 6 </label>
                                 <div class="col-sm-10">
-                                	<input type="number" class="form-control" id="semester6" required>
+                                	<input type="text" maxlength="10" class="form-control" id="semester6" required>
                                 </div>
                         </div> 
                            <div class="form-group">
                                 <label  class="col-sm-2 control-label">Semester 7</label>
                                 <div class="col-sm-10" >
-                                	<input type="number" class="form-control" id="semester7" required>
+                                	<input type="text" maxlength="10" class="form-control" id="semester7" required>
                                 </div>
                         </div>
   							  <div class="form-group">
                                 <label class="col-sm-2 control-label">Semester 8</label>
                                 <div class="col-sm-10">
-                                	<input type="number" class="form-control" id="semester8" required>
+                                	<input type="text" maxlength="10" class="form-control" id="semester8" required>
                                 </div>
                         </div>
                   		  </div>
@@ -101,6 +101,12 @@
 		
 	}
 	$(document).ready(function(){
+		$(".form-control").keyup(function () {
+	        
+	      if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
+	         this.value = this.value.replace(/[^0-9\.]/g, '');
+	      }
+		});
 		 $('li#settingStlye').addClass('active');
 		$("#myForm").on('submit',function(e){
 			e.preventDefault();

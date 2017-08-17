@@ -25,30 +25,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 //import org.springframework.stereotype.Service;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import com.EncryptionDecryption.Decryption;
 import com.EncryptionDecryption.Encryption;
 import com.EncryptionDecryption.SecretKeyClass;
@@ -63,6 +39,7 @@ import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User_Info;
 import com.HibernateUtil.HibernateUtil;
+import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.Project_Model;
 import com.ModelClasses.Task_Model;
 import com.ModelClasses.retrieve;
@@ -690,7 +667,6 @@ public class userDaoImpl implements usersDao{
         }
         return project;
     }
-
 	public Task_Master getTaskById(int id) {
 		
 		Task_Master task= new Task_Master();

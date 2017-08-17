@@ -23,6 +23,8 @@ import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Value_Per_Hour;
 import com.HibernateUtil.HibernateUtil;
 import com.MainController.ValuePerHourController;
+import com.ModelClasses.KIT_Point_Model;
+import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.ValuePerHourModel;
 
 @Repository
@@ -48,7 +50,7 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 			        	 String[] s1 = s_value_1.split(","); 
 			    		 String s2 = s1[i];  		 
 			    		 SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
-			    		 String valueEncryp =encrypt.encryptText(s2, secKey) ;
+			    		 String valueEncryp =encrypt.encryptText(s2, secKey);
 			    		 v=i+1;
 			    		 Value_Per_Hour value_per_hour= new Value_Per_Hour(v,valueEncryp,created_at,batch_id);
 			    		 value_per_hour.setSemester_name("Semester "+v);
@@ -72,7 +74,7 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		   return true;
 		  }
 		  /*=====================  show batch list ============================*/
-		 public static List < Batch_Master > getAllBatch() {
+		 public List < Batch_Master > getAllBatch() {
 		   List < Batch_Master > batch = new ArrayList < Batch_Master > ();
 		   Transaction trns = null;
 		   Session session = HibernateUtil.getSessionFactory().openSession();
@@ -91,7 +93,7 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		   return batch;
 		  }
 		  /*=====================  show Project Stage ============================*/
-		 public static List < Project_Stage_Master > getAllProjectStage() {
+		 public List < Project_Stage_Master > getAllProjectStage() {
 		   List < Project_Stage_Master > project_Stage = new ArrayList < Project_Stage_Master > ();
 		   Transaction trns = null;
 		   Session session = HibernateUtil.getSessionFactory().openSession();
@@ -109,22 +111,22 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		   return project_Stage;
 		  }
 		  /*=====================  show Project data ============================*/
-		 public static List < Project_Master > getAllProjectData() {
-		  List < Project_Master > project = new ArrayList < Project_Master > ();
-		  Transaction trns = null;
-		  Session session = HibernateUtil.getSessionFactory().openSession();
-		  try {
-		   trns = session.beginTransaction();
-		   project = session.createQuery("from Project_Master").list();
-		  } catch (RuntimeException e) {
-		   e.printStackTrace();
-		   return project;
-		  } finally {
-		   session.flush();
-		   session.close();
-		  }
-		  return project;
-		 }
+		 public List < Project_Master > getAllProjectData() {
+			  List < Project_Master > project = new ArrayList < Project_Master > ();
+			  Transaction trns = null;
+			  Session session = HibernateUtil.getSessionFactory().openSession();
+			  try {
+			   trns = session.beginTransaction();
+			   project = session.createQuery("from Project_Master").list();
+			  } catch (RuntimeException e) {
+			   e.printStackTrace();
+			   return project;
+			  } finally {
+			   session.flush();
+			   session.close();
+			  }
+			  return project;
+			 }
 		 /*=====================  show Project data ============================*/
 		public static List<Object> countAllTask() {
 				 Transaction trns = null;
@@ -144,27 +146,27 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 				 return project ;
 		}
 		 /*=====================  show Project data by status============================*/
-		public static List < Project_Master > getProjectBasedOnStatus(String statusData) {
-		 List < Project_Master > project = new ArrayList < Project_Master > ();
-		 Transaction trns = null;
-		 Session session = HibernateUtil.getSessionFactory().openSession();
-		 try {
-		  trns = session.beginTransaction();
-		  String queryString= "from Project_Master where status=:statusData";
-		  Query query=session.createQuery(queryString);
-		  query.setString("statusData", statusData);
-		 // project = session.createQuery("from Project_Master where status:statusData").list();
-		  project=query.list();
-		 
-		 } catch (RuntimeException e) {
-		  e.printStackTrace();
-		  return project;
-		 } finally {
-		  session.flush();
-		  session.close();
-		 }
-		 return project;
-		}
+		public List < Project_Master > getProjectBasedOnStatus(String statusData) {
+			 List < Project_Master > project = new ArrayList < Project_Master > ();
+			 Transaction trns = null;
+			 Session session = HibernateUtil.getSessionFactory().openSession();
+			 try {
+			  trns = session.beginTransaction();
+			  String queryString= "from Project_Master where status=:statusData";
+			  Query query=session.createQuery(queryString);
+			  query.setString("statusData", statusData);
+			 // project = session.createQuery("from Project_Master where status:statusData").list();
+			  project=query.list();
+			 
+			 } catch (RuntimeException e) {
+			  e.printStackTrace();
+			  return project;
+			 } finally {
+			  session.flush();
+			  session.close();
+			 }
+			 return project;
+			}
 		 public Value_Per_Hour addPointValue1(Value_Per_Hour model1) {
 		  // TODO Auto-generated method stub
 		  return null;
@@ -184,7 +186,34 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		  // TODO Auto-generated method stub
 		  return false;
 		 }
-
+		  /*+++++++++++++++++++++++To Apporve project+++++++++++++++++++++++++++++++*/
+		 public boolean approveProject(int id){
+			 int project_id=id;
+			 
+			 Project_Master project= new Project_Master();
+		        Transaction trns = null;
+		        Session session = HibernateUtil.getSessionFactory().openSession();
+		        ProjectView_Model projectViewData= new ProjectView_Model();
+		        try {
+		            trns = session.beginTransaction();
+		            String queryString = "from Project_Master where id=:id";
+		            Query query = session.createQuery(queryString);
+		            query.setInteger("id", project_id);
+		            project=(Project_Master)query.uniqueResult();
+		            project.setStatus("Approved Project");
+		            session.update(project);
+				    
+					   
+		        } catch (RuntimeException e) {
+		            e.printStackTrace();
+		            return false;
+		        } finally {
+		            session.flush();
+		            session.close();
+		        }
+			return true;
+			 
+		 }
 
 
 }
