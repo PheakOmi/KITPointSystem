@@ -69,7 +69,6 @@
 <script src="${MultipleJS2}"></script>
 <spring:url value="/resources/Bootstrap/css/multipleselect/select2.min.css" var="MultipleCSS"/>
 <link rel="stylesheet" href="${MultipleCSS}">
-
 </head>
 
 

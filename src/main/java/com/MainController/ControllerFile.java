@@ -135,7 +135,6 @@ public class ControllerFile {
 //============================Retreive all users and ProjectCategory from DB send through Ajax========================
 			@RequestMapping(value="/userNProjectCategoryList", method=RequestMethod.POST)
 			public @ResponseBody Map<?,?> getUserNProjectCategoryListNStage(@RequestParam(value = "id", required=false, defaultValue = "0") Integer id) throws Exception{
-				System.out.println("Id is"+id);
 				Project_Master project = usersService1.getProjectById(id);
 				 Map<String,Object> map = new HashMap<String,Object>();
 				 Map<String,Object> error = new HashMap<String,Object>();
@@ -262,7 +261,7 @@ public class ControllerFile {
 						return map;
 					}
 					else {
-						System.out.println("Else Runs");
+						
 						map.put("status","999");
 						map.put("message","Failed");
 						return map;
@@ -280,7 +279,6 @@ public class ControllerFile {
 						return map;
 					}
 					else {
-						System.out.println("Else Runs");
 						map.put("status","999");
 						map.put("message","Failed");
 						return map;
@@ -421,7 +419,7 @@ public class ControllerFile {
 							return map;
 						}
 						else {
-							System.out.println("Else Runs");
+							
 							map.put("status","999");
 							map.put("message","Your record already existed");
 							return map;

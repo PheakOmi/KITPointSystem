@@ -202,6 +202,7 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		            project=(Project_Master)query.uniqueResult();
 		            project.setStatus("Approved Project");
 		            session.update(project);
+		            session.getTransaction().commit();
 				    
 					   
 		        } catch (RuntimeException e) {

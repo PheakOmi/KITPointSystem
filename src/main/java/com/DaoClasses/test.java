@@ -14,14 +14,14 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 
 import com.EntityClasses.Student;
 
-public class StudentFromOdoo {
+public class test {
 
-public List<Student> getStudent() throws XmlRpcException, MalformedURLException{
+	public static void main(String args[]) throws XmlRpcException, MalformedURLException{
 		final String url = "http://96.9.67.154:8070";
 	     final String db = "Kirirom_Institute_of_Technology";
 	     final String username ="admin";
 	     final String password = "adminn";
-	     
+		     
 	     
 	     final XmlRpcClient authClient = new XmlRpcClient();
 	        final XmlRpcClientConfigImpl authStartConfig = new XmlRpcClientConfigImpl();
@@ -71,12 +71,13 @@ public List<Student> getStudent() throws XmlRpcException, MalformedURLException{
 	        
 	        field.add("name");
 	        field.add("gender");
+	        field.add("batch_id");
 	        paramMap.put("fields", field);
 	        configList.add(paramMap);
 
 	        List<Object> a= Arrays.asList((Object[])objClient.execute("execute_kw", configList));
 	        
-	        List <Student> student=new ArrayList<Student>();
+	        /*List <Student> student=new ArrayList<Student>();
 	        String str[]=new String[a.size()];
 	        //Student s=new Student();
 	        for(int i=0;i<a.size();i++)
@@ -115,6 +116,8 @@ public List<Student> getStudent() throws XmlRpcException, MalformedURLException{
 	        	
 	        	student.add(s);
 	        }
-	        return student;
-	};
+	        return student;*/
+	        System.out.println(a);
+	}
 }
+

@@ -125,7 +125,7 @@ public class userDaoImpl implements usersDao{
             Query query = session.createQuery(queryString);
             query.setInteger("id",id);
             members = query.list();
-            System.out.println(members);
+            
         } catch (RuntimeException e) {
             e.printStackTrace();
             return members;
@@ -146,7 +146,7 @@ public class userDaoImpl implements usersDao{
             Query query = session.createQuery(queryString);
             query.setInteger("id",taskId);
             projectId=(Integer)query.uniqueResult();
-            System.out.println("Project id is"+projectId);
+           
 //            SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
 //		    String decryptedPoint;
 //		    decryptedPoint = decrypt.decryptText(project.getKit_point(), secKey);
@@ -224,7 +224,7 @@ public class userDaoImpl implements usersDao{
             Query query = session.createQuery(queryString);
             query.setString("name",batch.getName());
             batch=(Batch_Master)query.uniqueResult();
-            System.out.println("Batch is"+batch);
+         
     			if(batch!=null)
     				return false;
     		Timestamp created_at = new Timestamp(System.currentTimeMillis());
@@ -302,7 +302,7 @@ public class userDaoImpl implements usersDao{
                 trns.rollback();
             }
             e.printStackTrace();
-            System.out.println("Catch runs");
+           
             return false;
         } finally {
             session.flush();
@@ -347,7 +347,7 @@ public class userDaoImpl implements usersDao{
                 trns.rollback();
             }
             e.printStackTrace();
-            System.out.println("Catch runs");
+           
             return false;
         } finally {
             session.flush();
@@ -403,7 +403,7 @@ public class userDaoImpl implements usersDao{
                 trns.rollback();
             }
             e.printStackTrace();
-            System.out.println("Catch runs");
+          
             return 0;
         } finally {
             session.flush();
@@ -427,7 +427,7 @@ public class userDaoImpl implements usersDao{
     		Date end_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getEnd_date());
     		Date deadline = new SimpleDateFormat("MM/dd/yyyy").parse(project.getDeadline());
     		Project_Master pm = new Project_Master();
-    		System.out.println("ID in DAO is "+project.getId());
+    	
     		pm.setId(project.getId());
     		pm.setProject_name(project.getProject_name());
     		pm.setProject_code(project.getProject_code());
@@ -456,7 +456,7 @@ public class userDaoImpl implements usersDao{
                 trns.rollback();
             }
             e.printStackTrace();
-            System.out.println("Catch runs");
+          
             return false;
         } finally {
             session.flush();
@@ -478,7 +478,7 @@ public class userDaoImpl implements usersDao{
     		Date end_date = new SimpleDateFormat("MM/dd/yyyy").parse(t.getEnd_date());
     		Date deadline = new SimpleDateFormat("MM/dd/yyyy").parse(t.getDeadline());
     		Task_Master tm = new Task_Master();
-    		System.out.println("ID in DAO is "+t.getId());
+  
     		tm.setId(t.getId());
     		tm.setProject_id(t.getProject_id());
     		tm.setName(t.getName());
@@ -500,7 +500,7 @@ public class userDaoImpl implements usersDao{
                 trns.rollback();
             }
             e.printStackTrace();
-            System.out.println("Catch runs");
+         
             return false;
         } finally {
             session.flush();
@@ -541,7 +541,7 @@ public class userDaoImpl implements usersDao{
                 trns.rollback();
             }
             e.printStackTrace();
-            System.out.println("Catch in member runs");
+           
         } finally {
             session.flush();
             session.close();
@@ -557,7 +557,7 @@ public class userDaoImpl implements usersDao{
         try {
             trns = session.beginTransaction();
             semesters = session.createQuery("from Semester_Master").list();
-            System.out.println(semesters);
+            
         } catch (RuntimeException e) {
             e.printStackTrace();
             return semesters;
@@ -575,7 +575,7 @@ public class userDaoImpl implements usersDao{
         try {
             trns = session.beginTransaction();
             p = session.createQuery("from Project_Category_Master").list();
-            System.out.println(p);
+
         } catch (RuntimeException e) {
             e.printStackTrace();
             return p;
@@ -729,7 +729,7 @@ public class userDaoImpl implements usersDao{
 //=====================Point calculation==============================
 	public float pointCalculation(Map<Integer, String> mm, int t) throws Exception {
 		float time = t/mm.size();
-		System.out.println(time);
+
 		float sum= 0f;
 		SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
 		String decryptedText;
@@ -746,10 +746,10 @@ public class userDaoImpl implements usersDao{
 	            Query query = session.createQuery(queryString);
 	            query.setInteger("batch_id",batch_id);
 	            query.setString("semester_name",semester_name);
-	            System.out.println(batch_id+"  "+semester_name);
+	         
 	            String value=(String)query.uniqueResult();
 	            decryptedText = decrypt.decryptText(value, secKey);
-	            System.out.println(decryptedText);
+	    
 	            sum = sum + Integer.parseInt(decryptedText)*time;
 	        } catch (RuntimeException e) {
 	            e.printStackTrace();
@@ -761,7 +761,7 @@ public class userDaoImpl implements usersDao{
 		}
 		String pointValue = new userDaoImpl().getKitPoint();
 		String decryptedPointValue = decrypt.decryptText(pointValue, secKey);
-		System.out.println(decryptedPointValue);
+
 		return sum/Float.parseFloat(decryptedPointValue);
 		
 	}

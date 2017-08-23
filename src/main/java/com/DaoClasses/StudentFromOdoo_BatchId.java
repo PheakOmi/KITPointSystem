@@ -21,7 +21,7 @@ public class StudentFromOdoo_BatchId
 		  final String url = "http://96.9.67.154:8070"; 
 	      final String db = "Kirirom_Institute_of_Technology"; 
 	      final String username ="admin"; 
-	      final String password = "admin"; 
+	      final String password = "adminn"; 
 	       
 	       
 	      final XmlRpcClient authClient = new XmlRpcClient(); 

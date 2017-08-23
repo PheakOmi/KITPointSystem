@@ -104,22 +104,13 @@ $(document).ready(function() {
 			success: function(response){
 				if(response.status=="200")
 					{
-					setTimeout(function() {
-				        swal({
-				            title: "Done!",
-				            text: "Project Have been approved!",
-				            type: "success"
-				        }, function() {
-				            window.location = "project";
-				        });
-				    }, 10);
-					
+					location.reload();
 					}
 				//var obj = jQuery.parseJSON(response);
 				    
 				else 
 					{
-					swal("Oops!", "It is not saved!", "error")
+					swal("Oops!", "There is an error while updating!", "error")
 					
 					}
 				},
