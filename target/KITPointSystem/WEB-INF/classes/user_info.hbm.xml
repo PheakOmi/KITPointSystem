@@ -8,8 +8,6 @@
  	    <generator class="identity"/>    
  	 </id>
     <property name="name" column="name"/>
-    <property name="batch" column="batch"/>
-    <property name="semester" column="semester"/>
     <property name="email" column="email"/>
     <property name="password" column="password"/>
     <property name="user_type" column="user_type"/>

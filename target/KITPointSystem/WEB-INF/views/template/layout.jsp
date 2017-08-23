@@ -7,14 +7,22 @@
 <meta http-equiv="pragma" content="no-cache" />
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title><tiles:insertAttribute name="title" /></title>
+<!--  jQuery -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
+	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
 <!-- Bootstrap Core CSS -->
   <spring:url value="/resources/Bootstrap/css/bootstrap.min.css" var="bootatrapCore"/>
   <spring:url value="/resources/Bootstrap/css/sb-admin.css" var="CustomCSS"/>
   <spring:url value="/resources/Bootstrap/font-awesome/css/font-awesome.min.css" var="customfontCSS"/>
-    	<!-- Bootstrap Core JavaScript -->
-    <script src="/KIT Point Management System/resources/Bootstrap/js/bootstrap.min.js"></script>
+  <spring:url value="/KIT Point Management System/resources/Bootstrap/js/bootstrap.min.js" var="JSCORE"/>
+ 
+    	
+    	
+    	
+    	<script src="${JSCORE}"></script>	
     	<link href="${bootatrapCore}" rel="stylesheet">
-   		 <!-- Custom CSS -->
+   		<!-- Custom CSS -->
     	<link href="${CustomCSS}" rel="stylesheet">
     	<!-- Morris Charts CSS -->
     	<link href="${morrisCSS }" rel="stylesheet">
@@ -22,11 +30,6 @@
    	    <link href="${customfontCSS }" rel="stylesheet" type="text/css">
 
 	
-	
-<!--  jQuery -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-	<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
-	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
     
 	<!--  jQuery Validation -->
 	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script> 
@@ -66,7 +69,6 @@
 <script src="${MultipleJS2}"></script>
 <spring:url value="/resources/Bootstrap/css/multipleselect/select2.min.css" var="MultipleCSS"/>
 <link rel="stylesheet" href="${MultipleCSS}">
-
 </head>
 
 

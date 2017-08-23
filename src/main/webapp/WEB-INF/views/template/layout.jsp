@@ -22,7 +22,7 @@
     	
     	<script src="${JSCORE}"></script>	
     	<link href="${bootatrapCore}" rel="stylesheet">
-   		 <!-- Custom CSS -->
+   		<!-- Custom CSS -->
     	<link href="${CustomCSS}" rel="stylesheet">
     	<!-- Morris Charts CSS -->
     	<link href="${morrisCSS }" rel="stylesheet">
