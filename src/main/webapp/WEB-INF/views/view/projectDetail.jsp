@@ -37,9 +37,7 @@ $('#member').select2({
 	}
 	
 	$(document).ready(function(){
-<<<<<<< HEAD
-=======
-		
+
 		$("#project_name").keyup(function () {
 	      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
 	         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
@@ -66,7 +64,6 @@ $('#member').select2({
 		         this.value = this.value.replace(/[^0-9\.]/g, '');
 		      }
 			});
->>>>>>> f0d4696de261bd3137e4bcad37de925fd4326634
 		$('li#projectStlye').addClass('active');
     	$("#myForm").on('submit',function(e){
     		var member = $('#member').val(); 

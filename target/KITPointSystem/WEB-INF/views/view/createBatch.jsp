@@ -1,4 +1,4 @@
-<body onload="load();">
+<body>
    <!-- Page Heading -->
                 <div class="row">
                         <h3 class="page-header">
@@ -11,18 +11,24 @@
 				 <div class="form-horizontal">
 				 <div class="col-sm-8">
 						  <div class="form-group">
-						    <label class="col-sm-2 control-label">Batch</label>
+						    <label class="col-sm-2 control-label">Name</label>
 						    <div class="col-sm-10">
 						      <input type="text" class="form-control" id ="name1" name="name" required>
 						    </div>
 						  </div>
+                          
                           <div class="form-group">
-                                <label class="col-sm-2 control-label">Semester</label>
-                                <div class="col-sm-10">
-                                <select class="form-control" id="semester" name="semester_id">
-                                 </select>
-                                </div>
-                            </div>
+                                <label class="col-sm-2 control-label">Start Date</label>
+                              	<div class="col-sm-10">
+                              		<input class="form-control" id="startdate"  name="date" placeholder="MM/DD/YYY" type="text" required/>
+                              	</div>
+                            </div>  
+                          <div class="form-group">
+                                <label class="col-sm-2 control-label">End Date</label>
+                              	<div class="col-sm-10">
+                              		<input class="form-control" id="enddate"  name="date" placeholder="MM/DD/YYY" type="text" required/>
+                              	</div>
+                            </div>  
 						  <div class="form-group">
 						    <div class="col-sm-offset-2 col-sm-10">
 						      <button type="submit" id="btnSubmit" class="btn btn-default">Create</button>
@@ -34,7 +40,7 @@
 						</form>
                     </div>	
 <script type="text/javascript">
-load = function()
+<%--load = function()
 	{	
 		$.ajax({
 			url:'semesterList',
@@ -48,22 +54,29 @@ load = function()
 						$("#semester").append("<option value="+response.data[i].id+">"+response.data[i].semester+" </option>");
 				}
 			});
-	}
+	} --%>
 $(document).ready(function(){
 	
 	$("#name1").keyup(function () {
-      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
-         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+      if (this.value != this.value.replace(/[^w ]/g, '')) {
+         this.value = this.value.replace(/[^w ]/g, '');
       }
 	});
 	$('li#settingStlye').addClass('active');
 	$("#myForm").on('submit',function(e){
 		e.preventDefault();
-		
+        var startdate = Date.parse($("#startdate").val());
+        var enddate = Date.parse($("#enddate").val());
+        if(startdate>enddate)
+    		swal("Oops!", "Your End Date is before Start Date", "error")
+		else{
 			 $.ajax({
 				url:'batchSubmit',
 				type:'POST',
-				data:{name:$("#name1").val(),semester_id:$("#semester").val()},
+				data:{
+						name:$("#name1").val(),
+						start_date:$("#startdate").val(),
+						end_date:$("#enddate").val()},
 				success: function(response)
 					{
 						if(response.status=="200")
@@ -85,7 +98,7 @@ $(document).ready(function(){
 				
 					}); 
 			 
-		
+		}
 	});
 });	
 </script>

@@ -8,6 +8,7 @@
  	    <generator class="identity"/>    
  	 </id>
     <property name="semester_id"  column="semester_id"/>
+    <property name="semester_name"  column="semester_name"/>
     <property name="value" column="value"/>
     <property name="created_at" column="created_at"/>
     <property name="updated_at" column="updated_at"/>

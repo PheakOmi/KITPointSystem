@@ -96,7 +96,7 @@ $(document).ready(function() {
 	}
 
 	 approveProject=function(id){
-		var project_id;
+		var project_id=id;
 		$.ajax({
 			url:'aprroveTheProject',
 			type:'POST',
@@ -200,7 +200,7 @@ $(document).ready(function() {
 					 switch(project[i].status){
 						case "To approve Project":
 							panel="panel-default";
-							approved_button="<button class='btn btn-warning' onclick='approveProject(12)'>Approve</button>"
+							approved_button="<button class='btn btn-warning' onclick='approveProject("+project[i].id+")'>Approve</button>"
 							break;
 						case "Approved Project":
 							panel="panel-primary";

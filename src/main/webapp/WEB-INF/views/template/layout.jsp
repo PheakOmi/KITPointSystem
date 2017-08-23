@@ -22,7 +22,7 @@
     	
     	<script src="${JSCORE}"></script>	
     	<link href="${bootatrapCore}" rel="stylesheet">
-   		 <!-- Custom CSS -->
+   		<!-- Custom CSS -->
     	<link href="${CustomCSS}" rel="stylesheet">
     	<!-- Morris Charts CSS -->
     	<link href="${morrisCSS }" rel="stylesheet">
@@ -69,7 +69,6 @@
 <script src="${MultipleJS2}"></script>
 <spring:url value="/resources/Bootstrap/css/multipleselect/select2.min.css" var="MultipleCSS"/>
 <link rel="stylesheet" href="${MultipleCSS}">
-
 </head>
 
 

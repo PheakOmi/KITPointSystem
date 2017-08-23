@@ -65,18 +65,18 @@ for(i=0; i<student.length; i++){
 	$(document).ready(function(){
 		$('li#projectStlye').addClass('active');  	 
 		$("#project_name").keyup(function () {
-		      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
-		         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+			if (this.value != this.value.replace(/[^w ]/g, '')) {
+		         this.value = this.value.replace(/[^w ]/g, '');
 		      }
 			});
 			$("#projectcode").keyup(function () {
-			      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
-			         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+				if (this.value != this.value.replace(/[^w ]/g, '')) {
+			         this.value = this.value.replace(/[^w ]/g, '');
 			      }
 				});
 			$("#skillset").keyup(function () {
-			      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
-			         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+				if (this.value != this.value.replace(/[^w ]/g, '')) {
+			         this.value = this.value.replace(/[^w ]/g, '');
 			      }
 				});
 			

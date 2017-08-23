@@ -58,8 +58,8 @@
 $(document).ready(function(){
 	
 	$("#name1").keyup(function () {
-      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
-         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+      if (this.value != this.value.replace(/[^w ]/g, '')) {
+         this.value = this.value.replace(/[^w ]/g, '');
       }
 	});
 	$('li#settingStlye').addClass('active');

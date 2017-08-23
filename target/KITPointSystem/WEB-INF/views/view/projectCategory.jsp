@@ -14,8 +14,7 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Category Name</label>
 						<div class="col-sm-10">
-							<input class="form-control" id="projectCategory" type="text" maxlength="60" name="name" id="name1"
-								required>
+							<input class="form-control" id="projectCategory" type="text" maxlength="60" name="name"  required>
 						</div>
 					</div>
 					<div class="col-sm-offset-2 col-sm-10">
@@ -39,22 +38,21 @@ $(document).ready(function(){
 	$('li#settingStlye').addClass('active');
 	$("#myForm").on("submit",function(e){
 		e.preventDefault();
-		
 			$.ajax({
 				url:'projectCategoryCreate',
 				type:'POST',
-				data:{name:$("#name1").val()},
+				data:{name:$("#projectCategory").val()},
 				success: function(response){
 					if(response.status=="200")
 						{
-						$('#name1').val('');
+						$('#projectCategory').val('');
 						swal("Done!", "You have created successfully!", "success")
 						}
 					//var obj = jQuery.parseJSON(response);
 					    
 					else 
 						{
-						$('#name1').val('');
+						$('#projectCategory').val('');
 						swal("Oops!", "Category name already existed", "error")
 						
 						}

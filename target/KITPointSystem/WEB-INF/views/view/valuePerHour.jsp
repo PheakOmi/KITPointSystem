@@ -94,7 +94,7 @@
 					console.log(response);
 					data = response.batch;
 					for(i=0; i<response.batch.length; i++){					
-						$("#batch_name").append("<option value='"+response.batch[i].id+"'>"+response.batch[i].name+" </option>");
+						$("#batch_name").append("<option value='"+response.batch[i].odoo_id+"'>"+response.batch[i].name+" </option>");
 					}
 			}				
 		});
