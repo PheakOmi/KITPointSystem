@@ -61,13 +61,13 @@
 			
 			$(document).ready(function(){
 				
-				$("name").keyup(function () {
+				$("#name").keyup(function () {
 					if (this.value != this.value.replace(/[^w ]/g, '')) {
 				         this.value = this.value.replace(/[^w ]/g, '');
 				      }
 					});
 				
-				$("email").keyup(function () {
+				$("#email").keyup(function () {
 			      if (this.value != this.value.replace(/[^a-zA-Z0-9\@.]/g, '')) {
 			         this.value = this.value.replace(/[^a-zA-Z0-9\@.]/g, '');
 			      }
