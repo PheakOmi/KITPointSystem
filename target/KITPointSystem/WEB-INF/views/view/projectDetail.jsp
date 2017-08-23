@@ -39,18 +39,18 @@ $('#member').select2({
 	$(document).ready(function(){
 
 		$("#project_name").keyup(function () {
-	      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
-	         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+			if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
+		         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
 	      }
 		});
 		$("#projectcode").keyup(function () {
-		      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
-		         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+			if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
+		         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
 		      }
 			});
 		$("#skillset").keyup(function () {
-		      if (this.value != this.value.replace(/[^a-zA-Z0-9\.]/g, '')) {
-		         this.value = this.value.replace(/[^a-zA-Z0-9\.]/g, '');
+			if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
+		         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
 		      }
 			});
 		
