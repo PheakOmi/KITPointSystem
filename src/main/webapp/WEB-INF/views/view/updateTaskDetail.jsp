@@ -48,6 +48,9 @@
 	}
 	
 	$(document).ready(function(){
+		$("[name=date]").keydown(function (event) {
+		    event.preventDefault();
+		});
 		
 		$("#name").keyup(function () {
 			if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
@@ -104,7 +107,7 @@
     				    
     				else 
     					{
-    					swal("Oops!", "It is not saved!", "error")
+    					swal("Oops!", response.message, "error")
     					
     					}
     				},

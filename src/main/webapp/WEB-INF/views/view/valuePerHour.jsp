@@ -124,7 +124,18 @@
 							value_7:$('#semester7').val(),
 							value_8:$('#semester8').val()},
 						success: function(response){
-							swal("Success!", "You have created it successfully!", "success")
+							if(response.status=="200")
+							{
+							swal("Done!", "You have created successfully!", "success")
+							}
+						//var obj = jQuery.parseJSON(response);
+						    
+						else 
+							{
+
+							swal("Oops!", response.message, "error")
+							
+							}
 						}				
 					});		
 				

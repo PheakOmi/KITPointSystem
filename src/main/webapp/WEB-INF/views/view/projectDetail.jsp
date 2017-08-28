@@ -37,6 +37,9 @@ $('#member').select2({
 	}
 	
 	$(document).ready(function(){
+		$("[name=date]").keydown(function (event) {
+		    event.preventDefault();
+		});
 
 		$("#project_name").keyup(function () {
 			if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
@@ -164,7 +167,7 @@ $('#member').select2({
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Project Name</label>
                                 <div class="col-sm-8">
-                                	<input type="text" class="form-control" id="project_name" required>
+                                	<input type="text" class="form-control" maxlength="30" id="project_name" required>
                                 </div>
                         </div>
                             <div class="form-group">
@@ -197,7 +200,7 @@ $('#member').select2({
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Project Member</label>
 	                            <div class="col-sm-8">    
-	                                <select class="js-example-basic-multiple form-control" id="member" multiple="multiple">
+	                                <select class="js-example-basic-multiple form-control" id="member" multiple="multiple" required>
 										  
 									</select>
 	                            </div>
@@ -229,7 +232,7 @@ $('#member').select2({
                             <div class="form-group ">
                                 <label class="col-sm-4 control-label">Project code</label>
                                 <div class="col-sm-8">
-                                	<input type="text" class="form-control" id="projectcode" required>
+                                	<input type="text" class="form-control" maxlength="15" id="projectcode" required>
                                 </div>
                         </div>
                             <div class="form-group">
@@ -244,7 +247,7 @@ $('#member').select2({
                               		<input class="form-control" id="enddate"  name="date" placeholder="MM/DD/YYY" type="text" required/>
                               	</div>
                             </div>
-                                 <div class="form-group ">
+                                 <div class="form-group "> 
                                 <label class="col-sm-4 control-label">Deadline</label>
                                 <div class="col-sm-8">
                                 	<input class="form-control" name="date" id="deadline" placeholder="MM/DD/YYY" type="text" required/>
@@ -269,7 +272,7 @@ $('#member').select2({
                              <div class="form-group">
                                 <label class="col-sm-4 control-label">KIT point</label>
                                 <div class="col-sm-8">	
-                                	<input class="form-control" id="kitpoint" disabled>
+                                	<input class="form-control" id="kitpoint"  disabled>
                                 </div>
                             </div>
                             <div class="form-group">

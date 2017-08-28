@@ -20,6 +20,9 @@
 		
 	}
 	$(document).ready(function(){
+		$("[name=date]").keydown(function (event) {
+		    event.preventDefault();
+		});
 		
 		$("#name").keyup(function () {
 			if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
@@ -98,7 +101,7 @@
 
                             <div class="form-group">
                                 <label>Task Name</label>
-                                <input class="form-control" id="name" type="text" required>
+                                <input class="form-control" id="name" maxlength="30" type="text" required>
                         	</div>
                             <div class="form-group">
                                 <label>Project: </label>

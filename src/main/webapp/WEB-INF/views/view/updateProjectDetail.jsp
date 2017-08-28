@@ -63,6 +63,10 @@ for(i=0; i<student.length; i++){
 	}
 
 	$(document).ready(function(){
+		$("[name=date]").keydown(function (event) {
+		    event.preventDefault();
+		});
+
 		$('li#projectStlye').addClass('active');  	 
 		$("#project_name").keyup(function () {
 			if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
@@ -148,7 +152,7 @@ for(i=0; i<student.length; i++){
     				    
     				else 
     					{
-    					swal("Oops!", "It is not saved!", "error")
+    					swal("Oops!",response.message, "error")
     					
     					}
     				},
@@ -169,7 +173,7 @@ for(i=0; i<student.length; i++){
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Project Name</label>
                                 <div class="col-sm-8">
-                                	<input class="form-control" id="project_name" type="text" required>
+                                	<input class="form-control" id="project_name" maxlength="30" type="text" required>
                                 </div>
                         </div>
                             <div class="form-group">
@@ -221,7 +225,7 @@ for(i=0; i<student.length; i++){
                             <div class="form-group ">
                                 <label class="col-sm-4 control-label">Project code</label>
                                 <div class="col-sm-8">
-                                	<input class="form-control" id="projectcode">
+                                	<input class="form-control" id="projectcode" maxlength="15">
                                 </div>
                         </div>
                             <div class="form-group">
@@ -261,7 +265,7 @@ for(i=0; i<student.length; i++){
                              <div class="form-group">
                                 <label class="col-sm-4 control-label">KIT point</label>
                                 <div class="col-sm-8">	
-                                	<input class="form-control" id="kitpoint" required>
+                                	<input class="form-control" id="kitpoint" maxlength="3" required>
                                 </div>
                             </div>
                             <div class="form-group">

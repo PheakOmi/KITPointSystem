@@ -24,4 +24,5 @@ public interface valuePerHourDao {
 	public List<Project_Master> getAllProjectData();
 	public List<Project_Master> getProjectBasedOnStatus(String statusData) ;
 	public boolean approveProject(int id);
+	public boolean getValuePerHourById(int id);
 }

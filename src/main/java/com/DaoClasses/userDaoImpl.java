@@ -394,6 +394,7 @@ public class userDaoImpl implements usersDao{
     		pm.setCreated_at(created_at);
     		pm.setStatus(project.getStatus());
     		session.save(pm); 
+    		System.out.println("After");
     	    int id = pm.getId();
     		session.getTransaction().commit();
     		return id;
@@ -420,6 +421,12 @@ public class userDaoImpl implements usersDao{
         try {
         	
             trns = session.beginTransaction();
+            String queryString = "FROM Project_Master where project_name=:name";
+            Query query = session.createQuery(queryString);
+            query.setString("name",project.getProject_name());
+            Project_Master pm2 = (Project_Master)query.uniqueResult();
+    			if(pm2!=null)
+    				return false;
             //SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
    		 	//String encryptedPoint =encrypt.encryptText(project.getKit_point(), secKey) ;
     		Timestamp updated_at = new Timestamp(System.currentTimeMillis());
@@ -473,6 +480,13 @@ public class userDaoImpl implements usersDao{
         try {
         	
             trns = session.beginTransaction();
+            String queryString = "FROM Task_Master where project_id =:project_id and name=:name";
+            Query query = session.createQuery(queryString);
+            query.setInteger("project_id",t.getProject_id());
+            query.setString("name", t.getName());
+            Task_Master t2 = (Task_Master)query.uniqueResult();
+    			if(t2!=null)
+    				return false;
     		Timestamp updated_at = new Timestamp(System.currentTimeMillis());
     		Date start_date = new SimpleDateFormat("MM/dd/yyyy").parse(t.getStart_date());
     		Date end_date = new SimpleDateFormat("MM/dd/yyyy").parse(t.getEnd_date());

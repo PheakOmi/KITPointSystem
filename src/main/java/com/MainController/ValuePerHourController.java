@@ -106,6 +106,10 @@ public class ValuePerHourController {
 			map.put("status","200");
 			map.put("message","Your record has been saved successfully");
 		}
+		else{
+			map.put("status","999");
+			map.put("message","Value Per Hour For this batch already existed");
+		}
 		
 		return map;
 	}

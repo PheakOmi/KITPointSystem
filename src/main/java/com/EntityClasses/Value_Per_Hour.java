@@ -6,6 +6,7 @@ public class Value_Per_Hour {
 		private int id;
 		private int semester_id;
 		private String semester_name;
+		
 		public String getSemester_name() {
 			return semester_name;
 		}

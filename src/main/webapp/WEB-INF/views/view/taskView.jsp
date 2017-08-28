@@ -157,7 +157,7 @@ align:right;}
 	</div>
 	<!-- /.row -->
 
-	<div class="container">
+	<!-- <div class="container">
 		<div class="col-md-3">
 			<form class="navbar-form" role="search">
 				<div class="input-group add-on">
@@ -168,7 +168,7 @@ align:right;}
 
 
 		</div>
-	</div>
+	</div> -->
 
 
 	<div class="project-list__wrapper">

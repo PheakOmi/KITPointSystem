@@ -233,6 +233,7 @@ public class ControllerFile {
 					Map<Integer, String> mm = usersService1.getStudentSemester(m);
 					float point =usersService1.pointCalculation(mm,pm.getInitially_planned());
 					pm.setKit_point(Float.toString(point));
+					System.out.println("Before");
 					int id = usersService1.saveProject(pm);
 					if(id!=0)
 						
@@ -263,7 +264,7 @@ public class ControllerFile {
 					else {
 						
 						map.put("status","999");
-						map.put("message","Failed");
+						map.put("message","Project name already existed");
 						return map;
 					}
 				}
@@ -280,7 +281,7 @@ public class ControllerFile {
 					}
 					else {
 						map.put("status","999");
-						map.put("message","Failed");
+						map.put("message","Name already existed");
 						return map;
 					}
 				}

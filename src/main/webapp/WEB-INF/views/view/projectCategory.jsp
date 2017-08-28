@@ -52,7 +52,6 @@ $(document).ready(function(){
 					    
 					else 
 						{
-						$('#projectCategory').val('');
 						swal("Oops!", "Category name already existed", "error")
 						
 						}

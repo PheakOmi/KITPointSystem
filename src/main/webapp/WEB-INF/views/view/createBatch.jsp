@@ -56,7 +56,9 @@
 			});
 	} --%>
 $(document).ready(function(){
-	
+	$("[name=date]").keydown(function (event) {
+	    event.preventDefault();
+	});
 	$("#name1").keyup(function () {
 		if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
 	         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');

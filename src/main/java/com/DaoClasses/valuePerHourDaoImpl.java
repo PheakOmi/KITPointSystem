@@ -33,10 +33,10 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 	Encryption encrypt= new Encryption();
 	Decryption decrypt= new Decryption();
 	public boolean addValuePerHour(ValuePerHourModel valuePerHour) {
-
-
-		   String batch = valuePerHour.getBatch_name();
+			String batch = valuePerHour.getBatch_name();
 		   int batch_id = Integer.parseInt(batch);
+		   valuePerHourDaoImpl obj = new valuePerHourDaoImpl();
+		   if(obj.getValuePerHourById(batch_id)){
 		   String s_value_1 = valuePerHour.getValue_1();
 		   int Count = StringUtils.countOccurrencesOf(s_value_1, ","); 
 		   try {
@@ -72,6 +72,9 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 				   }
 
 		   return true;
+		   }
+		   else 
+			   return false;
 		  }
 		  /*=====================  show batch list ============================*/
 		 public List < Batch_Master > getAllBatch() {
@@ -80,7 +83,7 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		   Session session = HibernateUtil.getSessionFactory().openSession();
 		   try {
 		    trns = session.beginTransaction();
-		    batch = session.createQuery("from Batch_Master").list();
+		    batch = session.createQuery("from Batch_Master where odoo_id>0").list();
 		    
 		    
 		   } catch (RuntimeException e) {
@@ -215,6 +218,28 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 			return true;
 			 
 		 }
+		public boolean getValuePerHourById(int id) {
+			Value_Per_Hour vph= new Value_Per_Hour();
+	        Transaction trns = null;
+	        Session session = HibernateUtil.getSessionFactory().openSession();
+	        try {
+	            trns = session.beginTransaction();
+	            String queryString = "from Value_Per_Hour where batch_id=:id";
+	            Query query = session.createQuery(queryString);
+	            query.setInteger("id",id);
+	            vph=(Value_Per_Hour)query.uniqueResult();
+	            if(vph==null)
+	            	return true;
+	            else return false;
+	        } catch (RuntimeException e) {
+	            e.printStackTrace();
+	            return false;
+	        } finally {
+	            session.flush();
+	            session.close();
+	        }
+			
+		}
 
 
 }
