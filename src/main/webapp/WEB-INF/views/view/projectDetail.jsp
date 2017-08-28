@@ -58,13 +58,13 @@ $('#member').select2({
 			});
 		
 		$("#planninghour").keyup(function () {
-			if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
-		         this.value = this.value.replace(/[^0-9\.]/g, '');
+			if (this.value != this.value.replace(/[^0-9]/g, '')) {
+		         this.value = this.value.replace(/[^0-9]/g, '');
 		      }
 			});
 		$("#budget").keyup(function () {
-			if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
-		         this.value = this.value.replace(/[^0-9\.]/g, '');
+			if (this.value != this.value.replace(/[^0-9]/g, '')) {
+		         this.value = this.value.replace(/[^0-9]/g, '');
 		      }
 			});
 		$('li#projectStlye').addClass('active');

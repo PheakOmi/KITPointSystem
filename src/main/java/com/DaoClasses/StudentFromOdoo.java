@@ -17,7 +17,8 @@ import com.EntityClasses.Student;
 public class StudentFromOdoo {
 
 public List<Student> getStudent() throws XmlRpcException, MalformedURLException{
-		final String url = "http://96.9.67.154:8070";
+	final String url = "http://192.168.7.222:8069";
+		//final String url = "http://96.9.67.154:8070";
 	     final String db = "Kirirom_Institute_of_Technology";
 	     final String username ="admin";
 	     final String password = "adminn";
@@ -28,8 +29,8 @@ public List<Student> getStudent() throws XmlRpcException, MalformedURLException{
 	        authStartConfig.setServerURL(
 	                new URL(String.format("%s/xmlrpc/2/common", url)));
 	        
-	        List configList = new ArrayList();
-	        Map paramMap = new HashMap();
+	        List<Object> configList = new ArrayList<Object>();
+	        Map<String, List<String>> paramMap = new HashMap<String, List<String>>();
 	        
 	        configList.add(db);
 	        configList.add(username);
@@ -46,11 +47,11 @@ public List<Student> getStudent() throws XmlRpcException, MalformedURLException{
 	                new URL(String.format("%s/xmlrpc/2/object", url)));
 	        objClient.setConfig(objStartConfig);
 	        
-	        List paramList = new ArrayList();
-	        List list1 = new ArrayList();
-	        List list2 = new ArrayList();
-	        List list3 = new ArrayList();
-	        List field = new ArrayList();
+	        List<?> paramList = new ArrayList<Object>();
+	        List<List<List<Comparable>>> list1 = new ArrayList<List<List<Comparable>>>();
+	        List<List<Comparable>> list2 = new ArrayList<List<Comparable>>();
+	        List<Comparable> list3 = new ArrayList<Comparable>();
+	        List<String> field = new ArrayList<String>();
 	        configList.clear();
 	        paramMap.clear();
 	        paramList.clear();
@@ -115,6 +116,7 @@ public List<Student> getStudent() throws XmlRpcException, MalformedURLException{
 	        	
 	        	student.add(s);
 	        }
+	        
 	        return student;
 	};
 }
