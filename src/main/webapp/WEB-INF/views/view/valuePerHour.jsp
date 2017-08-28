@@ -103,8 +103,8 @@
 	$(document).ready(function(){
 		$(".form-control").keyup(function () {
 	        
-	      if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
-	         this.value = this.value.replace(/[^0-9\.]/g, '');
+	      if (this.value != this.value.replace(/[^0-9]/g, '')) {
+	         this.value = this.value.replace(/[^0-9]/g, '');
 	      }
 		});
 		 $('li#settingStlye').addClass('active');
