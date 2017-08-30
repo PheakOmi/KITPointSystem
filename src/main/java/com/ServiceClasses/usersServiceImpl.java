@@ -102,7 +102,7 @@ public class usersServiceImpl implements usersService{
 	public Map<Integer, String> getStudentSemester(int arr[]) throws Exception{
 		return usersDao1.getStudentSemester(arr);
 	}
-	public float pointCalculation(Map<Integer, String> mm, int t) throws Exception{
+	public Map<String, Float> pointCalculation(Map<Integer, String> mm, int t) throws Exception{
 		return usersDao1.pointCalculation(mm,t);
 	}
 	public String getKitPoint(){
@@ -117,5 +117,17 @@ public class usersServiceImpl implements usersService{
 	}
 	public String getCurrentSemester(List<Semester_Master> semesters) throws ParseException{
 		return usersDao1.getCurrentSemester(semesters);
+	}
+	public int[] getMembersIdByProjectId(int project_id)
+	{
+		return usersDao1.getMembersIdByProjectId(project_id);
+	}
+	public Project_Member getAMemberById (int id, int project_id)
+	{
+		return usersDao1.getAMemberById(id, project_id);
+	}
+	public String getKitPointByProjectId (int project_id)
+	{
+		return usersDao1.getKitPointByProjectId(project_id);
 	}
 }

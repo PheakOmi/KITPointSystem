@@ -21,40 +21,15 @@ import com.EntityClasses.User_Info;
 import com.HibernateUtil.HibernateUtil;
 
 public class test {
-public static void main(String agrs[]){
-	 int project_id= 187;
-	 int arr[]  = {81,104,77,121};
-	 int c=0;
-	 int a=0;
-	        List<Project_Member> members= new ArrayList<Project_Member>();
-	        Transaction trns = null;
-	        Session session = HibernateUtil.getSessionFactory().openSession();
-	        try {
-	        	trns = session.beginTransaction();
-	        	String queryString = "from Project_Member where project_id =:project_id";
-	            Query query = session.createQuery(queryString);
-	            query.setInteger("project_id",project_id);
-	            members = query.list();
-	            
-	
-	            //System.out.println(semesters);
-	            for (int i=0;i<members.size();i++)
-	            	for (int j=0;j<arr.length;j++)
-	              	{
-	            		a++;
-	            		if(members.get(i).getUser_id()==arr[j]){
-	            			c++;
-	            		break;
-	            			}
-	            	}
-	            	System.out.println("A = "+a);
-	            	System.out.println("C = "+c);
-	        } catch (RuntimeException e) {
-	            e.printStackTrace();
-	        } finally {
-	            session.flush();
-	            session.close();
-	        }
-	    }  
-	}
-
+	public static void main(String agrs[]) throws MalformedURLException, XmlRpcException {
+		int arr1[] = {1, 2, 3};
+        int arr2[] = {1, 3, 2};
+        Arrays.sort(arr1);
+        Arrays.sort(arr2);
+        
+        if (Arrays.equals(arr1, arr2)) // Same as arr1.equals(arr2)
+            System.out.println("Same");
+        else
+            System.out.println("Not same");
+        }
+}

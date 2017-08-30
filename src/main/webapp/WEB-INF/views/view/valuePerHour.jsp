@@ -79,7 +79,7 @@
                   		 
                     <div class="col-sm-6">
                            	<button type="submit" class="btn btn-default">Create</button>
-                            <button type="reset" class="btn btn-default">Cancel</button>
+                            <button type="reset" id="reset" class="btn btn-default">Cancel</button>
                     	</div>
 	                    </div>
                     </div>
@@ -127,6 +127,8 @@
 							if(response.status=="200")
 							{
 							swal("Done!", "You have created successfully!", "success")
+							$("#reset").click();
+							
 							}
 						//var obj = jQuery.parseJSON(response);
 						    

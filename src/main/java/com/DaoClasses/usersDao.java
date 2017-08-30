@@ -65,9 +65,12 @@ public interface usersDao {
 	public Task_Master getTaskById(int id);
 	public int getProjectIdByTaskId(int taskId);
 	public Map<Integer, String> getStudentSemester(int[] arr) throws Exception;
-	public float pointCalculation(Map<Integer, String> mm, int t) throws Exception;
+	public Map<String, Float> pointCalculation(Map<Integer, String> mm, int t) throws Exception;
 	public String getKitPoint();
 	public List<Semester_Master> getStudent_Semester(int batch_id) throws XmlRpcException, MalformedURLException, ParseException;
 	public String getSemesterByBatchId(int id) throws Exception;
 	public String getCurrentSemester(List<Semester_Master> semesters) throws ParseException;
+	public int[] getMembersIdByProjectId(int project_id);
+	public Project_Member getAMemberById (int id, int project_id);
+	public String getKitPointByProjectId (int project_id);
 }

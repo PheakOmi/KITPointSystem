@@ -24,6 +24,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
+
+
+
 //import org.springframework.stereotype.Service;
 import com.EncryptionDecryption.Decryption;
 import com.EncryptionDecryption.Encryption;
@@ -394,7 +397,6 @@ public class userDaoImpl implements usersDao{
     		pm.setCreated_at(created_at);
     		pm.setStatus(project.getStatus());
     		session.save(pm); 
-    		System.out.println("After");
     	    int id = pm.getId();
     		session.getTransaction().commit();
     		return id;
@@ -415,24 +417,60 @@ public class userDaoImpl implements usersDao{
 //=================================Update project=========================================
     public boolean updateProject(Project_Model project) throws Exception
     {
+    	int count=0;
     	Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         
         try {
         	
             trns = session.beginTransaction();
-            String queryString = "FROM Project_Master where project_name=:name";
-            Query query = session.createQuery(queryString);
-            query.setString("name",project.getProject_name());
-            Project_Master pm2 = (Project_Master)query.uniqueResult();
-    			if(pm2!=null)
-    				return false;
-            //SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
-   		 	//String encryptedPoint =encrypt.encryptText(project.getKit_point(), secKey) ;
+            List<Project_Master> projects= new ArrayList<Project_Master>();
+            projects = getAllProject();
+            for(Project_Master p:projects)
+            {
+            	if(project.getId()!=p.getId())
+            			{
+            				if (p.getProject_name().equals(project.getProject_name()))
+            					count++;
+            			}
+            }
+            if(count>=1)
+            	return false;
     		Timestamp updated_at = new Timestamp(System.currentTimeMillis());
     		Date start_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getStart_date());
     		Date end_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getEnd_date());
     		Date deadline = new SimpleDateFormat("MM/dd/yyyy").parse(project.getDeadline());
+    		
+    		  int old[] = getMembersIdByProjectId(project.getId());
+    		  int newa [] = project.getMember();
+    		  List<Integer> myList = new ArrayList<Integer>();
+    		   Arrays.sort(newa);
+    		   Arrays.sort(old);
+       		   for (int i = 0; i < old.length; i++)
+    		   {
+    		    if(contains(newa,old[i]))
+    		     {
+    		     }
+    		    else{
+    		      session.delete(getAMemberById(old[i],project.getId()));
+    		     }
+    		   }
+    		   for (int i = 0; i < newa.length; i++)
+    		   {
+    		    if(contains(old,newa[i]))
+    		     {
+    		     }
+    		    else{
+    		    	myList.add(newa[i]);
+    		     }
+    		   }
+    		   int size = myList.size();
+    		   int[] save = new int[size];
+    		   Integer[] temp = myList.toArray(new Integer[size]);
+    		   for (int n = 0; n < size; ++n) 
+    		       save[n] = temp[n];
+   		    saveMember(project.getId(),save);
+    		
     		Project_Master pm = new Project_Master();
     	
     		pm.setId(project.getId());
@@ -741,9 +779,9 @@ public class userDaoImpl implements usersDao{
 		return semester;
 		}
 //=====================Point calculation==============================
-	public float pointCalculation(Map<Integer, String> mm, int t) throws Exception {
-		float time = t/mm.size();
-
+	public Map<String, Float> pointCalculation(Map<Integer, String> mm, int t) throws Exception {
+		Map<String, Float> map = new HashMap<String, Float>();
+		float time = (float)t/mm.size();
 		float sum= 0f;
 		SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
 		String decryptedText;
@@ -763,8 +801,9 @@ public class userDaoImpl implements usersDao{
 	         
 	            String value=(String)query.uniqueResult();
 	            decryptedText = decrypt.decryptText(value, secKey);
-	    
-	            sum = sum + Integer.parseInt(decryptedText)*time;
+	            //System.out.println(time + " * "+ decryptedText +" = "+(Integer.parseInt(decryptedText)*time));
+	            sum = (float)sum + Float.parseFloat(decryptedText)*time;
+	    		
 	        } catch (RuntimeException e) {
 	            e.printStackTrace();
 	        } finally {
@@ -775,8 +814,11 @@ public class userDaoImpl implements usersDao{
 		}
 		String pointValue = new userDaoImpl().getKitPoint();
 		String decryptedPointValue = decrypt.decryptText(pointValue, secKey);
-
-		return sum/Float.parseFloat(decryptedPointValue);
+		System.out.println("SUM is "+sum);
+		map.put("budget", sum);
+		map.put("point", sum/Float.parseFloat(decryptedPointValue));
+		return map;
+		
 		
 	}
 //========================Retrieve KIT Point from DB====================================
@@ -952,9 +994,79 @@ public class userDaoImpl implements usersDao{
 		return null;
 		
 	}
+	
+	public int[] getMembersIdByProjectId(int project_id)
+	{
+		Transaction trns = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			trns = session.beginTransaction();
+			String queryString = "select user_id from Project_Member where project_id =:project_id";
+			Query query = session.createQuery(queryString);
+			query.setInteger("project_id", project_id);
+			List user_id = query.list();
+			int size = user_id.size();
+			int[] members = new int[size];
+			Integer[] temp = (Integer[]) user_id.toArray(new Integer[size]);
+			for (int n = 0; n < size; ++n) 
+			    members[n] = temp[n];
+			return members;
+			}
+		 catch (RuntimeException e) {
+				e.printStackTrace();
+			} finally {
+				session.flush();
+				session.close();
+			}
+		return null;
 
-
-    
+	}
+//=============To find an element in array==============================
+	public static boolean contains(int[] arr, int item) {
+	      int index = Arrays.binarySearch(arr, item);
+	      return index >= 0;
+	   }
+	public Project_Member getAMemberById (int id, int project_id){
+		Transaction trns = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			trns = session.beginTransaction();
+			String queryString = "from Project_Member where user_id =:id and project_id =:project_id";
+			Query query = session.createQuery(queryString);
+			query.setInteger("id", id);
+			query.setInteger("project_id", project_id);
+			Project_Member member = (Project_Member) query.uniqueResult();
+			return member;
+		}
+		catch (RuntimeException e) {
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return null;
+		
+	}
+	public String getKitPointByProjectId(int project_id)
+	{
+		String point = null;
+        Transaction trns = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            trns = session.beginTransaction();
+            String queryString = "select kit_point from Project_Master where id=:project_id";
+            Query query = session.createQuery(queryString);
+            query.setInteger("project_id",project_id);
+            point=(String)query.uniqueResult();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return point;
+        } finally {
+            session.flush();
+            session.close();
+        }
+        return point;
+	}
     
 }
 
