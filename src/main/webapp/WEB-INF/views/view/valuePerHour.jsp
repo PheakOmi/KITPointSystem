@@ -89,7 +89,7 @@
 	load = function(){	
 		$.ajax({
 			url:'getBatchList',
-			type:'POST',
+			type:'GET',
 			success: function(response){
 					console.log(response);
 					data = response.batch;
@@ -113,7 +113,7 @@
 			 
 				 $.ajax({
 						url:'getHour',
-						type:"POST",
+						type:"GET",
 						data:{batch_name:$('#batch_name').val(),
 							value_1:$('#semester1').val(), 
 							value_2:$('#semester2').val(),

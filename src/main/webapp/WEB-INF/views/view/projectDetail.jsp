@@ -3,7 +3,7 @@
 	load = function(){	
 		$.ajax({
 			url:'userNProjectCategoryList?id=0',
-			type:'POST',
+			type:'GET',
 			success: function(response){
 				console.log(response);
 				category = response.category;
@@ -83,7 +83,7 @@ $('#member').select2({
     		else{
         	$.ajax({
         		url:'saveProject',
-        		type:'POST',
+        		type:'GET',
         		data:{		status:$("#status").val(),
         					project_name:$("#project_name").val(),
         					project_code:$("#projectcode").val(),

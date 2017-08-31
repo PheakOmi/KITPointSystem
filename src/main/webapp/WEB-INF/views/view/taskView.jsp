@@ -103,7 +103,7 @@ align:right;}
 			$
 					.ajax({
 						url : 'ProjectNTask',
-						method : 'POST',
+						method : 'GET',
 						success : function(response) {
 							task = response.task;
 							project = response.project;

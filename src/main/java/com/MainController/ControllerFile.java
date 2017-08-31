@@ -2,21 +2,13 @@ package com.MainController;
 
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.xmlrpc.XmlRpcException;
-import org.apache.xmlrpc.client.XmlRpcClient;
-import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,50 +16,37 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import com.DaoClasses.StudentFromOdoo;
 import com.DaoClasses.StudentFromOdoo_BatchId;
-import com.DaoClasses.userDaoImpl;
 import com.EntityClasses.Batch_Master;
-import com.EntityClasses.Login;
 import com.EntityClasses.Project_Category_Master;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Member;
-import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
 import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
-import com.EntityClasses.User;
 import com.EntityClasses.User_Info;
-import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.Project_Model;
 import com.ModelClasses.Task_Model;
-import com.ModelClasses.retrieve;
-import com.ModelClasses.submit;
 import com.ServiceClasses.usersService;
-import com.ServiceClasses.usersServiceImpl;
 
 
 @Controller
-@RequestMapping("users")
+//@RequestMapping("users")
 public class ControllerFile {
 		
 	@Autowired
 	usersService usersService1;	
 	
 //	=================project============================
-	@RequestMapping("/project")
+	@RequestMapping(value="/project", method=RequestMethod.GET)
 	public ModelAndView viewProject() {
 		String message = "Hello World";
 		return new ModelAndView("project", "message", message);
 	}
 
-//	=================login============================
-	@RequestMapping("/login")
-	public ModelAndView viewLogin() {
-		return new ModelAndView("login");
-	}
+
 // ================================Login Validate================================================	
-		@RequestMapping(value="/validate", method=RequestMethod.POST)
+		@RequestMapping(value="/validate", method=RequestMethod.GET)
 		public ModelAndView toValidate(User_Info user, BindingResult result) throws Exception
 		{
 			if(result.hasErrors())
@@ -87,13 +66,13 @@ public class ControllerFile {
 			}
 		}
 //	=================projectDetail============================
-	@RequestMapping("/projectDetail")
+	@RequestMapping(value="/projectDetail", method=RequestMethod.GET)
 	public ModelAndView viewProjectdetail() {
 		//String message = "Hello World";
 		return new ModelAndView("projectDetail");
 	}
 //============================Retreive all project category from DB send through Ajax========================
-			@RequestMapping(value="/projectCategoryList", method=RequestMethod.POST)
+			@RequestMapping(value="/projectCategoryList", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> getProjectCategoryList(){
 						
 				 Map<String,Object> map = new HashMap<String,Object>();
@@ -109,7 +88,7 @@ public class ControllerFile {
 					return map;
 			}
 //============================Get Project AND Task========================
-			@RequestMapping(value="/ProjectNTask", method=RequestMethod.POST)
+			@RequestMapping(value="/ProjectNTask", method=RequestMethod.GET)
 			public @ResponseBody Map<String,?> getProjectNTask(){
 						
 				 Map<String,List> map = new HashMap<String,List>();
@@ -133,7 +112,7 @@ public class ControllerFile {
 					}
 			
 //============================Retreive all users and ProjectCategory from DB send through Ajax========================
-			@RequestMapping(value="/userNProjectCategoryList", method=RequestMethod.POST)
+			@RequestMapping(value="/userNProjectCategoryList", method=RequestMethod.GET)
 			public @ResponseBody Map<?,?> getUserNProjectCategoryListNStage(@RequestParam(value = "id", required=false, defaultValue = "0") Integer id) throws Exception{
 				Project_Master project = usersService1.getProjectById(id);
 				 Map<String,Object> map = new HashMap<String,Object>();
@@ -163,7 +142,7 @@ public class ControllerFile {
 						 
 						 
 //=======================get right students base on project. To be used in Task=================================
-   @RequestMapping(value="/studentInTask", method=RequestMethod.POST)
+   @RequestMapping(value="/studentInTask", method=RequestMethod.GET)
    public @ResponseBody Map<?,?> getRightStudent(@RequestParam(value = "id", required=false,defaultValue = "0") Integer projectid) throws ParseException, MalformedURLException, XmlRpcException{
      Map<String,Object> map = new HashMap<String,Object>();
      Map<String,Object> error = new HashMap<String,Object>();
@@ -185,7 +164,7 @@ public class ControllerFile {
 						 
 						 
 //=======================get Project and User===========================
-			@RequestMapping(value="/ProjectNUser", method=RequestMethod.POST)
+			@RequestMapping(value="/ProjectNUser", method=RequestMethod.GET)
 			public @ResponseBody Map<?,?> getProjectNUser(@RequestParam(value = "id", required=false,defaultValue = "0") Integer id) throws Exception{				
 				 Map<String,Object> map = new HashMap<String,Object>();
 				 Map<String,Object> error = new HashMap<String,Object>();
@@ -226,7 +205,7 @@ public class ControllerFile {
 				}
 }
 //========================Save Project========================================================
-			@RequestMapping(value="/saveProject", method=RequestMethod.POST)
+			@RequestMapping(value="/saveProject", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> toSaveProject(Project_Model pm) throws Exception{
 	        		int[] m = pm.getMember();
 					Map<String,Object> map = new HashMap<String,Object>();
@@ -251,7 +230,7 @@ public class ControllerFile {
 					}
 				}
 //========================Update Project========================================================
-			@RequestMapping(value="/updateProject", method=RequestMethod.POST)
+			@RequestMapping(value="/updateProject", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> toUpdateProject(Project_Model pm) throws Exception{
 	        		//int[] s = pm.getStage();
 					Map<String,Object> map = new HashMap<String,Object>();				
@@ -269,7 +248,7 @@ public class ControllerFile {
 					}
 				}
 //========================Update Task========================================================
-			@RequestMapping(value="/updateTask", method=RequestMethod.POST)
+			@RequestMapping(value="/updateTask", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> toUpdateTask(Task_Model tm) throws ParseException{
 	        		//int[] s = pm.getStage();
 					Map<String,Object> map = new HashMap<String,Object>();				
@@ -286,13 +265,13 @@ public class ControllerFile {
 					}
 				}
 //	=================taskDetails============================
-	@RequestMapping("/taskDetail")
+	@RequestMapping(value="/taskDetail", method=RequestMethod.GET)
 	public ModelAndView viewTaskdetail() {
 		//String message = "Hello World";
 		return new ModelAndView("taskDetail");
 	}
 //	=================taskDetails============================
-	@RequestMapping("/task")
+	@RequestMapping(value="/task", method=RequestMethod.GET)
 	public ModelAndView viewTaskView() {
 		//String message = "Hello World";
 		return new ModelAndView("taskView");
@@ -301,7 +280,7 @@ public class ControllerFile {
 
 
 //======================save task===============================
-	@RequestMapping(value="/saveTask", method=RequestMethod.POST)
+	@RequestMapping(value="/saveTask", method=RequestMethod.GET)
 	public @ResponseBody Map<String,Object> toSaveTask(Task_Model task) throws ParseException{
 			
 			//System.out.println("Name is: "+projectCategoryName.getName());
@@ -320,31 +299,31 @@ public class ControllerFile {
 		}
 
 //	=================setting============================
-	@RequestMapping("/setting")
+	@RequestMapping(value="/setting", method=RequestMethod.GET)
 	public ModelAndView viewSetting() {
 		String message = "Hello World";
 		return new ModelAndView("viewSetting", "message", message);
 	}
 //	=================view batch============================
-	@RequestMapping("/batch")
+	@RequestMapping(value="/batch", method=RequestMethod.GET)
 	public ModelAndView viewBatch() {
 		String message = "Hello World";
 		return new ModelAndView("viewBatch", "message", message);
 	}
 //	=================kit point============================
-	@RequestMapping("/kitpoint")
+	@RequestMapping(value="/kitpoint", method=RequestMethod.GET)
 	public ModelAndView viewkitpoint() {
 		String message = "Hello World";
 		return new ModelAndView("viewKitPoint", "message", message);
 	}
 //	=================view project category============================
-	@RequestMapping("/projectCategory")
+	@RequestMapping(value="/projectCategory", method=RequestMethod.GET)
 	public ModelAndView viewProjectCategory() {
 		return new ModelAndView("viewProjectCaterory");
 	}
 
 //================================Project Category Create============================================
-		@RequestMapping(value="/projectCategoryCreate", method=RequestMethod.POST)
+		@RequestMapping(value="/projectCategoryCreate", method=RequestMethod.GET)
 		public @ResponseBody Map<String,Object> toCreateProjectCategory(Project_Category_Master projectCategoryName){
 				Map<String,Object> map = new HashMap<String,Object>();				
 				if(usersService1.createProjectCategory(projectCategoryName)){
@@ -361,24 +340,24 @@ public class ControllerFile {
 			}
 
 //	=================create new user============================
-	@RequestMapping("/newUser")
+	@RequestMapping(value="/newUser", method=RequestMethod.GET)
 	public ModelAndView createUser() {
 		String message = "Hello World";
 		return new ModelAndView("createUser", "message", message);
 	}
 //	=================view profile & change password============================
-	@RequestMapping("/profile")
+	@RequestMapping(value="/profile", method=RequestMethod.GET)
 	public ModelAndView changePassword() {
 		String message = "Hello World";
 		return new ModelAndView("changePassword", "message", message);
 	}
 //	=================Create Batch============================
-	@RequestMapping("/createBatch")
+	@RequestMapping(value="/createBatch", method=RequestMethod.GET)
 	public ModelAndView createBatch() {
 		return new ModelAndView("createBatch");
 	}
 //============================Retreive all semesters from DB send through Ajax========================
-		@RequestMapping(value="/semesterList", method=RequestMethod.POST)
+		@RequestMapping(value="/semesterList", method=RequestMethod.GET)
 		public @ResponseBody Map<String,Object> getSemesterList(){
 					
 			 Map<String,Object> map = new HashMap<String,Object>();
@@ -394,7 +373,7 @@ public class ControllerFile {
 				return map;
 		}
 //============================Retreive all users from DB send through Ajax========================
-				@RequestMapping(value="/allUser", method=RequestMethod.POST)
+				@RequestMapping(value="/allUser", method=RequestMethod.GET)
 				public @ResponseBody Map<String,Object> getAllUser(){
 							
 					 Map<String,Object> map = new HashMap<String,Object>();
@@ -410,7 +389,7 @@ public class ControllerFile {
 						return map;
 				}
 //================================Update Batch============================================
-				@RequestMapping(value="/updateBatch", method=RequestMethod.POST)
+				@RequestMapping(value="/updateBatch_1", method=RequestMethod.GET)
 				public @ResponseBody Map<String,Object> toUpdateBatch(Batch_Master batch){
 						//System.out.println("Name in controller "+batch.getName()+" "+batch.getSemester_id());
 						Map<String,Object> map = new HashMap<String,Object>();				
@@ -427,7 +406,7 @@ public class ControllerFile {
 						}
 					}
 				//================================Save Batch============================================
-				@RequestMapping(value="/batchSubmit", method=RequestMethod.POST)
+				@RequestMapping(value="/batchSubmit", method=RequestMethod.GET)
 				public @ResponseBody Map<String,Object> toCreateProjectCategory(Batch_Master batch){
 						
 						//System.out.println("Name is: "+projectCategoryName.getName());
@@ -447,12 +426,12 @@ public class ControllerFile {
 
 
 //===================View Update Batch======================================
-	@RequestMapping("/updateBatch")
+	@RequestMapping(value="/showUpdateBatch", method=RequestMethod.GET)
 	public ModelAndView updateBatch() {
 		return new ModelAndView("updateBatch");
 	}
 //============================Retreive all semesters and batches from DB send through Ajax========================
-			@RequestMapping(value="/semesterAndBatchList", method=RequestMethod.POST)
+			@RequestMapping(value="/semesterAndBatchList", method=RequestMethod.GET)
 			public @ResponseBody Map<String,?> getSemesterAndBatchList(){
 						
 				 Map<String,List> map = new HashMap<String,List>();
@@ -475,7 +454,7 @@ public class ControllerFile {
 						}	
 					}
 
-	@RequestMapping(value="/addUser", method=RequestMethod.POST)
+	@RequestMapping(value="/addUser", method=RequestMethod.GET)
 	public @ResponseBody Map<String,Object> getSaved(User_Info users){
 		
 		Map<String,Object> map = new HashMap<String,Object>();		

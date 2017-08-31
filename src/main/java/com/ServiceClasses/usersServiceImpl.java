@@ -4,13 +4,9 @@ import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.xmlrpc.XmlRpcException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import com.DaoClasses.userDaoImpl;
 import com.DaoClasses.usersDao;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Project_Category_Master;
@@ -19,13 +15,10 @@ import com.EntityClasses.Project_Member;
 import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
 import com.EntityClasses.Task_Master;
-import com.EntityClasses.User;
 import com.EntityClasses.User_Info;
-import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.Project_Model;
 import com.ModelClasses.Task_Model;
-import com.ModelClasses.retrieve;
-import com.ModelClasses.submit;
+
 
 
 @Service
@@ -34,6 +27,10 @@ public class usersServiceImpl implements usersService{
 	@Autowired
 	usersDao usersDao1;
 	
+	
+	public User_Info findByUserName(String name) {
+		return usersDao1.findByUserName(name);
+	}
 	
 	public boolean addUser2(User_Info users) {
 		return usersDao1.addUser2(users);

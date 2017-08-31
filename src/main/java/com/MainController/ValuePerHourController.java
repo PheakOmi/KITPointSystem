@@ -11,30 +11,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import com.DaoClasses.valuePerHourDao;
-import com.DaoClasses.valuePerHourDaoImpl;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Project_Master;
-import com.EntityClasses.Project_Stage_Master;
-import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.ValuePerHourModel;
 import com.ServiceClasses.valuePerHourService;
 
 @Controller
-@RequestMapping("users")
+//@RequestMapping("users")
 public class ValuePerHourController {
 	@Autowired
 	valuePerHourService  valuePerHour;
 	
 //	=================view Value Per Hour============================
-	@RequestMapping("/valuePerHour")
+	@RequestMapping(value="/valuePerHour", method=RequestMethod.GET)
 	public ModelAndView viewValuePerHour() {
 		String message = "batch";
 		return new ModelAndView("viewValuePerHour", "message", message);
 	}
-	@RequestMapping("/getBatchList")
+	@RequestMapping(value="/getBatchList", method=RequestMethod.GET)
 	public @ResponseBody Map<String,?> showBatch(){
 		 Map<String,List> map = new HashMap<String,List>();
 		 Map<String,Object> error = new HashMap<String,Object>();
@@ -52,7 +47,7 @@ public class ValuePerHourController {
 				}	
 	}
 	//=================get project stage list and project=======================
-	@RequestMapping("/getProject")
+	@RequestMapping(value="/getProject", method=RequestMethod.GET)
 	public @ResponseBody Map<String,?> showProjectSatge(){
 		 Map<String,List> map = new HashMap<String,List>();
 		 Map<String,Object> error = new HashMap<String,Object>();
@@ -69,7 +64,7 @@ public class ValuePerHourController {
 				}	
 	}
 	//=================get project stage list and project=======================
-	@RequestMapping("/getProjectBasedOnStatus")
+	@RequestMapping(value="/getProjectBasedOnStatus", method=RequestMethod.GET)
 	public @ResponseBody Map<String,?> showBasedOnProjectStatus(@RequestParam("status") String project_status){
 		 Map<String,List> map = new HashMap<String,List>();
 		 Map<String,Object> error = new HashMap<String,Object>();
@@ -85,7 +80,9 @@ public class ValuePerHourController {
 					return map;
 				}	
 	}
-	@RequestMapping(value="/getHour", method=RequestMethod.POST)
+	
+	
+	@RequestMapping(value="/getHour", method=RequestMethod.GET)
 	public @ResponseBody Map<String,Object> getSaved(ValuePerHourModel valuePerHourData){
 
 		String value_1=valuePerHourData.getValue_1();
@@ -113,7 +110,9 @@ public class ValuePerHourController {
 		
 		return map;
 	}
-	@RequestMapping("/aprroveTheProject")
+	
+	
+	@RequestMapping(value="/aprroveTheProject", method=RequestMethod.GET)
 	public @ResponseBody Map<String,?> aprroveProject(@RequestParam("id") int project_id){
 		Map<String,Object> map = new HashMap<String,Object>();
 		//System.out.println("ID is "+project_id);

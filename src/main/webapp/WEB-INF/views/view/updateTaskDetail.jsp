@@ -4,7 +4,7 @@
 		var id = ${id};
 		$.ajax({
 			url:'ProjectNUser',
-			type:'POST',
+			type:'GET',
 			data: {id: id},
 			success: function(response){
 				console.log(response);
@@ -77,7 +77,7 @@
             else{
             $.ajax({
     		url:'updateTask',
-    		type:'POST',
+    		type:'GET',
     		data:{		id:id,
     					project_id:$("#project").val(),
     					name:$("#name").val(),

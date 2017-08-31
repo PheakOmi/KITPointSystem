@@ -2,16 +2,9 @@ package com.DaoClasses;
 
 import java.util.List;
 
-
-
-
-
-
-
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.Value_Per_Hour;
-import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.ValuePerHourModel;
 
 public interface valuePerHourDao {

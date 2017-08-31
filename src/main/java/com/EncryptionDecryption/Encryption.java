@@ -2,7 +2,6 @@ package com.EncryptionDecryption;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
-import javax.xml.bind.DatatypeConverter;
 
 import sun.misc.BASE64Encoder;
 

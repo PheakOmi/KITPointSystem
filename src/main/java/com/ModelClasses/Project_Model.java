@@ -1,6 +1,5 @@
 package com.ModelClasses;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Project_Model {

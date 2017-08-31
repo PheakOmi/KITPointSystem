@@ -3,7 +3,7 @@
 	load = function(){	
 		$.ajax({
 			url:'userNProjectCategoryList?id=${id}',
-			type:'POST',
+			type:'GET',
 			success: function(response){
 				console.log(response);
 				category = response.category;
@@ -116,7 +116,7 @@ for(i=0; i<student.length; i++){
            	else{
 	            $.ajax({
 	    		url:'updateProject',
-	    		type:'POST',
+	    		type:'GET',
 	    		data:{		
 	    				id:id,
     					status:$("#status").val(),

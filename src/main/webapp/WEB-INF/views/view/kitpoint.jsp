@@ -2,7 +2,7 @@
 	load = function(){	
 		$.ajax({
 			url:'getKitPoint',
-			type:'POST',
+			type:'GET',
 			success: function(response){
 				kitpoint=response.kitPoint;
 				if(response.kitPoint[0]!=null){
@@ -27,7 +27,7 @@
 				 
 					 $.ajax({
 							url:'submit1',
-							type:'POST',
+							type:'GET',
 							data:{value:$('#value1').val()},
 							success: function(response){
 

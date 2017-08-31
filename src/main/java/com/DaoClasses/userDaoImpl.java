@@ -3,7 +3,6 @@ package com.DaoClasses;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -24,6 +23,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
+
 //import org.springframework.stereotype.Service;
 import com.EncryptionDecryption.Decryption;
 import com.EncryptionDecryption.Encryption;
@@ -53,6 +53,38 @@ public class userDaoImpl implements usersDao{
 	
 	Encryption encrypt= new Encryption();
 	Decryption decrypt= new Decryption();
+	
+	
+	
+	//===================For SS========================================  
+    
+    public User_Info findByUserName(String username) {
+    	Transaction trns = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        
+		List<User_Info> users = new ArrayList<User_Info>();
+	
+		try {
+            trns = session.beginTransaction();
+            users = session.createQuery("from User_Info where email=?").setParameter(0, username).list();
+            		//setParameter(0, username).list();
+            
+            if (users.size() > 0) {
+    			return users.get(0);
+    		} else {
+    			return null;
+    		}
+        } catch (RuntimeException e) {
+        	
+        }                         
+		return null;
+	}
+    
+    
+  //=================================================================    
+
+	
+	
 	
     public boolean addUser2(User_Info user) {
         Transaction trns = null;
@@ -194,9 +226,9 @@ public class userDaoImpl implements usersDao{
             String queryString = "from User_Info where email = :email and password = :password";
             Query query = session.createQuery(queryString);
             query.setString("email", email);
-            SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
-   		 	String encryptedPassword =encrypt.encryptText(password, secKey) ;
-            query.setString("password", encryptedPassword);
+            //SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+   		 	//String encryptedPassword =encrypt.encryptText(password, secKey) ;
+            query.setString("password", password);
             
             user = (User_Info) query.uniqueResult();
             //System.out.println("Try "+user);

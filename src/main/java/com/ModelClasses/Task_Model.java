@@ -1,7 +1,6 @@
 package com.ModelClasses;
 
 import java.security.Timestamp;
-import java.sql.Date;
 
 public class Task_Model {
 	private int id;

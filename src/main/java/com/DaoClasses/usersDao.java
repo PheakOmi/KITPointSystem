@@ -34,14 +34,15 @@ import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User_Info;
-import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.Project_Model;
 import com.ModelClasses.Task_Model;
-import com.ModelClasses.retrieve;
-import com.ModelClasses.submit;
+
 
 
 public interface usersDao {
+	
+	
+	public User_Info findByUserName(String name);
 
 	public boolean addUser2(User_Info users);
 	public List<User_Info> getAllUser();

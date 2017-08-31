@@ -78,7 +78,7 @@
 					 
 						 $.ajax({
 								url:'addUser',
-								type:"POST",
+								type:"GET",
 								data:{name:$('#name').val(),
 									email:$('#email').val(), 
 									password:$('#password').val(),

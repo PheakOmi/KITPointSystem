@@ -23,7 +23,6 @@ import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Value_Per_Hour;
 import com.HibernateUtil.HibernateUtil;
 import com.MainController.ValuePerHourController;
-import com.ModelClasses.KIT_Point_Model;
 import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.ValuePerHourModel;
 

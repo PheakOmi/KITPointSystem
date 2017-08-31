@@ -1,7 +1,6 @@
 package com.EntityClasses;
 
 import java.security.Timestamp;
-import java.util.Date;
 
 public class Semester_Master {
 	private int id;

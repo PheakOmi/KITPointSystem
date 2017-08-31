@@ -44,7 +44,7 @@
 	{	
 		$.ajax({
 			url:'semesterList',
-			type:'POST',
+			type:'GET',
 			success: function(response)
 				{
 					console.log(response);
@@ -74,7 +74,7 @@ $(document).ready(function(){
 		else{
 			 $.ajax({
 				url:'batchSubmit',
-				type:'POST',
+				type:'GET',
 				data:{
 						name:$("#name1").val(),
 						start_date:$("#startdate").val(),

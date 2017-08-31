@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
 
 $(document).ready(function() {
@@ -19,7 +18,7 @@ $(document).ready(function() {
 		$("li#id1").addClass("active");
 		$.ajax({
 			url:'getProject',
-			type:'POST',
+			type:'GET',
 			success: function(response){
 					console.log(response);
 					project=response.project;
@@ -99,7 +98,7 @@ $(document).ready(function() {
 		var project_id=id;
 		$.ajax({
 			url:'aprroveTheProject',
-			type:'POST',
+			type:'GET',
 			data:{id:project_id},
 			success: function(response){
 				if(response.status=="200")
@@ -178,7 +177,7 @@ $(document).ready(function() {
 		}
 		$.ajax({
 			url:'getProjectBasedOnStatus',
-			type:'POST',
+			type:'GET',
 			data:{status:project_status},
 			success: function(response){
 				console.log(response);

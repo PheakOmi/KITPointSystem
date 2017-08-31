@@ -3,7 +3,7 @@
 	load = function(){	
 		$.ajax({
 			url:'ProjectNUser',
-			type:'POST',
+			type:'GET',
 			success: function(response){
 				console.log(response);
 				project = response.project;
@@ -50,7 +50,7 @@
 			else {
 					$.ajax({
              		url:'saveTask',
-             		type:'POST',
+             		type:'GET',
              		data:{		project_id:$("#project").val(),
              					name:$("#name").val(),
              					assigned_to:$("#user").val(),

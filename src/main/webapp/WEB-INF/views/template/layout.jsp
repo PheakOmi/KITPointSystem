@@ -15,7 +15,7 @@
   <spring:url value="/resources/Bootstrap/css/bootstrap.min.css" var="bootatrapCore"/>
   <spring:url value="/resources/Bootstrap/css/sb-admin.css" var="CustomCSS"/>
   <spring:url value="/resources/Bootstrap/font-awesome/css/font-awesome.min.css" var="customfontCSS"/>
-  <spring:url value="/KIT Point Management System/resources/Bootstrap/js/bootstrap.min.js" var="JSCORE"/>
+  <spring:url value="/resources/Bootstrap/js/bootstrap.min.js" var="JSCORE"/>
  
     	
     	
@@ -38,7 +38,7 @@
 	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
 
 <!-- Bootstrap Core JavaScript -->
-    <script src="/KIT Point Management System/resources/Bootstrap/js/bootstrap.min.js"></script>
+    <script src="/resources/Bootstrap/js/bootstrap.min.js"></script>
 <!-- Bootstrap Date-Picker Plugin -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>

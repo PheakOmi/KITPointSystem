@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +17,6 @@ import org.hibernate.Transaction;
 
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Semester_Master;
-import com.EntityClasses.User_Info;
 import com.HibernateUtil.HibernateUtil;
 
 public class UpdateSemester {
@@ -64,6 +62,7 @@ public class UpdateSemester {
 	        
 	        int uid = (Integer)authClient.execute(
 	                authStartConfig, "authenticate", configList);
+	        
 	        System.out.println("Connection Success");
 
 	        final XmlRpcClient objClient = new XmlRpcClient();

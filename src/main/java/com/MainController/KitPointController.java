@@ -14,23 +14,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.DaoClasses.kitPointDao;
 import com.EntityClasses.KIT_Point;
-import com.EntityClasses.Project_Master;
-import com.EntityClasses.User_Info;
 import com.ModelClasses.KIT_Point_Model;
-import com.ModelClasses.submit;
-import com.ServiceClasses.kitPointService;
+
 
 
 
 @Controller
-@RequestMapping("users")
+//@RequestMapping("users")
 public class KitPointController {
 	
 	
 	@Autowired
 	kitPointDao valueKitPoint;	
 
-			@RequestMapping(value="/submitpoint", method=RequestMethod.POST)                                            
+			@RequestMapping(value="/submitpoint", method=RequestMethod.GET)                                            
 			public ModelAndView Submit(KIT_Point newKitPoint,BindingResult result)        
 			{                                                                                                
 			   if(result.hasErrors())
@@ -49,7 +46,7 @@ public class KitPointController {
 			
 				return model2;
 			}
-			@RequestMapping(value="/submit1", method=RequestMethod.POST)
+			@RequestMapping(value="/submit1", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> getvalue(KIT_Point newKitPoint){
 				
 				Map<String,Object> map = new HashMap<String,Object>();		
@@ -60,7 +57,7 @@ public class KitPointController {
 				}
 				return map;
 			}
-			@RequestMapping(value="/getKitPoint", method=RequestMethod.POST)
+			@RequestMapping(value="/getKitPoint", method=RequestMethod.GET)
 			public @ResponseBody Map<String,?> getKitPoint(){
 				
 				 Map<String,List> map = new HashMap<String,List>();

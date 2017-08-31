@@ -1,10 +1,9 @@
 package com.EntityClasses;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
 
 public class User_Info {
 
@@ -15,6 +14,12 @@ public class User_Info {
 		private String user_type;
 		private Timestamp created_at;
 		private Timestamp updated_at;
+		private boolean enabled;
+		
+		private Set<UserRole> userRole; 
+		
+		
+		
 		public int getId() {
 			return id;
 		}
@@ -56,6 +61,22 @@ public class User_Info {
 		}
 		public void setUpdated_at(Timestamp updated_at) {
 			this.updated_at = updated_at;
+		}
+		
+		
+		
+		public boolean isEnabled() {
+			return enabled;
+		}
+		public void setEnabled(boolean enabled) {
+			this.enabled = enabled;
+		}
+		
+		public Set<UserRole> getUserRole() {
+			return userRole;
+		}
+		public void setUserRole(Set<UserRole> userRole) {
+			this.userRole = userRole;
 		}
 		
 		

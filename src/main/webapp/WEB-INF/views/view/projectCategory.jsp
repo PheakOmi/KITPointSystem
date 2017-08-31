@@ -40,7 +40,7 @@ $(document).ready(function(){
 		e.preventDefault();
 			$.ajax({
 				url:'projectCategoryCreate',
-				type:'POST',
+				type:'GET',
 				data:{name:$("#projectCategory").val()},
 				success: function(response){
 					if(response.status=="200")
