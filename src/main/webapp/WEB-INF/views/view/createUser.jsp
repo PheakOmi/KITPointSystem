@@ -35,10 +35,10 @@
 						     <label class="col-sm-2 control-label">User Type</label>
 								  <div class="col-sm-10">
 		                                <label class="radio-inline">
-		                                    <input type="radio" id="user_type" name="optionsRadiosInline" value="Super Admin" checked>Super admin
+		                                    <input type="radio" class="user_type" name="optionsRadiosInline" value="ROLE_ADMIN"  checked>Super admin
 		                                </label>
 		                                <label class="radio-inline">
-		                                    <input type="radio" id="user_type"  name="optionsRadiosInline" value="Admin">Admin
+		                                    <input type="radio" class="user_type"  name="optionsRadiosInline" value="ROLE_N_ADMIN">Admin
 		                                </label>
 		                                
 		                           </div>
@@ -82,7 +82,7 @@
 								data:{name:$('#name').val(),
 									email:$('#email').val(), 
 									password:$('#password').val(),
-									user_type:$('#user_type').val(),
+									user_type:$("input[name='optionsRadiosInline']:checked").val(),
 									batch:$('#batch').val()},
 								success: function(response){
 									if(response.status=="200")

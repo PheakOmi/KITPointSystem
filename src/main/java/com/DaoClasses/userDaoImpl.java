@@ -11,8 +11,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.crypto.SecretKey;
 
@@ -22,7 +24,11 @@ import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
+
+
+
 
 //import org.springframework.stereotype.Service;
 import com.EncryptionDecryption.Decryption;
@@ -37,6 +43,7 @@ import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
 import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
+import com.EntityClasses.UserRole;
 import com.EntityClasses.User_Info;
 import com.HibernateUtil.HibernateUtil;
 import com.ModelClasses.ProjectView_Model;
@@ -87,11 +94,13 @@ public class userDaoImpl implements usersDao{
 	
 	
     public boolean addUser2(User_Info user) {
-        Transaction trns = null;
+        Transaction transaction = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Timestamp created_at= new Timestamp(System.currentTimeMillis()); 
         String password=user.getPassword();
         String email=user.getEmail();
+        String user_type=user.getUser_type();
+        String username= user.getName();
         try {
 
         	String queryString = "from User_Info where email= :email";
@@ -99,29 +108,40 @@ public class userDaoImpl implements usersDao{
             query.setString("email",email );
             List<User_Info> userDataBase=query.list();
         	if (userDataBase.size()==0){
-            SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
-            String passwordEncryp =encrypt.encryptText(password, secKey) ;
-            user.setPassword(passwordEncryp);
-            user.setCreated_at(created_at);
-            trns = session.beginTransaction();
-            session.save(user);
-            session.getTransaction().commit();
+        		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        		String hashedPassword = passwordEncoder.encode(password);
+	            User_Info userData =new User_Info();
+	            userData.setName(username);
+	            userData.setEmail(email);
+	            userData.setEnabled(true);
+	            userData.setPassword(hashedPassword);
+	            userData.setCreated_at(created_at);
+	            UserRole user_role= new UserRole();
+	            user_role.setRole(user_type);
+	            user_role.setCreated_at(created_at);
+	            user_role.setUser_info(userData);
+	            transaction = session.beginTransaction();
+	            Set<UserRole> userrole= new HashSet<UserRole>();
+	            userrole.add(user_role);
+	            userData.setUserRole(userrole);
+	            session.save(userData);
+	            transaction.commit();
+	            transaction = session.beginTransaction();
+	            session.save(user_role);
+	            transaction.commit();
             return true;
         	}
         	else{
         		return false;
         	}
         } catch (RuntimeException e) {
-            if (trns != null) {
-                trns.rollback();
+            if (transaction != null) {
+            	transaction.rollback();
             }
-            e.printStackTrace();
             return false;
         } catch (Exception e) {
-			e.printStackTrace();
 			return false;
 		} finally {
-            session.flush();
             session.close();
         }
 		

@@ -20,6 +20,15 @@ public class User_Info {
 		
 		
 		
+		/*public User_Info(String username, String email2, String hashedPassword,
+				boolean b, Timestamp created_at2) {
+			this.name=username;
+			this.email=email2;
+			this.password=hashedPassword;
+			this.enabled=b;
+			this.created_at=created_at2;
+			
+		}*/
 		public int getId() {
 			return id;
 		}
