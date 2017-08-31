@@ -9,6 +9,7 @@
 				category = response.category;
 				user = response.user;
 				student = response.student;
+				member = response.member;
 				currentproject = response.currentproject;
 				function formatDate(date) {
 				    var d = new Date(date),
@@ -25,34 +26,37 @@
 				currentproject.end_date=formatDate(currentproject.end_date);
 				currentproject.deadline=formatDate(currentproject.deadline);
 				
-<%--				stage = response.stage;	--%>
+				$('#member').select2({
+					  data: student
+					});
+				$('#member').val(member).trigger('change');
+				
 				for(i=0; i<category.length; i++)					
 					$("#projectcategory").append("<option value="+category[i].id+">"+category[i].name+" </option>");
-<%--				for (i = 0; i < stage.length; i++) {
-    			var checkBox = $('<input class="checkbox" type="checkbox" value="'+stage[i].id+'"><label for="checkbox">'+stage[i].stage_name+'</label><br />');
-    			checkBox.appendTo('#stage');
-    
-}	--%>
-for(i=0; i<user.length; i++)
-	$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
-for(i=0; i<student.length; i++){
-				$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
-				$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");}
-				$("#status").val(currentproject.status);
-				$("#project_name").val(currentproject.project_name);
-				$("#projectcode").val(currentproject.project_code);
-				$("#projectcategory").val(currentproject.project_type);
-				$("#projectcoordinator").val(currentproject.project_co);
-				$("#teamleader").val(currentproject.project_leader);
-				$("#planninghour").val(currentproject.initially_planned);
-				$("#budget").val(currentproject.budget);
-				$("#skillset").val(currentproject.skillset);
-				$("#kitpoint").val(currentproject.kit_point);
-				$("#deadline").val(currentproject.deadline);
-				$("#startdate").val(currentproject.start_date);
-				$("#enddate").val(currentproject.end_date);
+				for(i=0; i<user.length; i++)
+					$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
+				for(i=0; i<student.length; i++){
+					$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
+					//$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");
+					 
+				}
+					$("#status").val(currentproject.status);
+					$("#project_name").val(currentproject.project_name);
+					$("#projectcode").val(currentproject.project_code);
+					$("#projectcategory").val(currentproject.project_type);
+					$("#projectcoordinator").val(currentproject.project_co);
+					$("#teamleader").val(currentproject.project_leader);
+					$("#planninghour").val(currentproject.initially_planned);
+					$("#budget").val(currentproject.budget);
+					$("#skillset").val(currentproject.skillset);
+					$("#kitpoint").val(currentproject.kit_point);
+					$("#deadline").val(currentproject.deadline);
+					$("#startdate").val(currentproject.start_date);
+					$("#enddate").val(currentproject.end_date);
+					$('#member').children("option[value=" + $('#teamleader').val() + "]").remove();
 				
 			},
+			
 		error: function(err){
 			console.log("KKKKKKK");
 			console.log(JSON.stringify(err));
@@ -63,6 +67,9 @@ for(i=0; i<student.length; i++){
 	}
 
 	$(document).ready(function(){
+		$('#teamleader').on('change', function() {
+			$('#member').children("option[value=" + this.value + "]").remove();	
+			})
 		$("[name=date]").keydown(function (event) {
 		    event.preventDefault();
 		});
@@ -103,7 +110,9 @@ for(i=0; i<student.length; i++){
         };
         date_input.datepicker(options);
   	 
-    	$("#myForm").on("submit",function(e){		 
+    	$("#myForm").on("submit",function(e){	
+    		var member = $('#member').val(); 
+    		member.push($('#teamleader').val());
             e.preventDefault();
             id = ${id};
             var deadline = Date.parse($("#deadline").val());
@@ -127,6 +136,7 @@ for(i=0; i<student.length; i++){
     					project_leader:$("#teamleader").val(),
     					initially_planned:$("#planninghour").val(),
     					budget:$("#budget").val(),
+    					member:member,
     					skillset:$("#skillset").val(),
     					kit_point:$("#kitpoint").val(),
     					deadline:$("#deadline").val(),
@@ -202,6 +212,15 @@ for(i=0; i<student.length; i++){
 	                            </div>
                             </div>                                 
                             
+                             <div class="form-group">
+                                <label class="col-sm-4 control-label">Project Member</label>
+	                            <div class="col-sm-8">    
+	                                <select class="js-example-basic-multiple form-control" id="member" multiple="multiple" required>
+										  
+									</select>
+	                            </div>
+                            </div>  
+                            
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Planning Hours</label>
                                 <div class="col-sm-8">
@@ -256,12 +275,7 @@ for(i=0; i<student.length; i++){
 	                            </div>
                             </div>		--%>
                             
-                              <div class="form-group">
-                                <label class="col-sm-4 control-label">Skill Set</label>
-                                <div class="col-sm-8">
-                                	<input class="form-control" id="skillset" type="text">
-                                </div>
-                            </div> 
+                         
                              <div class="form-group">
                                 <label class="col-sm-4 control-label">KIT point</label>
                                 <div class="col-sm-8">	

@@ -9,23 +9,15 @@
 				category = response.category;
 				user = response.user;
 				student = response.student;
-<%--				stage = response.stage;	--%>
+				
 				for(i=0; i<category.length; i++)					
 					$("#projectcategory").append("<option value="+category[i].id+">"+category[i].name+" </option>");
-<%--				for (i = 0; i < stage.length; i++) {
-    			var checkBox = $('<input class="checkbox" type="checkbox" value="'+stage[i].id+'"><label for="checkbox">'+stage[i].stage_name+'</label><br />');
-    			checkBox.appendTo('#stage');
-    
-}	--%>
-for(i=0; i<user.length; i++)
-	$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
-for(i=0; i<student.length; i++)
-	$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
-	//$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");
-$('#member').select2({
-	  data: student
-	});					
-					
+				for(i=0; i<user.length; i++)
+					$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
+				for(i=0; i<student.length; i++)
+					$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
+		$('#member').select2({data: student});					
+			
 			},
 		error: function(err){
 			console.log("KKKKKKK");
@@ -37,6 +29,9 @@ $('#member').select2({
 	}
 	
 	$(document).ready(function(){
+		$('#teamleader').on('change', function() {
+			$('#member').children("option[value=" + this.value + "]").remove();	
+			})
 		$("[name=date]").keydown(function (event) {
 		    event.preventDefault();
 		});
@@ -91,7 +86,7 @@ $('#member').select2({
         					project_co:$("#projectcoordinator").val(),
         					project_leader:$("#teamleader").val(),
         					initially_planned:$("#planninghour").val(),
-        					budget:$("#budget").val(),
+        					budget:0,
         					skillset:$("#skillset").val(),
         					kit_point:$("#kitpoint").val(),
         					deadline:$("#deadline").val(),
@@ -190,8 +185,8 @@ $('#member').select2({
                            <div class="form-group">
                                 <label class="col-sm-4 control-label">Team Leader</label>
 	                            <div class="col-sm-8">    
-	                                <select class="form-control" id="teamleader">
-	                                    
+	                                <select class="form-control" id="teamleader" required>
+	                                    <option></option>
 	                                </select>
 	                            </div>
                             </div>
@@ -263,12 +258,7 @@ $('#member').select2({
 	                            </div>
                             </div>		--%>
                             
-                              <div class="form-group">
-                                <label class="col-sm-4 control-label">Skill Set</label>
-                                <div class="col-sm-8">
-                                	<input class="form-control" id="skillset">
-                                </div>
-                            </div> 
+                              
                              <div class="form-group">
                                 <label class="col-sm-4 control-label">KIT point</label>
                                 <div class="col-sm-8">	
@@ -278,7 +268,7 @@ $('#member').select2({
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Budget</label>
                                 <div class="col-sm-8">	
-                                	<input type="text" class="form-control" maxlength="7" id="budget" required>
+                                	<input type="text" class="form-control" maxlength="7" id="budget" disabled>
                                 </div>
                             </div>
                             

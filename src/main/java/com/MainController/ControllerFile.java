@@ -3,6 +3,7 @@ package com.MainController;
 
 import java.net.MalformedURLException;
 import java.text.ParseException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,9 +134,11 @@ public class ControllerFile {
 							map.put("category", listProjectCategory);
 							map.put("user", listUser);
 							map.put("student",student);
-							if(project!=null)
+							if(project!=null){
 							map.put("currentproject",project);
-							//map.put("stage",listProjectStage);
+							int members[] = usersService1.getMembersIdByProjectId(project.getId());
+							map.put("member", members);
+							}
 							return map;
 						}	
 					}
@@ -207,12 +210,14 @@ public class ControllerFile {
 //========================Save Project========================================================
 			@RequestMapping(value="/saveProject", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> toSaveProject(Project_Model pm) throws Exception{
-	        		int[] m = pm.getMember();
+					Map<String, Float> pointNbudget = null;
+					int[] m = pm.getMember();
 					Map<String,Object> map = new HashMap<String,Object>();
 					Map<Integer, String> mm = usersService1.getStudentSemester(m);
-					float point =usersService1.pointCalculation(mm,pm.getInitially_planned());
-					pm.setKit_point(Float.toString(point));
-					System.out.println("Before");
+					pointNbudget =usersService1.pointCalculation(mm,pm.getInitially_planned());
+					
+					pm.setKit_point(Float.toString(pointNbudget.get("point")));
+					pm.setBudget(Math.round(pointNbudget.get("budget")));
 					int id = usersService1.saveProject(pm);
 					if(id!=0)
 						
@@ -233,7 +238,24 @@ public class ControllerFile {
 			@RequestMapping(value="/updateProject", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> toUpdateProject(Project_Model pm) throws Exception{
 	        		//int[] s = pm.getStage();
-					Map<String,Object> map = new HashMap<String,Object>();				
+					Project_Master project = new Project_Master();
+					Map<String,Object> map = new HashMap<String,Object>();	
+					Map<Integer, String> mm = usersService1.getStudentSemester(pm.getMember());
+					project = usersService1.getProjectById(pm.getId());
+					int newa[] = pm.getMember();
+					Arrays.sort(newa);
+					int old[] = usersService1.getMembersIdByProjectId(pm.getId());
+			        Arrays.sort(old);
+					if (Arrays.equals(newa, old)&&pm.getInitially_planned()==project.getInitially_planned())
+					{
+						
+					}
+					else{
+						Map<String, Float> pointNbudget = null;
+						pointNbudget =usersService1.pointCalculation(mm,pm.getInitially_planned());
+						pm.setKit_point(Float.toString(pointNbudget.get("point")));
+						pm.setBudget(Math.round(pointNbudget.get("budget")));
+					}
 					if(usersService1.updateProject(pm))
 					{
 						map.put("status","200");
