@@ -47,11 +47,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		"/",
 		"/project/**",
 		"/projectDetail/**",
-		"/ProjectNTask**",
-		"/updateTask**",
+		"/ProjectNTask/**",
+		"/updateTask/**",
 		"/taskDetail/**",
 		"/task/**",
 		"/profile/**",
+		"/updateTaskDetail**",
+		"/updateProjectDetail**",
+		"/userNProjectCategoryList**",
+		"/updateProject/**"
 		
    
     };

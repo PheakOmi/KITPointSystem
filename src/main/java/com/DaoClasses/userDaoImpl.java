@@ -155,17 +155,17 @@ public class userDaoImpl implements usersDao{
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             trns = session.beginTransaction();
-            users = session.createQuery("from User_Info").list();
+            users = session.createQuery("select id,name,email,user_type,created_at,updated_at from User_Info").list();
             //System.out.println(semesters);
         } catch (RuntimeException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return users;
         } finally {
-            session.flush();
+            //session.flush();
             session.close();
         }
         return users;
-    }  
+    } 
 //=====================get member by project id=========================================
     public List<Project_Member> getMemberByProjectId(int id) {
         List<Project_Member> members= new ArrayList<Project_Member>();
