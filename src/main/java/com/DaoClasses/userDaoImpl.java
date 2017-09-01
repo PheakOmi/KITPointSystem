@@ -30,6 +30,7 @@ import org.springframework.stereotype.Repository;
 
 
 
+
 //import org.springframework.stereotype.Service;
 import com.EncryptionDecryption.Decryption;
 import com.EncryptionDecryption.Encryption;
@@ -150,18 +151,19 @@ public class userDaoImpl implements usersDao{
     
   //===================Get a list of user=================================
     public List<User_Info> getAllUser() {
-        List<User_Info> users= new ArrayList<User_Info>();
+    	List<User_Info> users= new ArrayList<User_Info>();
         Transaction trns = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             trns = session.beginTransaction();
             users = session.createQuery("select id,name,email,user_type,created_at,updated_at from User_Info").list();
-            //System.out.println(semesters);
+            
+            
         } catch (RuntimeException e) {
-            //e.printStackTrace();
-            return users;
+        	System.out.println("Catch runs");
+            e.printStackTrace();
         } finally {
-            //session.flush();
+            session.flush();
             session.close();
         }
         return users;

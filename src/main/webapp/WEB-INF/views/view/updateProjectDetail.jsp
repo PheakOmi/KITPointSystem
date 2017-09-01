@@ -34,7 +34,7 @@
 				for(i=0; i<category.length; i++)					
 					$("#projectcategory").append("<option value="+category[i].id+">"+category[i].name+" </option>");
 				for(i=0; i<user.length; i++)
-					$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
+					$("#projectcoordinator").append("<option value="+user[i][0]+">"+user[i][1]+" </option>");
 				for(i=0; i<student.length; i++){
 					$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
 					//$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");

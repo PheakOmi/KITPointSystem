@@ -159,7 +159,7 @@ $('#project').on('change', function() {
 	var projectid = this.value;
 	$.ajax({
 		url:'studentInTask',
-		type:'POST',
+		type:'GET',
 		data: {id: projectid},
 		success: function(response){
 		student=response.student;
