@@ -81,9 +81,6 @@ public class usersServiceImpl implements usersService{
 	public List<Batch_Master> getAllBatch(){
 		return usersDao1.getAllBatch();
 	}
-	public List<Project_Stage_Master> getAllStages(){
-		return usersDao1.getAllStages();
-	}
 	public List<Task_Master> getAllTask(){
 		return usersDao1.getAllTask();
 	}

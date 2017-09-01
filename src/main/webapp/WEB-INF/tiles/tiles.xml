@@ -10,10 +10,6 @@
 		<put-attribute name="sidebar" value="/WEB-INF/views/layout/sidebar.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
 	</definition>
-	<definition name="base.definition2"
-		template="/WEB-INF/views/template/login.jsp">
-		<put-attribute name="title" value="" />
-	</definition>
 
 	<definition name="project" extends="base.definition">
 		<put-attribute name="title" value="Project" />
@@ -37,10 +33,7 @@
 		<put-attribute name="title" value="Task Detail" />
 		<put-attribute name="body" value="/WEB-INF/views/view/taskDetail.jsp" />
 	</definition>
-	<definition name="login" extends="base.definition2">
-		<put-attribute name="title" value="KIT POINT System" />
-		<put-attribute name="body" value="/WEB-INF/views/view/login.jsp" />
-	</definition>
+	
 	<definition name="taskView" extends="base.definition">
 		<put-attribute name="title" value="Tasks" />
 		<put-attribute name="body" value="/WEB-INF/views/view/taskView.jsp" />
