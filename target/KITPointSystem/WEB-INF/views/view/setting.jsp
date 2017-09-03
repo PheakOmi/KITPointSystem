@@ -5,7 +5,7 @@
                         </i><span style="color: black;">User</span> </a>
                    </div>
                     <div class="col-lg-4 ">
-                        <a href="batch"><i class="fa fa-fw fa-sitemap fa-3x setting-icon">
+                        <a href="createBatch"><i class="fa fa-fw fa-sitemap fa-3x setting-icon">
                         </i><span style="color: black;">Batch</span> </a>
                    </div>
                    <div class="col-lg-4">

@@ -1,4 +1,4 @@
-<body onload="load();">
+<body onload="load()">
 <script type="text/javascript">
 	load = function(){	
 		$.ajax({
@@ -36,38 +36,40 @@
 		    event.preventDefault();
 		});
 
-		$("#project_name").keyup(function () {
-			if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
-		         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
-	      }
-		});
-		$("#projectcode").keyup(function () {
-			if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
-		         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
-		      }
-			});
-		$("#skillset").keyup(function () {
-			if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
-		         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
-		      }
-			});
 		
-		$("#planninghour").keyup(function () {
-			if (this.value != this.value.replace(/[^0-9]/g, '')) {
-		         this.value = this.value.replace(/[^0-9]/g, '');
-		      }
-			});
-		$("#budget").keyup(function () {
-			if (this.value != this.value.replace(/[^0-9]/g, '')) {
-		         this.value = this.value.replace(/[^0-9]/g, '');
-		      }
-			});
 		$('li#projectStlye').addClass('active');
     	$("#myForm").on('submit',function(e){
+    		
     		var member = $('#member').val(); 
     		member.push($('#teamleader').val());
     		console.log(member);
     		e.preventDefault();
+    		var projectname = $("#project_name").val().trim();
+    		var projectcode = $("#projectcode").val().trim();
+    		var planninghour = $("#planninghour").val().trim();
+    		//var skillset = $("#skillset").val().trim();
+    		var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+    		var formats = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]+/;
+    		if((projectname=='') || (projectcode=='')||(planninghour==''))
+    			{
+    			swal("Oops!", "The input cannot be empty", "error")
+    			return
+    			}
+    		if((format.test(projectname)) || (format.test(projectcode)))
+    			{
+    			swal("Oops!", "You cannot input special characters", "error")  
+    			return
+    			}
+    		if((format.test(projectname)) || (format.test(projectcode)))
+			{
+			swal("Oops!", "You cannot input special characters", "error")  
+			return
+			}
+    		if(formats.test(planninghour))
+    			{
+    			swal("Oops!", "You can only input number", "error")  
+    			return
+    			}
     		var deadline = Date.parse($("#deadline").val());
             var startdate = Date.parse($("#startdate").val());
             var enddate = Date.parse($("#enddate").val());
@@ -87,7 +89,6 @@
         					project_leader:$("#teamleader").val(),
         					initially_planned:$("#planninghour").val(),
         					budget:0,
-        					skillset:$("#skillset").val(),
         					kit_point:$("#kitpoint").val(),
         					deadline:$("#deadline").val(),
         					start_date:$("#startdate").val(),

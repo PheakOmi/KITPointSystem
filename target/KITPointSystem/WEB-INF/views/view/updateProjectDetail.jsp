@@ -3,12 +3,13 @@
 	load = function(){	
 		$.ajax({
 			url:'userNProjectCategoryList?id=${id}',
-			type:'POST',
+			type:'GET',
 			success: function(response){
 				console.log(response);
 				category = response.category;
 				user = response.user;
 				student = response.student;
+				member = response.member;
 				currentproject = response.currentproject;
 				function formatDate(date) {
 				    var d = new Date(date),
@@ -25,34 +26,37 @@
 				currentproject.end_date=formatDate(currentproject.end_date);
 				currentproject.deadline=formatDate(currentproject.deadline);
 				
-<%--				stage = response.stage;	--%>
+				$('#member').select2({
+					  data: student
+					});
+				$('#member').val(member).trigger('change');
+				
 				for(i=0; i<category.length; i++)					
 					$("#projectcategory").append("<option value="+category[i].id+">"+category[i].name+" </option>");
-<%--				for (i = 0; i < stage.length; i++) {
-    			var checkBox = $('<input class="checkbox" type="checkbox" value="'+stage[i].id+'"><label for="checkbox">'+stage[i].stage_name+'</label><br />');
-    			checkBox.appendTo('#stage');
-    
-}	--%>
-for(i=0; i<user.length; i++)
-	$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
-for(i=0; i<student.length; i++){
-				$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
-				$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");}
-				$("#status").val(currentproject.status);
-				$("#project_name").val(currentproject.project_name);
-				$("#projectcode").val(currentproject.project_code);
-				$("#projectcategory").val(currentproject.project_type);
-				$("#projectcoordinator").val(currentproject.project_co);
-				$("#teamleader").val(currentproject.project_leader);
-				$("#planninghour").val(currentproject.initially_planned);
-				$("#budget").val(currentproject.budget);
-				$("#skillset").val(currentproject.skillset);
-				$("#kitpoint").val(currentproject.kit_point);
-				$("#deadline").val(currentproject.deadline);
-				$("#startdate").val(currentproject.start_date);
-				$("#enddate").val(currentproject.end_date);
+				for(i=0; i<user.length; i++)
+					$("#projectcoordinator").append("<option value="+user[i][0]+">"+user[i][1]+" </option>");
+				for(i=0; i<student.length; i++){
+					$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
+					//$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");
+					 
+				}
+					$("#status").val(currentproject.status);
+					$("#project_name").val(currentproject.project_name);
+					$("#projectcode").val(currentproject.project_code);
+					$("#projectcategory").val(currentproject.project_type);
+					$("#projectcoordinator").val(currentproject.project_co);
+					$("#teamleader").val(currentproject.project_leader);
+					$("#planninghour").val(currentproject.initially_planned);
+					$("#budget").val(currentproject.budget);
+					$("#skillset").val(currentproject.skillset);
+					$("#kitpoint").val(currentproject.kit_point);
+					$("#deadline").val(currentproject.deadline);
+					$("#startdate").val(currentproject.start_date);
+					$("#enddate").val(currentproject.end_date);
+					$('#member').children("option[value=" + $('#teamleader').val() + "]").remove();
 				
 			},
+			
 		error: function(err){
 			console.log("KKKKKKK");
 			console.log(JSON.stringify(err));
@@ -63,34 +67,15 @@ for(i=0; i<student.length; i++){
 	}
 
 	$(document).ready(function(){
+		$('#teamleader').on('change', function() {
+			$('#member').children("option[value=" + this.value + "]").remove();	
+			})
+		$("[name=date]").keydown(function (event) {
+		    event.preventDefault();
+		});
+
 		$('li#projectStlye').addClass('active');  	 
-		$("#project_name").keyup(function () {
-			if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
-		         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
-		      }
-			});
-			$("#projectcode").keyup(function () {
-				if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
-			         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
-			      }
-				});
-			$("#skillset").keyup(function () {
-				if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
-			         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
-			      }
-				});
-			
-			$("#planninghour").keyup(function () {
-				if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
-			         this.value = this.value.replace(/[^0-9\.]/g, '');
-			      }
-				});
-			$("#budget").keyup(function () {
-				if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
-			         this.value = this.value.replace(/[^0-9\.]/g, '');
-			      }
-				});
-		$('li#projectStlye').addClass('active');
+;
     	var date_input=$('input[name="date"]');
         var options={
           format: 'mm/dd/yyyy',
@@ -99,8 +84,36 @@ for(i=0; i<student.length; i++){
         };
         date_input.datepicker(options);
   	 
-    	$("#myForm").on("submit",function(e){		 
+    	$("#myForm").on("submit",function(e){	
+    		var member = $('#member').val(); 
+    		member.push($('#teamleader').val());
             e.preventDefault();
+            var projectname = $("#project_name").val().trim();
+    		var projectcode = $("#projectcode").val().trim();
+    		var planninghour = $("#planninghour").val().trim();
+    		//var skillset = $("#skillset").val().trim();
+    		var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+    		var formats = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]+/;
+    		if((projectname=='') || (projectcode=='')||(planninghour==''))
+    			{
+    			swal("Oops!", "The input cannot be empty", "error")
+    			return
+    			}
+    		if((format.test(projectname)) || (format.test(projectcode)))
+    			{
+    			swal("Oops!", "You cannot input special characters", "error")  
+    			return
+    			}
+    		if((format.test(projectname)) || (format.test(projectcode)))
+			{
+			swal("Oops!", "You cannot input special characters", "error")  
+			return
+			}
+    		if(formats.test(planninghour))
+    			{
+    			swal("Oops!", "You can only input number", "error")  
+    			return
+    			}
             id = ${id};
             var deadline = Date.parse($("#deadline").val());
             var startdate = Date.parse($("#startdate").val());
@@ -112,7 +125,7 @@ for(i=0; i<student.length; i++){
            	else{
 	            $.ajax({
 	    		url:'updateProject',
-	    		type:'POST',
+	    		type:'GET',
 	    		data:{		
 	    				id:id,
     					status:$("#status").val(),
@@ -123,7 +136,7 @@ for(i=0; i<student.length; i++){
     					project_leader:$("#teamleader").val(),
     					initially_planned:$("#planninghour").val(),
     					budget:$("#budget").val(),
-    					skillset:$("#skillset").val(),
+    					member:member,
     					kit_point:$("#kitpoint").val(),
     					deadline:$("#deadline").val(),
     					start_date:$("#startdate").val(),
@@ -148,7 +161,7 @@ for(i=0; i<student.length; i++){
     				    
     				else 
     					{
-    					swal("Oops!", "It is not saved!", "error")
+    					swal("Oops!",response.message, "error")
     					
     					}
     				},
@@ -169,7 +182,7 @@ for(i=0; i<student.length; i++){
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Project Name</label>
                                 <div class="col-sm-8">
-                                	<input class="form-control" id="project_name" type="text" required>
+                                	<input class="form-control" id="project_name" maxlength="30" type="text" required>
                                 </div>
                         </div>
                             <div class="form-group">
@@ -198,6 +211,15 @@ for(i=0; i<student.length; i++){
 	                            </div>
                             </div>                                 
                             
+                             <div class="form-group">
+                                <label class="col-sm-4 control-label">Project Member</label>
+	                            <div class="col-sm-8">    
+	                                <select class="js-example-basic-multiple form-control" id="member" multiple="multiple" required>
+										  
+									</select>
+	                            </div>
+                            </div>  
+                            
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Planning Hours</label>
                                 <div class="col-sm-8">
@@ -221,7 +243,7 @@ for(i=0; i<student.length; i++){
                             <div class="form-group ">
                                 <label class="col-sm-4 control-label">Project code</label>
                                 <div class="col-sm-8">
-                                	<input class="form-control" id="projectcode">
+                                	<input class="form-control" id="projectcode" maxlength="15">
                                 </div>
                         </div>
                             <div class="form-group">
@@ -252,16 +274,11 @@ for(i=0; i<student.length; i++){
 	                            </div>
                             </div>		--%>
                             
-                              <div class="form-group">
-                                <label class="col-sm-4 control-label">Skill Set</label>
-                                <div class="col-sm-8">
-                                	<input class="form-control" id="skillset" type="text">
-                                </div>
-                            </div> 
+                         
                              <div class="form-group">
                                 <label class="col-sm-4 control-label">KIT point</label>
                                 <div class="col-sm-8">	
-                                	<input class="form-control" id="kitpoint" required>
+                                	<input class="form-control" id="kitpoint" maxlength="3" required>
                                 </div>
                             </div>
                             <div class="form-group">

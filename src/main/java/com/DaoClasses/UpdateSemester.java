@@ -108,8 +108,7 @@ public class UpdateSemester {
 	        {
 	        	Batch_Master s=new Batch_Master();
 	        	str[i]=a.get(i).toString();
-	        	System.out.println(str[i]);
-	        	String str1[]=str[i].split(",");
+	           	String str1[]=str[i].split(",");
 	        	int cnt=0;
 	        	for(int j=0;j<str1.length;j++)
 	        	{
@@ -118,20 +117,17 @@ public class UpdateSemester {
 	        		{
 	        			Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(str2[1]);
 	        			s.setEnd_date(date1);
-	        			System.out.println(str2[1]);
 	        			cnt++;
 	        		}
 	        		else if(cnt==1)
 	        		{
 	        			s.setName(str2[1]);
-	        			System.out.println(str2[1]);
-	        			cnt++;
+	           			cnt++;
 	        		}
 	        		else if(cnt==2)
 	        		{
 	        			//s.id=str2[1].replace("}","").trim();
 	        			s.setOdoo_id(Integer.parseInt(str2[1]));
-	        			System.out.println(str2[1]);
 	        			cnt++;
 	        		}
 	        		else if(cnt==3)
@@ -139,7 +135,6 @@ public class UpdateSemester {
 	        			String x = str2[1].replace("}","").trim();
 	        			Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(x);
 	        			s.setStart_date(date1);
-	        			System.out.println(x);
 	        			cnt=0;
 	        		}
 	        		

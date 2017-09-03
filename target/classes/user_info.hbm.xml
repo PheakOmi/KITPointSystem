@@ -10,7 +10,6 @@
     <property name="name" column="name"/>
     <property name="email" column="email"/>
     <property name="password" column="password"/>
-    <property name="user_type" column="user_type"/>
     <property name="created_at" column="created_at"/>
     <property name="updated_at" column="updated_at"/>
     

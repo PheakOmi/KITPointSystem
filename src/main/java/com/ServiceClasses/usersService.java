@@ -40,7 +40,6 @@ public interface usersService {
 	public List<Semester_Master> getAllSemester();
 	public List<Project_Category_Master> getProjectCategories();
 	public List<Batch_Master> getAllBatch();
-	public List<Project_Stage_Master> getAllStages();
 	public List<Task_Master> getAllTask();
 	public Project_Master getProjectById(int id) throws Exception;
 	public Task_Master getTaskById(int id);

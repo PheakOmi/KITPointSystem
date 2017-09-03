@@ -29,18 +29,25 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-		$("#projectCategory").keyup(function () {
-	        console.log("Hello World");
-	        if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
-		         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
-	      }
-		});
+		
 	$('li#settingStlye').addClass('active');
 	$("#myForm").on("submit",function(e){
 		e.preventDefault();
+		var a = $("#projectCategory").val().trim();
+		var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+		if(a=='')
+			{
+			swal("Oops!", "The input cannot be empty", "error")
+			return
+			}
+		if(format.test(a))
+			{
+			swal("Oops!", "You cannot input special characters", "error")  
+			return
+			}
 			$.ajax({
 				url:'projectCategoryCreate',
-				type:'POST',
+				type:'GET',
 				data:{name:$("#projectCategory").val()},
 				success: function(response){
 					if(response.status=="200")
@@ -52,7 +59,6 @@ $(document).ready(function(){
 					    
 					else 
 						{
-						$('#projectCategory').val('');
 						swal("Oops!", "Category name already existed", "error")
 						
 						}

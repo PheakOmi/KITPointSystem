@@ -3,7 +3,7 @@
 load = function(){	
 	$.ajax({
 		url:'semesterAndBatchList',
-		type:'POST',
+		type:'GET',
 		success: function(response){
 				console.log(response);
 				semester = response.semester;
@@ -36,7 +36,7 @@ $(document).ready(function(){
 	$("#btnSubmit").click(function(){		 
 	$.ajax({
 		url:'updateBatch',
-		type:'POST',
+		type:'GET',
 		data:{id:$("#batch").val(),semester_id:$("#semester").val()},
 		success: function(response){
 				if(response.status=="200")

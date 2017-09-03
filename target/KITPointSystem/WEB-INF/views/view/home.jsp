@@ -2,7 +2,7 @@
 	load = function(){	
 		$.ajax({
 			url:'getProjectSatge',
-			type:'POST',
+			type:'GET',
 			success: function(response){
 					console.log(response);
 					project_stage = response.listProjectStage;

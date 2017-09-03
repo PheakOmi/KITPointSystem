@@ -67,13 +67,13 @@ public class userDaoImpl implements usersDao{
 	//===================For SS========================================  
     
     public User_Info findByUserName(String username) {
-    	Transaction trns = null;
+    	Transaction trns1 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         
 		List<User_Info> users = new ArrayList<User_Info>();
 	
 		try {
-            trns = session.beginTransaction();
+            trns1 = session.beginTransaction();
             users = session.createQuery("from User_Info where email=?").setParameter(0, username).list();
             		//setParameter(0, username).list();
             
@@ -152,15 +152,14 @@ public class userDaoImpl implements usersDao{
   //===================Get a list of user=================================
     public List<User_Info> getAllUser() {
     	List<User_Info> users= new ArrayList<User_Info>();
-        Transaction trns = null;
+        Transaction trns2 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            trns = session.beginTransaction();
+            trns2 = session.beginTransaction();
             users = session.createQuery("select id,name,email,user_type,created_at,updated_at from User_Info").list();
             
             
         } catch (RuntimeException e) {
-        	System.out.println("Catch runs");
             e.printStackTrace();
         } finally {
             session.flush();
@@ -171,10 +170,10 @@ public class userDaoImpl implements usersDao{
 //=====================get member by project id=========================================
     public List<Project_Member> getMemberByProjectId(int id) {
         List<Project_Member> members= new ArrayList<Project_Member>();
-        Transaction trns = null;
+        Transaction trns3 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            trns = session.beginTransaction();
+            trns3 = session.beginTransaction();
             String queryString = "from Project_Member where project_id=:id";
             Query query = session.createQuery(queryString);
             query.setInteger("id",id);
@@ -192,10 +191,10 @@ public class userDaoImpl implements usersDao{
 //=================get A project id by task id==========================
     public int getProjectIdByTaskId(int taskId){
     	int projectId=0;
-    	Transaction trns = null;
+    	Transaction trns4 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            trns = session.beginTransaction();
+            trns4 = session.beginTransaction();
             String queryString = "select project_id from Task_Master where id=:id";
             Query query = session.createQuery(queryString);
             query.setInteger("id",taskId);
@@ -217,10 +216,10 @@ public class userDaoImpl implements usersDao{
 	}
     public List<Project_Master> getAllProject() {
         List<Project_Master> projects= new ArrayList<Project_Master>();
-        Transaction trns = null;
+        Transaction trns5 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            trns = session.beginTransaction();
+            trns5 = session.beginTransaction();
             projects = session.createQuery("from Project_Master").list();
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -235,7 +234,7 @@ public class userDaoImpl implements usersDao{
 //=========================To validate user whilw loging in====================================================    
      public User_Info validate(User_Info user) throws Exception
     {
-    	Transaction trns = null;
+    	Transaction trns6 = null;
         
         String email= user.getEmail();
         String password= user.getPassword();
@@ -244,7 +243,7 @@ public class userDaoImpl implements usersDao{
 
         try {
         	
-            trns = session.beginTransaction();
+            trns6 = session.beginTransaction();
             String queryString = "from User_Info where email = :email and password = :password";
             Query query = session.createQuery(queryString);
             query.setString("email", email);
@@ -268,12 +267,12 @@ public class userDaoImpl implements usersDao{
     public boolean saveBatch(Batch_Master batch)
     {
     	Batch_Master batch2 = batch;
-    	Transaction trns = null;
+    	Transaction trns7 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
         	
-            trns = session.beginTransaction();
+            trns7 = session.beginTransaction();
             String queryString = "FROM Batch_Master where name=:name";
             Query query = session.createQuery(queryString);
             query.setString("name",batch.getName());
@@ -286,8 +285,8 @@ public class userDaoImpl implements usersDao{
             session.save(batch2);  
             session.getTransaction().commit();
         } catch (RuntimeException e) {
-        	if (trns != null) {
-                trns.rollback();
+        	if (trns7 != null) {
+                trns7.rollback();
             }
             e.printStackTrace();
             return false;
@@ -300,12 +299,12 @@ public class userDaoImpl implements usersDao{
 //===========================Update Batch==============================
     public boolean updateBatch(Batch_Master batch)
     {
-    	Transaction trns = null;
+    	Transaction trns8 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
         	
-            trns = session.beginTransaction();
+            trns8 = session.beginTransaction();
             String queryString = "FROM Batch_Master where id=:id";
             Query query = session.createQuery(queryString);
             query.setInteger("id",batch.getId());
@@ -317,8 +316,8 @@ public class userDaoImpl implements usersDao{
         	session.update(batch2);  
             session.getTransaction().commit();
         } catch (RuntimeException e) {
-        	if (trns != null) {
-                trns.rollback();
+        	if (trns8 != null) {
+                trns8.rollback();
             }
             e.printStackTrace();
             return false;
@@ -333,14 +332,14 @@ public class userDaoImpl implements usersDao{
 //=================================Save projectCategory=========================================
     public boolean createProjectCategory(Project_Category_Master projectCategory)
     {
-    	Transaction trns = null;
+    	Transaction trns9 = null;
         
     	Project_Category_Master projectCategory2 = projectCategory;
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
         	
-            trns = session.beginTransaction();
+            trns9 = session.beginTransaction();
             String queryString = "FROM Project_Category_Master where name=:name";
             Query query = session.createQuery(queryString);
             query.setString("name",projectCategory.getName());
@@ -352,8 +351,8 @@ public class userDaoImpl implements usersDao{
             session.save(projectCategory2);  
             session.getTransaction().commit();
         } catch (RuntimeException e) {
-        	if (trns != null) {
-                trns.rollback();
+        	if (trns9 != null) {
+                trns9.rollback();
             }
             e.printStackTrace();
            
@@ -367,12 +366,12 @@ public class userDaoImpl implements usersDao{
 //=================================Save task=========================================
     public boolean toSaveTask(Task_Model t) throws ParseException
     {
-    	Transaction trns = null;
+    	Transaction trns10 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
 
         try {
         	Task_Master tm2;
-            trns = session.beginTransaction();
+            trns10 = session.beginTransaction();
             String queryString = "FROM Task_Master where name=:name and project_id=:project_id";
             Query query = session.createQuery(queryString);
             query.setString("name",t.getName());
@@ -397,8 +396,8 @@ public class userDaoImpl implements usersDao{
             session.save(tm);  
             session.getTransaction().commit();
         } catch (RuntimeException e) {
-        	if (trns != null) {
-                trns.rollback();
+        	if (trns10 != null) {
+                trns10.rollback();
             }
             e.printStackTrace();
            
@@ -412,12 +411,12 @@ public class userDaoImpl implements usersDao{
 //=================================Save project=========================================
     public int saveProject(Project_Model project) throws Exception
     {
-    	Transaction trns = null;
+    	Transaction trns11 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         
         try {
         	Project_Master pm2;
-            trns = session.beginTransaction();
+            trns11 = session.beginTransaction();
             String queryString = "FROM Project_Master where project_name=:name";
             Query query = session.createQuery(queryString);
             query.setString("name",project.getProject_name());
@@ -453,8 +452,8 @@ public class userDaoImpl implements usersDao{
     		return id;
     		
         } catch (RuntimeException e) {
-        	if (trns != null) {
-                trns.rollback();
+        	if (trns11 != null) {
+                trns11.rollback();
             }
             e.printStackTrace();
           
@@ -469,12 +468,12 @@ public class userDaoImpl implements usersDao{
     public boolean updateProject(Project_Model project) throws Exception
     {
     	int count=0;
-    	Transaction trns = null;
+    	Transaction trns12 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         
         try {
         	
-            trns = session.beginTransaction();
+            trns12 = session.beginTransaction();
             List<Project_Master> projects= new ArrayList<Project_Master>();
             projects = getAllProject();
             for(Project_Master p:projects)
@@ -548,8 +547,8 @@ public class userDaoImpl implements usersDao{
     		
     		
         } catch (RuntimeException e) {
-        	if (trns != null) {
-                trns.rollback();
+        	if (trns12 != null) {
+                trns12.rollback();
             }
             e.printStackTrace();
           
@@ -563,12 +562,12 @@ public class userDaoImpl implements usersDao{
   //=================================Update task=========================================
     public boolean updateTask(Task_Model t) throws ParseException
     {
-    	Transaction trns = null;
+    	Transaction trns13 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         
         try {
         	
-            trns = session.beginTransaction();
+            trns13 = session.beginTransaction();
             String queryString = "FROM Task_Master where project_id =:project_id and name=:name";
             Query query = session.createQuery(queryString);
             query.setInteger("project_id",t.getProject_id());
@@ -599,8 +598,8 @@ public class userDaoImpl implements usersDao{
     		
     		
         } catch (RuntimeException e) {
-        	if (trns != null) {
-                trns.rollback();
+        	if (trns13 != null) {
+                trns13.rollback();
             }
             e.printStackTrace();
          
@@ -615,12 +614,12 @@ public class userDaoImpl implements usersDao{
     public void saveMember(int projectid, int arr[]) throws MalformedURLException, XmlRpcException
     {
     	List<Student> students = new StudentFromOdoo().getStudent();
-    	Transaction trns = null;
+    	Transaction trns14 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Timestamp created_at = new Timestamp(System.currentTimeMillis());
         try {
         	
-            trns = session.beginTransaction();
+            trns14 = session.beginTransaction();
     		for (int i = 0; i<arr.length; i++)
     		{
     			Project_Member pm = new Project_Member();
@@ -640,8 +639,8 @@ public class userDaoImpl implements usersDao{
     		}  
     		session.getTransaction().commit();
         } catch (RuntimeException e) {
-        	if (trns != null) {
-                trns.rollback();
+        	if (trns14 != null) {
+                trns14.rollback();
             }
             e.printStackTrace();
            
@@ -655,10 +654,10 @@ public class userDaoImpl implements usersDao{
 //===================Get a list of semesters=================================
     public List<Semester_Master> getAllSemester() {
         List<Semester_Master> semesters= new ArrayList<Semester_Master>();
-        Transaction trns = null;
+        Transaction trns15 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            trns = session.beginTransaction();
+            trns15 = session.beginTransaction();
             semesters = session.createQuery("from Semester_Master").list();
             
         } catch (RuntimeException e) {
@@ -673,10 +672,10 @@ public class userDaoImpl implements usersDao{
 //===================Get a list of project categories=================================
     public List<Project_Category_Master> getProjectCategories() {
         List<Project_Category_Master> p= new ArrayList<Project_Category_Master>();
-        Transaction trns = null;
+        Transaction trns16 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            trns = session.beginTransaction();
+            trns16 = session.beginTransaction();
             p = session.createQuery("from Project_Category_Master").list();
 
         } catch (RuntimeException e) {
@@ -691,10 +690,10 @@ public class userDaoImpl implements usersDao{
 //===================Get a list of batch=================================
     public List<Batch_Master> getAllBatch() {
         List<Batch_Master> batch= new ArrayList<Batch_Master>();
-        Transaction trns = null;
+        Transaction trns17 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            trns = session.beginTransaction();
+            trns17 = session.beginTransaction();
             batch = session.createQuery("from Batch_Master").list();
             //System.out.println(semesters);
         } catch (RuntimeException e) {
@@ -707,32 +706,14 @@ public class userDaoImpl implements usersDao{
         return batch;
     }  
 
-//===================Get a list of stages=================================
-    public List<Project_Stage_Master> getAllStages() {
-        List<Project_Stage_Master> stages= new ArrayList<Project_Stage_Master>();
-        Transaction trns = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        try {
-            trns = session.beginTransaction();
-            stages = session.createQuery("from Project_Stage_Master").list();
-            //System.out.println(semesters);
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            return stages;
-        } finally {
-            session.flush();
-            session.close();
-        }
-        return stages;
-    }  
 //===========================Get all task===================================
     public List<Task_Master> getAllTask()
     {
     	List<Task_Master> tasks= new ArrayList<Task_Master>();
-        Transaction trns = null;
+        Transaction trns18 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            trns = session.beginTransaction();
+            trns18 = session.beginTransaction();
             tasks = session.createQuery("from Task_Master").list();
             //System.out.println(semesters);
         } catch (RuntimeException e) {
@@ -748,10 +729,10 @@ public class userDaoImpl implements usersDao{
     public Project_Master getProjectById(int id) throws Exception
     {
     	Project_Master project= new Project_Master();
-        Transaction trns = null;
+        Transaction trns19 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            trns = session.beginTransaction();
+            trns19 = session.beginTransaction();
             String queryString = "from Project_Master where id=:id";
             Query query = session.createQuery(queryString);
             query.setInteger("id",id);
@@ -773,10 +754,10 @@ public class userDaoImpl implements usersDao{
 	public Task_Master getTaskById(int id) {
 		
 		Task_Master task= new Task_Master();
-        Transaction trns = null;
+        Transaction trns20 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            trns = session.beginTransaction();
+            trns20 = session.beginTransaction();
             String queryString = "from Task_Master where id=:id";
             Query query = session.createQuery(queryString);
             query.setInteger("id",id);
@@ -841,10 +822,10 @@ public class userDaoImpl implements usersDao{
 			String str[]=entry.getValue().split(",");
 			int batch_id = Integer.parseInt(str[1]);
 			String semester_name=str[0];
-			Transaction trns = null;
+			Transaction trns21 = null;
 	        Session session = HibernateUtil.getSessionFactory().openSession();
 	        try {
-	            trns = session.beginTransaction();
+	            trns21 = session.beginTransaction();
 	            String queryString = "select value from Value_Per_Hour where batch_id=:batch_id and semester_name=:semester_name";
 	            Query query = session.createQuery(queryString);
 	            query.setInteger("batch_id",batch_id);
@@ -865,7 +846,6 @@ public class userDaoImpl implements usersDao{
 		}
 		String pointValue = new userDaoImpl().getKitPoint();
 		String decryptedPointValue = decrypt.decryptText(pointValue, secKey);
-		System.out.println("SUM is "+sum);
 		map.put("budget", sum);
 		map.put("point", sum/Float.parseFloat(decryptedPointValue));
 		return map;
@@ -875,10 +855,10 @@ public class userDaoImpl implements usersDao{
 //========================Retrieve KIT Point from DB====================================
 	public String getKitPoint(){
 		String pointValue= new String();
-        Transaction trns = null;
+        Transaction trns22 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            trns = session.beginTransaction();
+            trns22 = session.beginTransaction();
             String queryString = "select value from KIT_Point";
             Query query = session.createQuery(queryString);
             pointValue=(String)query.uniqueResult();
@@ -1010,10 +990,10 @@ public class userDaoImpl implements usersDao{
 	public String getSemesterByBatchId(int id) throws Exception
     {
     	String semester= new String();
-        Transaction trns = null;
+        Transaction trns23 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            trns = session.beginTransaction();
+            trns23 = session.beginTransaction();
             String queryString = "select semester from Batch_Master where odoo_id=:id";
             Query query = session.createQuery(queryString);
             query.setInteger("id",id);
@@ -1048,10 +1028,10 @@ public class userDaoImpl implements usersDao{
 	
 	public int[] getMembersIdByProjectId(int project_id)
 	{
-		Transaction trns = null;
+		Transaction trns24 = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
-			trns = session.beginTransaction();
+			trns24 = session.beginTransaction();
 			String queryString = "select user_id from Project_Member where project_id =:project_id";
 			Query query = session.createQuery(queryString);
 			query.setInteger("project_id", project_id);
@@ -1078,10 +1058,10 @@ public class userDaoImpl implements usersDao{
 	      return index >= 0;
 	   }
 	public Project_Member getAMemberById (int id, int project_id){
-		Transaction trns = null;
+		Transaction trns25 = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try {
-			trns = session.beginTransaction();
+			trns25 = session.beginTransaction();
 			String queryString = "from Project_Member where user_id =:id and project_id =:project_id";
 			Query query = session.createQuery(queryString);
 			query.setInteger("id", id);
@@ -1101,10 +1081,10 @@ public class userDaoImpl implements usersDao{
 	public String getKitPointByProjectId(int project_id)
 	{
 		String point = null;
-        Transaction trns = null;
+        Transaction trns26 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            trns = session.beginTransaction();
+            trns26 = session.beginTransaction();
             String queryString = "select kit_point from Project_Master where id=:project_id";
             Query query = session.createQuery(queryString);
             query.setInteger("project_id",project_id);

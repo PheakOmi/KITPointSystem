@@ -58,7 +58,7 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 				    
 				    tx.commit();
 
-				    System.out.println("Object saved sussessfully");
+				 
 				    session.flush();
 				    session.close();
 
@@ -66,7 +66,6 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 				
 				   } catch (Exception ex) {
 				    Logger.getLogger(ValuePerHourController.class.getName()).log(Level.SEVERE, null, ex);
-				    System.out.println(ex);
 				
 				   }
 
@@ -78,10 +77,10 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		  /*=====================  show batch list ============================*/
 		 public List < Batch_Master > getAllBatch() {
 		   List < Batch_Master > batch = new ArrayList < Batch_Master > ();
-		   Transaction trns = null;
+		   Transaction trns7 = null;
 		   Session session = HibernateUtil.getSessionFactory().openSession();
 		   try {
-		    trns = session.beginTransaction();
+		    trns7 = session.beginTransaction();
 		    batch = session.createQuery("from Batch_Master where odoo_id>0").list();
 		    
 		    
@@ -97,10 +96,10 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		  /*=====================  show Project Stage ============================*/
 		 public List < Project_Stage_Master > getAllProjectStage() {
 		   List < Project_Stage_Master > project_Stage = new ArrayList < Project_Stage_Master > ();
-		   Transaction trns = null;
+		   Transaction trns1 = null;
 		   Session session = HibernateUtil.getSessionFactory().openSession();
 		   try {
-		    trns = session.beginTransaction();
+		    trns1 = session.beginTransaction();
 		    project_Stage = session.createQuery("from Project_Stage_Master").list();
 		    
 		   } catch (RuntimeException e) {
@@ -115,10 +114,10 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		  /*=====================  show Project data ============================*/
 		 public List < Project_Master > getAllProjectData() {
 			  List < Project_Master > project = new ArrayList < Project_Master > ();
-			  Transaction trns = null;
+			  Transaction trns2 = null;
 			  Session session = HibernateUtil.getSessionFactory().openSession();
 			  try {
-			   trns = session.beginTransaction();
+			   trns2 = session.beginTransaction();
 			   project = session.createQuery("from Project_Master").list();
 			  } catch (RuntimeException e) {
 			   e.printStackTrace();
@@ -131,11 +130,11 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 			 }
 		 /*=====================  show Project data ============================*/
 		public static List<Object> countAllTask() {
-				 Transaction trns = null;
+				 Transaction trns3 = null;
 				 Session session = HibernateUtil.getSessionFactory().openSession();
 				 List<Object> project;
 				try {
-				  trns = session.beginTransaction();
+				  trns3 = session.beginTransaction();
 				  project = session.createQuery("select project_id as project,count(*) as num_task from Task_Master group by project_id").list();
 				 } 
 				 catch (RuntimeException e) {
@@ -150,10 +149,10 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		 /*=====================  show Project data by status============================*/
 		public List < Project_Master > getProjectBasedOnStatus(String statusData) {
 			 List < Project_Master > project = new ArrayList < Project_Master > ();
-			 Transaction trns = null;
+			 Transaction trns4 = null;
 			 Session session = HibernateUtil.getSessionFactory().openSession();
 			 try {
-			  trns = session.beginTransaction();
+			  trns4 = session.beginTransaction();
 			  String queryString= "from Project_Master where status=:statusData";
 			  Query query=session.createQuery(queryString);
 			  query.setString("statusData", statusData);
@@ -193,11 +192,11 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 			 int project_id=id;
 			 
 			 Project_Master project= new Project_Master();
-		        Transaction trns = null;
+		        Transaction trns5 = null;
 		        Session session = HibernateUtil.getSessionFactory().openSession();
 		        ProjectView_Model projectViewData= new ProjectView_Model();
 		        try {
-		            trns = session.beginTransaction();
+		            trns5 = session.beginTransaction();
 		            String queryString = "from Project_Master where id=:id";
 		            Query query = session.createQuery(queryString);
 		            query.setInteger("id", project_id);
@@ -219,10 +218,10 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		 }
 		public boolean getValuePerHourById(int id) {
 			Value_Per_Hour vph= new Value_Per_Hour();
-	        Transaction trns = null;
+	        Transaction trns6 = null;
 	        Session session = HibernateUtil.getSessionFactory().openSession();
 	        try {
-	            trns = session.beginTransaction();
+	            trns6 = session.beginTransaction();
 	            String queryString = "from Value_Per_Hour where batch_id=:id";
 	            Query query = session.createQuery(queryString);
 	            query.setInteger("id",id);
