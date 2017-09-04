@@ -832,6 +832,13 @@ public class userDaoImpl implements usersDao{
 	            query.setString("semester_name",semester_name);
 	         
 	            String value=(String)query.uniqueResult();
+	            	if(value==null)
+	            	{
+	            		map.put("No Value", (float) 0.0);
+	            		map.put("batch_id", (float) batch_id);
+	               		return map;
+	            		
+	            	}
 	            decryptedText = decrypt.decryptText(value, secKey);
 	            //System.out.println(time + " * "+ decryptedText +" = "+(Integer.parseInt(decryptedText)*time));
 	            sum = (float)sum + Float.parseFloat(decryptedText)*time;
@@ -845,6 +852,11 @@ public class userDaoImpl implements usersDao{
 			
 		}
 		String pointValue = new userDaoImpl().getKitPoint();
+		if(pointValue==null)
+		{
+			map.put("No Point", (float) 0);
+			return map;
+		}
 		String decryptedPointValue = decrypt.decryptText(pointValue, secKey);
 		map.put("budget", sum);
 		map.put("point", sum/Float.parseFloat(decryptedPointValue));
@@ -874,10 +886,11 @@ public class userDaoImpl implements usersDao{
 //===========================
 	public List<Semester_Master> getStudent_Semester(int batch_id) throws XmlRpcException,
 	MalformedURLException, ParseException {
-		  final String url = "http://96.9.67.154:8070"; 
+		final String url = "http://192.168.7.222:8069";
+			  //final String url = "http://96.9.67.154:8070"; 
 		      final String db = "Kirirom_Institute_of_Technology"; 
 		      final String username ="admin"; 
-		      final String password = "admin"; 
+		      final String password = "adminn"; 
 		       
 		      List<Semester_Master> semesters = new ArrayList < Semester_Master >();
 		      final XmlRpcClient authClient = new XmlRpcClient(); 
@@ -1097,6 +1110,25 @@ public class userDaoImpl implements usersDao{
             session.close();
         }
         return point;
+	}
+	public Batch_Master getBatchById(int id){
+		Batch_Master batch= new Batch_Master();
+        Transaction trns20 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            trns20 = session.beginTransaction();
+            String queryString = "from Batch_Master where odoo_id=:id";
+            Query query = session.createQuery(queryString);
+            query.setInteger("id",id);
+            batch=(Batch_Master)query.uniqueResult();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return batch;
+        } finally {
+            session.flush();
+            session.close();
+        }
+        return batch;
 	}
     
 }

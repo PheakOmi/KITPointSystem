@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -211,12 +212,28 @@ public class ControllerFile {
 //========================Save Project========================================================
 			@RequestMapping(value="/saveProject", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> toSaveProject(Project_Model pm) throws Exception{
-					Map<String, Float> pointNbudget = null;
+					Map<String, Float> pointNbudget = new HashMap<String, Float>();
 					int[] m = pm.getMember();
 					Map<String,Object> map = new HashMap<String,Object>();
 					Map<Integer, String> mm = usersService1.getStudentSemester(m);
 					pointNbudget =usersService1.pointCalculation(mm,pm.getInitially_planned());
-					
+					if (pointNbudget.containsKey("No Value"))
+							{
+								int batch_id = Math.round(pointNbudget.get("batch_id"));
+								String batch = new String();
+								Set<String> keys = pointNbudget.keySet();								
+								Batch_Master b = usersService1.getBatchById(batch_id);
+								batch  =b.getName();
+								map.put("status", "555");
+								map.put("message","Please Create Value Per Hour for "+batch);
+								return map;
+							}
+					else if(pointNbudget.containsKey("No Point"))
+					{
+						map.put("status", "888");
+						map.put("message","Please create KIT point value first!");
+						return map;
+					}
 					pm.setKit_point(Float.toString(pointNbudget.get("point")));
 					pm.setBudget(Math.round(pointNbudget.get("budget")));
 					int id = usersService1.saveProject(pm);
@@ -254,6 +271,23 @@ public class ControllerFile {
 					else{
 						Map<String, Float> pointNbudget = null;
 						pointNbudget =usersService1.pointCalculation(mm,pm.getInitially_planned());
+						if (pointNbudget.containsKey("No Value"))
+						{
+							int batch_id = Math.round(pointNbudget.get("batch_id"));
+							String batch = new String();
+							Set<String> keys = pointNbudget.keySet();								
+							Batch_Master b = usersService1.getBatchById(batch_id);
+							batch  =b.getName();
+							map.put("status", "555");
+							map.put("message","Please Create Value Per Hour for "+batch);
+							return map;
+						}
+						else if(pointNbudget.containsKey("No Point"))
+						{
+							map.put("status", "888");
+							map.put("message","Please create KIT point value first!");
+							return map;
+						}
 						pm.setKit_point(Float.toString(pointNbudget.get("point")));
 						pm.setBudget(Math.round(pointNbudget.get("budget")));
 					}

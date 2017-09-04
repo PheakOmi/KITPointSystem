@@ -158,8 +158,10 @@
 			    }, 10);
 				
 				}
-    				//var obj = jQuery.parseJSON(response);
-    				    
+    			else if(response.status=="555")
+					swal("Oops!",response.message, "error")
+    			else if(response.status=="888")
+        					swal("Oops!",response.message, "error")	    
     				else 
     					{
     					swal("Oops!",response.message, "error")

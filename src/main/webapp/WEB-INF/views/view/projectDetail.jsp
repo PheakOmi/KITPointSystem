@@ -110,12 +110,14 @@
         					}
         				//var obj = jQuery.parseJSON(response);
         				    
+        				else if(response.status=="555")
+        					swal("Oops!",response.message, "error")
+        				else if(response.status=="888")
+        					swal("Oops!",response.message, "error")
         				else 
-        					{
-        					swal("Oops!", "Project Name already existed!", "error")
+         					swal("Oops!", "Project Name already existed!", "error")
         					
-        					}
-        				},
+       				},
         		error: function(err){
         				console.log(JSON.stringify(err));
         				console.log("Hello");

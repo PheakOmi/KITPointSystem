@@ -124,4 +124,7 @@ public class usersServiceImpl implements usersService{
 	{
 		return usersDao1.getKitPointByProjectId(project_id);
 	}
+	public Batch_Master getBatchById(int id){
+		return usersDao1.getBatchById(id);
+	}
 }
