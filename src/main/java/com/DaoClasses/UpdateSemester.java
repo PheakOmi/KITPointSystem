@@ -143,50 +143,48 @@ public class UpdateSemester {
 	        	
 	        	l.add(s);
 	        }
-				        Transaction trns = null;
-				        Session session = HibernateUtil.getSessionFactory().openSession();
-				        try{
-					        trns = session.beginTransaction();
-					        Batch_Master batch = new Batch_Master();
-				        for (Batch_Master b: l)
-				        {
-				        	String s = "from Batch_Master where start_date =:start_date and end_date=:end_date";
-				        	Query query = session.createQuery(s);
-				        	query.setDate("start_date", b.getStart_date());
-				        	query.setDate("end_date", b.getEnd_date());
-				        	batch=(Batch_Master) query.uniqueResult();
-				        	if(batch==null)
-				        	{
-				        		List<Semester_Master> semesters = new userDaoImpl().getStudent_Semester(b.getOdoo_id());
-				        		String currentSemester = new userDaoImpl().getCurrentSemester(semesters);
-				        		b.setSemester(currentSemester);
-				        		session.save(b);
-				        	}
-				        		
-				        	else 
-				        	{
-				        		List<Semester_Master> semesters = new userDaoImpl().getStudent_Semester(b.getOdoo_id());
-				        		String currentSemester = new userDaoImpl().getCurrentSemester(semesters);
-				        		batch.setSemester(currentSemester);
-				        		batch.setOdoo_id(b.getOdoo_id());
-				        		session.update(batch);
-				        	}
-				        	
-				        }
-				        session.getTransaction().commit();
-				        }
-				       
-				        
-				        
-				        catch (RuntimeException e) {
-						    e.printStackTrace();
-						   } finally {
-						    session.flush();
-						    session.close();
-						   }
-				        }
-	}
+	        Transaction trns = null;
+	        Session session = HibernateUtil.getSessionFactory().openSession();
+	        try{
+		        trns = session.beginTransaction();
+		        Batch_Master batch = new Batch_Master();
+	        for (Batch_Master b: l)
+	        {
+	        	String s = "from Batch_Master where start_date =:start_date and end_date=:end_date";
+	        	Query query = session.createQuery(s);
+	        	query.setDate("start_date", b.getStart_date());
+	        	query.setDate("end_date", b.getEnd_date());
+	        	batch=(Batch_Master) query.uniqueResult();
+	        	if(batch==null)
+	        	{
+	        		List<Semester_Master> semesters = new userDaoImpl().getStudent_Semester(b.getOdoo_id());
+	        		String currentSemester = new userDaoImpl().getCurrentSemester(semesters);
+	        		batch.setSemester(currentSemester);
+	        		session.save(b);
+	        	}
+	        		
+	        	else 
+	        	{
+	        		List<Semester_Master> semesters = new userDaoImpl().getStudent_Semester(b.getOdoo_id());
+	        		String currentSemester = new userDaoImpl().getCurrentSemester(semesters);
+	        		batch.setSemester(currentSemester);
+	        		batch.setOdoo_id(b.getOdoo_id());
+	        		session.update(batch);
+	        	}
+	        	
+	        }
+	        session.getTransaction().commit();
+	        }
 	       
-
-
-
+	        
+	        
+	        catch (RuntimeException e) {
+			    e.printStackTrace();
+			   } finally {
+			    session.flush();
+			    session.close();
+			   }
+	        }
+	        
+	       
+	}

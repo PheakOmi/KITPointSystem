@@ -59,14 +59,22 @@ $(document).ready(function(){
 	$("[name=date]").keydown(function (event) {
 	    event.preventDefault();
 	});
-	$("#name1").keyup(function () {
-		if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
-	         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
-      }
-	});
+	
 	$('li#settingStlye').addClass('active');
 	$("#myForm").on('submit',function(e){
 		e.preventDefault();
+		var a = $("#name1").val().trim();
+		var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+		if(a=='')
+			{
+			swal("Oops!", "The input cannot be empty", "error")
+			return
+			}
+		if(format.test(a))
+			{
+			swal("Oops!", "You cannot input special characters", "error")  
+			return
+			}
         var startdate = Date.parse($("#startdate").val());
         var enddate = Date.parse($("#enddate").val());
         if(startdate>enddate)

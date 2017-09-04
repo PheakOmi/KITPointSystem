@@ -1,31 +1,23 @@
-<body onload="load();">
+<body onload="load()">
 <script type="text/javascript">
 	load = function(){	
 		$.ajax({
 			url:'userNProjectCategoryList?id=0',
-			type:'POST',
+			type:'GET',
 			success: function(response){
 				console.log(response);
 				category = response.category;
 				user = response.user;
 				student = response.student;
-<%--				stage = response.stage;	--%>
+				
 				for(i=0; i<category.length; i++)					
 					$("#projectcategory").append("<option value="+category[i].id+">"+category[i].name+" </option>");
-<%--				for (i = 0; i < stage.length; i++) {
-    			var checkBox = $('<input class="checkbox" type="checkbox" value="'+stage[i].id+'"><label for="checkbox">'+stage[i].stage_name+'</label><br />');
-    			checkBox.appendTo('#stage');
-    
-}	--%>
-for(i=0; i<user.length; i++)
-	$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
-for(i=0; i<student.length; i++)
-	$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
-	//$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");
-$('#member').select2({
-	  data: student
-	});					
-					
+				for(i=0; i<user.length; i++)
+					$("#projectcoordinator").append("<option value="+user[i][0]+">"+user[i][1]+" </option>");
+				for(i=0; i<student.length; i++)
+					$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
+		$('#member').select2({data: student});					
+			
 			},
 		error: function(err){
 			console.log("KKKKKKK");
@@ -37,39 +29,47 @@ $('#member').select2({
 	}
 	
 	$(document).ready(function(){
-
-		$("#project_name").keyup(function () {
-			if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
-		         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
-	      }
+		$('#teamleader').on('change', function() {
+			$('#member').children("option[value=" + this.value + "]").remove();	
+			})
+		$("[name=date]").keydown(function (event) {
+		    event.preventDefault();
 		});
-		$("#projectcode").keyup(function () {
-			if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
-		         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
-		      }
-			});
-		$("#skillset").keyup(function () {
-			if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
-		         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
-		      }
-			});
+
 		
-		$("#planninghour").keyup(function () {
-			if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
-		         this.value = this.value.replace(/[^0-9\.]/g, '');
-		      }
-			});
-		$("#budget").keyup(function () {
-			if (this.value != this.value.replace(/[^0-9\.]/g, '')) {
-		         this.value = this.value.replace(/[^0-9\.]/g, '');
-		      }
-			});
 		$('li#projectStlye').addClass('active');
     	$("#myForm").on('submit',function(e){
+    		
     		var member = $('#member').val(); 
     		member.push($('#teamleader').val());
     		console.log(member);
     		e.preventDefault();
+    		var projectname = $("#project_name").val().trim();
+    		var projectcode = $("#projectcode").val().trim();
+    		var planninghour = $("#planninghour").val().trim();
+    		//var skillset = $("#skillset").val().trim();
+    		var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+    		var formats = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]+/;
+    		if((projectname=='') || (projectcode=='')||(planninghour==''))
+    			{
+    			swal("Oops!", "The input cannot be empty", "error")
+    			return
+    			}
+    		if((format.test(projectname)) || (format.test(projectcode)))
+    			{
+    			swal("Oops!", "You cannot input special characters", "error")  
+    			return
+    			}
+    		if((format.test(projectname)) || (format.test(projectcode)))
+			{
+			swal("Oops!", "You cannot input special characters", "error")  
+			return
+			}
+    		if(formats.test(planninghour))
+    			{
+    			swal("Oops!", "You can only input number", "error")  
+    			return
+    			}
     		var deadline = Date.parse($("#deadline").val());
             var startdate = Date.parse($("#startdate").val());
             var enddate = Date.parse($("#enddate").val());
@@ -80,7 +80,7 @@ $('#member').select2({
     		else{
         	$.ajax({
         		url:'saveProject',
-        		type:'POST',
+        		type:'GET',
         		data:{		status:$("#status").val(),
         					project_name:$("#project_name").val(),
         					project_code:$("#projectcode").val(),
@@ -88,8 +88,7 @@ $('#member').select2({
         					project_co:$("#projectcoordinator").val(),
         					project_leader:$("#teamleader").val(),
         					initially_planned:$("#planninghour").val(),
-        					budget:$("#budget").val(),
-        					skillset:$("#skillset").val(),
+        					budget:0,
         					kit_point:$("#kitpoint").val(),
         					deadline:$("#deadline").val(),
         					start_date:$("#startdate").val(),
@@ -164,14 +163,14 @@ $('#member').select2({
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Project Name</label>
                                 <div class="col-sm-8">
-                                	<input type="text" class="form-control" id="project_name" required>
+                                	<input type="text" class="form-control" maxlength="30" id="project_name" required>
                                 </div>
                         </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Project Category</label>
 	                            <div class="col-sm-8">
 	                                <select class="form-control" id="projectcategory">
-	           
+	           							
 	                                </select>
 	                            </div>
                             </div>
@@ -187,8 +186,8 @@ $('#member').select2({
                            <div class="form-group">
                                 <label class="col-sm-4 control-label">Team Leader</label>
 	                            <div class="col-sm-8">    
-	                                <select class="form-control" id="teamleader">
-	                                    
+	                                <select class="form-control" id="teamleader" required>
+	                                    <option></option>
 	                                </select>
 	                            </div>
                             </div>
@@ -197,7 +196,7 @@ $('#member').select2({
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Project Member</label>
 	                            <div class="col-sm-8">    
-	                                <select class="js-example-basic-multiple form-control" id="member" multiple="multiple">
+	                                <select class="js-example-basic-multiple form-control" id="member" multiple="multiple" required>
 										  
 									</select>
 	                            </div>
@@ -229,7 +228,7 @@ $('#member').select2({
                             <div class="form-group ">
                                 <label class="col-sm-4 control-label">Project code</label>
                                 <div class="col-sm-8">
-                                	<input type="text" class="form-control" id="projectcode" required>
+                                	<input type="text" class="form-control" maxlength="15" id="projectcode" required>
                                 </div>
                         </div>
                             <div class="form-group">
@@ -244,7 +243,7 @@ $('#member').select2({
                               		<input class="form-control" id="enddate"  name="date" placeholder="MM/DD/YYY" type="text" required/>
                               	</div>
                             </div>
-                                 <div class="form-group ">
+                                 <div class="form-group "> 
                                 <label class="col-sm-4 control-label">Deadline</label>
                                 <div class="col-sm-8">
                                 	<input class="form-control" name="date" id="deadline" placeholder="MM/DD/YYY" type="text" required/>
@@ -260,22 +259,17 @@ $('#member').select2({
 	                            </div>
                             </div>		--%>
                             
-                              <div class="form-group">
-                                <label class="col-sm-4 control-label">Skill Set</label>
-                                <div class="col-sm-8">
-                                	<input class="form-control" id="skillset">
-                                </div>
-                            </div> 
+                              
                              <div class="form-group">
                                 <label class="col-sm-4 control-label">KIT point</label>
                                 <div class="col-sm-8">	
-                                	<input class="form-control" id="kitpoint" disabled>
+                                	<input class="form-control" id="kitpoint"  disabled>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Budget</label>
                                 <div class="col-sm-8">	
-                                	<input type="text" class="form-control" maxlength="7" id="budget" required>
+                                	<input type="text" class="form-control" maxlength="7" id="budget" disabled>
                                 </div>
                             </div>
                             

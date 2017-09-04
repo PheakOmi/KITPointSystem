@@ -54,5 +54,4 @@ public interface usersService {
 	public Project_Member getAMemberById (int id, int project_id);
 	public String getKitPointByProjectId (int project_id);
 	public Batch_Master getBatchById(int id);
-	
 }

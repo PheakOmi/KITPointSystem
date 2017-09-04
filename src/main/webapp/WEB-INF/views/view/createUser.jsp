@@ -61,21 +61,33 @@
 			
 			$(document).ready(function(){
 				
-				$("#name").keyup(function () {
-					if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
-				         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
-					}
-					});
+			
 				
-				$("#email").keyup(function () {
-			      if (this.value != this.value.replace(/[^a-zA-Z0-9\@.]/g, '')) {
-			         this.value = this.value.replace(/[^a-zA-Z0-9\@.]/g, '');
-			      }
-				});
 				$('li#settingStlye').addClass('active');
 				$("#myForm").on('submit',function(e){
 					e.preventDefault();
-					 
+					var name = $("#name").val().trim();
+					var email = $("#email").val().trim();
+					var password = $("#password").val().trim();
+					var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+					var formatemail = /[!#$%^&*()+\-=\[\]{};':"\\|,.<>\/?]+/;
+					if((name=='') || (email=='') || (password==''))
+						{
+						swal("Oops!", "The input cannot be empty", "error")
+						return
+						}
+
+					
+					if(format.test(name))
+						{
+						swal("Oops!", "You cannot input special characters", "error")  
+						return
+						}
+					if(formatemail.test(email))
+					{
+					swal("Oops!", "You cannot input special characters", "error")  
+					return
+					}		 	
 						 $.ajax({
 								url:'addUser',
 								type:"GET",

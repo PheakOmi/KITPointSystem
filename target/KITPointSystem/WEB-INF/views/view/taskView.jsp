@@ -91,6 +91,8 @@
 	border-radius: 3px;
 	box-shadow: 1px 0px 1px rgba(0, 0, 0, 0.2);
 }
+.container{
+align:right;}
 </style>
 
 </head>
@@ -98,67 +100,80 @@
 <body onload="load();">
 	<script type="text/javascript">
 		load = function() {
-			$.ajax({
-				url : 'ProjectNTask',
-				method : 'POST',
-				success : function(response) {
-					task = response.task;
-					project = response.project;
-					console.log(response);
+			$
+					.ajax({
+						url : 'ProjectNTask',
+						method : 'GET',
+						success : function(response) {
+							task = response.task;
+							project = response.project;
+							console.log(response);
 
-					for (i=0;i<project.length;i++)
-				      {
-				      var projectcard =
-				          '<div class="project card">' +
-				           '<div class="card-heading">' +
-				            '<h3>'+project[i].project_name+'</h3>' +
-				           '</div>' +
-				           '<div class="card-body">'+
-				            '<div class="project-tasks__wrapper"'+'id='+project[i].id+'>'+
-				            '</div>'+
-				            '</div>'+
-				           '</div>';
-				           $(".projects").append(projectcard);
-				      }
-				     for (i=0;i<task.length;i++)
-				      {
-				       var taskcard=
-				       '<a href="updateTaskDetail?id='+task[i].id+'">'+'<div class="project-task">'+
-				             '<p>'+task[i].name+'</p>'+
-				            '</div>'+"</a>";
-				      //if(task[j].project_id==project[i].id)
-				       $("#"+task[i].project_id).append(taskcard);
-				      }
-				},
-				error : function(err) {
-					console.log("Error");
-					console.log(JSON.stringify(err));
-				}
+							for (i = 0; i < project.length; i++) {
+								var projectcard = '<div class="project card"'+'id='+project[i].project_name+'>'
+										+ '<div class="card-heading">'
+										+ '<h3>'
+										+ project[i].project_name
+										+ '</h3>'
+										+ '</div>'
+										+ '<div class="card-body">'
+										+ '<div class="project-tasks__wrapper"'+'id='+project[i].id+'>'
+										+ '</div>' + '</div>' + '</div>';
+								$(".projects").append(projectcard);
+							}
+							for (i = 0; i < task.length; i++) {
+								var taskcard = '<a href="updateTaskDetail?id='
+										+ task[i].id + '">'
+										+ '<div class="project-task">' + '<p>'
+										+ task[i].name + '</p>' + '</div>'
+										+ "</a>";
+								//if(task[j].project_id==project[i].id)
+								$("#" + task[i].project_id).append(taskcard);
+							}
+						},
+						error : function(err) {
+							console.log("Error");
+							console.log(JSON.stringify(err));
+						}
 
-			});
+					});
 		}
-		
+
 		$(document).ready(function() {
-		    $('li#taskStlye').addClass('active');
+			$('#srch-term').on('change', function() {
+				
+			})
+			
+			$('li#taskStlye').addClass('active');
 		});
-	</script> 
+	</script>
 	<!-- Page Heading -->
-                <div class="row">
-                        <h3 class="page-header">
-                            Task
-                           <a href="taskDetail" class="btn btn-default pull-right" style="margin-right:40px;margin-bottom:10px;">Create</a>
-                        </h3>
-                         
-                </div>
-   <!-- /.row -->
+	<div class="row">
+		<h3 class="page-header">
+			Task <a href="taskDetail" class="btn btn-default pull-right"
+				style="margin-right: 40px; margin-bottom: 10px;">Create</a>
+		</h3>
+
+	</div>
+	<!-- /.row -->
+
+	<!-- <div class="container">
+		<div class="col-md-3">
+			<form class="navbar-form" role="search">
+				<div class="input-group add-on">
+					<input class="form-control" placeholder="Search" name="srch-term"
+						id="srch-term" type="text">
+				</div>
+			</form>
+
+
+		</div>
+	</div> -->
+
+
 	<div class="project-list__wrapper">
 		<div class="inner">
-			<div class="projects">
-				
-				
-				
-					
-			</div>
+			<div class="projects"></div>
 		</div>
 	</div>
 

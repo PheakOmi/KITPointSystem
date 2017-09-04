@@ -1,4 +1,4 @@
-<body onload="load();">
+<body onload="load()">
   <!-- Page Heading -->
                 <div class="row">
                         <h3 class="page-header">
@@ -101,16 +101,31 @@
 		
 	}
 	$(document).ready(function(){
-		$(".form-control").keyup(function () {
-	        
-	      if (this.value != this.value.replace(/[^0-9]/g, '')) {
-	         this.value = this.value.replace(/[^0-9]/g, '');
-	      }
-		});
+		
 		 $('li#settingStlye').addClass('active');
 		$("#myForm").on('submit',function(e){
 			e.preventDefault();
-			 
+		    
+		    var semester1 = $('#semester1').val().trim();
+		    var semester2 = $('#semester2').val().trim();
+		    var semester3 = $('#semester3').val().trim();
+		    var semester4 = $('#semester4').val().trim();
+		    var semester5 = $('#semester5').val().trim();
+		    var semester6 = $('#semester6').val().trim();
+		    var semester7 = $('#semester7').val().trim();
+		    var semester8 = $('#semester8').val().trim();
+		    
+			var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]+/;
+			if((semester1=='')|| (semester2=='')|| (semester3=='')|| (semester4=='')|| (semester5=='')|| (semester6=='')|| (semester7=='')|| (semester8==''))
+				{
+				swal("Oops!", "The input cannot be empty", "error")
+				return
+				}
+			if((format.test(semester1)) || (format.test(semester2)) || (format.test(semester3)) || (format.test(semester4)) || (format.test(semester5)) || (format.test(semester6)) || (format.test(semester7)) || (format.test(semester8)))
+				{
+				swal("Oops!", "You can only input number", "error")  
+				return
+				}	 
 				 $.ajax({
 						url:'getHour',
 						type:"GET",

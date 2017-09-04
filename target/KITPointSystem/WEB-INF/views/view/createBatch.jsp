@@ -44,7 +44,7 @@
 	{	
 		$.ajax({
 			url:'semesterList',
-			type:'POST',
+			type:'GET',
 			success: function(response)
 				{
 					console.log(response);
@@ -56,15 +56,25 @@
 			});
 	} --%>
 $(document).ready(function(){
-	
-	$("#name1").keyup(function () {
-		if (this.value != this.value.replace(/[^a-zA-Z0-9\ ]/g, '')) {
-	         this.value = this.value.replace(/[^a-zA-Z0-9\ ]/g, '');
-      }
+	$("[name=date]").keydown(function (event) {
+	    event.preventDefault();
 	});
+	
 	$('li#settingStlye').addClass('active');
 	$("#myForm").on('submit',function(e){
 		e.preventDefault();
+		var a = $("#name1").val().trim();
+		var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+		if(a=='')
+			{
+			swal("Oops!", "The input cannot be empty", "error")
+			return
+			}
+		if(format.test(a))
+			{
+			swal("Oops!", "You cannot input special characters", "error")  
+			return
+			}
         var startdate = Date.parse($("#startdate").val());
         var enddate = Date.parse($("#enddate").val());
         if(startdate>enddate)
@@ -72,7 +82,7 @@ $(document).ready(function(){
 		else{
 			 $.ajax({
 				url:'batchSubmit',
-				type:'POST',
+				type:'GET',
 				data:{
 						name:$("#name1").val(),
 						start_date:$("#startdate").val(),
