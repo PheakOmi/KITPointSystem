@@ -53,15 +53,10 @@
 						  </div>
 						  </div>
 						</form>
-                    </div>
-                    
-                    
-                 	
+                    </div>                 	
  <script type="text/javascript">
 			
 			$(document).ready(function(){
-				
-			
 				
 				$('li#settingStlye').addClass('active');
 				$("#myForm").on('submit',function(e){
@@ -70,14 +65,13 @@
 					var email = $("#email").val().trim();
 					var password = $("#password").val().trim();
 					var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-					var formatemail = /[!#$%^&*()+\-=\[\]{};':"\\|,.<>\/?]+/;
+					var formatemail = /[!#$%^&*()+\-=\[\]{};':"\\|,<>\/?]+/;
 					if((name=='') || (email=='') || (password==''))
 						{
 						swal("Oops!", "The input cannot be empty", "error")
 						return
 						}
-
-					
+	
 					if(format.test(name))
 						{
 						swal("Oops!", "You cannot input special characters", "error")  
@@ -85,7 +79,7 @@
 						}
 					if(formatemail.test(email))
 					{
-					swal("Oops!", "You cannot input special characters", "error")  
+					swal("Oops!", "You cannot input special character", "error")  
 					return
 					}		 	
 						 $.ajax({

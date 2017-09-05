@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+ 	<class name="com.EntityClasses.Batch_Master" table="batch_master">
+ 	 	
+ 	 <id name="id" column="id" >    
+ 	    <generator class="identity"/>    
+ 	 </id>
+ 	 	
+    <property name="semester"  column="semester"  />
+    <property name="odoo_id"  column="odoo_id"  />
+    <property name="start_date"  column="start_date"  />
+    <property name="end_date"  column="end_date"  />
+    <property name="name" column="name"/>
+    <property name="created_at" column="created_at"/>
+    <property name="updated_at" column="updated_at"/>
+
+ 	</class>
+</hibernate-mapping>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+ 	<class name="com.EntityClasses.KIT_Point" table="kit_point">
+ 	 	
+ 	 <id name="id" column="id" >    
+ 	    <generator class="identity"/>    
+ 	 </id>
+    <property name="value"  column="value"/>
+    <property name="kit_point" column="kit_point"/>
+    <property name="created_at" column="created_at"/>
+    <property name="updated_at" column="updated_at"/>
+ 	</class>
+</hibernate-mapping>
