@@ -72,7 +72,7 @@ $(document).ready(function() {
 			success: function(response){
 					
 					project=response.project;
-					for(i=0; i<response.project.length; i++){
+					for(i=0; i<project.length; i++){
 						
 						if (project[i].kit_point==""||project[i].kit_point==null)
 							project[i].kit_point="0.00";
@@ -107,40 +107,40 @@ $(document).ready(function() {
 						
 						 }
 						var projectDiv =
-						"<div class='col-sm-4' data-project-status='"+response.project[i].status+
+						"<div class='col-sm-4' data-project-status='"+project[i].status+
 						"'>"+
 						"<div class='panel "+panel+"'>"+
 							"<div class='panel-heading'>"+
-								"<h3 class='panel-title'>"+ response.project[i].project_name+"</h3>"+
+								"<h3 class='panel-title'>"+ project[i].project_name+"</h3>"+
                             "</div>"+
                             "<div class='panel-body'>"+
                                
                 
                                "<div class='row'>"+
                                     "<div class='col-xs-6'>"+
-                                    "<label>Start Date :</label>"+response.project[i].start_date+
+                                    "<label>Start Date :</label>"+project[i].start_date+
                                     "</div>"+
                                     "<div class='col-xs-6'>"+
-                                    "<label>Deadline :</label>"+response.project[i].deadline+
+                                    "<label>Deadline :</label>"+project[i].deadline+
                                     "</div>"+
                                "</div>"+
                                "<div class='row'>"+
                                "<div class='col-xs-6'>"+approved_button+
                                "</div>"+
                                "<div class='col-xs-6 text-right'>"+ 
-                               "<div class='huge'>"+response.project[i].kit_point+"</div>"+ 
+                               "<div class='huge'>"+project[i].kit_point+"</div>"+ 
                                    "<div>KIT point</div>"+ 
                                    "</div>"+
                           "</div>"+
                             "</div>"+
                               
                                 "<div class='panel-footer'>"+
-                                "<a href='updateProjectDetail?id="+ response.project[i].id+"'>"+
+                                "<a href='updateProjectDetail?id="+project[i].id+"'>"+
                                     "<span class='pull-left'>View Details</span>"+ 
                                    
                                     "</a>"+
                                     '<div>'+
-                                "<a href='javascript:func("+response.project[i].id+")'>"+
+                                "<a href='javascript:func("+project[i].id+")'>"+
                                 "<span class='pull-right deleteProject'>Delete</span>"+ 
                                 "</a>"+
                                 "</div>"+
@@ -247,7 +247,7 @@ $(document).ready(function() {
 				
 				project=response.project;
 				$("div #project").html('');
-				for(i=0; i<response.project.length; i++){
+				for(i=0; i<project.length; i++){
 					if (project[i].kit_point==""||project[i].kit_point==null)
 						project[i].kit_point="0.00";
 					if (project[i].start_date==null||project[i].start_date=="")
@@ -280,11 +280,11 @@ $(document).ready(function() {
 					
 					 }
 					var projectDiv =
-						"<div id='myform' class='col-sm-4' data-project-status='"+response.project[i].status+
+						"<div id='myform' class='col-sm-4' data-project-status='"+project[i].status+
 						"'>"+
 						"<div class='panel "+panel+"'>"+
 							"<div class='panel-heading'>"+
-								"<h3 class='panel-title'>"+ response.project[i].project_name+"</h3>"+
+								"<h3 class='panel-title'>"+project[i].project_name+"</h3>"+
                             "</div>"+
                             "<div class='panel-body'>"+
   /*                           "<label>Progress</label>"+
@@ -295,29 +295,29 @@ $(document).ready(function() {
                 
                                "<div class='row'>"+
                                     "<div class='col-xs-6'>"+
-                                    "<label>Start Date :</label>"+response.project[i].start_date+
+                                    "<label>Start Date :</label>"+project[i].start_date+
                                     "</div>"+
                                     "<div class='col-xs-6'>"+
-                                    "<label>Deadline :</label>"+response.project[i].deadline+
+                                    "<label>Deadline :</label>"+project[i].deadline+
                                     "</div>"+
                                "</div>"+
                                "<div class='row'>"+
                                "<div class='col-xs-6'>"+approved_button+
                                "</div>"+
                                "<div class='col-xs-6 text-right'>"+ 
-                               "<div class='huge'>"+response.project[i].kit_point+"</div>"+ 
+                               "<div class='huge'>"+project[i].kit_point+"</div>"+ 
                                    "<div>KIT point</div>"+ 
                                    "</div>"+
                           "</div>"+
                             "</div>"+
                               
                                 "<div class='panel-footer'>"+
-                                "<a href='updateProjectDetail?id="+ response.project[i].id+"'>"+
+                                "<a href='updateProjectDetail?id="+project[i].id+"'>"+
                                     "<span class='pull-left'>View Details</span>"+ 
                                     
                                     "</a>"+
                                     '<div>'+
-                                    "<a href='javascript:func("+response.project[i].id+")'>"+
+                                    "<a href='javascript:func("+project[i].id+")'>"+
                                     '<span class="pull-right deleteProject">Delete</span>'+ 
                                     "</a>"+
                                     "</div>"+
