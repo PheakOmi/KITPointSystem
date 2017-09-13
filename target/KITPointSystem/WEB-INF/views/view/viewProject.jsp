@@ -14,17 +14,77 @@ $(document).ready(function() {
 	
 	    return [month, day, year].join('-');
 	};
+	func =  function(id)
+	{
+	swal({
+	    title: "Do you want to delete this project?",
+	    text: "All information related to this project will be deleted!",
+	    type: "warning",
+	    showCancelButton: true,
+	    confirmButtonColor: "#E71D36",
+	    confirmButtonText: "Delete",
+	    cancelButtonText: "Cancel",
+	    closeOnConfirm: false,
+	    closeOnCancel: true
+	  },
+	    function (isConfirm) {
+	      if (isConfirm) {
+	    	  $.ajax({
+	    	     url:'deleteProjectDetail',
+	    	     type:'GET',
+	    	     data:{id:id},
+	    	     traditional: true,
+	    	     success: function(response){
+	    	      if(response.status=="200")
+	    	      {
+	    	      setTimeout(function() {
+	    	             swal({
+	    	                 title: "Done!",
+	    	                 text: "You have deleted it successfully!",
+	    	                 type: "success"
+	    	             }, function() {
+	    	                 window.location = "project";
+	    	             });
+	    	         }, 10);
+
+	    	      }
+
+	    	          else 
+	    	           {
+	    	           swal("Oops!","It is not deleted", "error")
+
+	    	           } 
+	    	     },
+	    				error: function(err){
+	    					
+	    					console.log(JSON.stringify(err));
+	    					}
+	    	       });
+	      } 
+	    });
+	    }
+
 	load = function(){	
 		$("li#id1").addClass("active");
 		$.ajax({
 			url:'getProject',
 			type:'GET',
 			success: function(response){
-					console.log(response);
+					
 					project=response.project;
 					for(i=0; i<response.project.length; i++){
-						project[i].deadline=formatDate(project[i].deadline);
-						project[i].start_date=formatDate(project[i].start_date);
+						
+						if (project[i].kit_point==""||project[i].kit_point==null)
+							project[i].kit_point="0.00";
+						if (project[i].start_date==null||project[i].start_date=="")
+							project[i].start_date="";
+						else
+							project[i].start_date=formatDate(project[i].start_date);
+						if (project[i].deadline==null||project[i].deadline=="")
+							project[i].deadline="";
+						else
+							project[i].deadline=formatDate(project[i].deadline);
+						
 						var panel, approved_button="";
 						 switch(project[i].status){
 							case "To approve Project":
@@ -54,11 +114,7 @@ $(document).ready(function() {
 								"<h3 class='panel-title'>"+ response.project[i].project_name+"</h3>"+
                             "</div>"+
                             "<div class='panel-body'>"+
-                               "<label>Progress</label>"+
-                  	           "<div class='progress'>"+
-                  			   "<div class='progress-bar' role='progressbar' aria-valuenow='40' aria-valuemin='0' aria-valuemax='100' style='width: 90%;'><span class='sr-only'>60% Complete</span>"+
-                    		   "</div>"+
-                			   "</div>"+
+                               
                 
                                "<div class='row'>"+
                                     "<div class='col-xs-6'>"+
@@ -77,13 +133,21 @@ $(document).ready(function() {
                                    "</div>"+
                           "</div>"+
                             "</div>"+
-                              "<a href='updateProjectDetail?id="+ response.project[i].id+"'>"+
+                              
                                 "<div class='panel-footer'>"+
-                                    "<span class='pull-left'>View Details</span>"+
-                                    "<span class='pull-right'><i class='fa fa-arrow-circle-right'></i></span>"+
-                                    "<div class='clearfix'></div>"+
+                                "<a href='updateProjectDetail?id="+ response.project[i].id+"'>"+
+                                    "<span class='pull-left'>View Details</span>"+ 
+                                   
+                                    "</a>"+
+                                    '<div>'+
+                                "<a href='javascript:func("+response.project[i].id+")'>"+
+                                "<span class='pull-right deleteProject'>Delete</span>"+ 
+                                "</a>"+
                                 "</div>"+
-                            "</a>"+
+                                    "<div class='clearfix'></div>"+
+                                   
+                                "</div>"+
+                            
                         "</div>"+
                         "</div>";
 						
@@ -115,7 +179,7 @@ $(document).ready(function() {
 				},
 		error: function(err){
 				console.log(JSON.stringify(err));
-				console.log("Hello");
+
 				
 			}
 			
@@ -180,7 +244,7 @@ $(document).ready(function() {
 			type:'GET',
 			data:{status:project_status},
 			success: function(response){
-				console.log(response);
+				
 				project=response.project;
 				$("div #project").html('');
 				for(i=0; i<response.project.length; i++){
@@ -214,11 +278,11 @@ $(document).ready(function() {
 								"<h3 class='panel-title'>"+ response.project[i].project_name+"</h3>"+
                             "</div>"+
                             "<div class='panel-body'>"+
-                               "<label>Progress</label>"+
+  /*                           "<label>Progress</label>"+
                   	           "<div class='progress'>"+
                   			   "<div class='progress-bar' role='progressbar' aria-valuenow='40' aria-valuemin='0' aria-valuemax='100' style='width: 90%;'><span class='sr-only'>60% Complete</span>"+
                     		   "</div>"+
-                			   "</div>"+
+                			   "</div>"+	*/
                 
                                "<div class='row'>"+
                                     "<div class='col-xs-6'>"+
@@ -237,13 +301,21 @@ $(document).ready(function() {
                                    "</div>"+
                           "</div>"+
                             "</div>"+
-                              "<a href='updateProjectDetail?id="+ response.project[i].id+"'>"+
+                              
                                 "<div class='panel-footer'>"+
-                                    "<span class='pull-left'>View Details</span>"+
-                                    "<span class='pull-right'><i class='fa fa-arrow-circle-right'></i></span>"+
+                                "<a href='updateProjectDetail?id="+ response.project[i].id+"'>"+
+                                    "<span class='pull-left'>View Details</span>"+ 
+                                    
+                                    "</a>"+
+                                    '<div>'+
+                                    "<a href='javascript:func("+response.project[i].id+")'>"+
+                                    '<span class="pull-right deleteProject">Delete</span>'+ 
+                                    "</a>"+
+                                    "</div>"+
+                                    
                                     "<div class='clearfix'></div>"+
                                 "</div>"+
-                            "</a>"+
+                           
                         "</div>"+
                         "</div>";
 					$("#project").append(projectDiv);
@@ -256,20 +328,7 @@ $(document).ready(function() {
 	{
 	     location.href = "projectDetail";
 	}
-	/* $(document).ready(function(){
-		$("#myform").on('submit',function(e){
-			e.preventDefault();
-				
-					 	$.ajax({
-					url:'approveTheProject',
-					type:'POST',
-					data:{value:$('#value1').val()},
-					success: function(response){
-
-						swal("Success!", "You have created it successfully!", "success")
-					}				
-				});  					
-		}); */
+	
 </script>
 <body onload="load();">
                     <div class="container">

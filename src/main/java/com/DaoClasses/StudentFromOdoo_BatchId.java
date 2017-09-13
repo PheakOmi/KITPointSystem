@@ -61,7 +61,7 @@ public class StudentFromOdoo_BatchId
 	        			    		    //OR
 	        			    		//Arrays.asList("customer", "=", true))),  //To bring the all value customer should be true
 	        			    new HashMap() {{
-	        			        put("fields", Arrays.asList("id","name","batch_id","gender"));
+	        			        put("fields", Arrays.asList("id","name","batch_id","gender","last_name"));
 	        			        //put("limit", 5);
 	        			    }}
 	        			)));
@@ -81,7 +81,10 @@ public class StudentFromOdoo_BatchId
 	                 String name=(String)complete_Result.get("name");
 	                 student.setName(name);
 	                 student.setText(name);
-	                  
+	                 String lname = (String)complete_Result.get("last_name");
+	                 name = lname+" "+name;
+	                 student.setName(name);
+	                 student.setText(name);
 	                 
 	                 Object batch_id1=(Object)complete_Result.get("batch_id");   //batch_id is object so we must get this value as an object       	         	  
 	              	 String batch_id2=Arrays.deepToString((Object[]) batch_id1).toString();

@@ -5,14 +5,14 @@
 			url:'ProjectNUser',
 			type:'GET',
 			success: function(response){
-				console.log(response);
+				
 				project = response.project;
 				for(i=0; i<project.length; i++)					
 					$("#project").append("<option value="+project[i].id+">"+project[i].project_name+" </option>");
 				
 			},
 		error: function(err){
-			console.log("KKKKKKK");
+			
 			console.log(JSON.stringify(err));
 			}
 			
@@ -91,7 +91,7 @@
              				},
              		error: function(err){
              				console.log(JSON.stringify(err));
-             				console.log("Hello");
+             				
              				}
              		
              			});		
@@ -135,15 +135,15 @@
                            
                             <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">Start Date</label>
-                                  <input class="form-control" id="startdate" name="date" placeholder="MM/DD/YYY" type="text" required/>
+                                  <input class="form-control" id="startdate" name="date" placeholder="MM/DD/YYY" type="text" />
                             </div>
     					 <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">End Date</label>
-                              <input class="form-control" id="enddate" name="date" placeholder="MM/DD/YYY" type="text" required/>
+                              <input class="form-control" id="enddate" name="date" placeholder="MM/DD/YYY" type="text" />
                             </div>
                                  <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">Deadline</label>
-                                <input class="form-control" id="deadline" name="date" placeholder="MM/DD/YYY" type="text" required/>
+                                <input class="form-control" id="deadline" name="date" placeholder="MM/DD/YYY" type="text" />
                         </div>
                                  <div class="form-group col-lg-6">
                                 <label>Status</label>
@@ -159,6 +159,7 @@
         </div>            
 </div>
 <button type="submit" class="btn btn-default">Create</button>
+<button onclick="location.href = 'task';" class="btn btn-default">Cancel</button>
 </form>
 <script type="text/javascript">
 $('#project').on('change', function() {
@@ -168,6 +169,7 @@ $('#project').on('change', function() {
 		type:'GET',
 		data: {id: projectid},
 		success: function(response){
+		console.log(response);
 		student=response.student;
 		$('#user')
 	    .find('option')

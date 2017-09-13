@@ -2,6 +2,7 @@ package com.MainController;
 
 
 import java.net.MalformedURLException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -11,6 +12,9 @@ import java.util.Set;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +35,7 @@ import com.EntityClasses.User_Info;
 import com.ModelClasses.Project_Model;
 import com.ModelClasses.Task_Model;
 import com.ServiceClasses.usersService;
+
 
 
 @Controller
@@ -209,9 +214,22 @@ public class ControllerFile {
 					}	
 				}
 }
+			@RequestMapping(value="/deleteProjectDetail", method = RequestMethod.GET)
+			public @ResponseBody Map<String,String>  deleteProjectDetail(@RequestParam(value = "id", required=false) Integer id){
+				Map<String,String> map = new HashMap<String,String>();
+				int status = 0;
+				status= usersService1.deleteProjectDetail(id);
+				if(status==1)
+					map.put("status", "200");
+				else 	
+					map.put("status", "300");
+				
+				return map;
+				}
 //========================Save Project========================================================
 			@RequestMapping(value="/saveProject", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> toSaveProject(Project_Model pm) throws Exception{
+					DecimalFormat df2 = new DecimalFormat(".##");
 					Map<String, Float> pointNbudget = new HashMap<String, Float>();
 					int[] m = pm.getMember();
 					Map<String,Object> map = new HashMap<String,Object>();
@@ -234,7 +252,8 @@ public class ControllerFile {
 						map.put("message","Please create KIT point value first!");
 						return map;
 					}
-					pm.setKit_point(Float.toString(pointNbudget.get("point")));
+					//pm.setKit_point(Float.toString(pointNbudget.get("point")));
+					pm.setKit_point(df2.format(pointNbudget.get("point")));
 					pm.setBudget(Math.round(pointNbudget.get("budget")));
 					int id = usersService1.saveProject(pm);
 					if(id!=0)
@@ -256,6 +275,7 @@ public class ControllerFile {
 			@RequestMapping(value="/updateProject", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> toUpdateProject(Project_Model pm) throws Exception{
 	        		//int[] s = pm.getStage();
+					DecimalFormat df2 = new DecimalFormat(".##");
 					Project_Master project = new Project_Master();
 					Map<String,Object> map = new HashMap<String,Object>();	
 					Map<Integer, String> mm = usersService1.getStudentSemester(pm.getMember());
@@ -288,7 +308,7 @@ public class ControllerFile {
 							map.put("message","Please create KIT point value first!");
 							return map;
 						}
-						pm.setKit_point(Float.toString(pointNbudget.get("point")));
+						pm.setKit_point(df2.format(pointNbudget.get("point")));
 						pm.setBudget(Math.round(pointNbudget.get("budget")));
 					}
 					if(usersService1.updateProject(pm))
@@ -537,13 +557,31 @@ public class ControllerFile {
 		view.addObject("id",id);
 		return view;
 		}
-
+	
 	@RequestMapping(value="/updateTaskDetail", method = RequestMethod.GET)
 	public ModelAndView updateTask(@RequestParam(value = "id", required=false) Integer id){
 		ModelAndView view =new ModelAndView("updateTaskDetail");
 		//System.out.println("ID in Controller is "+id);
 		view.addObject("id",id);
 		return view;
+		}
+	@RequestMapping(value="/editProfile", method=RequestMethod.GET)
+	public @ResponseBody Map<String,String> editProfile(User_Info user) throws Exception{
+	// Pass the new password in name variable
+			String newPassword = user.getName();
+			Map<String,String> map = new HashMap<String,String>();
+			if(usersService1.editProfile(user.getEmail(),user.getPassword(),newPassword))
+			{
+				map.put("status", "999");
+				map.put("message", "Updation is completely done!");
+			}
+			else
+			{
+				map.put("status", "888");
+				map.put("message", "Either email or password is incorrect!");
+			}
+			return map;
+			
 		}
 }
 

@@ -47,7 +47,7 @@
 						  <div class="form-group">
 						    <div class="col-sm-offset-2 col-sm-10">
 						      <button type="submit" class="btn btn-default">Create</button>
-						      <button type="reset" class="btn btn-default">Cancel</button>
+						      <button onclick="location.href = 'setting';" class="btn btn-default">Cancel</button>
 						  
 						    </div>
 						  </div>
@@ -74,6 +74,7 @@
 	
 					if(format.test(name))
 						{
+						console.log("JJ");
 						swal("Oops!", "You cannot input special characters", "error")  
 						return
 						}

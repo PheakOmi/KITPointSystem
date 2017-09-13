@@ -79,7 +79,7 @@
                   		 
                     <div class="col-sm-6">
                            	<button type="submit" class="btn btn-default">Create</button>
-                            <button type="reset" id="reset" class="btn btn-default">Cancel</button>
+                            <button onclick="location.href = 'setting';" class="btn btn-default">Cancel</button>
                     	</div>
 	                    </div>
                     </div>
@@ -91,7 +91,7 @@
 			url:'getBatchList',
 			type:'GET',
 			success: function(response){
-					console.log(response);
+				
 					data = response.batch;
 					for(i=0; i<response.batch.length; i++){					
 						$("#batch_name").append("<option value='"+response.batch[i].odoo_id+"'>"+response.batch[i].name+" </option>");

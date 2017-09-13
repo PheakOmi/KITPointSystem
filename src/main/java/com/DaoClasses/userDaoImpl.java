@@ -31,6 +31,11 @@ import org.springframework.stereotype.Repository;
 
 
 
+
+
+
+
+
 //import org.springframework.stereotype.Service;
 import com.EncryptionDecryption.Decryption;
 import com.EncryptionDecryption.Encryption;
@@ -379,9 +384,16 @@ public class userDaoImpl implements usersDao{
             tm2=(Task_Master)query.uniqueResult();
     			if(tm2!=null)
     				return false;
-            Date start_date = new SimpleDateFormat("MM/dd/yyyy").parse(t.getStart_date());
-    		Date end_date = new SimpleDateFormat("MM/dd/yyyy").parse(t.getEnd_date());
-    		Date deadline = new SimpleDateFormat("MM/dd/yyyy").parse(t.getDeadline());
+ 
+    		Date start_date = null;
+    		Date end_date = null;
+    		Date deadline = null;
+    		if(t.getStart_date() != "")
+    		start_date = new SimpleDateFormat("MM/dd/yyyy").parse(t.getStart_date());
+       		if(t.getEnd_date() != "")
+    		end_date = new SimpleDateFormat("MM/dd/yyyy").parse(t.getEnd_date());
+    		if(t.getDeadline() != "")
+    		deadline = new SimpleDateFormat("MM/dd/yyyy").parse(t.getDeadline());
     		Task_Master tm = new Task_Master();
     		tm.setProject_id(t.getProject_id());
     		tm.setName(t.getName());
@@ -424,9 +436,15 @@ public class userDaoImpl implements usersDao{
     			if(pm2!=null)
     				return 0;
     		Timestamp created_at = new Timestamp(System.currentTimeMillis());
-    		Date start_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getStart_date());
-    		Date end_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getEnd_date());
-    		Date deadline = new SimpleDateFormat("MM/dd/yyyy").parse(project.getDeadline());
+    		Date start_date = null;
+    		Date end_date = null;
+    		Date deadline = null;
+    		if(project.getStart_date() != "")
+    		start_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getStart_date());
+    		if(project.getEnd_date() != "")
+    		end_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getEnd_date());
+    		if(project.getDeadline() != "")
+    		deadline = new SimpleDateFormat("MM/dd/yyyy").parse(project.getDeadline());
     		//SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
    		 	//String encryptedPoint =encrypt.encryptText(project.getKit_point(), secKey) ;
     		Project_Master pm = new Project_Master();
@@ -487,9 +505,15 @@ public class userDaoImpl implements usersDao{
             if(count>=1)
             	return false;
     		Timestamp updated_at = new Timestamp(System.currentTimeMillis());
-    		Date start_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getStart_date());
-    		Date end_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getEnd_date());
-    		Date deadline = new SimpleDateFormat("MM/dd/yyyy").parse(project.getDeadline());
+    		Date start_date = null;
+    		Date end_date = null;
+    		Date deadline = null;
+    		if(project.getStart_date() != "")
+    		start_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getStart_date());
+    		if(project.getEnd_date() != "")
+    		end_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getEnd_date());
+    		if(project.getDeadline() != "")
+    		deadline = new SimpleDateFormat("MM/dd/yyyy").parse(project.getDeadline());
     		
     		  int old[] = getMembersIdByProjectId(project.getId());
     		  int newa [] = project.getMember();
@@ -564,21 +588,32 @@ public class userDaoImpl implements usersDao{
     {
     	Transaction trns13 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
-        
+        List <Task_Master> tasks  = new ArrayList();
+        int count=0;
         try {
         	
             trns13 = session.beginTransaction();
-            String queryString = "FROM Task_Master where project_id =:project_id and name=:name";
-            Query query = session.createQuery(queryString);
-            query.setInteger("project_id",t.getProject_id());
-            query.setString("name", t.getName());
-            Task_Master t2 = (Task_Master)query.uniqueResult();
-    			if(t2!=null)
-    				return false;
+            tasks = getAllTaskByProjectId(t.getProject_id());
+            for (Task_Master task:tasks)
+            {
+            	if (task.getId()!=t.getId())
+            	{
+    				if (task.getName().equals(t.getName()))
+    					count++;
+    			}
+            }
+		    if(count>=1)
+		    	return false;
     		Timestamp updated_at = new Timestamp(System.currentTimeMillis());
-    		Date start_date = new SimpleDateFormat("MM/dd/yyyy").parse(t.getStart_date());
-    		Date end_date = new SimpleDateFormat("MM/dd/yyyy").parse(t.getEnd_date());
-    		Date deadline = new SimpleDateFormat("MM/dd/yyyy").parse(t.getDeadline());
+    		Date start_date = null;
+    		Date end_date = null;
+    		Date deadline = null;
+    		if(t.getStart_date() != "")
+    		start_date = new SimpleDateFormat("MM/dd/yyyy").parse(t.getStart_date());
+       		if(t.getEnd_date() != "")
+    		end_date = new SimpleDateFormat("MM/dd/yyyy").parse(t.getEnd_date());
+    		if(t.getDeadline() != "")
+    		deadline = new SimpleDateFormat("MM/dd/yyyy").parse(t.getDeadline());
     		Task_Master tm = new Task_Master();
   
     		tm.setId(t.getId());
@@ -613,7 +648,8 @@ public class userDaoImpl implements usersDao{
 //=================================Save Stage==================================================
     public void saveMember(int projectid, int arr[]) throws MalformedURLException, XmlRpcException
     {
-    	List<Student> students = new StudentFromOdoo().getStudent();
+    	
+    	List<Student> students = new StudentFromOdoo_BatchId().getStudent_BatchId();
     	Transaction trns14 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Timestamp created_at = new Timestamp(System.currentTimeMillis());
@@ -627,6 +663,7 @@ public class userDaoImpl implements usersDao{
     			{
     				if (arr[i]==Integer.parseInt(students.get(j).getId()))
     					{
+    						System.out.println("Name IS"+students.get(j).getName());
     						pm.setUser_name(students.get(j).getName());
     						break;
     					}
@@ -1130,7 +1167,123 @@ public class userDaoImpl implements usersDao{
         }
         return batch;
 	}
-    
+	public int deleteProjectDetail(int id){
+		Transaction trns21 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Project_Master project = new Project_Master();
+        try {
+            trns21 = session.beginTransaction();
+            String queryString = "from Project_Master where id=:id";
+            Query query = session.createQuery(queryString);
+            query.setInteger("id",id);
+            project=(Project_Master)query.uniqueResult();
+            deleteMemberByProjectId(id);
+            deleteTaskByProjectId(id);
+            session.delete(project);
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return 0;
+        } finally {
+            session.flush();
+            session.close();
+        }
+		return 1;
+	}
+	public List <Task_Master> getAllTaskByProjectId(int id){
+		Transaction trns22 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        List <Task_Master> tasks  = new ArrayList();
+        try {
+        	trns22 = session.beginTransaction();
+            String queryString = "FROM Task_Master where project_id =:project_id";
+            Query query = session.createQuery(queryString);
+            query.setInteger("project_id",id);
+            tasks = query.list();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return tasks;
+        } finally {
+            session.flush();
+            session.close();
+        }
+		return tasks;
+	} 
+	public void deleteMemberByProjectId(int id){
+		Transaction trns23 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+           	trns23 = session.beginTransaction();
+            String queryString = "delete from Project_Member where project_id=:id";
+            Query query = session.createQuery(queryString);
+            query.setInteger("id",id);
+            query.executeUpdate();
+            session.getTransaction().commit();
+         
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        } finally {
+            session.flush();
+            session.close();
+        }
+	}
+	public void deleteTaskByProjectId(int id){
+		Transaction trns24 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+           	trns24 = session.beginTransaction();
+            String queryString = "delete from Task_Master where project_id=:id";
+            Query query = session.createQuery(queryString);
+            query.setInteger("id",id);
+            query.executeUpdate();
+            session.getTransaction().commit();
+         
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        } finally {
+            session.flush();
+            session.close();
+        }
+		
+	}
+	public boolean editProfile(String email, String oldPassword, String newPassword) throws Exception{
+		User_Info user = new User_Info();
+		Transaction trns25 = null;
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			trns25  = session.beginTransaction();
+ 		 	String queryString  = "from User_Info where email=:email";
+ 		 	Query query = session.createQuery(queryString);
+ 		 	query.setString("email",email);
+ 		 	user = (User_Info) query.uniqueResult();
+ 		 	if (user==null)
+ 		 		return false;
+ 		 	else{
+ 		 		if(passwordEncoder.matches(oldPassword, user.getPassword()))
+		 			{
+ 		 			String encryptedPassword = passwordEncoder.encode(newPassword);
+ 		 			user.setPassword(encryptedPassword);
+ 		 			session.update(user);
+ 	 				session.getTransaction().commit();
+ 		 			return true;
+		 			}
+		 		else
+		 			return false;
+		 		}
+		}
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();			
+			return false;
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+		
+		
+	}
 }
 
 

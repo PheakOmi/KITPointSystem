@@ -7,7 +7,7 @@
 			type:'GET',
 			data: {id: id},
 			success: function(response){
-				console.log(response);
+				
 				member = response.member;
 				currenttask =response.currenttask;
 				project = response.project;
@@ -22,9 +22,19 @@
 
 				    return [month, day, year].join('/');
 				};
-				currenttask.start_date=formatDate(currenttask.start_date);
-				currenttask.end_date=formatDate(currenttask.end_date);
-				currenttask.deadline=formatDate(currenttask.deadline);
+				if (currenttask.start_date==null)
+	            	$("#startdate").val("");
+				else
+					currenttask.start_date=formatDate(currenttask.start_date);
+				if (currenttask.end_date==null)
+	            	$("#enddate").val("");
+				else
+					currenttask.end_date=formatDate(currenttask.end_date);
+				if (currenttask.deadline==null)
+	            	$("#deadline").val("");
+				else
+					currenttask.deadline=formatDate(currenttask.deadline);
+	           
 				for(i=0; i<member.length; i++)
 					$("#user").append("<option value="+member[i].id+">"+member[i].user_name+" </option>");
 				$("#project").append("<option value="+project.id+">"+project.project_name+" </option>");
@@ -39,7 +49,7 @@
 				$("#enddate").val(currenttask.end_date);
 			},
 		error: function(err){
-			console.log("KKKKKKK");
+			
 			console.log(JSON.stringify(err));
 			}
 			
@@ -112,15 +122,17 @@
 				}
     				//var obj = jQuery.parseJSON(response);
     				    
-    				else 
-    					{
-    					swal("Oops!", response.message, "error")
-    					
-    					}
-    				},
+    			else if(response.status=="555")
+					swal("Oops!",response.message, "error")
+				else if(response.status=="888")
+					swal("Oops!",response.message, "error")
+				else 
+ 					swal("Oops!", "Task Name already existed!", "error")    
+				
+				},
     		error: function(err){
     				console.log(JSON.stringify(err));
-    				console.log("Hello");
+    				
     				}
     		
     			});			
@@ -166,15 +178,15 @@
                            
                             <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">Start Date</label>
-                                  <input class="form-control" id="startdate" name="date" placeholder="MM/DD/YYY" type="text" required/>
+                                  <input class="form-control" id="startdate" name="date" placeholder="MM/DD/YYY" type="text"/>
                             </div>
     					 <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">End Date</label>
-                              <input class="form-control" id="enddate" name="date" placeholder="MM/DD/YYY" type="text" required/>
+                              <input class="form-control" id="enddate" name="date" placeholder="MM/DD/YYY" type="text"/>
                             </div>
                                  <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">Deadline</label>
-                                <input class="form-control" id="deadline" name="date" placeholder="MM/DD/YYY" type="text" required/>
+                                <input class="form-control" id="deadline" name="date" placeholder="MM/DD/YYY" type="text"/>
                         </div>
                                  <div class="form-group col-lg-6">
                                 <label>Status</label>
@@ -194,5 +206,6 @@
 
 </div>
 <button type="submit" class="btn btn-default">Update</button>
+<button onclick="location.href = 'task';" class="btn btn-default">Cancel</button>
 </form>
 </body>

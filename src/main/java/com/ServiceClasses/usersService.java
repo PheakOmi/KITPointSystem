@@ -54,4 +54,9 @@ public interface usersService {
 	public Project_Member getAMemberById (int id, int project_id);
 	public String getKitPointByProjectId (int project_id);
 	public Batch_Master getBatchById(int id);
+	public int deleteProjectDetail(int id);
+	public List<Task_Master> getAllTaskByProjectId(int id);
+	public void deleteMemberByProjectId(int id);
+	public void deleteTaskByProjectId(int id);
+	public boolean editProfile(String email,String oldPassword, String newPassword) throws Exception;
 }

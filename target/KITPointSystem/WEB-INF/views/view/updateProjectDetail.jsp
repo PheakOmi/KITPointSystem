@@ -22,10 +22,19 @@
 
 				    return [month, day, year].join('/');
 				};
-				currentproject.start_date=formatDate(currentproject.start_date);
-				currentproject.end_date=formatDate(currentproject.end_date);
-				currentproject.deadline=formatDate(currentproject.deadline);
-				
+				if (currentproject.start_date==null)
+	            	$("#startdate").val("");
+				else
+					currentproject.start_date=formatDate(currentproject.start_date);
+				if (currentproject.end_date==null)
+	            	$("#enddate").val("");
+				else
+					currentproject.end_date=formatDate(currentproject.end_date);
+				if (currentproject.deadline==null)
+	            	$("#deadline").val("");
+				else
+					currentproject.deadline=formatDate(currentproject.deadline);
+	           
 				$('#member').select2({
 					  data: student
 					});
@@ -40,6 +49,7 @@
 					//$("#member").append("<option value="+student[i].id+">"+student[i].name+" </option>");
 					 
 				}
+					
 					$("#status").val(currentproject.status);
 					$("#project_name").val(currentproject.project_name);
 					$("#projectcode").val(currentproject.project_code);
@@ -58,7 +68,7 @@
 			},
 			
 		error: function(err){
-			console.log("KKKKKKK");
+			
 			console.log(JSON.stringify(err));
 			}
 			
@@ -167,7 +177,7 @@
     				},
     		error: function(err){
     				console.log(JSON.stringify(err));
-    				console.log("Hello");
+    		
     				}
     			});	
     	}
@@ -249,19 +259,19 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Start Date</label>
                                 <div class="col-sm-8">
-                                	<input class="form-control" id="startdate"  name="date" placeholder="MM/DD/YYY" type="text" required/>
+                                	<input class="form-control" id="startdate"  name="date" placeholder="MM/DD/YYY" type="text"/>
                                 </div>
                             </div>
     					 <div class="form-group">
                                 <label class="col-sm-4 control-label">End Date</label>
                               	<div class="col-sm-8">
-                              		<input class="form-control" id="enddate"  name="date" placeholder="MM/DD/YYY" type="text" required/>
+                              		<input class="form-control" id="enddate"  name="date" placeholder="MM/DD/YYY" type="text"/>
                               	</div>
                             </div>
                                  <div class="form-group ">
                                 <label class="col-sm-4 control-label">Deadline</label>
                                 <div class="col-sm-8">
-                                	<input class="form-control" name="date" id="deadline" placeholder="MM/DD/YYY" type="text" required/>
+                                	<input class="form-control" name="date" id="deadline" placeholder="MM/DD/YYY" type="text"/>
                                 </div>
                         </div>
 <%--                                  <div class="form-group">
@@ -278,7 +288,7 @@
                              <div class="form-group">
                                 <label class="col-sm-4 control-label">KIT point</label>
                                 <div class="col-sm-8">	
-                                	<input class="form-control" id="kitpoint" maxlength="3" required>
+                                	<input class="form-control" id="kitpoint" maxlength="3">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -289,7 +299,7 @@
                             </div>
                           	 <div class="ol-sm-offset-2 col-sm-10">	
 			                   <button type="submit" class="btn btn-default">Update</button>
-			                   <button type="reset" class="btn btn-default">Cancel</button>
+			                   <button onclick="location.href = 'project';" class="btn btn-default">Cancel</button>
 	                    </div>
                   		  </div>
 	                    </div>                   

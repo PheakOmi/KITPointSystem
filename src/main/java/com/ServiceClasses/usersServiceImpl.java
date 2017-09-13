@@ -4,9 +4,11 @@ import java.net.MalformedURLException;
 import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.xmlrpc.XmlRpcException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.DaoClasses.usersDao;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Project_Category_Master;
@@ -126,6 +128,21 @@ public class usersServiceImpl implements usersService{
 	}
 	public Batch_Master getBatchById(int id){
 		return usersDao1.getBatchById(id);
+	}
+	public int deleteProjectDetail(int id){
+		return usersDao1.deleteProjectDetail(id);
+	}
+	public List<Task_Master> getAllTaskByProjectId(int id){
+		return usersDao1.getAllTaskByProjectId(id);
+	}
+	public void deleteMemberByProjectId(int id){
+		usersDao1.deleteMemberByProjectId(id);
+	}
+	public void deleteTaskByProjectId(int id){
+		usersDao1.deleteTaskByProjectId(id);
+	}
+	public boolean editProfile(String email, String oldPassword, String newPassword) throws Exception{
+		return usersDao1.editProfile(email,oldPassword,newPassword );
 	}
 }
 

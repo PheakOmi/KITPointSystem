@@ -5,7 +5,7 @@
 			url:'userNProjectCategoryList?id=0',
 			type:'GET',
 			success: function(response){
-				console.log(response);
+				
 				category = response.category;
 				user = response.user;
 				student = response.student;
@@ -20,7 +20,7 @@
 			
 			},
 		error: function(err){
-			console.log("KKKKKKK");
+			
 			console.log(JSON.stringify(err));
 			}
 			
@@ -29,6 +29,7 @@
 	}
 	
 	$(document).ready(function(){
+		
 		$('#teamleader').on('change', function() {
 			$('#member').children("option[value=" + this.value + "]").remove();	
 			})
@@ -42,7 +43,7 @@
     		
     		var member = $('#member').val(); 
     		member.push($('#teamleader').val());
-    		console.log(member);
+    		
     		e.preventDefault();
     		var projectname = $("#project_name").val().trim();
     		var projectcode = $("#projectcode").val().trim();
@@ -110,55 +111,29 @@
         					
         					}
         				//var obj = jQuery.parseJSON(response);
-        				    
+        				else if(response.status=="555")
+        					swal("Oops!",response.message, "error")
+        				else if(response.status=="888")
+        					swal("Oops!",response.message, "error")
         				else 
-        					{
-        					swal("Oops!", "Project Name already existed!", "error")
-        					
-        					}
+         					swal("Oops!", "Project Name already existed!", "error")    
+        				
         				},
         		error: function(err){
         				console.log(JSON.stringify(err));
-        				console.log("Hello");
+        				
         				}
         		
         			});	
     		}
-		
-    	});	
-/*                    	kitPointCalculate=function (hour){
-    		  $.ajax({
-    		   url:'getKitPoint',
-    		   type:'POST',
-    		   success: function(response){
-    		    kitpoint=response.kitPoint;
-    		    var value=kitpoint[0].value;
-    		    var point=hour*value;
-    		    $("#kitpoint").val(point);
-    		   }
-    		   
-    		   
-    		  });
-    		  
-    		 }	*/
-});
-    	<%-- $("#btnSubmit").click(function(){		 
-   		var val = [];
-            $('.checkbox:checked').each(function(i){
-              val[i] = $(this).val();
-            });		
-            console.log("Name is: "+$("#project_name").val());	
-            
-    				
-    	
-    	});
-    });	 --%>		
+    	});		
+});	
     
 </script>
 <form id="myForm">
  			<div class="row">
                  <div class="form-horizontal">
-                    <div class="col-sm-6">
+                    <div class="col-sm-6">	
 
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Project Name</label>
@@ -220,7 +195,7 @@
                             </div>       
                               <div class="form-group">
                                 <button type="submit" id="btnSubmit" class="btn btn-default">Create</button>
-			                   <button type="reset" class="btn btn-default">Cancel</button>
+			                   <button onclick="location.href = 'project';" class="btn btn-default">Cancel</button>
                             </div> 
                   		  </div>
                   		    
@@ -280,5 +255,6 @@
                     </div>
      </form>            
 
-                    </body>                    
+
+                    </body>                   
 			
