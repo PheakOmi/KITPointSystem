@@ -234,19 +234,19 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Start Date</label>
                                 <div class="col-sm-8">
-                                	<input class="form-control" id="startdate"  name="date" placeholder="MM/DD/YYY" type="text" required/>
+                                	<input class="form-control" id="startdate"  name="date" placeholder="MM/DD/YYY" type="text"/>
                                 </div>
                             </div>
     					 <div class="form-group">
                                 <label class="col-sm-4 control-label">End Date</label>
                               	<div class="col-sm-8">
-                              		<input class="form-control" id="enddate"  name="date" placeholder="MM/DD/YYY" type="text" required/>
+                              		<input class="form-control" id="enddate"  name="date" placeholder="MM/DD/YYY" type="text"/>
                               	</div>
                             </div>
                                  <div class="form-group "> 
                                 <label class="col-sm-4 control-label">Deadline</label>
                                 <div class="col-sm-8">
-                                	<input class="form-control" name="date" id="deadline" placeholder="MM/DD/YYY" type="text" required/>
+                                	<input class="form-control" name="date" id="deadline" placeholder="MM/DD/YYY" type="text"/>
                                 </div>
                         </div>
 <%--                                  <div class="form-group">

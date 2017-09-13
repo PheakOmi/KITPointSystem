@@ -32,7 +32,7 @@ $(document).ready(function(){
 });	
 </script>
   </head>
-<body onload='document.loginForm.username.focus();'>
+<body onload='document.loginForm.username.focus()'>
 <h1 align="center">${message}</h1>
   <div class="login-page">
   <div class="form">
