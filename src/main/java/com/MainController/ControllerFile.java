@@ -232,8 +232,6 @@ public class ControllerFile {
 					DecimalFormat df2 = new DecimalFormat(".##");
 					Map<String, Float> pointNbudget = new HashMap<String, Float>();
 					int[] m = pm.getMember();
-					for(int i=0;i<m.length;i++)
-						System.out.println(m[i]);
 					Map<String,Object> map = new HashMap<String,Object>();
 					Map<Integer, String> mm = usersService1.getStudentSemester(m);
 					pointNbudget =usersService1.pointCalculation(mm,pm.getInitially_planned());

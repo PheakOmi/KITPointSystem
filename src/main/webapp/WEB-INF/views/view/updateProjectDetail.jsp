@@ -5,7 +5,7 @@
 			url:'userNProjectCategoryList?id=${id}',
 			type:'GET',
 			success: function(response){
-				
+				console.log(response);
 				category = response.category;
 				user = response.user;
 				student = response.student;

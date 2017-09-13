@@ -169,6 +169,7 @@ $('#project').on('change', function() {
 		type:'GET',
 		data: {id: projectid},
 		success: function(response){
+		console.log(response);
 		student=response.student;
 		$('#user')
 	    .find('option')

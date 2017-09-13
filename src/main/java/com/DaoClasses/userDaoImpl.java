@@ -663,6 +663,7 @@ public class userDaoImpl implements usersDao{
     			{
     				if (arr[i]==Integer.parseInt(students.get(j).getId()))
     					{
+    						System.out.println("Name IS"+students.get(j).getName());
     						pm.setUser_name(students.get(j).getName());
     						break;
     					}
