@@ -69,6 +69,15 @@
 <script src="${MultipleJS2}"></script>
 <spring:url value="/resources/Bootstrap/css/multipleselect/select2.min.css" var="MultipleCSS"/>
 <link rel="stylesheet" href="${MultipleCSS}">
+
+<!-- Task Card -->
+<spring:url value="/resources/Bootstrap/css/taskcard.css" var="TaskCard"/>
+<link rel="stylesheet" href="${TaskCard}">
+
+
+<!-- Slider -->     
+<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
+<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
 </head>
 
 
@@ -87,7 +96,7 @@
 		</div>
     
   </div>
-  	
+
 <script>
                     $(document).ready(function(){
                     	$(".js-example-basic-multiple").select2();
@@ -98,6 +107,11 @@
                           autoclose: true,
                         };
                         date_input.datepicker(options);
+                        $('.projects').slick({
+            				infinite: true,
+            				  slidesToShow: 6,
+            				  slidesToScroll: 3
+            			  });
                     });
 </script>
 </body>

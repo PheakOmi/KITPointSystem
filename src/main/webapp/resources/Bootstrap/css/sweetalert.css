@@ -1,7 +1,6 @@
 body.stop-scrolling {
   height: 100%;
   overflow: hidden; }
-
 .sweet-overlay {
   background-color: black;
   /* IE8 */
@@ -811,6 +810,7 @@ body.stop-scrolling {
 .la-ball-fall.la-sm {
   width: 26px;
   height: 8px; }
+.deleteProject    {color: red;}
 
 .la-ball-fall.la-sm > div {
   width: 4px;

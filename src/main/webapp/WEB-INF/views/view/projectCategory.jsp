@@ -19,7 +19,7 @@
 					</div>
 					<div class="col-sm-offset-2 col-sm-10">
 						<button id="btnSubmit" type="submit" class="btn btn-default">Create</button>
-						<button type="reset" class="btn btn-default">Cancel</button>
+						<button onclick="location.href = 'setting';" class="btn btn-default">Cancel</button>
 					</div>
 				</div>
 
@@ -72,4 +72,3 @@ $(document).ready(function(){
 });    
 </script>
 </body>
-</html>

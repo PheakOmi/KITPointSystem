@@ -32,7 +32,7 @@
 						  <div class="form-group">
 						    <div class="col-sm-offset-2 col-sm-10">
 						      <button type="submit" id="btnSubmit" class="btn btn-default">Create</button>
-						      <button type="reset" class="btn btn-default">Cancel</button>
+						      <button onclick="location.href = 'setting';" class="btn btn-default">Cancel</button>
 						    </div>
 						  </div>
 						  </div>
@@ -40,21 +40,6 @@
 						</form>
                     </div>	
 <script type="text/javascript">
-<%--load = function()
-	{	
-		$.ajax({
-			url:'semesterList',
-			type:'GET',
-			success: function(response)
-				{
-					console.log(response);
-					data = response.data;
-					//$('.tr').remove();
-					for(i=0; i<response.data.length; i++)				
-						$("#semester").append("<option value="+response.data[i].id+">"+response.data[i].semester+" </option>");
-				}
-			});
-	} --%>
 $(document).ready(function(){
 	$("[name=date]").keydown(function (event) {
 	    event.preventDefault();

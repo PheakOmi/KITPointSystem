@@ -15,7 +15,7 @@
 		}
 		$(document).ready(function(){
 			$("#value1").keyup(function () {
-		        console.log("Hello World");
+		    
 		      if (this.value != this.value.replace(/[^0-9]/g, '')) {
 		         this.value = this.value.replace(/[^0-9]/g, '');
 		      }
@@ -63,6 +63,7 @@
                         </div>
                          <div class="col-sm-offset-2 col-sm-10">
                             <button type="submit" class="btn btn-default">Update</button>
+                            <button onclick="location.href = 'setting';" class="btn btn-default">Cancel</button>
 						</div>      
                       </div>
                     </div>

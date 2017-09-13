@@ -105,6 +105,11 @@ public List<Student> getStudent() throws XmlRpcException, MalformedURLException{
 	        		}
 	        		else if(cnt==2)
 	        		{
+	        			s.setName(str2[1]+" "+s.getName());
+	        			cnt++;
+	        		}
+	        		else if(cnt==3)
+	        		{
 	        			s.setId(str2[1].replace("}","").trim());
 	        			
 //	        			System.out.println(str2[1]);

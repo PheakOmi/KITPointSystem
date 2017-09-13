@@ -17,7 +17,7 @@ public class Insert_UserRole
          	Class.forName("org.postgresql.Driver");
          	
              //step2 Get the connection from db 
-         	Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/KITPointSystem","postgres", "admin");
+         	Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/KITPoint","postgres", "admin");
 
              //step3 create the statement object  
              Statement stmt = con.createStatement();
