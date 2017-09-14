@@ -3,7 +3,7 @@
 $(document).ready(function() {
     $('li#projectStlye').addClass('active');
 });
-		matDate =function (date) {
+		formatDate =function (date) {
 	    var d = new Date(date),
 	        month = '' + (d.getMonth() + 1),
 	        day = '' + d.getDate(),

@@ -68,7 +68,7 @@
 			},
 			
 		error: function(err){
-			
+			swal("Oops!", "Connection timed out!", "error")
 			console.log(JSON.stringify(err));
 			}
 			

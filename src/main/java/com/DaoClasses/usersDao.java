@@ -79,4 +79,5 @@ public interface usersDao {
 	public void deleteTaskByProjectId(int id);
 	public List<Task_Master> getAllTaskByProjectId(int id);
 	public boolean editProfile(String email, String oldPassword, String newPassword) throws Exception;
+	public int deleteTaskDetail(int id);
 }

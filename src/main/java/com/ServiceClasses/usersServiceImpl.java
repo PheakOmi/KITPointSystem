@@ -144,5 +144,9 @@ public class usersServiceImpl implements usersService{
 	public boolean editProfile(String email, String oldPassword, String newPassword) throws Exception{
 		return usersDao1.editProfile(email,oldPassword,newPassword );
 	}
+
+	public int deleteTaskDetail(int id) {
+		return usersDao1.deleteTaskDetail(id);
+	}
 }
 

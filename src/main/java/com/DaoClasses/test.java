@@ -34,20 +34,11 @@ public class test{
 	
 		  /*=====================  show Project data ============================*/
 		 public static void main(String args[]){
-			  List < Project_Master > project = new ArrayList < Project_Master > ();
-			  Transaction trns2 = null;
-			  Session session = HibernateUtil.getSessionFactory().openSession();
-			  try {
-			   trns2 = session.beginTransaction();
-			   project = session.createQuery("from Project_Master").list();
-			  System.out.println("size is"+project.size());
-			  } catch (RuntimeException e) {
-			   e.printStackTrace();
-			   
-			  } finally {
-			   session.flush();
-			   session.close();
-			  }
+			 String arr[] ={"5/7/2017","11/7/2017","12/7/2017","15/08/2017"};
+			 for(int i=0;i<arr.length;i++)
+			 {
+				 System.out.println(arr[i].indexOf(2, 4));
+			 }
 			  
 		 }
 

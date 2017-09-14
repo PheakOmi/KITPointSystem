@@ -41,15 +41,19 @@
 			task[i].deadline="";
 		else
 			task[i].deadline=formatDate(task[i].deadline);
-	  var taskcard = '<div class="a"><a href ="updateTaskDetail?id='
-          + task[i].id + '"><div class="thumbnail"><div class="caption"><div class="col-lg-12"><h4><b>'+task[i].name+'</b></h4><p></p><i><b>Start Date:</b></i><div class="pull-right">'+task[i].start_date+'</div><br><i><b>End Date:</b></i><div class="pull-right">'+task[i].deadline+'</div></div><button class="btn btn-primary btn-xs btn-update btn-add-card ">Update</button><button onclick="location.href'+'="project";'+'" class="btn btn-danger btn-xs btn-update btn-add-card pull-right">Delete</button></div></div></a></div>';
-      
-        if(task[i].status=="In Progress")
-        	$(".thumbnail").css('background-color', '#a5dff9'); 
+		var StatusColor;
+		if(task[i].status=="In Progress")
+        	StatusColor = '#a5dff9'; 
         else if(task[i].status=="Completed")
-        	$(".thumbnail").css('background-color', '#56A902');
+        	StatusColor = '#56A902';
         else if(task[i].status=="Postponed")
-        	$(".thumbnail").css('background-color', '#8b8687');
+        	StatusColor = '#8b8687';
+        else if(task[i].status=="Delayed")
+        	StatusColor = '#ffd5d6';
+	  var taskcard = '<a href ="updateTaskDetail?id='
+          + task[i].id + '"><div class="thumbnail" style="background-color:'+StatusColor+';"><div class="caption"><div class="col-lg-12"><h4><b>'+task[i].name+'</b></h4><p></p><i><b>Start Date:</b></i><div class="pull-right">'+task[i].start_date+'</div><br><i><b>End Date:</b></i><div class="pull-right">'+task[i].deadline+'</div></div><button class="btn btn-primary btn-xs btn-update btn-add-card ">Update</button><button onclick="location.href'+'="project";'+'" class="btn btn-danger btn-xs btn-update btn-add-card pull-right" '+'onclick="location.href='+'"project;"'+'>Delete</button></div></div></a>';
+      
+        
         $("#" + task[i].project_id).append(taskcard);
        }
       },
@@ -59,8 +63,57 @@
       }
      });
   }
+  func =  function(id)
+	{
+	swal({
+	    title: "Do you want to delete this task?",
+	    type: "warning",
+	    showCancelButton: true,
+	    confirmButtonColor: "#E71D36",
+	    confirmButtonText: "Delete",
+	    cancelButtonText: "Cancel",
+	    closeOnConfirm: false,
+	    closeOnCancel: true
+	  },
+	    function (isConfirm) {
+	      if (isConfirm) {
+	    	  $.ajax({
+	    	     url:'deleteTaskDetail',
+	    	     type:'GET',
+	    	     data:{id:id},
+	    	     traditional: true,
+	    	     success: function(response){
+	    	      if(response.status=="200")
+	    	      {
+	    	      setTimeout(function() {
+	    	             swal({
+	    	                 title: "Done!",
+	    	                 text: "You have deleted it successfully!",
+	    	                 type: "success"
+	    	             }, function() {
+	    	                 window.location = "task";
+	    	             });
+	    	         }, 10);
+
+	    	      }
+
+	    	          else 
+	    	           {
+	    	           swal("Oops!","It is not deleted", "error")
+
+	    	           } 
+	    	     },
+	    				error: function(err){
+	    					
+	    					console.log(JSON.stringify(err));
+	    					}
+	    	       });
+	      } 
+	    });
+	    }
   $(document).ready(function() {
    $('li#taskStlye').addClass('active');
+   
   });
  </script>
  <!-- Page Heading -->
@@ -70,12 +123,20 @@
     style="margin-right: 40px; margin-bottom: 10px;">Create</a>
   </h3>
  </div>
+ <table style="width:75%;">
+ <tr>
+ <td><i class="fa fa-square" style="font-size:20px;color:#a5dff9"><span style="font-size:20px;color:#a5dff9">&nbsp&nbsp&nbsp&nbsp&nbspIn Progress</span> </i></td>
+ <td><i class="fa fa-square" style="font-size:20px;color:#56A902"><span style="font-size:20px;color:#56A902">&nbsp&nbsp&nbsp&nbsp&nbspCompleted</span> </i></td>
+ <td><i class="fa fa-square" style="font-size:20px;color:#8b8687"><span style="font-size:20px;color:#8b8687">&nbsp&nbsp&nbsp&nbsp&nbspPostponed</span> </i></td>
+ <td><i class="fa fa-square" style="font-size:20px;color:#ffd5d6"><span style="font-size:20px;color:#ffd5d6">&nbsp&nbsp&nbsp&nbsp&nbspDelayed</span> </i></td>
+ </tr>
+ </table><br>
+ 
  <div class="project-list__wrapper">
   <div class="inner">
    <div class="projects"></div>
   </div>
  </div>
-</body>
 
 
 

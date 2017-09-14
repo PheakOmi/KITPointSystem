@@ -36,6 +36,7 @@ import org.springframework.stereotype.Repository;
 
 
 
+
 //import org.springframework.stereotype.Service;
 import com.EncryptionDecryption.Decryption;
 import com.EncryptionDecryption.Encryption;
@@ -654,7 +655,7 @@ public class userDaoImpl implements usersDao{
         Session session = HibernateUtil.getSessionFactory().openSession();
         Timestamp created_at = new Timestamp(System.currentTimeMillis());
         try {
-        	
+        	System.out.println("Student is "+students);
             trns14 = session.beginTransaction();
     		for (int i = 0; i<arr.length; i++)
     		{
@@ -1180,6 +1181,28 @@ public class userDaoImpl implements usersDao{
             deleteMemberByProjectId(id);
             deleteTaskByProjectId(id);
             session.delete(project);
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return 0;
+        } finally {
+            session.flush();
+            session.close();
+        }
+		return 1;
+	}
+	public int deleteTaskDetail(int id)
+	{
+		Transaction trns26 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Task_Master task = new Task_Master();
+        try {
+            trns26 = session.beginTransaction();
+            String queryString = "from Task_Master where id=:id";
+            Query query = session.createQuery(queryString);
+            query.setInteger("id",id);
+            task=(Task_Master)query.uniqueResult();
+            session.delete(task);
             session.getTransaction().commit();
         } catch (RuntimeException e) {
             e.printStackTrace();

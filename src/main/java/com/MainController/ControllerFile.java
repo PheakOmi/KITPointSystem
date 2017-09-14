@@ -135,6 +135,8 @@ public class ControllerFile {
 							error.put("message","Data not found");
 							return error;
 						}
+					else if(student==null)
+						throw new Exception();
 						
 					else
 						{
@@ -219,6 +221,18 @@ public class ControllerFile {
 				Map<String,String> map = new HashMap<String,String>();
 				int status = 0;
 				status= usersService1.deleteProjectDetail(id);
+				if(status==1)
+					map.put("status", "200");
+				else 	
+					map.put("status", "300");
+				
+				return map;
+				}
+			@RequestMapping(value="/deleteTaskDetail", method = RequestMethod.GET)
+			public @ResponseBody Map<String,String>  deleteTaskDetail(@RequestParam(value = "id", required=false) Integer id){
+				Map<String,String> map = new HashMap<String,String>();
+				int status = 0;
+				status= usersService1.deleteTaskDetail(id);
 				if(status==1)
 					map.put("status", "200");
 				else 	

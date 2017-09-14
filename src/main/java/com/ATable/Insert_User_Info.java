@@ -28,11 +28,15 @@ public class Insert_User_Info
             //stmt.executeUpdate("INSERT INTO user_info(name,batch,semester,email,password,User_type,Updated_at)VALUES('kannan',0,0,'kannan@gmail.com','kannan','admin','2017-08-28 17:17:30');");
             
             
-            stmt.executeUpdate("INSERT INTO user_info(id,name,email,password,User_type,Updated_at,enabled)VALUES(1,'kamal','kamal@gmail.com','$2a$10$6a9B9u.Ra2Nwd0OdxMGsSeUjHEEd6nXXZHB4qvnBDO/LbMY1rIPTS','admin','2017-08-28 17:17:30',true)");
+            stmt.executeUpdate("INSERT INTO user_info(id,name,email,password,User_type,Updated_at,enabled)VALUES(3,'Leo Fernandez','leo@gmail.com','$2a$10$jr3IP860vED9Dknwm4jkH.kH/JtLK/k.fTa.fmbZMVH7FOWVo0rmy','admin','2017-08-28 17:17:30',true)");
+            stmt.executeUpdate("INSERT INTO user_info(id,name,email,password,User_type,Updated_at,enabled)VALUES(4,'Chihiro Kurose','chihiro@gmail.com','$2a$10$1jpU86OVODE9Nd/lwlovKurGPgTZ8wBQvGZnqV6dyJRDydt9K7SPW','admin','2017-08-28 17:17:30',true)");
+            stmt.executeUpdate("INSERT INTO user_info(id,name,email,password,User_type,Updated_at,enabled)VALUES(5,'Dinesh Kumar','dinesh@gmail.com','$2a$10$gKaAJEsJGGmcnv7K5JgbD.O1UJxQ9V0lrHO1BMSB0OKlIq5UvxCuO','admin','2017-08-28 17:17:30',true)");
+            stmt.executeUpdate("INSERT INTO user_info(id,name,email,password,User_type,Updated_at,enabled)VALUES(6,'Tomoko Aono','tomoko@gmail.com','$2a$10$M1Yb8PpTlx57ydw3IhIrL.qVC1mvZV5qwGeXI85Foi40BeCQfjUui','admin','2017-08-28 17:17:30',true)");
+            stmt.executeUpdate("INSERT INTO user_info(id,name,email,password,User_type,Updated_at,enabled)VALUES(7,'Vignesh','vignesh@gmail.com','$2a$10$y0jT9qh3DhAfnZlpj5X5gO96nYMp2SISvLnHDIefWyhycIJ0jxLou','admin','2017-08-28 17:17:30',true)");
             
-            stmt.executeUpdate("INSERT INTO user_info(id,name,email,password,User_type,Updated_at,enabled)VALUES(2,'kannan','kannan@gmail.com','$2a$10$Dj5ShbRylkEEyYUy5f2vTeOfFZ0LRyrYJyJWcm7zx4ydg05n6QYo2','admin','2017-08-28 17:17:30',true)");
-            
-                       
+																															            
+
+
     
             System.out.println("Success");
 

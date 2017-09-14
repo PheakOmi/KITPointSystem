@@ -7,7 +7,7 @@
 			type:'GET',
 			data: {id: id},
 			success: function(response){
-				
+	
 				member = response.member;
 				currenttask =response.currenttask;
 				project = response.project;
@@ -36,7 +36,7 @@
 					currenttask.deadline=formatDate(currenttask.deadline);
 	           
 				for(i=0; i<member.length; i++)
-					$("#user").append("<option value="+member[i].id+">"+member[i].user_name+" </option>");
+					$("#user").append("<option value="+member[i].user_id+">"+member[i].user_name+" </option>");
 				$("#project").append("<option value="+project.id+">"+project.project_name+" </option>");
 				$("#project").attr("disabled", "disabled");
 				$("#name").val(currenttask.name);

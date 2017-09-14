@@ -105,8 +105,9 @@ public class StudentFromOdoo_BatchId
 	         
 	        }
 	        catch (XmlRpcException e) {
+	        	System.err.println(e);
+	        	return students;
 	            
-	            System.err.println(e);
 	            //e.printStackTrace();
 	        }
 			return students;

@@ -59,4 +59,5 @@ public interface usersService {
 	public void deleteMemberByProjectId(int id);
 	public void deleteTaskByProjectId(int id);
 	public boolean editProfile(String email,String oldPassword, String newPassword) throws Exception;
+	public int deleteTaskDetail(int id);
 }

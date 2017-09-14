@@ -5,7 +5,6 @@
 			url:'userNProjectCategoryList?id=0',
 			type:'GET',
 			success: function(response){
-				
 				category = response.category;
 				user = response.user;
 				student = response.student;
@@ -20,7 +19,7 @@
 			
 			},
 		error: function(err){
-			
+			swal("Oops!", "Connection timed out!", "error")
 			console.log(JSON.stringify(err));
 			}
 			
