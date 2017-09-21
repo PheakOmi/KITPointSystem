@@ -5,7 +5,7 @@
  	<class name="com.EntityClasses.Task_Master" table="task_master">
  	 	
  	 <id name="id" column="id" >    
- 	    <generator class="identity"/>    
+ 	    <generator class="increment"/>    
  	 </id>
  	 	
     <property name="project_id"  column="project_id"  />

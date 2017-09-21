@@ -16,7 +16,7 @@
 
 		    if (month.length < 2) month = '0' + month;
 		    if (day.length < 2) day = '0' + day;
-
+	
 		    return [month, day, year].join('/');
 		};
        console.log(response);
@@ -33,7 +33,7 @@
         $(".projects").append(projectcard);
        }
   for (i = 0; i < task.length; i++) {
-	  if (task[i].start_date==null)
+	  	if (task[i].start_date==null)
 		  task[i].start_date="";
 		else
 			task[i].start_date=formatDate(task[i].start_date);
@@ -50,12 +50,24 @@
         	StatusColor = '#8b8687';
         else if(task[i].status=="Delayed")
         	StatusColor = '#ffd5d6';
-	  var taskcard = '<a href ="updateTaskDetail?id='
-          + task[i].id + '"><div class="thumbnail" style="background-color:'+StatusColor+';"><div class="caption"><div class="col-lg-12"><h4><b>'+task[i].name+'</b></h4><p></p><i><b>Start Date:</b></i><div class="pull-right">'+task[i].start_date+'</div><br><i><b>End Date:</b></i><div class="pull-right">'+task[i].deadline+'</div></div><button class="btn btn-primary btn-xs btn-update btn-add-card ">Update</button><button onclick="location.href'+'="project";'+'" class="btn btn-danger btn-xs btn-update btn-add-card pull-right" '+'onclick="location.href='+'"project;"'+'>Delete</button></div></div></a>';
+	  var taskcard = '<div class="thumbnail" style="background-color:'
+	  					+StatusColor+
+	  					';"><div class="caption"><div class="col-lg-12"><h4 style="text-align:center;"><b>'
+	  					+task[i].name+
+	  					'</b></h4><p></p><i>Start Date:</i><div class="pull-right" style="font-size: 1.3rem;">'
+	  					+task[i].start_date+
+	  					'</div><br><i>Deadline:</i><div class="pull-right" style="font-size: 1.3rem;">'
+	  					+task[i].deadline+
+	  					'</div></div><button'+' onclick=\'location.href ='+'"updateTaskDetail?id='
+	  					+task[i].id +'";'+
+	  					'\'class="btn btn-primary btn-xs btn-update btn-add-card ">Update</button>'+
+	  					'<button onclick="func('+task[i].id+');"'+
+	  					'\' class="btn btn-danger btn-xs btn-update btn-add-card pull-right">Delete</button></div></div>';
       
         
         $("#" + task[i].project_id).append(taskcard);
        }
+  
       },
       error : function(err) {
        console.log("Error");
@@ -111,11 +123,15 @@
 	      } 
 	    });
 	    }
+  
   $(document).ready(function() {
+	 
    $('li#taskStlye').addClass('active');
+   	
    
   });
  </script>
+ 	
  <!-- Page Heading -->
  <div class="row">
   <h3 class="page-header">
@@ -124,6 +140,9 @@
   </h3>
  </div>
  <table style="width:75%;">
+ <tr>
+ <input type='text' class="pull-right" name='txtbox' id='txtbox'/>
+ </tr>
  <tr>
  <td><i class="fa fa-square" style="font-size:20px;color:#a5dff9"><span style="font-size:20px;color:#a5dff9">&nbsp&nbsp&nbsp&nbsp&nbspIn Progress</span> </i></td>
  <td><i class="fa fa-square" style="font-size:20px;color:#56A902"><span style="font-size:20px;color:#56A902">&nbsp&nbsp&nbsp&nbsp&nbspCompleted</span> </i></td>

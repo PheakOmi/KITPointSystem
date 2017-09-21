@@ -7,7 +7,7 @@
 			type:'GET',
 			data: {id: id},
 			success: function(response){
-	
+				console.log(response)
 				member = response.member;
 				currenttask =response.currenttask;
 				project = response.project;

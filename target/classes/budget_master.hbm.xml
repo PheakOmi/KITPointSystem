@@ -5,7 +5,7 @@
  	<class name="com.EntityClasses.Budget_Master" table="budget_master">
  	 	
  	 <id name="id" column="id" >    
- 	    <generator class="assigned"/>    
+ 	    <generator class="increment"/>    
  	 </id>
     <property name="name" column="name"/>
     <property name="created_at" column="created_at"/>

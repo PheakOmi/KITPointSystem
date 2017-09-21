@@ -5,7 +5,7 @@
  	<class name="com.EntityClasses.Batch_Master" table="batch_master">
  	 	
  	 <id name="id" column="id" >    
- 	    <generator class="identity"/>    
+ 	    <generator class="increment"/>    
  	 </id>
  	 	
     <property name="semester"  column="semester"  />

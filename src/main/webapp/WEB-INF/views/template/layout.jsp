@@ -9,19 +9,24 @@
 <title><tiles:insertAttribute name="title" /></title>
 <!--  jQuery -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-	<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
-	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
-<!-- Bootstrap Core CSS -->
+<!--  jQuery Validation -->
+	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script> 
+
+
+<!-- Bootstrap Core JavaScript -->
+    <spring:url value="/resources/Bootstrap/js/bootstrap.min.js" var="JSCORE"/>
+    <script src="${JSCORE}"></script>
+	
+
+    	
+<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+<!-- Bootstrap Core CSS -->	
   <spring:url value="/resources/Bootstrap/css/bootstrap.min.css" var="bootatrapCore"/>
   <spring:url value="/resources/Bootstrap/css/sb-admin.css" var="CustomCSS"/>
   <spring:url value="/resources/Bootstrap/font-awesome/css/font-awesome.min.css" var="customfontCSS"/>
-  <spring:url value="/resources/Bootstrap/js/bootstrap.min.js" var="JSCORE"/>
- 
-    	
-    	
-    	
-    	<script src="${JSCORE}"></script>	
-    	<link href="${bootatrapCore}" rel="stylesheet">
+  
+ 		<link href="${bootatrapCore}" rel="stylesheet">
    		<!-- Custom CSS -->
     	<link href="${CustomCSS}" rel="stylesheet">
     	<!-- Morris Charts CSS -->
@@ -31,14 +36,9 @@
 
 	
     
-	<!--  jQuery Validation -->
-	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script> 
+	
+	
 
-	<!-- Isolated Version of Bootstrap, not needed if your site already uses Bootstrap -->
-	<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
-
-<!-- Bootstrap Core JavaScript -->
-    <script src="/resources/Bootstrap/js/bootstrap.min.js"></script>
 <!-- Bootstrap Date-Picker Plugin -->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
@@ -75,9 +75,6 @@
 <link rel="stylesheet" href="${TaskCard}">
 
 
-<!-- Slider -->     
-<link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.css"/>
-<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.6.0/slick.min.js"></script>
 </head>
 
 
@@ -107,11 +104,7 @@
                           autoclose: true,
                         };
                         date_input.datepicker(options);
-                        $('.projects').slick({
-            				infinite: true,
-            				  slidesToShow: 6,
-            				  slidesToScroll: 3
-            			  });
+                        
                     });
 </script>
 </body>

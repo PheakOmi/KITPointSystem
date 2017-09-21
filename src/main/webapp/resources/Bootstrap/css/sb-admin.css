@@ -41,8 +41,9 @@
 body {
     margin-top: 100px;
     background-color: #fff;
-    word-break:break-all;
+    word-break:break-word;
     text-decoration:none;
+    
 }
 
 @media(min-width:768px) {

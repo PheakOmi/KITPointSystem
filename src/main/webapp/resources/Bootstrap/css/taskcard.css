@@ -13,6 +13,7 @@
     padding-left: 15px;
     border:0px;
 }
+.hidden{visibility:hidden}
 .thumbnail .caption {
     padding: 2px;
     color: #333;
@@ -117,6 +118,10 @@ p
  color: #4a4a4a;
  font-weight: 600;
  font-size: 1.8rem;
+}
+b{
+ font-weight: 600;
+ font-size: 1.4rem;
 }
 .project.card .card-body {
  width: 100%;

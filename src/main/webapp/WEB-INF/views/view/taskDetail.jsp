@@ -177,7 +177,7 @@ $('#project').on('change', function() {
 	    .end();
 
 		for(i=0; i<student.length; i++)
-			$("#user").append("<option value="+student[i].id+">"+student[i].user_name+" </option>");
+			$("#user").append("<option value="+student[i].user_id+">"+student[i].user_name+" </option>");
 		
 		},
 		error: function (err)

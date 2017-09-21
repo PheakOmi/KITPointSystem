@@ -4,7 +4,7 @@
 <hibernate-mapping>
  	<class name="com.EntityClasses.Project_Stage" table="project_stage">
  	<id name="id" column="id" >    
- 	    <generator class="identity"/>    
+ 	    <generator class="increment"/>    
  	 </id>
     <property name="project_id"  column="project_id"  />
     <property name="stage_id" column="stage_id"/>
