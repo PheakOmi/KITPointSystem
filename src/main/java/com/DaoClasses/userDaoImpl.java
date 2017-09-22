@@ -650,12 +650,12 @@ public class userDaoImpl implements usersDao{
     public void saveMember(int projectid, int arr[]) throws MalformedURLException, XmlRpcException
     {
     	
-    	List<Student> students = new StudentFromOdoo_BatchId().getStudent_BatchId();
+    	List<Student> students = new userDaoImpl().getAllStudent();
     	Transaction trns14 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Timestamp created_at = new Timestamp(System.currentTimeMillis());
         try {
-        	System.out.println("Student is "+students);
+        	//System.out.println("Student is "+students);
             trns14 = session.beginTransaction();
     		for (int i = 0; i<arr.length; i++)
     		{
@@ -664,7 +664,7 @@ public class userDaoImpl implements usersDao{
     			{
     				if (arr[i]==Integer.parseInt(students.get(j).getId()))
     					{
-    						System.out.println("Name IS"+students.get(j).getName());
+    						//System.out.println("Name IS"+students.get(j).getName());
     						pm.setUser_name(students.get(j).getName());
     						break;
     					}
@@ -812,7 +812,7 @@ public class userDaoImpl implements usersDao{
 
 
 	public static Map<Integer,Integer> getBatch(int student[]) throws MalformedURLException, XmlRpcException {
-		List<Student> students = new StudentFromOdoo_BatchId().getStudent_BatchId();
+		List<Student> students = new userDaoImpl().getAllStudent();
 		Map<Integer,Integer> map=new HashMap<Integer,Integer>();  
 		for (int i =0; i<students.size();i++)
 		{
@@ -831,7 +831,7 @@ public class userDaoImpl implements usersDao{
 		Map<Integer, Integer> batch = new HashMap<Integer, Integer>();
 		Map<Integer, String> semester = new HashMap<Integer, String>();
 		
-		List<Student> students = new StudentFromOdoo_BatchId().getStudent_BatchId();
+		List<Student> students = new userDaoImpl().getAllStudent();
 
 		for (int i = 0; i < students.size(); i++) {
 			for (int j = 0; j < arr.length; j++) {
@@ -1305,7 +1305,22 @@ public class userDaoImpl implements usersDao{
 			session.close();
 		}
 		
-		
+	}
+	public List<Student> getAllStudent(){
+		List<Student> students= new ArrayList<Student>();
+        Transaction trns26 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            trns26 = session.beginTransaction();
+            students = session.createQuery("from Student").list();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return students;
+        } finally {
+            session.flush();
+            session.close();
+        }
+        return students;
 	}
 }
 

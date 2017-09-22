@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping>
+ 	<class name="com.EntityClasses.Student" table="student">
+ 	 	
+ 	 <id name="student_id" column="student_id" >    
+ 	    <generator class="increment"/>    
+ 	 </id>
+ 	 	
+    <property name="name"  column="name"/>
+    <property name="id"  column="id"/>
+    <property name="text"  column="text"/>
+    <property name="gender" column="gender"/>
+    <property name="batch_id" column="batch_id"/>
+ 	</class>
+</hibernate-mapping>

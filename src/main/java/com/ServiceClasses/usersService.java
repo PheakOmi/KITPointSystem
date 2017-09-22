@@ -13,6 +13,7 @@ import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Member;
 import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
+import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User_Info;
 import com.ModelClasses.Project_Model;
@@ -60,4 +61,5 @@ public interface usersService {
 	public void deleteTaskByProjectId(int id);
 	public boolean editProfile(String email,String oldPassword, String newPassword) throws Exception;
 	public int deleteTaskDetail(int id);
+	public List<Student> getAllStudent();
 }

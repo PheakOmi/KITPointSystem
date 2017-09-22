@@ -105,6 +105,7 @@
                         };
                         date_input.datepicker(options);
                         
+                        
                     });
 </script>
 </body>

@@ -1,12 +1,15 @@
 <body onload="load();">
  <script type="text/javascript">
   load = function() {
-   $
-     .ajax({
+	 var slickjs = $("<script>");
+  	$(slickjs).attr('src', '/KIT_Point_Management_System/resources/Bootstrap/js/slider/slick.min.js');
+  	$(slickjs).appendTo('body');
+   $.ajax({
       url : 'ProjectNTask',
       method : 'GET',
       success : function(response) {
-       task = response.task;
+    	
+       task = response.task;	
        project = response.project;
        function formatDate(date) {
 		    var d = new Date(date),
@@ -32,6 +35,12 @@
           + '</div>' + '</div>' + '</div>';
         $(".projects").append(projectcard);
        }
+       
+       $('.projects').slick({
+    	   infinite: true,
+    	   slidesToShow: 2,
+    	   slidesToScroll: 2
+       });
   for (i = 0; i < task.length; i++) {
 	  	if (task[i].start_date==null)
 		  task[i].start_date="";
@@ -125,7 +134,6 @@
 	    }
   
   $(document).ready(function() {
-	 
    $('li#taskStlye').addClass('active');
    	
    

@@ -32,5 +32,6 @@
          <mapping resource ="user_info.hbm.xml"/>
          <mapping resource ="userRole.hbm.xml"/>
          <mapping resource ="value_per_hour.hbm.xml"/>
+         <mapping resource ="student.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

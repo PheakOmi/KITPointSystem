@@ -16,6 +16,7 @@ import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Member;
 import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
+import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User_Info;
 import com.ModelClasses.Project_Model;
@@ -147,6 +148,9 @@ public class usersServiceImpl implements usersService{
 
 	public int deleteTaskDetail(int id) {
 		return usersDao1.deleteTaskDetail(id);
+	}
+	public List<Student> getAllStudent(){
+		return usersDao1.getAllStudent();
 	}
 }
 

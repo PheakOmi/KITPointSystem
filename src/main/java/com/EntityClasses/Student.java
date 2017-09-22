@@ -6,8 +6,15 @@ public class Student {
 	private String id;
 	private String gender;
 	private String batch_id;
+	private int student_id;
 	
 	
+	public int getStudent_id() {
+		return student_id;
+	}
+	public void setStudent_id(int student_id) {
+		this.student_id = student_id;
+	}
 	public String getBatch_id() {
 		return batch_id;
 	}

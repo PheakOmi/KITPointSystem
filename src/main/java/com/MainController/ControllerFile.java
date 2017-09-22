@@ -127,7 +127,7 @@ public class ControllerFile {
 				 Map<String,Object> error = new HashMap<String,Object>();
 					List<Project_Category_Master> listProjectCategory = usersService1.getProjectCategories();
 					List<User_Info> listUser = usersService1.getAllUser();
-					List<Student> student = new StudentFromOdoo_BatchId().getStudent_BatchId();
+					List<Student> student = usersService1.getAllStudent();
 					//List<Project_Stage_Master> listProjectStage = userDaoImpl.getAllStages();	
 										
 					if (listProjectCategory == null || listUser == null)
