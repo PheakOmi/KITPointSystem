@@ -131,6 +131,9 @@ public class test{
 		            
 		            //e.printStackTrace();
 		        }
+		          
+		          
+		          
 		          List<Student> studentDB= new ArrayList<Student>();
 		          Transaction trns = null;
 		          Session session = HibernateUtil.getSessionFactory().openSession();
@@ -139,41 +142,20 @@ public class test{
 		              studentDB = session.createQuery("from Student").list();
 		          } catch (RuntimeException e) {
 		              e.printStackTrace();
-		          } finally {
-		              session.flush();
-		              session.close();
 		          }
 		        
 		        if (students!=null)
 		        {
 		        	if (studentDB ==null)
-		        	{
-		        		try {
-		        			  trns = null;
-				              trns = session.beginTransaction();
-				              for (Student s:students)
-				            	  session.save(s);
-				              session.getTransaction().commit();
-				              
-				          } catch (RuntimeException e) {
-				              e.printStackTrace();
-				          } finally {
-				              session.flush();
-				              session.close();
-				          }
-		        	}
+		        		test.saveStudent(students);
 		        	else
 		        	{
 		        		try {
-		        			trns = null;
-				            trns = session.beginTransaction();
-				            String queryString = "from Student";
-				            Query query = session.createQuery(queryString);
-				            studentDB=(List<Student>)query.list();
-				            session.delete(studentDB);
-				            for (Student s:students)
-				            	  session.save(s);
-				            session.getTransaction().commit();
+		        			String queryString = "delete from Student";
+		                    Query query = session.createQuery(queryString);
+		                    query.executeUpdate();
+		                    session.getTransaction().commit();
+		                    test.saveStudent(students);
 				          			              
 				          } catch (RuntimeException e) {
 				              e.printStackTrace();
@@ -184,6 +166,23 @@ public class test{
 		        		}
 		        }
 		        
+		        
+		 }
+		 public static void saveStudent (List<Student> students)
+		 {
+			    Transaction trns26 = null;
+		        Session session = HibernateUtil.getSessionFactory().openSession();
+		        try {
+		            trns26 = session.beginTransaction();
+		            for(Student s: students)
+		            session.save(s);
+		            session.getTransaction().commit();
+		        } catch (RuntimeException e) {
+		            e.printStackTrace();
+		        } finally {
+		            session.flush();
+		            session.close();
+		        }
 		        
 		 }
 		

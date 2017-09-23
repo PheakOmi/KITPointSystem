@@ -24,7 +24,7 @@
 		};
        console.log(response);
        for (i = 0; i < project.length; i++) {
-        var projectcard = '<div class="project card"'+'id='+project[i].project_name+'>'
+        var projectcard = '<div class="project card" project-title="'+project[i].project_name+'">'
           + '<div class="card-heading">'
           + '<h3>'
           + project[i].project_name
@@ -38,9 +38,12 @@
        
        $('.projects').slick({
     	   infinite: true,
-    	   slidesToShow: 2,
-    	   slidesToScroll: 2
+    	   slidesToShow: 5	,	
+    	   slidesToScroll: 3,    	   
+    	   arrows:false
        });
+       $('.project').width(300)
+       
   for (i = 0; i < task.length; i++) {
 	  	if (task[i].start_date==null)
 		  task[i].start_date="";
@@ -54,11 +57,11 @@
 		if(task[i].status=="In Progress")
         	StatusColor = '#a5dff9'; 
         else if(task[i].status=="Completed")
-        	StatusColor = '#56A902';
+        	StatusColor = '#65eea6';
         else if(task[i].status=="Postponed")
-        	StatusColor = '#8b8687';
+        	StatusColor = '#aaaabb';
         else if(task[i].status=="Delayed")
-        	StatusColor = '#ffd5d6';
+        	StatusColor = '#ec6e57';
 	  var taskcard = '<div class="thumbnail" style="background-color:'
 	  					+StatusColor+
 	  					';"><div class="caption"><div class="col-lg-12"><h4 style="text-align:center;"><b>'
@@ -135,7 +138,17 @@
   
   $(document).ready(function() {
    $('li#taskStlye').addClass('active');
-   	
+   $("#txtbox").keyup(function(){
+	     var searchValue = $("#txtbox").val();
+	     	
+	        $(".project").each(function(){
+	         var title = $(this).attr('project-title'); 
+	         if(!title.indexOf(searchValue) !== -1)
+	         {
+	          $(this).hide();
+	         }
+	        });
+	    });
    
   });
  </script>
@@ -149,13 +162,12 @@
  </div>
  <table style="width:75%;">
  <tr>
- <input type='text' class="pull-right" name='txtbox' id='txtbox'/>
  </tr>
  <tr>
  <td><i class="fa fa-square" style="font-size:20px;color:#a5dff9"><span style="font-size:20px;color:#a5dff9">&nbsp&nbsp&nbsp&nbsp&nbspIn Progress</span> </i></td>
- <td><i class="fa fa-square" style="font-size:20px;color:#56A902"><span style="font-size:20px;color:#56A902">&nbsp&nbsp&nbsp&nbsp&nbspCompleted</span> </i></td>
- <td><i class="fa fa-square" style="font-size:20px;color:#8b8687"><span style="font-size:20px;color:#8b8687">&nbsp&nbsp&nbsp&nbsp&nbspPostponed</span> </i></td>
- <td><i class="fa fa-square" style="font-size:20px;color:#ffd5d6"><span style="font-size:20px;color:#ffd5d6">&nbsp&nbsp&nbsp&nbsp&nbspDelayed</span> </i></td>
+ <td><i class="fa fa-square" style="font-size:20px;color:#65eea6"><span style="font-size:20px;color:#65eea6">&nbsp&nbsp&nbsp&nbsp&nbspCompleted</span> </i></td>
+ <td><i class="fa fa-square" style="font-size:20px;color:#aaaabb"><span style="font-size:20px;color:#aaaabb">&nbsp&nbsp&nbsp&nbsp&nbspPostponed</span> </i></td>
+ <td><i class="fa fa-square" style="font-size:20px;color:#ec6e57"><span style="font-size:20px;color:#ec6e57">&nbsp&nbsp&nbsp&nbsp&nbspDelayed</span> </i></td>
  </tr>
  </table><br>
  
