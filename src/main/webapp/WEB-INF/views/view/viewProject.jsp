@@ -2,6 +2,34 @@
 
 $(document).ready(function() {
     $('li#projectStlye').addClass('active');
+    $("#txtbox").keyup(function(){
+ 	   $(".panel-title").each(function(){
+  	         
+ 		  $(this).closest('.panel').show();
+ 	         
+ 	        });
+ 	     var searchValue = $("#txtbox").val().toLowerCase();
+ 	     	if(searchValue!=null&&searchValue!="")
+ 	     		{
+ 	     		 $(".panel-title").each(function(){
+ 	    	         var title = $(this).attr('project-title'); 
+ 	    	         title = title.toLowerCase();
+ 	    	         if(!title.includes(searchValue))
+ 	    	         {
+ 	    	          
+ 	    	         $(this).closest('.panel').hide();
+ 	    	         }
+ 	    	        });
+ 	     		}
+ 	     	else{
+ 	       
+ 	        $(".panel-title").each(function(){
+ 	   	         
+ 	        	$(this).closest('.panel').show();
+ 	   	         
+ 	   	        });
+ 	     	}
+ 	    });
 });
 		formatDate =function (date) {
 	    var d = new Date(date),
@@ -111,7 +139,7 @@ $(document).ready(function() {
 						"'>"+
 						"<div class='panel "+panel+"'>"+
 							"<div class='panel-heading'>"+
-								"<h3 class='panel-title'>"+ project[i].project_name+"</h3>"+
+								"<h3 class='panel-title' project-title='"+project[i].project_name+"'>"+ project[i].project_name+"</h3>"+
                             "</div>"+
                             "<div class='panel-body'>"+
                                
@@ -284,7 +312,7 @@ $(document).ready(function() {
 						"'>"+
 						"<div class='panel "+panel+"'>"+
 							"<div class='panel-heading'>"+
-								"<h3 class='panel-title'>"+project[i].project_name+"</h3>"+
+								"<h3 class='panel-title' project-title='"+project[i].project_name+"'>"+project[i].project_name+"</h3>"+
                             "</div>"+
                             "<div class='panel-body'>"+
   /*                           "<label>Progress</label>"+
@@ -365,7 +393,17 @@ $(document).ready(function() {
                 
                 
                 <div class="row">
-                
+                <div class="col-lg-4 pull-right">
+            <div class="form-group">
+                  <div class="input-group">
+                    <input type="text" class="form-control"
+                           placeholder="Type to search for any project..." id="txtbox"/>
+                    <span class="input-group-addon">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div>
+            </div>
+        </div><br><br><br><br><br>
                 <div id="project">
                 </div>
          </div>

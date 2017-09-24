@@ -38,11 +38,13 @@
        
        $('.projects').slick({
     	   infinite: true,
-    	   slidesToShow: 5	,	
+    	   slidesToShow: 5,	
     	   slidesToScroll: 3,    	   
-    	   arrows:false
+    	   arrows:false,
+    	   infinite: false,
+    	   initialSlide: 0	
        });
-       $('.project').width(300)
+       //$('.project').width(300)
        
   for (i = 0; i < task.length; i++) {
 	  	if (task[i].start_date==null)
@@ -139,15 +141,31 @@
   $(document).ready(function() {
    $('li#taskStlye').addClass('active');
    $("#txtbox").keyup(function(){
-	     var searchValue = $("#txtbox").val();
-	     	
-	        $(".project").each(function(){
-	         var title = $(this).attr('project-title'); 
-	         if(!title.indexOf(searchValue) !== -1)
-	         {
-	          $(this).hide();
-	         }
+	   $(".project").each(function(){
+ 	         
+	          $(this).show();
+	         
 	        });
+	     var searchValue = $("#txtbox").val().toLowerCase();
+	     	if(searchValue!=null&&searchValue!="")
+	     		{
+	     		 $(".project").each(function(){
+	    	         var title = $(this).attr('project-title'); 
+	    	         title = title.toLowerCase();
+	    	         if(!title.includes(searchValue))
+	    	         {
+	    	          $(this).hide();
+	    	         }
+	    	        });
+	     		}
+	     	else{
+	       
+	        $(".project").each(function(){
+	   	         
+	   	          $(this).show();
+	   	         
+	   	        });
+	     	}
 	    });
    
   });
@@ -170,7 +188,17 @@
  <td><i class="fa fa-square" style="font-size:20px;color:#ec6e57"><span style="font-size:20px;color:#ec6e57">&nbsp&nbsp&nbsp&nbsp&nbspDelayed</span> </i></td>
  </tr>
  </table><br>
- 
+ <div class="col-lg-4 pull-right">
+            <div class="form-group">
+                  <div class="input-group">
+                    <input type="text" class="form-control"
+                           placeholder="Type to search for any project..." id="txtbox"/>
+                    <span class="input-group-addon">
+                        <i class="fa fa-search"></i>
+                    </span>
+                </div>
+            </div>
+        </div>
  <div class="project-list__wrapper">
   <div class="inner">
    <div class="projects"></div>
