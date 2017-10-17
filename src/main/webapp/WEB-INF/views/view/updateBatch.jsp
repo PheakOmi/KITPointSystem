@@ -153,6 +153,7 @@ function load(){
 }
 console.log(ip);
 load();
+setIp();
 
 </script>
 </body>
