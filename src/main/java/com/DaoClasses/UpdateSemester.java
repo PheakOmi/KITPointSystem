@@ -40,8 +40,8 @@ public class UpdateSemester {
 		   return batch;
 		  }
 	public static void main(String[] args) throws Exception {
-		final String url = "http://192.168.7.222:8069";
-		//final String url = "http://96.9.67.154:8070";
+		//final String url = "http://192.168.7.222:8069";
+		final String url = "http://96.9.67.154:8070";
 	     final String db = "Kirirom_Institute_of_Technology";
 	     final String username ="admin";
 	     final String password = "adminn";
@@ -127,7 +127,7 @@ public class UpdateSemester {
 	        		else if(cnt==2)
 	        		{
 	        			//s.id=str2[1].replace("}","").trim();
-	        			s.setOdoo_id(Integer.parseInt(str2[1]));
+	        			s.setId(Integer.parseInt(str2[1]));
 	        			cnt++;
 	        		}
 	        		else if(cnt==3)
@@ -157,23 +157,26 @@ public class UpdateSemester {
 	        	batch=(Batch_Master) query.uniqueResult();
 	        	if(batch==null)
 	        	{
-	        		List<Semester_Master> semesters = new userDaoImpl().getStudent_Semester(b.getOdoo_id());
+	        		List<Semester_Master> semesters = new userDaoImpl().getStudent_Semester(b.getId());
 	        		String currentSemester = new userDaoImpl().getCurrentSemester(semesters);
-	        		batch.setSemester(currentSemester);
+	        		b.setSemester(currentSemester);
+	        		b.setId(0);
 	        		session.save(b);
 	        	}
 	        		
 	        	else 
 	        	{
-	        		List<Semester_Master> semesters = new userDaoImpl().getStudent_Semester(b.getOdoo_id());
+	        		int id=b.getId();        			
+	        		List<Semester_Master> semesters = new userDaoImpl().getStudent_Semester(id);
 	        		String currentSemester = new userDaoImpl().getCurrentSemester(semesters);
 	        		batch.setSemester(currentSemester);
-	        		batch.setOdoo_id(b.getOdoo_id());
+	        		batch.setName(b.getName());
 	        		session.update(batch);
 	        	}
 	        	
 	        }
 	        session.getTransaction().commit();
+	        
 	        }
 	       
 	        

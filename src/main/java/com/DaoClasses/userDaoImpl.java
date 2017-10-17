@@ -37,6 +37,19 @@ import org.springframework.stereotype.Repository;
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 //import org.springframework.stereotype.Service;
 import com.EncryptionDecryption.Decryption;
 import com.EncryptionDecryption.Encryption;
@@ -48,6 +61,7 @@ import com.EntityClasses.Project_Member;
 import com.EntityClasses.Project_Stage;
 import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
+import com.EntityClasses.Sms_Server_Info;
 import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.UserRole;
@@ -108,6 +122,7 @@ public class userDaoImpl implements usersDao{
         String email=user.getEmail();
         String user_type=user.getUser_type();
         String username= user.getName();
+        int batch_id = user.getBatch_id();
         try {
 
         	String queryString = "from User_Info where email= :email";
@@ -123,6 +138,7 @@ public class userDaoImpl implements usersDao{
 	            userData.setEnabled(true);
 	            userData.setPassword(hashedPassword);
 	            userData.setCreated_at(created_at);
+	            userData.setBatch_id(batch_id);
 	            UserRole user_role= new UserRole();
 	            user_role.setRole(user_type);
 	            user_role.setCreated_at(created_at);
@@ -157,20 +173,35 @@ public class userDaoImpl implements usersDao{
     
   //===================Get a list of user=================================
     public List<User_Info> getAllUser() {
+    	System.out.println("In get all user");
     	List<User_Info> users= new ArrayList<User_Info>();
-        Transaction trns2 = null;
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        try {
-            trns2 = session.beginTransaction();
-            users = session.createQuery("select id,name,email,created_at,updated_at from User_Info").list();
-            
-            
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-        } finally {
-            session.flush();
-            session.close();
-        }
+   		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			List<Map<String,Object>> list_map = new ArrayList<Map<String,Object>>();
+			trns25  = session.beginTransaction();
+			String queryString  = "from UserRole where role!=:role";
+ 		 	Query query = session.createQuery(queryString);
+ 		 	query.setString("role", "ROLE_USER");
+ 		 	List<UserRole> roles = query.list();
+ 		 	for(int i=0;i<roles.size();i++)
+ 		 	{
+ 		 		User_Info user1 = new User_Info();
+ 		 		User_Info user = roles.get(i).getUser_info();
+ 		 		user1.setId(user.getId());
+ 		 		user1.setName(user.getName());
+ 		 		users.add(user1);
+ 		 	}
+ 		 	
+		}
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();			
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
         return users;
     } 
 //=====================get member by project id=========================================
@@ -378,13 +409,13 @@ public class userDaoImpl implements usersDao{
         try {
         	Task_Master tm2;
             trns10 = session.beginTransaction();
-            String queryString = "FROM Task_Master where name=:name and project_id=:project_id";
+            /*String queryString = "FROM Task_Master where name=:name and project_id=:project_id";
             Query query = session.createQuery(queryString);
             query.setString("name",t.getName());
             query.setInteger("project_id", t.getProject_id());
             tm2=(Task_Master)query.uniqueResult();
     			if(tm2!=null)
-    				return false;
+    				return false;*/
  
     		Date start_date = null;
     		Date end_date = null;
@@ -589,12 +620,12 @@ public class userDaoImpl implements usersDao{
     {
     	Transaction trns13 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
-        List <Task_Master> tasks  = new ArrayList();
-        int count=0;
+//        List <Task_Master> tasks  = new ArrayList();
+//        int count=0;
         try {
         	
             trns13 = session.beginTransaction();
-            tasks = getAllTaskByProjectId(t.getProject_id());
+/*            tasks = getAllTaskByProjectId(t.getProject_id());
             for (Task_Master task:tasks)
             {
             	if (task.getId()!=t.getId())
@@ -604,7 +635,7 @@ public class userDaoImpl implements usersDao{
     			}
             }
 		    if(count>=1)
-		    	return false;
+		    	return false;	*/
     		Timestamp updated_at = new Timestamp(System.currentTimeMillis());
     		Date start_date = null;
     		Date end_date = null;
@@ -650,7 +681,7 @@ public class userDaoImpl implements usersDao{
     public void saveMember(int projectid, int arr[]) throws MalformedURLException, XmlRpcException
     {
     	
-    	List<Student> students = new userDaoImpl().getAllStudent();
+    	List<Student> students = getAllStudent();
     	Transaction trns14 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         Timestamp created_at = new Timestamp(System.currentTimeMillis());
@@ -811,8 +842,8 @@ public class userDaoImpl implements usersDao{
     }
 
 
-	public static Map<Integer,Integer> getBatch(int student[]) throws MalformedURLException, XmlRpcException {
-		List<Student> students = new userDaoImpl().getAllStudent();
+	public Map<Integer,Integer> getBatch(int student[]) throws MalformedURLException, XmlRpcException {
+		List<Student> students = getAllStudent();
 		Map<Integer,Integer> map=new HashMap<Integer,Integer>();  
 		for (int i =0; i<students.size();i++)
 		{
@@ -831,7 +862,7 @@ public class userDaoImpl implements usersDao{
 		Map<Integer, Integer> batch = new HashMap<Integer, Integer>();
 		Map<Integer, String> semester = new HashMap<Integer, String>();
 		
-		List<Student> students = new userDaoImpl().getAllStudent();
+		List<Student> students = getAllStudent();
 
 		for (int i = 0; i < students.size(); i++) {
 			for (int j = 0; j < arr.length; j++) {
@@ -843,7 +874,7 @@ public class userDaoImpl implements usersDao{
 		}
 		String s_semester = new String();
 		for (Map.Entry<Integer, Integer> entry : batch.entrySet()) {
-			s_semester = new userDaoImpl().getSemesterByBatchId(entry.getValue());
+			s_semester = getSemesterByBatchId(entry.getValue());
 			semester.put(entry.getKey(), s_semester+","+entry.getValue());
 		}
 		return semester;
@@ -859,7 +890,9 @@ public class userDaoImpl implements usersDao{
 		{
 			String str[]=entry.getValue().split(",");
 			int batch_id = Integer.parseInt(str[1]);
+			System.out.println("Batch "+batch_id);
 			String semester_name=str[0];
+			System.out.println(semester_name);
 			Transaction trns21 = null;
 	        Session session = HibernateUtil.getSessionFactory().openSession();
 	        try {
@@ -889,7 +922,7 @@ public class userDaoImpl implements usersDao{
 	        }
 			
 		}
-		String pointValue = new userDaoImpl().getKitPoint();
+		String pointValue = getKitPoint();
 		if(pointValue==null)
 		{
 			map.put("No Point", (float) 0);
@@ -924,13 +957,17 @@ public class userDaoImpl implements usersDao{
 //===========================
 	public List<Semester_Master> getStudent_Semester(int batch_id) throws XmlRpcException,
 	MalformedURLException, ParseException {
-		final String url = "http://192.168.7.222:8069";
-			  //final String url = "http://96.9.67.154:8070"; 
-		      final String db = "Kirirom_Institute_of_Technology"; 
-		      final String username ="admin"; 
-		      final String password = "adminn"; 
+		Sms_Server_Info  info =  new Sms_Server_Info();
+		info = getSmsServerInfo();
+		List<Semester_Master> semesters = new ArrayList < Semester_Master >();
+		//final String url = "http://192.168.7.222:8069";
+			  final String url = info.getIp(); 
+		      final String db = info.getDb_name(); 
+		      final String username = info.getAdmin_name(); 
+		      final String password = info.getAdmin_password(); 
 		       
-		      List<Semester_Master> semesters = new ArrayList < Semester_Master >();
+		      try {
+		      
 		      final XmlRpcClient authClient = new XmlRpcClient(); 
 		         final XmlRpcClientConfigImpl authStartConfig = new XmlRpcClientConfigImpl(); 
 		         authStartConfig.setServerURL(new URL(String.format("%s/xmlrpc/2/common", url))); 
@@ -957,7 +994,7 @@ public class userDaoImpl implements usersDao{
 		        
 		       // List<Object> a= Arrays.asList((Object[])objClient.execute("execute_kw", configList)); 
 		     
-		          try {
+		          
 		   	  
 		        	  final List get_Result=Arrays.asList((Object[])objClient.execute("execute_kw", Arrays.asList(
 		        			    db, uid, password,
@@ -978,8 +1015,7 @@ public class userDaoImpl implements usersDao{
 		  				Semester_Master semester = new Semester_Master();
 		  				// HashMap complete_Result = (HashMap) get_Result.get(i);
 
-		  				HashMap<String, Object> complete_Result = (HashMap<String, Object>) get_Result
-		  						.get(i);
+		  				HashMap<String, Object> complete_Result = (HashMap<String, Object>) get_Result.get(i);
 
 		  				Integer id = (Integer) complete_Result.get("id");
 		  				semester.setId(id);
@@ -1028,8 +1064,8 @@ public class userDaoImpl implements usersDao{
 		        	  }
 
 		        catch (XmlRpcException e) {
-		            
 		            System.err.println(e);
+		            return null;
 		            //e.printStackTrace();
 		        }
 		        
@@ -1045,7 +1081,7 @@ public class userDaoImpl implements usersDao{
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             trns23 = session.beginTransaction();
-            String queryString = "select semester from Batch_Master where odoo_id=:id";
+            String queryString = "select semester from Batch_Master where id=:id";
             Query query = session.createQuery(queryString);
             query.setInteger("id",id);
             semester=(String)query.uniqueResult();
@@ -1155,7 +1191,7 @@ public class userDaoImpl implements usersDao{
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
             trns20 = session.beginTransaction();
-            String queryString = "from Batch_Master where odoo_id=:id";
+            String queryString = "from Batch_Master where id=:id";
             Query query = session.createQuery(queryString);
             query.setInteger("id",id);
             batch=(Batch_Master)query.uniqueResult();
@@ -1269,7 +1305,7 @@ public class userDaoImpl implements usersDao{
         }
 		
 	}
-	public boolean editProfile(String email, String oldPassword, String newPassword) throws Exception{
+	public int editProfile(String email, String oldPassword, String newPassword, String name) throws Exception{
 		User_Info user = new User_Info();
 		Transaction trns25 = null;
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -1281,24 +1317,30 @@ public class userDaoImpl implements usersDao{
  		 	query.setString("email",email);
  		 	user = (User_Info) query.uniqueResult();
  		 	if (user==null)
- 		 		return false;
+ 		 		return 0;
  		 	else{
+ 		 		if(user.getName().equals(name))
+ 		 		{
+ 		 			
+ 		 		}
+ 		 		else
+ 		 			return 2;
  		 		if(passwordEncoder.matches(oldPassword, user.getPassword()))
 		 			{
  		 			String encryptedPassword = passwordEncoder.encode(newPassword);
  		 			user.setPassword(encryptedPassword);
  		 			session.update(user);
  	 				session.getTransaction().commit();
- 		 			return true;
+ 		 			return 1;
 		 			}
 		 		else
-		 			return false;
+		 			return 0;
 		 		}
 		}
 		catch(RuntimeException e)
 		{
 			e.printStackTrace();			
-			return false;
+			return 0;
 		}
 		finally{
 			session.flush();
@@ -1306,23 +1348,624 @@ public class userDaoImpl implements usersDao{
 		}
 		
 	}
+	
+	
+	public boolean updateStudent() throws Exception{
+		
+		List <Student> students=new ArrayList<Student>();
+		  //final String url = "http://192.168.7.222:8069";
+			Sms_Server_Info  info =  new Sms_Server_Info();
+			info = getSmsServerInfo(); 
+		  final String url = info.getIp(); 
+	      final String db = info.getDb_name(); 
+	      final String username = info.getAdmin_name(); 
+	      final String password = info.getAdmin_password();
+	       
+	      try { 
+	      final XmlRpcClient authClient = new XmlRpcClient(); 
+	         final XmlRpcClientConfigImpl authStartConfig = new XmlRpcClientConfigImpl(); 
+	         authStartConfig.setServerURL(new URL(String.format("%s/xmlrpc/2/common", url))); 
+	          
+	     
+	         List configList = new ArrayList(); 
+	         Map paramMap = new HashMap(); 
+	          
+	         configList.add(db); 
+	         configList.add(username); 
+	         configList.add(password); 
+	         configList.add(paramMap); 
+	          
+	         int uid = (Integer)authClient.execute( 
+	                 authStartConfig, "authenticate", configList); 
+	         
+	         System.out.println("Connection Success"); 
+	         
+	         final XmlRpcClient objClient = new XmlRpcClient(); 
+	         final XmlRpcClientConfigImpl objStartConfig = new XmlRpcClientConfigImpl(); 
+	         objStartConfig.setServerURL(new URL(String.format("%s/xmlrpc/2/object", url))); 
+	         objClient.setConfig(objStartConfig); 
+	          
+	        
+	       // List<Object> a= Arrays.asList((Object[])objClient.execute("execute_kw", configList)); 
+	     
+	          
+	   	  
+	        	  final List get_Result=Arrays.asList((Object[])objClient.execute("execute_kw", Arrays.asList(
+	        			    db, uid, password,
+	        			    "op.student", "search_read",
+	        			    Arrays.asList(Arrays.asList(
+	        			    		Arrays.asList("id", ">", 0))),
+	        			    		    //OR
+	        			    		//Arrays.asList("customer", "=", true))),  //To bring the all value customer should be true
+	        			    new HashMap() {{
+	        			        put("fields", Arrays.asList("id","name","batch_id","gender","last_name","email"));
+	        			        //put("limit", 5);
+	        			    }}
+	        			)));
+	        	  
+	   	  
+	        	   for(int i=0;i<get_Result.size();i++)
+	               {
+	        		 Student student = new Student();
+	        		 //HashMap complete_Result = (HashMap) get_Result.get(i);                 
+	        		   
+	                 HashMap<String,Object> complete_Result = (HashMap<String,Object>) get_Result.get(i);               
+	        
+	                 Integer id=(Integer)complete_Result.get("id");
+	                 student.setId(Integer.toString(id));
+	                 String gender=(String)complete_Result.get("gender");
+	                 student.setGender(gender);
+	                 String name=(String)complete_Result.get("name");
+	                 student.setName(name);
+	                 String email=(String)complete_Result.get("email");
+	                 student.setText(email);
+	                 String lname = (String)complete_Result.get("last_name");
+	                 name = lname+" "+name;
+	                 student.setName(name);
+	                 
+	                 Object batch_id1=(Object)complete_Result.get("batch_id");   //batch_id is object so we must get this value as an object       	         	  
+	              	 String batch_id2=Arrays.deepToString((Object[]) batch_id1).toString();
+	             	 String batch_id3=batch_id2.substring(1,batch_id2.length()-1);  //To trim bracket
+	              	 String[] batch_id4=batch_id3.split(",");  //splits the string based on whitespace  
+	                int count=0;
+	              	for(String batch_id5:batch_id4){
+		                 String batch_id6 = batch_id5.trim();     //Remove first space
+		                 String batch_id7= batch_id6.replaceAll(" ", "");
+		                 count++;
+		                 if(count==1)//Remove space
+		                 student.setBatch_id(batch_id7);
+		                }
+	              	students.add(student);
+	          	  
+	          }
+	        	  
+	         
+	        }
+	        catch (Exception e) {
+	        	System.err.println(e);
+	        	return false;
+	            //e.printStackTrace();
+	        }
+	          
+	          
+	          students = exchangeBatchValue(students);
+	          if (students==null)
+	        	  return false;
+	          List<Student> studentDB= new ArrayList<Student>();
+	          Transaction trns = null;
+	          Session session = HibernateUtil.getSessionFactory().openSession();
+	          try {
+	              trns = session.beginTransaction();
+	              studentDB = getAllStudent();
+	          } catch (RuntimeException e) {
+	              e.printStackTrace();
+	              return false;
+	          }
+	        
+	        if (students!=null)
+	        {
+	        	if (studentDB ==null)
+	        	{
+	        		for(Student student : students)
+	        			{
+	        			User_Info user = new User_Info();		        			
+		        		user.setEmail(student.getText());
+		        		user.setName(student.getName());
+		        		user.setPassword("password");
+		        		user.setUser_type("ROLE_USER");
+		        		user.setBatch_id(Integer.parseInt(student.getBatch_id()));
+		        		addUser2(user);
+	        			}
+	        		
+	        	}
+	        		
+	        	else
+	        	{
+	        		
+	        		for(Student student : students)
+       			{
+	        			if(validateStudent(student,studentDB))
+	        			{
+	        			}
+	        			else
+	        			{
+	        				User_Info user = new User_Info();		        			
+			        		user.setEmail(student.getText());
+			        		user.setName(student.getName());
+			        		user.setPassword("password");
+			        		user.setUser_type("ROLE_USER");
+			        		user.setBatch_id(Integer.parseInt(student.getBatch_id()));
+			        		addUser2(user);
+	        			}
+       			}
+	        	
+	        	}
+	        }
+			return true;
+	        
+	        
+	 }
+
 	public List<Student> getAllStudent(){
-		List<Student> students= new ArrayList<Student>();
-        Transaction trns26 = null;
+		List<Student> students = new ArrayList<Student>();
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			List<Map<String,Object>> list_map = new ArrayList<Map<String,Object>>();
+			trns25  = session.beginTransaction();
+ 		 	String queryString  = "from UserRole where role=:role";
+ 		 	Query query = session.createQuery(queryString);
+ 		 	query.setString("role", "ROLE_USER");
+ 		 	List<UserRole> roles = query.list();
+ 		 	for(int i=0;i<roles.size();i++)
+ 		 	{
+ 		 		Student student = new Student();
+ 		 		User_Info user = roles.get(i).getUser_info();
+ 		 		int batch_id= user.getBatch_id();
+ 		 		int id= user.getId();
+ 		 		student.setBatch_id(Integer.toString(batch_id));
+ 		 		student.setId(Integer.toString(id));
+ 		 		student.setText(user.getName());
+ 		 		student.setName(user.getName());
+ 		 		
+ 		 		students.add(student);
+ 		 	}
+ 		 	
+		}
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();			
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+        return students;
+	}
+	public List<Student> exchangeBatchValue(List<Student> givenStudent)throws Exception {
+		List<Batch_Master> batchesDB = getAllBatch();
+		 List<Batch_Master> batches = pullAllBatch();
+		 if(batches==null)
+			 return null;
+		 Map<Integer,Integer> map = new HashMap<Integer,Integer>();
+		 List<Student> exchangedStudent = new ArrayList<Student>();
+		 
+		 for (Batch_Master batch:batches)
+		 {
+			 for (Batch_Master batchDB:batchesDB)
+			 {
+				 if(batch.getName().equals(batchDB.getName()))
+				 {
+					 map.put(batch.getId(), batchDB.getId());
+					 break;
+				 }
+			 }
+		 }
+		 
+		 for (Map.Entry<Integer, Integer> entry : map.entrySet())
+			{
+				for (Student student:givenStudent)
+				{
+					if(Integer.parseInt(student.getBatch_id())==entry.getKey())
+						{
+							student.setBatch_id(entry.getValue().toString());
+							exchangedStudent.add(student);
+						}
+					
+				}
+			}
+		 return exchangedStudent;
+	}
+
+
+	public boolean validateStudent(Student studentValidate,List<Student> studentDB) {
+		for(Student student : studentDB)
+	    {
+	    	if(student.getName()==studentValidate.getName())
+	    	{
+	    		if(student.getBatch_id()==student.getBatch_id())
+	    		{
+	    			return true;
+	    		}
+	    	}
+	    }
+		return false;
+	}
+
+
+	public List<Batch_Master> pullAllBatch() throws Exception {
+		List <Batch_Master> batches=new ArrayList<Batch_Master>();
+		  //final String url = "http://192.168.7.222:8069";
+		Sms_Server_Info  info =  new Sms_Server_Info();
+		info = getSmsServerInfo(); 
+	  final String url = info.getIp(); 
+      final String db = info.getDb_name(); 
+      final String username = info.getAdmin_name(); 
+      final String password = info.getAdmin_password();
+	       
+	      try{ 
+	      final XmlRpcClient authClient = new XmlRpcClient(); 
+	         final XmlRpcClientConfigImpl authStartConfig = new XmlRpcClientConfigImpl(); 
+	         authStartConfig.setServerURL(new URL(String.format("%s/xmlrpc/2/common", url))); 
+	          
+	     
+	         List configList = new ArrayList(); 
+	         Map paramMap = new HashMap(); 
+	          
+	         configList.add(db); 
+	         configList.add(username); 
+	         configList.add(password); 
+	         configList.add(paramMap); 
+	          
+	         int uid = (Integer)authClient.execute( 
+	                 authStartConfig, "authenticate", configList); 
+	         
+	         System.out.println("Connection Success"); 
+	         
+	         final XmlRpcClient objClient = new XmlRpcClient(); 
+	         final XmlRpcClientConfigImpl objStartConfig = new XmlRpcClientConfigImpl(); 
+	         objStartConfig.setServerURL(new URL(String.format("%s/xmlrpc/2/object", url))); 
+	         objClient.setConfig(objStartConfig); 	         
+	     
+	          
+	   	  
+	        	  final List get_Result=Arrays.asList((Object[])objClient.execute("execute_kw", Arrays.asList(
+	        			    db, uid, password,
+	        			    "op.batch", "search_read",
+	        			    Arrays.asList(Arrays.asList(
+	        			    		Arrays.asList("id", ">", 0))),
+	        			    		    //OR
+	        			    		//Arrays.asList("customer", "=", true))),  //To bring the all value customer should be true
+	        			    new HashMap() {{
+	        			        put("fields", Arrays.asList("id","name","start_date","end_date"));
+	        			        //put("limit", 5);
+	        			    }}
+	        			)));
+	        	  
+	   	  
+	        	   for(int i=0;i<get_Result.size();i++)
+	               {
+	        		 Batch_Master batch = new Batch_Master();
+	        		 //HashMap complete_Result = (HashMap) get_Result.get(i);                 
+	        		   
+	                 HashMap<String,Object> complete_Result = (HashMap<String,Object>) get_Result.get(i);               
+	        
+	                 Integer id=(Integer)complete_Result.get("id");
+	                 batch.setId(id);
+	                 String name=(String)complete_Result.get("name");
+	                 batch.setName(name);	                 
+	                 batches.add(batch);
+	          	  
+	               	}
+	        	
+	          }
+	        	   
+	        	   catch (XmlRpcException e) {
+			        	System.err.println(e);
+			            return null;
+			            //e.printStackTrace();
+			        }
+	          return batches;
+	}
+	public boolean updateSemester()throws Exception{
+		List <Batch_Master> l=new ArrayList<Batch_Master>();
+		//final String url = "http://192.168.7.222:8069";
+		Sms_Server_Info  info =  new Sms_Server_Info();
+		info = getSmsServerInfo(); 
+	  final String url = info.getIp(); 
+      final String db = info.getDb_name(); 
+      final String username = info.getAdmin_name(); 
+      final String password = info.getAdmin_password();
+	     
+	    try{
+	    	
+	    	final XmlRpcClient authClient = new XmlRpcClient();
+	        final XmlRpcClientConfigImpl authStartConfig = new XmlRpcClientConfigImpl();
+	        authStartConfig.setServerURL(
+	                new URL(String.format("%s/xmlrpc/2/common", url)));
+	        
+	        List configList = new ArrayList();
+	        Map paramMap = new HashMap();
+	        
+	        configList.add(db);
+	        configList.add(username);
+	        configList.add(password);
+	        configList.add(paramMap);
+	        
+	        int uid = (Integer)authClient.execute(
+	                authStartConfig, "authenticate", configList);
+	        
+	        System.out.println("Connection Success");
+
+	        final XmlRpcClient objClient = new XmlRpcClient();
+	        final XmlRpcClientConfigImpl objStartConfig = new XmlRpcClientConfigImpl();
+	        objStartConfig.setServerURL(
+	                new URL(String.format("%s/xmlrpc/2/object", url)));
+	        objClient.setConfig(objStartConfig);
+	        
+	        List paramList = new ArrayList();
+	        List list1 = new ArrayList();
+	        List list2 = new ArrayList();
+	        List list3 = new ArrayList();
+	        List field = new ArrayList();
+	        configList.clear();
+	        paramMap.clear();
+	        paramList.clear();
+	        
+	        configList.add(db);
+	        configList.add(uid);
+	        configList.add(password);
+	        configList.add("op.batch");
+	        configList.add("search_read");
+	        
+	        list3.add("id");
+	        list3.add(">");
+	        list3.add(0);
+	        list2.add(list3);
+	        list1.add(list2);
+
+	        configList.add(list1);
+	        
+	        field.add("name");
+	        field.add("start_date");
+	        field.add("end_date");
+	        paramMap.put("fields", field);
+	        configList.add(paramMap);
+
+	        List<Object> a= Arrays.asList((Object[])objClient.execute("execute_kw", configList));
+	        
+	        String str[]=new String[a.size()];
+	        //Student s=new Student();
+	        for(int i=0;i<a.size();i++)
+	        {
+	        	Batch_Master s=new Batch_Master();
+	        	str[i]=a.get(i).toString();
+	           	String str1[]=str[i].split(",");
+	        	int cnt=0;
+	        	for(int j=0;j<str1.length;j++)
+	        	{
+	        		String []str2=str1[j].split("=");
+	        		if(cnt==0)
+	        		{
+	        			Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(str2[1]);
+	        			s.setEnd_date(date1);
+	        			cnt++;
+	        		}
+	        		else if(cnt==1)
+	        		{
+	        			s.setName(str2[1]);
+	           			cnt++;
+	        		}
+	        		else if(cnt==2)
+	        		{
+	        			//s.id=str2[1].replace("}","").trim();
+	        			s.setId(Integer.parseInt(str2[1]));
+	        			cnt++;
+	        		}
+	        		else if(cnt==3)
+	        		{
+	        			String x = str2[1].replace("}","").trim();
+	        			Date date1=new SimpleDateFormat("yyyy-MM-dd").parse(x);
+	        			s.setStart_date(date1);
+	        			cnt=0;
+	        		}
+	        		
+	        		
+	        	}
+	        	
+	        	l.add(s);
+	        }
+	        }
+	    catch(Exception e)
+	    {
+	    	e.printStackTrace();
+	    	return false;
+	    }
+	        Transaction trns = null;
+	        Session session = HibernateUtil.getSessionFactory().openSession();
+	        try{
+		        trns = session.beginTransaction();
+		        Batch_Master batch = new Batch_Master();
+	        for (Batch_Master b: l)
+	        {
+	        	String s = "from Batch_Master where start_date =:start_date and end_date=:end_date";
+	        	Query query = session.createQuery(s);
+	        	query.setDate("start_date", b.getStart_date());
+	        	query.setDate("end_date", b.getEnd_date());
+	        	batch=(Batch_Master) query.uniqueResult();
+	        	if(batch==null)
+	        	{
+	        		List<Semester_Master> semesters = getStudent_Semester(b.getId());
+	        		String currentSemester = getCurrentSemester(semesters);
+	        		if (semesters==null || currentSemester ==null)
+	        			return false;
+	        		b.setSemester(currentSemester);
+	        		b.setId(0);
+	        		session.save(b);
+	        	}
+	        		
+	        	else 
+	        	{
+	        		int id=b.getId();        			
+	        		List<Semester_Master> semesters = getStudent_Semester(id);
+	        		if (semesters==null)
+	        			return false;
+	        		String currentSemester = getCurrentSemester(semesters);	        		
+	        		batch.setSemester(currentSemester);
+	        		batch.setName(b.getName());
+	        		session.update(batch);
+	        	}
+	        	
+	        }
+	        session.getTransaction().commit();
+	        
+	        }
+	       
+	        
+	        
+	        catch (RuntimeException e) {
+			    e.printStackTrace();
+			   } finally {
+			    session.flush();
+			    session.close();
+			   }
+			return true;
+	        }
+	
+	public Sms_Server_Info getSmsServerInfo(){
+		Sms_Server_Info info= new Sms_Server_Info();
+        Transaction trns30 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         try {
-            trns26 = session.beginTransaction();
-            students = session.createQuery("from Student").list();
+            trns30 = session.beginTransaction();
+            String queryString = "from Sms_Server_Info";
+            Query query = session.createQuery(queryString);
+            info=(Sms_Server_Info)query.uniqueResult();
         } catch (RuntimeException e) {
             e.printStackTrace();
-            return students;
+            return info;
         } finally {
             session.flush();
             session.close();
         }
-        return students;
+        return info;
 	}
+
+
+	public boolean updateServerInfo(Sms_Server_Info info) {
+		Sms_Server_Info DBinfo = new Sms_Server_Info();
+    	Transaction trns30 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try {
+        	
+            trns30 = session.beginTransaction();
+            String queryString = "FROM Sms_Server_Info";
+            Query query = session.createQuery(queryString);
+            DBinfo=(Sms_Server_Info)query.uniqueResult();
+            DBinfo.setAdmin_name(info.getAdmin_name());
+            DBinfo.setAdmin_password(info.getAdmin_password());
+            DBinfo.setDb_name(info.getDb_name());
+            DBinfo.setIp(info.getIp());
+            session.update(DBinfo);  
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+        	if (trns30 != null) {
+                trns30.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            session.flush();
+            session.close();
+        }
+        return true;
+	}
+
+
+	public boolean saveServerInfo(Sms_Server_Info info) {
+    	Transaction trns31 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try {
+        	
+            trns31 = session.beginTransaction();
+            session.save(info);  
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+        	if (trns31 != null) {
+                trns31.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            session.flush();
+            session.close();
+        }
+        return true;
+	}
+	
+	public List<Project_Master> getProjectReporting(Project_Model project) throws ParseException {
+		List<Project_Master> projects= null;
+		Date start_date;
+		Date end_date;
+		start_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getStart_date());
+   		end_date = new SimpleDateFormat("MM/dd/yyyy").parse(project.getEnd_date());
+		String status = project.getStatus();
+		int type = project.getProject_type();
+		int co = project.getProject_co();
+		int leader = project.getProject_leader();
+		String query = "from Project_Master p where p.start_date between :start_date1 and :end_date1 and p.end_date between :start_date2 and :end_date2";
+   		if(type!=0)
+   			query=query+" and project_type=:type";
+   		if(co!=0)
+   			query=query+" and project_co=:co";
+   		if(leader!=0)
+   			query=query+" and project_leader=:leader";
+   		if(status!="")
+			query=query+" and status=:status";
+   		System.out.println(start_date);
+   		System.out.println(end_date);
+   		System.out.println(status);
+   		System.out.println("type "+type);
+   		System.out.println("co "+co);
+   		System.out.println("leader "+leader);
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			List<Map<String,Object>> list_map = new ArrayList<Map<String,Object>>();
+			trns25  = session.beginTransaction();
+  		 	Query q = session.createQuery(query);
+  		 	q.setDate("start_date1", start_date);
+  		 	q.setDate("start_date2", start_date);
+  		 	q.setDate("end_date1", end_date);
+  		 	q.setDate("end_date2", end_date);
+  		 	if(type!=0)
+  	   			q.setInteger("type", type);
+  	   		if(co!=0)
+  	   			q.setInteger("co", co);
+  	   		if(leader!=0)
+  	   			q.setInteger("leader", leader);
+  	   		if(status!="")
+  	   			q.setString("status", status);
+ 		 	projects = q.list();
+ 		 	
+		}
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();
+			return projects;
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+		return projects;
+	}
+	
 }
+
+
 
 
 

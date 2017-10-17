@@ -10,6 +10,7 @@ import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.Value_Per_Hour;
 import com.ModelClasses.ValuePerHourModel;
+import com.ModelClasses.ValuePerHourModel2;
 
 @Service
 public class valuePerHourServiceImpl implements valuePerHourService {
@@ -26,9 +27,9 @@ public class valuePerHourServiceImpl implements valuePerHourService {
 		return null;
 	}
 
-	public List<Value_Per_Hour> getAllValuePerHour() {
+	public List<ValuePerHourModel2> getAllValuePerHour(int id) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return valuePerHourDao.getAllValuePerHour(id);
 	}
 
 	public List<Value_Per_Hour> getBatchSemester() {
@@ -53,6 +54,16 @@ public class valuePerHourServiceImpl implements valuePerHourService {
 
 	public boolean approveProject(int id) {
 		return valuePerHourDao.approveProject(id);
+	}
+	public boolean updateValuePerHour(ValuePerHourModel valuePerHour){
+		return valuePerHourDao.updateValuePerHour(valuePerHour);
+	}
+
+	public Value_Per_Hour getValuePerHourByItsId(int semester_id, int batch_id) {
+		return valuePerHourDao.getValuePerHourByItsId(semester_id, batch_id);
+	}
+	public int getAmountOfVPHById(int id){
+		return valuePerHourDao.getAmountOfVPHById(id);
 	}
 
 }

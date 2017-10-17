@@ -33,5 +33,6 @@
          <mapping resource ="userRole.hbm.xml"/>
          <mapping resource ="value_per_hour.hbm.xml"/>
          <mapping resource ="student.hbm.xml"/>
+          <mapping resource ="sms_server_info.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

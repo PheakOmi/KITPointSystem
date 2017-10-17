@@ -152,7 +152,8 @@
 	     		 $(".project").each(function(){
 	    	         var title = $(this).attr('project-title'); 
 	    	         title = title.toLowerCase();
-	    	         if(!title.includes(searchValue))
+	    	         var check = title.search(searchValue);
+	    	         if(check==-1)
 	    	         {
 	    	          $(this).hide();
 	    	         }

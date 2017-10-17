@@ -1,35 +1,37 @@
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <script type="text/javascript">
 
 $(document).ready(function() {
     $('li#projectStlye').addClass('active');
+    
     $("#txtbox").keyup(function(){
- 	   $(".panel-title").each(function(){
-  	         
- 		  $(this).closest('.panel').show();
- 	         
- 	        });
- 	     var searchValue = $("#txtbox").val().toLowerCase();
- 	     	if(searchValue!=null&&searchValue!="")
- 	     		{
- 	     		 $(".panel-title").each(function(){
- 	    	         var title = $(this).attr('project-title'); 
- 	    	         title = title.toLowerCase();
- 	    	         if(!title.includes(searchValue))
- 	    	         {
- 	    	          
- 	    	         $(this).closest('.panel').hide();
- 	    	         }
- 	    	        });
- 	     		}
- 	     	else{
- 	       
- 	        $(".panel-title").each(function(){
- 	   	         
- 	        	$(this).closest('.panel').show();
- 	   	         
- 	   	        });
- 	     	}
- 	    });
+    	var searchValue = $("#txtbox").val().toLowerCase();
+    	console.log("sdsd");
+ 	   $("#project .col-sm-4").each(function(){
+ 		  var thisParent = this;
+ 		  if(searchValue!=null&&searchValue!="")
+	   		{
+ 			 var title = $(this).find(".panel-title").attr('project-title');
+	   		 title = title.toLowerCase();
+	  	     if(!title.includes(searchValue))
+	  	       {
+	  	         $(thisParent).hide();
+	  	         
+	  	       }else{
+	  	    	 $(thisParent).show();
+	  	       }
+	  	       
+	   		}
+	   		else{
+	     
+	      		$("#project .col-sm-4").each(function(){
+	      			$(this).show();
+	 	      	});
+	   		}
+ 	   });
+ 	    
+	});
 });
 		formatDate =function (date) {
 	    var d = new Date(date),
@@ -164,14 +166,13 @@ $(document).ready(function() {
                               
                                 "<div class='panel-footer'>"+
                                 "<a href='updateProjectDetail?id="+project[i].id+"'>"+
-                                    "<span class='pull-left'>View Details</span>"+ 
-                                   
+                                    "<span class='pull-left'>View Details</span>"+                                    
                                     "</a>"+
                                     '<div>'+
-                                "<a href='javascript:func("+project[i].id+")'>"+
-                                "<span class='pull-right deleteProject'>Delete</span>"+ 
-                                "</a>"+
-                                "</div>"+
+                                    "<a href='javascript:func("+project[i].id+")'>"+
+                                    '<span class="pull-right deleteProject">Delete</span>'+ 
+                                    "</a>"+
+                                    "</div>"+
                                     "<div class='clearfix'></div>"+
                                    
                                 "</div>"+
@@ -382,8 +383,8 @@ $(document).ready(function() {
                                 </li>
                                 <li id="id5" onclick='showProjectBasedStatus("Completed Project");'><a>Completed Project</a>
                                 </li>
-                                <li class="pull-right"> <button class="btn btn-default" onclick="relocate_create()">CREATE</button>
-                                </li>
+                               <sec:authorize access="hasRole('ROLE_ADMIN')"> <li class="pull-right"> <button class="btn btn-default" onclick="relocate_create()">CREATE</button>
+                                </li></sec:authorize>
                             </ul>
                         
                         <!--/.nav-collapse -->

@@ -4,8 +4,7 @@
 <hibernate-mapping>
  	<class name="com.EntityClasses.UserRole" table="user_roles">
  	 	
- 	    <id name="userRoleId" type="java.lang.Integer">
-            <column name="user_role_id" />
+ 	    <id name="userRoleId" column="user_role_id">
             <generator class="increment"/>
         </id>
         

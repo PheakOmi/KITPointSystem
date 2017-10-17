@@ -25,6 +25,7 @@ import com.HibernateUtil.HibernateUtil;
 import com.MainController.ValuePerHourController;
 import com.ModelClasses.ProjectView_Model;
 import com.ModelClasses.ValuePerHourModel;
+import com.ModelClasses.ValuePerHourModel2;
 
 @Repository
 public class valuePerHourDaoImpl implements valuePerHourDao {
@@ -32,10 +33,9 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 	Encryption encrypt= new Encryption();
 	Decryption decrypt= new Decryption();
 	public boolean addValuePerHour(ValuePerHourModel valuePerHour) {
-			String batch = valuePerHour.getBatch_name();
+		   String batch = valuePerHour.getBatch_name();
 		   int batch_id = Integer.parseInt(batch);
 		   valuePerHourDaoImpl obj = new valuePerHourDaoImpl();
-		   if(obj.getValuePerHourById(batch_id)){
 		   String s_value_1 = valuePerHour.getValue_1();
 		   int Count = StringUtils.countOccurrencesOf(s_value_1, ","); 
 		   try {
@@ -68,11 +68,7 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 				    Logger.getLogger(ValuePerHourController.class.getName()).log(Level.SEVERE, null, ex);
 				
 				   }
-
-		   return true;
-		   }
-		   else 
-			   return false;
+			   return true;
 		  }
 		  /*=====================  show batch list ============================*/
 		 public List < Batch_Master > getAllBatch() {
@@ -81,7 +77,7 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		   Session session = HibernateUtil.getSessionFactory().openSession();
 		   try {
 		    trns7 = session.beginTransaction();
-		    batch = session.createQuery("from Batch_Master where odoo_id>0").list();
+		    batch = session.createQuery("from Batch_Master where id>0").list();
 		    
 		    
 		   } catch (RuntimeException e) {
@@ -173,9 +169,42 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 		  return null;
 		 }
 
-		 public List < Value_Per_Hour > getAllValuePerHour() {
-		  // TODO Auto-generated method stub
-		  return null;
+		 public List<ValuePerHourModel2> getAllValuePerHour(int id) throws Exception {
+			 List < Value_Per_Hour > vph = new ArrayList<Value_Per_Hour>();
+			 List <ValuePerHourModel2 > vph2 = new ArrayList<ValuePerHourModel2>();
+		        Transaction trns8 = null;
+		        Session session = HibernateUtil.getSessionFactory().openSession();
+		        try {
+		            trns8 = session.beginTransaction();
+		            String queryString = "from Value_Per_Hour where batch_id=:id";
+		            Query query = session.createQuery(queryString);
+		            query.setInteger("id",id);
+		            vph = query.list();
+		            if (vph!=null)
+		            {
+		            	for (int i=0;i<vph.size();i++)
+		            	{
+		            		ValuePerHourModel2 v = new ValuePerHourModel2();
+		            		v.setBatch_id(vph.get(i).getBatch_id());
+		            		v.setId(vph.get(i).getId());
+		            		v.setSemester_id(vph.get(i).getSemester_id());
+		            		v.setSemester_name(vph.get(i).getSemester_name());
+		            		SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+				    		String decryptedValue =decrypt.decryptText(vph.get(i).getValue(), secKey);
+		            		v.setValue(decryptedValue);
+				    		vph2.add(v);
+		            		
+		            	}
+		            }
+		        } catch (RuntimeException e) {
+		            e.printStackTrace();
+		            return vph2;
+		            
+		        } finally {
+		            session.flush();
+		            session.close();
+		        }
+		  return vph2;
 		 }
 
 		 public List < Value_Per_Hour > getBatchSemester() {
@@ -231,12 +260,88 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 	            else return false;
 	        } catch (RuntimeException e) {
 	            e.printStackTrace();
-	            return false;
+	            return true;
 	        } finally {
 	            session.flush();
 	            session.close();
 	        }
 			
+		}
+		
+		public boolean updateValuePerHour(ValuePerHourModel valuePerHour) {
+		   String batch = valuePerHour.getBatch_name();
+		   int batch_id = Integer.parseInt(batch);
+		   System.out.println("Batch ID is "+batch_id);
+		   valuePerHourDaoImpl obj = new valuePerHourDaoImpl();
+		   String s_value_1 = valuePerHour.getValue_1();
+		   int Count = StringUtils.countOccurrencesOf(s_value_1, ","); 
+		   Transaction tx = null;
+		   Session session = HibernateUtil.getSessionFactory().openSession();
+		   try {
+			   		tx = session.beginTransaction();
+			   		Timestamp created_at= new Timestamp(System.currentTimeMillis()); 
+			        int v=0;
+			        for (int i=0;i<=Count;i++)
+			        {
+			        	 String[] s1 = s_value_1.split(","); 
+			    		 String s2 = s1[i];  		 
+			    		 SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+			    		 String valueEncryp =encrypt.encryptText(s2, secKey);
+			    		 System.out.println("Value = "+s2);
+			    		 v=i+1;
+			    		 Value_Per_Hour value_per_hour= new Value_Per_Hour();
+			    		 value_per_hour = new valuePerHourDaoImpl().getValuePerHourByItsId(v, batch_id);
+			    		 value_per_hour.setValue(valueEncryp);
+			    		 session.update(value_per_hour);
+			        }
+			        session.getTransaction().commit();
+				    session.flush();
+				    session.close();			
+				
+			} 
+		   catch (Exception ex) {
+				    Logger.getLogger(ValuePerHourController.class.getName()).log(Level.SEVERE, null, ex);
+								}
+		   return true;
+}
+		public Value_Per_Hour getValuePerHourByItsId(int semester_id, int batch_id){
+			Value_Per_Hour vph= new Value_Per_Hour();
+	        Transaction trns10 = null;
+	        Session session = HibernateUtil.getSessionFactory().openSession();
+	        try {
+	            trns10 = session.beginTransaction();
+	            String queryString = "from Value_Per_Hour where semester_id=:semester_id and batch_id=:batch_id";
+	            Query query = session.createQuery(queryString);
+	            query.setInteger("semester_id",semester_id);
+	            query.setInteger("batch_id",batch_id);
+	            vph=(Value_Per_Hour)query.uniqueResult();
+	        } catch (RuntimeException e) {
+	            e.printStackTrace();
+	            return vph;
+	        } finally {
+	            session.flush();
+	            session.close();
+	        }
+	        return vph;
+		}
+		public int getAmountOfVPHById(int id){
+			List <Value_Per_Hour> vph= new ArrayList<Value_Per_Hour>();
+	        Transaction trns11 = null;
+	        Session session = HibernateUtil.getSessionFactory().openSession();
+	        try {
+	            trns11 = session.beginTransaction();
+	            String queryString = "from Value_Per_Hour where batch_id=:id";
+	            Query query = session.createQuery(queryString);
+	            query.setInteger("id",id);
+	            vph=(List<Value_Per_Hour>)query.list();
+	            return vph.size();
+	           } catch (RuntimeException e) {
+	            e.printStackTrace();
+	            return 555;
+	        } finally {
+	            session.flush();
+	            session.close();
+	        }
 		}
 
 

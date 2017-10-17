@@ -26,11 +26,11 @@ public class Insert_UserRole
             
             //stmt.executeUpdate("INSERT INTO user_info(name,batch,semester,email,password,User_type,Updated_at)VALUES('kannan',0,0,'kannan@gmail.com','kannan','admin','2017-08-28 17:17:30');");
             
-            stmt.executeUpdate("INSERT INTO user_roles (id,role)VALUES (3,'ROLE_ADMIN')");
-            stmt.executeUpdate("INSERT INTO user_roles (id,role)VALUES (4,'ROLE_USER')");
-            stmt.executeUpdate("INSERT INTO user_roles (id,role)VALUES (5,'ROLE_ADMIN')");
-            stmt.executeUpdate("INSERT INTO user_roles (id,role)VALUES (6,'ROLE_USER')");
-            stmt.executeUpdate("INSERT INTO user_roles (id,role)VALUES (7,'ROLE_ADMIN')");
+            stmt.executeUpdate("INSERT INTO user_roles (id,role)VALUES (1,'ROLE_ADMIN')");
+            stmt.executeUpdate("INSERT INTO user_roles (id,role)VALUES (2,'ROLE_N_ADMIN')");
+            stmt.executeUpdate("INSERT INTO user_roles (id,role)VALUES (3,'ROLE_N_ADMIN')");
+            stmt.executeUpdate("INSERT INTO user_roles (id,role)VALUES (4,'ROLE_N_ADMIN')");
+            stmt.executeUpdate("INSERT INTO user_roles (id,role)VALUES (5,'ROLE_N_ADMIN')");
             
             
     

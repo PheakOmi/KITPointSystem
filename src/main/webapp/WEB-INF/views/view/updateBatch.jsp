@@ -1,102 +1,159 @@
-<body onload="load();">
+<body>
 <script type="text/javascript">
-load = function(){	
-	$.ajax({
-		url:'semesterAndBatchList',
-		type:'GET',
-		success: function(response){
-				console.log(response);
-				semester = response.semester;
-				batch = response.batch;
-				for(i=0; i<response.semester.length; i++){					
-					$("#semester").append("<option value="+response.semester[i].id+">"+response.semester[i].semester+" </option>");
-					
-				}
-				for(i=0; i<response.batch.length; i++){					
-					$("#batch").append("<option value="+response.batch[i].id+">"+response.batch[i].name+" </option>");
-					
-				}
-				$("#batch").change(function(){
-					var batchValue = document.getElementById("batch").value;
-					for(i=0; i<response.batch.length; i++){
-						  if(response.batch[i].id==batchValue)
-							  {
-							  batchValue = response.batch[i].semester_id;
-							  break;
-							  }
-					  }
-					$("#semester").val(batchValue);
-					
-				});
-		}				
-	});
+ip="a";
+var db_name;
+var admin_name;
+var admin_password;
+var buttonLabel = "Create";
+
+function doesConnectionExist() {
+    var xhr = new XMLHttpRequest();
+    var file = "http://kit.edu.kh/admission.php";
+    var randomNum = Math.round(Math.random() * 10000);
+ 
+    xhr.open('HEAD', file + "?rand=" + randomNum, true);
+    xhr.send();
+     
+    xhr.addEventListener("readystatechange", processRequest, false);
+ 
+    function processRequest(e) {
+      if (xhr.readyState == 4) {
+        if (xhr.status >= 200 && xhr.status < 304) {
+          alert("connection exists!");
+        } else {
+          alert("connection doesn't exist!");
+        }
+      }
+    }
 }
-$(document).ready(function(){
-	$('li#settingStlye').addClass('active');
-	$("#btnSubmit").click(function(){		 
-	$.ajax({
-		url:'updateBatch',
-		type:'GET',
-		data:{id:$("#batch").val(),semester_id:$("#semester").val()},
-		success: function(response){
-				if(response.status=="200")
-					{
-					$('#name1').val('');
-					swal("Done!", "You have updated it successfully!", "success")
-					}
-				//var obj = jQuery.parseJSON(response);
-				    
-				else 
-					{
-					$('#name1').val('');
-					swal("Oops!", "It is not updated!", "error")
-					
-					}
-				},
-		error: function(err){
-				console.log(JSON.stringify(err));
-				}
-		
-			});			
+
+
+
+
+
+
+
+setIp = function ()
+{
+console.log(ip);
+swal.withForm({
+title: 'SMS Server Information',
+text: 'Any text that you consider useful for the form',
+showCancelButton: true,
+confirmButtonColor: '#8CD4F5',
+confirmButtonText: buttonLabel,
+closeOnConfirm: false,
+formFields: [
+    { id: 'ip', placeholder:'IP',value:ip},
+    { id: 'db_name', placeholder:'Database Name',value:db_name },
+    { id: 'admin_name', placeholder:'Admin Name',value:admin_name },
+    { id: 'admin_password', placeholder:'Admin Password',value:admin_password }
+]
+}, 
+function(isConfirm) {
 	
-	});
-});	
+	if (isConfirm) {
+console.log(this.swalForm.ip);
+$.ajax({
+	url:'serverInfoSubmit',
+	type:'GET',
+	data:{
+			ip:this.swalForm.ip,
+			db_name :this.swalForm.db_name,
+			admin_name :this.swalForm.admin_name,
+			admin_password :this.swalForm.admin_password},
+	success: function(response)
+		{
+			if(response.status=="200")
+				{
+				setTimeout(function() {
+			        swal({
+			            title: "Done!",
+			            text: response.message,
+			            type: "success"
+			        }, function() {
+			            window.location = "setting";
+			        });
+			    }, 10);
+				}
+			    
+			else 
+				swal("Oops!", "Batch name already existed", "error")
+				
+		},
+	error: function(err){
+			console.log(JSON.stringify(err));
+			 } 
+	
+		});
+}
+	else 
+		 location.href = 'setting';
+})
+
+}
+
+confirm =  function(id)
+{
+swal({
+    title: "Do you want to update batch and student information?",
+    text: "All information related to batch and student will be updated",
+    type: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#30A9DE",
+    confirmButtonText: "Update	",
+    cancelButtonText: "Cancel",
+    closeOnConfirm: false,
+    closeOnCancel: false
+  },
+    function (isConfirm) {
+      if (isConfirm) {
+    	  $.ajax({
+    			url:'updateBatchNStudent',
+    			type:'GET',
+    			success: function(response){
+    			message = response.message;
+    			if(response.status=="999")
+    				alert("Both are updated");
+    			else if(response.status=="888")
+    				alert("Batch updated");
+    			else
+    				alert("No updation");
+    					},
+				error: function(err){
+					console.log(JSON.stringify(err));
+					 } 
+    							
+    		});	
+    	  
+      } 
+      else location.href = 'setting';
+    });
+    }
+
+function load(){
+	//ip = '';
+		$.ajax({
+		url:'getSmsServerInfo',
+		type:'GET',
+		success: function(response){
+				//console.log(response);
+				if(response.data!=null)
+					{
+					info = response.data; 
+					ip = info.ip;
+					console.log("In"+ip);
+					db_name = info.db_name;
+					admin_name = info.admin_name;
+					admin_password  = info.admin_password;
+					buttonLabel = "Update";
+					}				
+				}				
+	});	
+}
+console.log(ip);
+load();
+
 </script>
-   <!-- Page Heading -->
-                <div class="row">
-                        <h3 class="page-header">
-                            Update Batch 
-                        </h3>
-                </div>
-   <!-- /.row -->
- <div class="row" id="margin-body">
-    
-				 <div class="form-horizontal">
-				 <div class="col-sm-8">
-						  <div class="form-group">
-						    <label class="col-sm-2 control-label">Batch</label>
-						    <div class="col-sm-10">
-						      <select class="form-control" id="batch">
-                                 </select>
-						    </div>
-						  </div>
-                            
-                          <div class="form-group">
-                                <label class="col-sm-2 control-label">Semester</label>
-                                <div class="col-sm-10">
-                                <select class="form-control" id="semester">
-                                 </select>
-                                </div>
-                            </div>
-						  <div class="form-group">
-						    <div class="col-sm-offset-2 col-sm-10">
-						      <button id="btnSubmit" class="btn btn-default">Update</button>
-						    
-						  
-						    </div>
-						  </div>
-						  </div>
-						</div>
-                    </div>	
-          </body>
+</body>
        

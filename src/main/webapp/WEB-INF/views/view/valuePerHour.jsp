@@ -1,100 +1,111 @@
 <body onload="load()">
-  <!-- Page Heading -->
-                <div class="row">
-                        <h3 class="page-header">
-                            Value Per Hour
-                        </h3>
-                </div>
-   <!-- /.row -->
+	<!-- Page Heading -->
+	<div class="row">
+		<h3 class="page-header">Value Per Hour</h3>
+	</div>
+	<!-- /.row -->
 
-<form id="myForm">
- <div class="row">
-                 <div class="form-horizontal">
-                 <div class="col-sm-12">
-                
-                  <div class="form-group">
-                                <label class="col-sm-1 control-label">Batch</label>
-                               <div class="col-sm-11">
-                                <select class="form-control" maxlength="10" name="batch_name" id="batch_name">
-                                </select>
-                                </div>
-                            </div>
-                            </div>
-                    <div class="col-sm-6">
-    
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Semester 1</label>
-                                <div class="col-sm-10">
-                                	<input type="text" maxlength="10" class="form-control" id="semester1" required>
-                                	</div>
-                        </div>
+	<form id="myForm">
+		<div class="row">
+			<div class="form-horizontal">
+				<div class="col-sm-12">
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Semester 2 </label>
-                                <div class="col-sm-10">
-                                	<input type="text" maxlength="10" class="form-control" id="semester2" required>
-                                	</div>
-                        </div> 
-                           <div class="form-group">
-                                <label class="col-sm-2 control-label">Semester 3</label>
-                                <div class="col-sm-10">
-                                	<input type="text" maxlength="10" class="form-control" id="semester3" required>
-                                </div>
-                        </div>
-  							  <div class="form-group">
-                                <label class="col-sm-2 control-label">Semester 4</label>
-                                <div class="col-sm-10">
-                                	<input type="text" maxlength="10" class="form-control" id="semester4" required>
-                                </div>
-                        </div>
-                  		  </div>
-                            <div class="col-sm-6">
-    
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Semester 5 </label>
-                                <div class="col-sm-10">
-                                	<input type="text" maxlength="10" class="form-control" id="semester5" required>
-                                </div>
-                        </div>
+					<div class="form-group">
+						<label class="col-sm-1 control-label">Batch</label>
+						<div class="col-sm-11">
+							<select class="form-control" maxlength="10" name="batch_name"
+								id="batch_name" required>
+								<option></option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Semester 6 </label>
-                                <div class="col-sm-10">
-                                	<input type="text" maxlength="10" class="form-control" id="semester6" required>
-                                </div>
-                        </div> 
-                           <div class="form-group">
-                                <label  class="col-sm-2 control-label">Semester 7</label>
-                                <div class="col-sm-10" >
-                                	<input type="text" maxlength="10" class="form-control" id="semester7" required>
-                                </div>
-                        </div>
-  							  <div class="form-group">
-                                <label class="col-sm-2 control-label">Semester 8</label>
-                                <div class="col-sm-10">
-                                	<input type="text" maxlength="10" class="form-control" id="semester8" required>
-                                </div>
-                        </div>
-                  		  </div>
-                  		 
-                    <div class="col-sm-6">
-                           	<button type="submit" class="btn btn-default">Create</button>
-                            <button onclick="location.href = 'setting';" class="btn btn-default">Cancel</button>
-                    	</div>
-	                    </div>
-                    </div>
-        </form>        
-                    	
- <script type="text/javascript">
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Semester 1</label>
+						<div class="col-sm-10">
+							<input type="text" maxlength="10"
+								class="form-control valueperhour" id="semester1" required>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Semester 2 </label>
+						<div class="col-sm-10">
+							<input type="text" maxlength="10"
+								class="form-control valueperhour" id="semester2" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Semester 3</label>
+						<div class="col-sm-10">
+							<input type="text" maxlength="10"
+								class="form-control valueperhour" id="semester3" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Semester 4</label>
+						<div class="col-sm-10">
+							<input type="text" maxlength="10"
+								class="form-control valueperhour" id="semester4" required>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-6">
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Semester 5 </label>
+						<div class="col-sm-10">
+							<input type="text" maxlength="10"
+								class="form-control valueperhour" id="semester5" required>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Semester 6 </label>
+						<div class="col-sm-10">
+							<input type="text" maxlength="10"
+								class="form-control valueperhour" id="semester6" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Semester 7</label>
+						<div class="col-sm-10">
+							<input type="text" maxlength="10"
+								class="form-control valueperhour" id="semester7" required>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">Semester 8</label>
+						<div class="col-sm-10">
+							<input type="text" maxlength="10"
+								class="form-control valueperhour" id="semester8" required>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-6">
+					<button type="submit" class="btn btn-default" id="mybtn">Create</button>
+					
+					<button onclick="location.href = 'setting';"
+						class="btn btn-default">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<script type="text/javascript">
+	var status;
 	load = function(){	
 		$.ajax({
 			url:'getBatchList',
 			type:'GET',
 			success: function(response){
-				
+					console.log(response);
 					data = response.batch;
 					for(i=0; i<response.batch.length; i++){					
-						$("#batch_name").append("<option value='"+response.batch[i].odoo_id+"'>"+response.batch[i].name+" </option>");
+						$("#batch_name").append("<option value='"+response.batch[i].id+"'>"+response.batch[i].name+" </option>");
 					}
 			}				
 		});
@@ -141,25 +152,88 @@
 						success: function(response){
 							if(response.status=="200")
 							{
-							swal("Done!", "You have created successfully!", "success")
-							$("#reset").click();
-							
+								setTimeout(function() {
+	        				        swal({
+	        				            title: "Done!",
+	        				            text: response.message,
+	        				            type: "success"
+	        				        }, function() {
+	        				            window.location = "setting";
+	        				        });
+	        				    }, 10);							
 							}
-						//var obj = jQuery.parseJSON(response);
-						    
-						else 
-							{
-
-							swal("Oops!", response.message, "error")
-							
-							}
+							else 
+								swal("Oops!", response.message, "error")
 						}				
 					});		
-				
-			
-		});
+			});
 	});	
+	$('#batch_name').on('change', function() {
+		var batch_id = this.value;
+		$.ajax({
+			url:'getAllValuePerHour',
+			type:'GET',
+			data: {id: batch_id},
+			success: function(response){
+			console.log(response);
+			vph=response.vph;
+			if (vph==""||vph==null)
+				{
+				$(".valueperhour").each(function(){
+					$(this).val("");
+				});
+				status="Create";
+				$("#mybtn").text(status);
+				}
+			else
+				{
+				status="Update";
+				$("#mybtn").text(status);
+				$(".valueperhour").each(function(){
+					$(this).val("");
+				});
+				for (i=0; i<vph.length;i++)
+					{
+						switch(vph[i].semester_id) {
+					    case 1:
+					    	$('#semester1').val(vph[i].value);
+					        break;
+					    case 2:
+					    	$('#semester2').val(vph[i].value);
+					        break;
+				      	case 3:
+					    	$('#semester3').val(vph[i].value);
+					        break;
+				        case 4:
+					    	$('#semester4').val(vph[i].value);
+					        break;
+				        case 5:
+					    	$('#semester5').val(vph[i].value);
+					        break;
+				        case 6:
+					    	$('#semester6').val(vph[i].value);
+					        break;
+						    
+					    case 7:
+					    	$('#semester7').val(vph[i].value);
+					        break;
+					    case 8:
+					    	$('#semester8').val(vph[i].value);
+					        break;
+					    default:
+					    	break;
+					   					        
+						}
+				}
+				}
 
+			},
+			error: function (err)
+			{
+				console.log(JSON.stringify(err));
+			}
+		});	  
+		})
 		
 </script>
 </body>

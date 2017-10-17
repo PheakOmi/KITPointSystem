@@ -76,8 +76,15 @@ $(document).ready(function(){
 					{
 						if(response.status=="200")
 							{
-								$('#name1').val('');
-								swal("Success!", "You have created it successfully!", "success")
+							setTimeout(function() {
+        				        swal({
+        				            title: "Done!",
+        				            text: "You have created it successfully!",
+        				            type: "success"
+        				        }, function() {
+        				            window.location = "setting";
+        				        });
+        				    }, 10);
 							}
 						//var obj = jQuery.parseJSON(response);
 						    

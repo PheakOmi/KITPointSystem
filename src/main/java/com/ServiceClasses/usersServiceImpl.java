@@ -16,6 +16,7 @@ import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Member;
 import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
+import com.EntityClasses.Sms_Server_Info;
 import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User_Info;
@@ -142,8 +143,8 @@ public class usersServiceImpl implements usersService{
 	public void deleteTaskByProjectId(int id){
 		usersDao1.deleteTaskByProjectId(id);
 	}
-	public boolean editProfile(String email, String oldPassword, String newPassword) throws Exception{
-		return usersDao1.editProfile(email,oldPassword,newPassword );
+	public int editProfile(String email, String oldPassword, String newPassword, String name) throws Exception{
+		return usersDao1.editProfile(email,oldPassword,newPassword,name);
 	}
 
 	public int deleteTaskDetail(int id) {
@@ -151,6 +152,39 @@ public class usersServiceImpl implements usersService{
 	}
 	public List<Student> getAllStudent(){
 		return usersDao1.getAllStudent();
+	}
+	public List<Student> exchangeBatchValue(List<Student> givenStudent) throws Exception{
+		return usersDao1.exchangeBatchValue(givenStudent);
+	}
+	public boolean validateStudent (Student studentValidate,List<Student> studentDB){
+		return usersDao1.validateStudent(studentValidate, studentDB);
+	}
+	public List<Batch_Master> pullAllBatch() throws Exception{
+		return usersDao1.pullAllBatch();
+	}
+	public boolean updateStudent() throws Exception{
+		return usersDao1.updateStudent();
+	}
+	public boolean updateSemester()throws Exception{
+		return usersDao1.updateSemester();
+	}
+
+	public Sms_Server_Info getSmsServerInfo() {
+		
+		return usersDao1.getSmsServerInfo();
+	}
+	public boolean updateServerInfo(Sms_Server_Info info)
+	{
+		return usersDao1.updateServerInfo(info);
+	}
+	public boolean saveServerInfo(Sms_Server_Info info)
+	{
+		return usersDao1.saveServerInfo(info);
+	}
+
+	public List<Project_Master> getProjectReporting(Project_Model project) throws ParseException {
+		// TODO Auto-generated method stub
+		return usersDao1.getProjectReporting(project);
 	}
 }
 

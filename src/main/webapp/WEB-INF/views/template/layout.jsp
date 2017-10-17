@@ -47,7 +47,12 @@
 <spring:url value="/resources/Bootstrap/css/sweetalert.css" var="alertStyle"/>
       <link rel="stylesheet" href="${alertStyle}">
 <spring:url value="/resources/Bootstrap/js/sweetalert.min.js" var="alertJS"/>
-      <script src="${alertJS}"></script>	
+      <script src="${alertJS}"></script>
+<!-- Sweet alert -->
+<spring:url value="/resources/Bootstrap/css/sweetalert-form.css" var="alertForm"/>
+      <link rel="stylesheet" href="${alertForm}">
+<spring:url value="/resources/Bootstrap/js/sweetalert-form.js" var="alertFormJS"/>
+      <script src="${alertFormJS}"></script>	
          
           
 <!-- Checkbox CSS -->
@@ -73,6 +78,14 @@
 <!-- Task Card -->
 <spring:url value="/resources/Bootstrap/css/taskcard.css" var="TaskCard"/>
 <link rel="stylesheet" href="${TaskCard}">
+
+<!-- Reporting  -->
+<spring:url value="/resources/Bootstrap/js/reporting.js" var="ReportingJS"/>
+<script src="${ReportingJS}"></script>
+<spring:url value="/resources/Bootstrap/css/reporting.css" var="ReportingCSS"/>
+<link rel="stylesheet" href="${ReportingCSS}">
+<spring:url value="/resources/Bootstrap/css/projectTable.css" var="projectTableReport"/>
+<link rel="stylesheet" href="${projectTableReport}">
 
 
 </head>

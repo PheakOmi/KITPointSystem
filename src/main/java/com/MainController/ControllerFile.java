@@ -4,6 +4,7 @@ package com.MainController;
 import java.net.MalformedURLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -12,11 +13,13 @@ import java.util.Set;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +32,7 @@ import com.EntityClasses.Project_Category_Master;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Member;
 import com.EntityClasses.Semester_Master;
+import com.EntityClasses.Sms_Server_Info;
 import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User_Info;
@@ -79,6 +83,13 @@ public class ControllerFile {
 		//String message = "Hello World";
 		return new ModelAndView("projectDetail");
 	}
+//	=================project report table============================
+	@RequestMapping(value="/projectTable", method=RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+	public ModelAndView projectTable(@RequestParam("data") ArrayList<Object> projects) {
+		
+		System.out.println("Size is "+projects);
+		return new ModelAndView("projectTable");
+	}
 //============================Retreive all project category from DB send through Ajax========================
 			@RequestMapping(value="/projectCategoryList", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> getProjectCategoryList(){
@@ -128,15 +139,13 @@ public class ControllerFile {
 					List<Project_Category_Master> listProjectCategory = usersService1.getProjectCategories();
 					List<User_Info> listUser = usersService1.getAllUser();
 					List<Student> student = usersService1.getAllStudent();
-					//List<Project_Stage_Master> listProjectStage = userDaoImpl.getAllStages();	
-										
 					if (listProjectCategory == null || listUser == null)
 						{
 							error.put("message","Data not found");
 							return error;
 						}
-					else if(student==null)
-						throw new Exception();
+					else if(student==null){
+						System.out.println("Hi");throw new Exception();}
 						
 					else
 						{
@@ -248,6 +257,7 @@ public class ControllerFile {
 					int[] m = pm.getMember();
 					Map<String,Object> map = new HashMap<String,Object>();
 					Map<Integer, String> mm = usersService1.getStudentSemester(m);
+//					mm={	{11,Semester 2, 4}, {11,Semester 2, 4}....}  11:student_id, 4:batch_id
 					pointNbudget =usersService1.pointCalculation(mm,pm.getInitially_planned());
 					if (pointNbudget.containsKey("No Value"))
 							{
@@ -285,6 +295,25 @@ public class ControllerFile {
 						return map;
 					}
 				}
+//========================Save Project========================================================
+			@RequestMapping(value="/projectReportSubmit", method=RequestMethod.GET)
+			public @ResponseBody Map<String,Object> projectReportSubmit(Project_Model pm) throws Exception{
+					Map<String,Object> map = new HashMap<String,Object>();
+					List<Project_Master> projects= usersService1.getProjectReporting(pm);
+					if(projects!=null)
+						
+					{
+						map.put("status","200");
+						map.put("message","Succeeded");		
+						map.put("data", projects);
+						return map;
+					}
+					else {
+						map.put("status","999");
+						map.put("message","Failed");
+						return map;
+					}
+				}
 //========================Update Project========================================================
 			@RequestMapping(value="/updateProject", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> toUpdateProject(Project_Model pm) throws Exception{
@@ -294,36 +323,42 @@ public class ControllerFile {
 					Map<String,Object> map = new HashMap<String,Object>();	
 					Map<Integer, String> mm = usersService1.getStudentSemester(pm.getMember());
 					project = usersService1.getProjectById(pm.getId());
-					int newa[] = pm.getMember();
-					Arrays.sort(newa);
-					int old[] = usersService1.getMembersIdByProjectId(pm.getId());
-			        Arrays.sort(old);
-					if (Arrays.equals(newa, old)&&pm.getInitially_planned()==project.getInitially_planned())
+					if (project.getKit_point().equals(pm.getKit_point()))
 					{
-						
+						int newa[] = pm.getMember();
+						Arrays.sort(newa);
+						int old[] = usersService1.getMembersIdByProjectId(pm.getId());
+				        Arrays.sort(old);
+						if (Arrays.equals(newa, old)&&pm.getInitially_planned()==project.getInitially_planned())
+						{
+							
+						}
+						else{
+							Map<String, Float> pointNbudget = null;
+							pointNbudget =usersService1.pointCalculation(mm,pm.getInitially_planned());
+							if (pointNbudget.containsKey("No Value"))
+							{
+								int batch_id = Math.round(pointNbudget.get("batch_id"));
+								String batch = new String();
+								Set<String> keys = pointNbudget.keySet();								
+								Batch_Master b = usersService1.getBatchById(batch_id);
+								batch  =b.getName();
+								map.put("status", "555");
+								map.put("message","Please Create Value Per Hour for "+batch);
+								return map;
+							}
+							else if(pointNbudget.containsKey("No Point"))
+							{
+								map.put("status", "888");
+								map.put("message","Please create KIT point value first!");
+								return map;
+							}
+							pm.setKit_point(df2.format(pointNbudget.get("point")));
+							pm.setBudget(Math.round(pointNbudget.get("budget")));
+						}
 					}
 					else{
-						Map<String, Float> pointNbudget = null;
-						pointNbudget =usersService1.pointCalculation(mm,pm.getInitially_planned());
-						if (pointNbudget.containsKey("No Value"))
-						{
-							int batch_id = Math.round(pointNbudget.get("batch_id"));
-							String batch = new String();
-							Set<String> keys = pointNbudget.keySet();								
-							Batch_Master b = usersService1.getBatchById(batch_id);
-							batch  =b.getName();
-							map.put("status", "555");
-							map.put("message","Please Create Value Per Hour for "+batch);
-							return map;
-						}
-						else if(pointNbudget.containsKey("No Point"))
-						{
-							map.put("status", "888");
-							map.put("message","Please create KIT point value first!");
-							return map;
-						}
-						pm.setKit_point(df2.format(pointNbudget.get("point")));
-						pm.setBudget(Math.round(pointNbudget.get("budget")));
+						pm.setKit_point(df2.format(Float.parseFloat(pm.getKit_point())));
 					}
 					if(usersService1.updateProject(pm))
 					{
@@ -346,12 +381,12 @@ public class ControllerFile {
 					if(usersService1.updateTask(tm))
 					{
 						map.put("status","200");
-						map.put("message","Your record has been saved successfully");
+						map.put("message","Your record has been updated successfully");
 						return map;
 					}
 					else {
 						map.put("status","999");
-						map.put("message","Name already existed");
+						map.put("message","Your record has not been updated");
 						return map;
 					}
 				}
@@ -384,7 +419,7 @@ public class ControllerFile {
 			else {
 				//System.out.println("Else Runs");
 				map.put("status","999");
-				map.put("message","Your record already existed");
+				map.put("message","Your record is not saved");
 				return map;
 			}
 		}
@@ -400,6 +435,12 @@ public class ControllerFile {
 	public ModelAndView viewBatch() {
 		String message = "Hello World";
 		return new ModelAndView("viewBatch", "message", message);
+	}
+//	=================view reporting============================
+	@RequestMapping(value="/reporting", method=RequestMethod.GET)
+	public ModelAndView viewReporting() {
+		String message = "Hello World";
+		return new ModelAndView("viewReporting", "message", message);
 	}
 //	=================kit point============================
 	@RequestMapping(value="/kitpoint", method=RequestMethod.GET)
@@ -447,6 +488,17 @@ public class ControllerFile {
 	public ModelAndView createBatch() {
 		return new ModelAndView("createBatch");
 	}
+//	=================Project Reporting============================
+	@RequestMapping(value="/projectReporting", method=RequestMethod.GET)
+	public ModelAndView projectReporting() {
+		return new ModelAndView("projectReporting");
+	}
+//	=================Task Reporting============================
+	@RequestMapping(value="/taskReporting", method=RequestMethod.GET)
+	public ModelAndView taskReporting() {
+		return new ModelAndView("taskReporting");
+	}
+
 //============================Retreive all semesters from DB send through Ajax========================
 		@RequestMapping(value="/semesterList", method=RequestMethod.GET)
 		public @ResponseBody Map<String,Object> getSemesterList(){
@@ -463,6 +515,53 @@ public class ControllerFile {
 				
 				return map;
 		}
+//============================Get sms server info========================
+		@RequestMapping(value="/getSmsServerInfo", method=RequestMethod.GET)
+		public @ResponseBody Map<String,Object> getSmsServerInfo(){
+					
+			 Map<String,Object> map = new HashMap<String,Object>();
+		
+			   // DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
+				Sms_Server_Info info = usersService1.getSmsServerInfo();
+				 		
+				if (info != null)
+				{
+					map.put("status", 999);
+					map.put("data", info); }
+				else
+				{
+					map.put("status", 404);
+					map.put("data", info);
+				}
+				
+				return map;
+		}
+//============================update batch and student========================
+				@RequestMapping(value="/updateBatchNStudent", method=RequestMethod.GET)
+				public @ResponseBody Map<String,Object> updateBatchNStudent() throws Exception{
+							
+					 Map<String,Object> map = new HashMap<String,Object>();
+					 if(usersService1.updateSemester())
+					 {
+						 if(usersService1.updateStudent())
+						 {
+							 map.put("status", 999);
+							 map.put("message", "Both batch and student are updated successfully");
+							 return map;
+						 }
+						 else
+						 {
+							 map.put("status", 888);
+							 map.put("message", "Batch updated"); 
+						 }
+					 }
+					 else
+					 {
+						 map.put("status", 111);
+						 map.put("message", "No updation"); 
+					 }
+					 return map;
+				}
 //============================Retreive all users from DB send through Ajax========================
 				@RequestMapping(value="/allUser", method=RequestMethod.GET)
 				public @ResponseBody Map<String,Object> getAllUser(){
@@ -481,39 +580,69 @@ public class ControllerFile {
 				}
 //================================Update Batch============================================
 				@RequestMapping(value="/updateBatch_1", method=RequestMethod.GET)
-				public @ResponseBody Map<String,Object> toUpdateBatch(Batch_Master batch){
-						//System.out.println("Name in controller "+batch.getName()+" "+batch.getSemester_id());
-						Map<String,Object> map = new HashMap<String,Object>();				
-						if(usersService1.updateBatch(batch)){
-							map.put("status","200");
-							map.put("message","Your record has been saved successfully");
-							return map;
-						}
-						else {
-							
-							map.put("status","999");
-							map.put("message","Your record already existed");
-							return map;
-						}
-					}
-				//================================Save Batch============================================
-				@RequestMapping(value="/batchSubmit", method=RequestMethod.GET)
-				public @ResponseBody Map<String,Object> toCreateProjectCategory(Batch_Master batch){
+				public Map<String,Object> toUpdateBatch(){
+					System.out.println("Hi");
+					return null;
 						
-						//System.out.println("Name is: "+projectCategoryName.getName());
-						Map<String,Object> map = new HashMap<String,Object>();				
-						if(usersService1.saveBatch(batch)){
-							map.put("status","200");
-							map.put("message","Your record has been saved successfully");
-							return map;
-						}
-						else {
-							//System.out.println("Else Runs");
-							map.put("status","999");
-							map.put("message","Your record already existed");
-							return map;
-						}
+						
 					}
+//================================Save Batch============================================
+@RequestMapping(value="/batchSubmit", method=RequestMethod.GET)
+public @ResponseBody Map<String,Object> toCreateProjectCategory(Batch_Master batch){
+		
+		//System.out.println("Name is: "+projectCategoryName.getName());
+		Map<String,Object> map = new HashMap<String,Object>();				
+		if(usersService1.saveBatch(batch)){
+			map.put("status","200");
+			map.put("message","Your record has been saved successfully");
+			return map;
+		}
+		else {
+			//System.out.println("Else Runs");
+			map.put("status","999");
+			map.put("message","Your record already existed");
+			return map;
+		}
+	}
+//================================Save Server Info============================================
+@RequestMapping(value="/serverInfoSubmit", method=RequestMethod.GET)
+public @ResponseBody Map<String,Object> saveServerInfo(Sms_Server_Info info){
+	Sms_Server_Info DBinfo = new Sms_Server_Info();
+	Map<String,Object> map = new HashMap<String,Object>();
+	DBinfo  = usersService1.getSmsServerInfo();
+	if(DBinfo==null)
+	{
+		if(usersService1.saveServerInfo(info)){
+			map.put("status","200");
+			map.put("message","Your record has been saved successfully");
+			return map;
+		}
+		else {
+			//System.out.println("Else Runs");
+			map.put("status","999");
+			map.put("message","Your record has not been saved successfully");
+			return map;
+		}
+	}
+	else
+	{
+		if(usersService1.updateServerInfo(info)){
+			map.put("status","200");
+			map.put("message","Your record has been updated successfully");
+			return map;
+		}
+		else {
+			//System.out.println("Else Runs");
+			map.put("status","999");
+			map.put("message","Your record has not been updated successfully");
+			return map;
+		}
+	}
+	
+		
+		
+		
+	}
 
 
 //===================View Update Batch======================================
@@ -582,12 +711,19 @@ public class ControllerFile {
 	@RequestMapping(value="/editProfile", method=RequestMethod.GET)
 	public @ResponseBody Map<String,String> editProfile(User_Info user) throws Exception{
 	// Pass the new password in name variable
+	// Pass the name in user_type variable
 			String newPassword = user.getName();
 			Map<String,String> map = new HashMap<String,String>();
-			if(usersService1.editProfile(user.getEmail(),user.getPassword(),newPassword))
+			int check = usersService1.editProfile(user.getEmail(),user.getPassword(),newPassword,user.getUser_type());
+			if(check==1)
 			{
 				map.put("status", "999");
 				map.put("message", "Updation is completely done!");
+			}
+			else if(check==2)
+			{
+				map.put("status", "777");
+				map.put("message", "You cannot change name for others!");
 			}
 			else
 			{

@@ -1,7 +1,11 @@
 <script>
 $(document).ready(function(){
+	
 	$("#myForm").on('submit',function(e){
 		e.preventDefault();
+
+		var name = $("#name").val();
+		console.log(name);
 		var email = $("#email").val();
 		var currentpassword = $("#currentpassword").val();
         var newpassword = $("#newpassword").val();
@@ -15,6 +19,7 @@ $(document).ready(function(){
     		type:'GET',
     		data:{		
     				email:$("#email").val(),
+    				user_type:name,
     				password:$("#currentpassword").val(),
     				name:$("#newpassword").val(),
     			 },			
@@ -32,7 +37,8 @@ $(document).ready(function(){
     				    }, 10);
     					
     					}
-    				//var obj = jQuery.parseJSON(response);
+    				else if(response.status=="77")
+     					swal("Oops!", response.message, "error")
     				else 
      					swal("Oops!", response.message, "error")    
     				
@@ -55,6 +61,7 @@ $(document).ready(function(){
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Email</label>
                                 <div class="col-sm-10">
+                                <input type="hidden" id="name" value="${pageContext.request.userPrincipal.name}">
                                 <input type="text" class="form-control" id="email" required>
                                 </div>
                        		 </div>
@@ -79,7 +86,7 @@ $(document).ready(function(){
                        
                             <div class="col-sm-offset-2 col-sm-10">
                             <button type="submit" class="btn btn-default">Save</button>
-                            <button onclick="location.href = 'setting';" class="btn btn-default">Cancel</button>
+                            <button onclick="location.href = 'project';" class="btn btn-default">Cancel</button>
 						</div>
 						</div>
                        

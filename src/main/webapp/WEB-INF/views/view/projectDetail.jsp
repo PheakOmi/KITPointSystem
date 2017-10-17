@@ -1,10 +1,12 @@
 <body onload="load()">
 <script type="text/javascript">
+	var student;
 	load = function(){	
 		$.ajax({
 			url:'userNProjectCategoryList?id=0',
 			type:'GET',
 			success: function(response){
+				console.log(response);
 				category = response.category;
 				user = response.user;
 				student = response.student;
@@ -12,7 +14,7 @@
 				for(i=0; i<category.length; i++)					
 					$("#projectcategory").append("<option value="+category[i].id+">"+category[i].name+" </option>");
 				for(i=0; i<user.length; i++)
-					$("#projectcoordinator").append("<option value="+user[i][0]+">"+user[i][1]+" </option>");
+					$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
 				for(i=0; i<student.length; i++)
 					$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
 		$('#member').select2({data: student});					
@@ -30,6 +32,7 @@
 	$(document).ready(function(){
 		
 		$('#teamleader').on('change', function() {
+			$('#member').select2({data: student});	
 			$('#member').children("option[value=" + this.value + "]").remove();	
 			})
 		$("[name=date]").keydown(function (event) {

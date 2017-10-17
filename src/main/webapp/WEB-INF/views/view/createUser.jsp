@@ -94,7 +94,15 @@
 								success: function(response){
 									if(response.status=="200")
 									{
-									swal("Success!", "You have created successfully!", "success")
+										setTimeout(function() {
+			        				        swal({
+			        				            title: "Done!",
+			        				            text: "You have created it successfully!",
+			        				            type: "success"
+			        				        }, function() {
+			        				            window.location = "setting";
+			        				        });
+			        				    }, 10);
 									}
 									else{
 										swal("Oops!", response.message, "error")

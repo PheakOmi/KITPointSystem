@@ -31,7 +31,15 @@
 							data:{value:$('#value1').val()},
 							success: function(response){
 
-								swal("Success!", "You have updated it successfully!", "success")
+								setTimeout(function() {
+	        				        swal({
+	        				            title: "Done!",
+	        				            text: "You have created it successfully!",
+	        				            type: "success"
+	        				        }, function() {
+	        				            window.location = "setting";
+	        				        });
+	        				    }, 10);
 							}				
 						});
 					

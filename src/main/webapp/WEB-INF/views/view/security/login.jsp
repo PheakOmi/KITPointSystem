@@ -9,12 +9,7 @@
 <spring:url value="/resources/Bootstrap/css/style.css" var="loginStyle"/>
       <link rel="stylesheet" href="${loginStyle}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>
-<!-- Sweet alert -->
-<spring:url value="/resources/Bootstrap/css/sweetalert.css" var="alertStyle"/>
-      <link rel="stylesheet" href="${alertStyle}">
-<spring:url value="/resources/Bootstrap/js/sweetalert.min.js" var="alertJS"/>
-      <script src="${alertJS}"></script>	 
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>	 
 <script>
 $(document).ready(function(){
 	$("#myForm").validate();

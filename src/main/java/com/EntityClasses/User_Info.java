@@ -8,6 +8,7 @@ import java.util.Set;
 public class User_Info {
 
 		private int id;
+		private int batch_id;
 		private String name;
 		private String email;
 		private String password;
@@ -87,6 +88,13 @@ public class User_Info {
 		public void setUserRole(Set<UserRole> userRole) {
 			this.userRole = userRole;
 		}
+		public int getBatch_id() {
+			return batch_id;
+		}
+		public void setBatch_id(int batch_id) {
+			this.batch_id = batch_id;
+		}
+		
 		
 		
 }

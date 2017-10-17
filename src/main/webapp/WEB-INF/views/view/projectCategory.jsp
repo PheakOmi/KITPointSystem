@@ -52,8 +52,15 @@ $(document).ready(function(){
 				success: function(response){
 					if(response.status=="200")
 						{
-						$('#projectCategory').val('');
-						swal("Done!", "You have created successfully!", "success")
+						setTimeout(function() {
+    				        swal({
+    				            title: "Done!",
+    				            text: "You have created it successfully!",
+    				            type: "success"
+    				        }, function() {
+    				            window.location = "setting";
+    				        });
+    				    }, 10);
 						}
 					//var obj = jQuery.parseJSON(response);
 					    

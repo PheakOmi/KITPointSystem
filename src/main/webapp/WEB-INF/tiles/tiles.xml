@@ -46,6 +46,10 @@
 		<put-attribute name="title" value="setting" />
 		<put-attribute name="body" value="/WEB-INF/views/view/batch.jsp" />
 	</definition>
+	<definition name="viewReporting" extends="base.definition">
+		<put-attribute name="title" value="setting" />
+		<put-attribute name="body" value="/WEB-INF/views/view/reporting.jsp" />
+	</definition>
 		<definition name="viewProjectCaterory" extends="base.definition">
 		<put-attribute name="title" value="setting" />
 		<put-attribute name="body" value="/WEB-INF/views/view/projectCategory.jsp" />
@@ -69,6 +73,14 @@
 	<definition name="createBatch" extends="base.definition">
 		<put-attribute name="title" value="setting" />
 		<put-attribute name="body" value="/WEB-INF/views/view/createBatch.jsp" />
+	</definition>
+	<definition name="projectReporting" extends="base.definition">
+		<put-attribute name="title" value="setting" />
+		<put-attribute name="body" value="/WEB-INF/views/view/projectReporting.jsp" />
+	</definition>
+	<definition name="taskReporting" extends="base.definition">
+		<put-attribute name="title" value="setting" />
+		<put-attribute name="body" value="/WEB-INF/views/view/taskReporting.jsp" />
 	</definition>
 	<definition name="updateBatch" extends="base.definition">
 		<put-attribute name="title" value="setting" />

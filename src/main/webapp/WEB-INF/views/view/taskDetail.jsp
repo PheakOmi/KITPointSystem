@@ -43,7 +43,7 @@
 				}
 			if(format.test(time))
 			{
-			swal("Oops!", "You can only input number", "error")  
+			swal("Oops!", "Only Integer Accepted in Planning Hour", "error")  
 			return
 			}
 			var deadline = Date.parse($("#deadline").val());
@@ -85,7 +85,7 @@
     				    
     				else 
     					{
-    					swal("Oops!", "Task Name already existed!", "error")
+    					swal("Oops!", response.message, "error")
     					
     					}
              				},

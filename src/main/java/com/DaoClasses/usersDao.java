@@ -32,6 +32,7 @@ import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Member;
 import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
+import com.EntityClasses.Sms_Server_Info;
 import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User_Info;
@@ -79,7 +80,17 @@ public interface usersDao {
 	public void deleteMemberByProjectId(int id);
 	public void deleteTaskByProjectId(int id);
 	public List<Task_Master> getAllTaskByProjectId(int id);
-	public boolean editProfile(String email, String oldPassword, String newPassword) throws Exception;
+	public int editProfile(String email, String oldPassword, String newPassword, String name) throws Exception;
 	public int deleteTaskDetail(int id);
 	public List<Student> getAllStudent();
+	public boolean updateStudent() throws Exception;
+	public List<Student> exchangeBatchValue(List<Student> givenStudent) throws Exception;
+	public boolean validateStudent (Student studentValidate,List<Student> studentDB);
+	public List<Batch_Master> pullAllBatch() throws Exception;
+	public boolean updateSemester()throws Exception;
+	public Sms_Server_Info getSmsServerInfo();
+	public boolean updateServerInfo(Sms_Server_Info info);
+	public boolean saveServerInfo(Sms_Server_Info info);
+	public List<Project_Master> getProjectReporting(Project_Model project) throws ParseException;
+	
 }

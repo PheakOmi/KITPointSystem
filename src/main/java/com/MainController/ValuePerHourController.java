@@ -1,9 +1,12 @@
 package com.MainController;
 
+import java.net.MalformedURLException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.xmlrpc.XmlRpcException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +15,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.DaoClasses.valuePerHourDaoImpl;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Project_Master;
+import com.EntityClasses.Project_Member;
+import com.EntityClasses.Value_Per_Hour;
 import com.ModelClasses.ValuePerHourModel;
+import com.ModelClasses.ValuePerHourModel2;
 import com.ServiceClasses.valuePerHourService;
 
 @Controller
@@ -46,6 +53,16 @@ public class ValuePerHourController {
 					return map;
 				}	
 	}
+	@RequestMapping(value="/getAllValuePerHour", method=RequestMethod.GET)
+	   public @ResponseBody Map<?,?> getRightStudent(@RequestParam(value = "id", required=false,defaultValue = "0") Integer batch_id) throws Exception{
+	     Map<String,Object> map = new HashMap<String,Object>();
+	     Map<String,Object> error = new HashMap<String,Object>();
+	       // DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
+	     List<ValuePerHourModel2> vph = valuePerHour.getAllValuePerHour(batch_id);
+	     map.put("vph", vph);
+	     return map;
+	      
+	     }   
 	//=================get project stage list and project=======================
 	@RequestMapping(value="/getProject", method=RequestMethod.GET)
 	public @ResponseBody Map<String,?> showProjectSatge(){
@@ -98,14 +115,29 @@ public class ValuePerHourController {
 		valuePerHourData.setValue_1(value);
 		valuePerHourData.setBatch_name(batch_name);
 		Map<String,Object> map = new HashMap<String,Object>();
-		
-		if( valuePerHour.addValuePerHour(valuePerHourData)){
-			map.put("status","200");
-			map.put("message","Your record has been saved successfully");
+		int batch_id = Integer.parseInt(batch_name);
+		int  n = new valuePerHourDaoImpl().getAmountOfVPHById(batch_id);
+		if (n>0){
+			if( valuePerHour.updateValuePerHour(valuePerHourData)){
+				map.put("status","200");
+				map.put("message","You have updated it successfully!");
+			}
+			else{
+				map.put("status","999");
+				map.put("message","It is not updated!");
+			}
 		}
-		else{
-			map.put("status","999");
-			map.put("message","Value Per Hour For this batch already existed");
+		else
+		{
+			if( valuePerHour.addValuePerHour(valuePerHourData)){
+				System.out.println("Add runs");
+				map.put("status","200");
+				map.put("message","You have created it successfully!");
+			}
+			else{
+				map.put("status","999");
+				map.put("message","It is not created!");
+			}
 		}
 		
 		return map;
