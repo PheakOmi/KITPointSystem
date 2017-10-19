@@ -550,7 +550,7 @@ public class ControllerFile {
 					String message = "Hello World";
 					return new ModelAndView("view_update_point", "message", message);
 	}
-//	=================view project category============================
+//	========= ========view project category============================
 	@RequestMapping(value="/projectCategory", method=RequestMethod.GET)
 	public ModelAndView viewProjectCategory() {
 		return new ModelAndView("viewProjectCaterory");

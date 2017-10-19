@@ -10,7 +10,57 @@
 		<put-attribute name="sidebar" value="/WEB-INF/views/layout/sidebar.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
 	</definition>
-
+	
+	<!-- user page view  -->
+		<definition name="projectUserView" extends="base.definition">
+		<put-attribute name="title" value="Project" />
+		<put-attribute name="body" value="/WEB-INF/views/view/userViews/viewProject.jsp" />		
+	</definition>
+	
+	<definition name="projectDetailUserView" extends="base.definition">
+		<put-attribute name="title" value="Project detail" />
+		<put-attribute name="body" value="/WEB-INF/views/view/userViews/projectDetail.jsp" />
+	</definition>
+	<definition name="taskDetailUserView" extends="base.definition">
+		<put-attribute name="title" value="Task Detail" />
+		<put-attribute name="body" value="/WEB-INF/views/view/userViews/taskDetail.jsp" />
+	</definition>
+	
+	<definition name="taskUserView" extends="base.definition">
+		<put-attribute name="title" value="Tasks" />
+		<put-attribute name="body" value="/WEB-INF/views/view/userViews/taskView.jsp" />
+	</definition>
+	<!-- end user page view -->
+	<!-- admin page view -->
+	<definition name="projectAdminView" extends="base.definition">
+		<put-attribute name="title" value="Project" />
+		<put-attribute name="body" value="/WEB-INF/views/view/adminView/viewProject.jsp" />		
+	</definition>
+	
+	<definition name="projectDetailAdminView" extends="base.definition">
+		<put-attribute name="title" value="Project detail" />
+		<put-attribute name="body" value="/WEB-INF/views/view/adminView/projectDetail.jsp" />
+	</definition>
+	<definition name="taskDetailAdminView" extends="base.definition">
+		<put-attribute name="title" value="Task Detail" />
+		<put-attribute name="body" value="/WEB-INF/views/view/adminView/taskDetail.jsp" />
+	</definition>
+	
+	<definition name="taskAdminView" extends="base.definition">
+		<put-attribute name="title" value="Tasks" />
+		<put-attribute name="body" value="/WEB-INF/views/view/adminView/taskView.jsp" />
+	</definition>
+	<definition name="updateProjectDetailAdminView" extends="base.definition">
+		<put-attribute name="title" value="Update project" />
+		<put-attribute name="body" value="/WEB-INF/views/view/adminView/updateProjectDetail.jsp" />
+	</definition>
+	<definition name="updateTaskDetailAdminView" extends="base.definition">
+		<put-attribute name="title" value="Update task" />
+		<put-attribute name="body" value="/WEB-INF/views/view/adminView/updateTaskDetail.jsp" />
+	</definition>
+	<!-- end admin page view -->
+	
+	<!-- super admin page view -->
 	<definition name="project" extends="base.definition">
 		<put-attribute name="title" value="Project" />
 		<put-attribute name="body" value="/WEB-INF/views/view/viewProject.jsp" />		
