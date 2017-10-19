@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.xmlrpc.XmlRpcException;
 
 import com.EntityClasses.Batch_Master;
+import com.EntityClasses.KIT_Point_Student_Wise;
 import com.EntityClasses.Project_Category_Master;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Member;
@@ -72,4 +73,10 @@ public interface usersService {
 	public boolean updateServerInfo(Sms_Server_Info info);
 	public boolean saveServerInfo(Sms_Server_Info info);
 	public List<Project_Master> getProjectReporting(Project_Model project) throws ParseException;
+	public List<Task_Master> getTaskReporting(Task_Model task) throws ParseException;
+	public void addPointStudent (int students[],int project_id,float point,int hours);
+	public List<Student> getAllPoint(int batch_id);
+	public List<Student> getAllStudentByBatchId(int batch_id);
+	public List<KIT_Point_Student_Wise> updateAllPoint(int user_id) throws Exception;
+	public boolean updatePoint(KIT_Point_Student_Wise point);
 }

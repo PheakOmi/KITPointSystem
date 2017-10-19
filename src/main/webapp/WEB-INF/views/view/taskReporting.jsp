@@ -1,8 +1,189 @@
 <body onload="load()">
 <script type="text/javascript">
-load = function(){
+var projectdata;
+load = function(){	
 	$('#mybtn').trigger('click');
+	$.ajax({
+		url:'ProjectNUser',
+		type:'GET',
+		success: function(response){
+			p=response;
+			student = response.student;
+			project = response.project;
+			for(i=0; i<project.length; i++)					
+				$("#project").append("<option value="+project[i].id+">"+project[i].project_name+" </option>");
+			for(i=0; i<student.length; i++)
+				$("#assigned_to").append("<option value="+student[i].id+">"+student[i].name+" </option>");
+		},
+	error: function(err){
+		
+		console.log(JSON.stringify(err));
+		}
+		
+	});
+	
 }
+
+
+	
+$(document).ready(function(){
+	$("#submitBtn").click(function(e){
+		e.preventDefault();
+		var t = $("#to").val();
+		var f = $("#from").val();
+        if(t==""||f=="")
+        	{
+        		swal("Oops!", "Both From and End has to be filled out", "error")
+        		return
+        	}
+		else
+		{
+			f = Date.parse(f);
+	        t = Date.parse(t);
+			if(f>t)
+	    		{
+					swal("Oops!", "Your End Date is before Start Date", "error")
+					return
+				}
+			else
+			{
+    	$.ajax({
+    		url:'taskReportSubmit',
+    		type:'GET',
+    		data:{		status:$("#status").val(),
+    					project_id:$("#project").val(),
+    					assigned_to:$("#assigned_to").val(),
+    					start_date:$("#from").val(),
+    					end_date:$("#to").val(),},
+    		traditional: true,			
+    		success: function(response){
+    				console.log(response);
+    				if(response.status=="200")
+    					 showTable(response.data);
+    				else 
+						swal("Oops!", "There is an error while querying data", "error")
+					
+ 			},
+    		error: function(err){
+    				console.log(JSON.stringify(err));
+    				
+    				}
+    		
+    			});	
+		}
+		}
+	});		
+});
+showTable = function(tasks){
+	student = p.student;
+	project = p.project;
+	console.log(p);
+	for (i=0;i<tasks.length;i++)
+	{
+		for(j=0;j<project.length;j++)
+			{
+			if(tasks[i].project_id==project[j].id)
+				{
+				tasks[i].project_id=project[j].project_name;
+					break;
+				}
+			}
+
+		for(l=0;l<student.length;l++)
+		{
+			if(tasks[i].assigned_to==student[l].id)
+				{
+				tasks[i].assigned_to = student[l].name;
+					break;
+				}
+		}
+	}
+	$("#myModal").hide();
+	for (i=0;i<tasks.length;i++)
+		{
+		if (tasks[i].start_date==null)
+			tasks[i].start_date="";
+		else
+			tasks[i].start_date=formatDate(tasks[i].start_date);
+		if (tasks[i].end_date==null)
+			tasks[i].end_date="";
+		else
+			tasks[i].end_date=formatDate(tasks[i].end_date);
+		if (tasks[i].deadline==null)
+			tasks[i].deadline="";
+		else
+			tasks[i].deadline=formatDate(tasks[i].deadline);
+		var row = "<tr><td>"+(i+1)+"</td>"+
+						"<td>"+tasks[i].name+"</td>"+
+						"<td>"+tasks[i].project_id+"</td>"+
+						"<td>"+tasks[i].assigned_to+"</td>"+
+						"<td>"+tasks[i].time_spend+"</td>"+
+						"<td>"+tasks[i].start_date+"</td>"+
+						"<td>"+tasks[i].end_date+"</td>"+
+						"<td>"+tasks[i].deadline+"</td>"+
+						"<td>"+tasks[i].status+"</td></tr>";
+		$("#customers").append(row);
+		}
+	swal("Succeed!", tasks.length+" result(s) returned", "success")
+	$("#customers").removeAttr('style');
+	$("#btnGenerate").removeAttr('style');
+}
+generateReport = function()
+{
+	if($("#format").val()=='excel')
+		{
+			var data_type = 'data:application/vnd.ms-excel';
+		    var table_div = document.getElementById('tablewrapper');
+		    var table_html = table_div.outerHTML.replace(/ /g, '%20');
+		
+		    var a = document.createElement('a');
+		    a.href = data_type + ', ' + table_html;
+		    a.download = 'Tasks_Report' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
+		    a.click();
+		}
+}
+
+
+function HTMLtoPDF(){
+	var pdf = new jsPDF('p', 'pt', 'letter');
+	source = $('#tablewrapper')[0];
+	specialElementHandlers = {
+		'#bypassme': function(element, renderer){
+			return true
+		}
+	}
+	margins = {
+	    top: 50,
+	    left: 20,
+	    right: 20,
+	    width: 700
+	  };
+	pdf.fromHTML(
+	  	source // HTML string or DOM elem ref.
+	  	, margins.left // x coord
+	  	, margins.top // y coord
+	  	, {
+	  		'width': margins.width // max width of content on PDF
+	  		, 'elementHandlers': specialElementHandlers
+	  	},
+	  	function (dispose) {
+	  	  // dispose: object with X, Y of the last line add to the PDF
+	  	  //          this allow the insertion of new lines after html
+	        pdf.save('html2pdf.pdf');
+	      }
+	  )		
+	}
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [month, day, year].join('/');
+};
 </script>
 <button style="display: none;"class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="mybtn">
     Login modal</button>
@@ -13,49 +194,34 @@ load = function(){
             <div class="modal-header">
                 <button type="button" class="close" onclick="location.href = 'reporting';">
                    <span class="glyphicon glyphicon-remove"></span></button>
-                <h4 class="modal-title" id="myModalLabel">Task Lists Report</h4>
+                <h4 class="modal-title" id="myModalLabel">Tasks List Report</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                         <!-- Nav tabs -->
                         <ul class="nav nav-tabs">
-                            <li class="active"><a href="#Login" data-toggle="tab">Which projects?</a></li>
+                            <li class="active"><a href="#Login" data-toggle="tab">Which task?</a></li>
                             <li><a href="#Registration" data-toggle="tab">Format</a></li>
                         </ul>
                         <!-- Tab panes -->
                         <div class="tab-content">
                             <div class="tab-pane active" id="Login">
-                                <form role="form" class="form-horizontal">
+                                <form role="form" class="form-horizontal" id="myForm">
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">
-                                        Category</label>
+                                        Project</label>
                                     <div class="col-sm-4 pull-right">
-                                        <select class="form-control" id="category">
-                                        	<option>-</option>
-                                        	<option>b</option>
-                                        	<option>c</option>
+                                        <select class="form-control" id="project">
+                                        	<option value="0"></option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label">
-                                        Coordinator</label>
+                                        Assigned To</label>
                                     <div class="col-sm-4 pull-right">
-                                        <select class="form-control" id="coordinator">
-                                        	<option>a</option>
-                                        	<option>b</option>
-                                        	<option>c</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">
-                                        Team Leader</label>
-                                    <div class="col-sm-4 pull-right">
-                                        <select class="form-control" id="teamleader">
-                                        	<option>a</option>
-                                        	<option>b</option>
-                                        	<option>c</option>
+                                        <select class="form-control" id="assigned_to">
+                                        	<option value="0"></option>
                                         </select>
                                     </div>
                                 </div>
@@ -64,10 +230,10 @@ load = function(){
                                         Status</label>
                                     <div class="col-sm-4 pull-right">
                                         <select class="form-control" id="status">
-                                        <option value="Approved Project">Approved Project</option>
-                                    	<option value="To approve Project">To approve Project</option>
-                                    	<option value="Pending Project">Pending Project</option>
-                                    	<option value="Completed Project">Completed Project</option>
+                                        <option value="In Progress">In Progress</option>
+	                                    <option value="Completed">Completed</option>
+	                                    <option value="Delayed">Delayed</option>
+	                                    <option value="Postponed">Postponed</option>
                                         </select>
                                     </div>
                                 </div>
@@ -100,9 +266,9 @@ load = function(){
                                     <label for="email" class="col-sm-2 control-label">
                                         Report Format</label>
                                     <div class="col-sm-4 pull-right">
-                                        <select class="form-control" id="status">
-                                        	<option>In PDF Format</option>
-                                        	<option>In Excel Format</option>
+                                        <select class="form-control" id="format">
+                                          	<option value="excel">In Excel Format</option>
+                                        	<option value="pdf">In PDF Format</option>
                                         </select>
                                     </div>
                                 </div>
@@ -116,12 +282,34 @@ load = function(){
                 </div>
                 <div class="modal-header">
                 <button class="btn btn-default btn-md" onclick="location.href = 'reporting';">Cancel</button>
-                <button type="submit" class="btn btn-primary btn-md" style="background-color:#51a351;border-color:#51a351;">
-                                            Generate Report</button>
+                <button type="submit" class="btn btn-primary btn-md" id ="submitBtn" style="background-color:#51a351;border-color:#51a351;">
+                                            View before generating</button>
                 
             </div>
             </div>
         </div>
     </div>
+    
+   
+<div class="row " id="margin-body">
+<div id="tablewrapper">
+<table id="customers" style="display:none;">
+  <tr>
+    <th>No</th>
+    <th>Name</th>
+    <th>Project</th>
+    <th>Assigned To</th>
+    <th>Time Spent</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Deadline</th>
+    <th>Status</th>
+  </tr>
+</table>
+</div>
+<br>
+<br>
+       <button onclick="generateReport()" type="button" class="btn btn-success pull-right" id="btnGenerate" style="display:none;">Generate Report</button> 
+       <a href="#" onclick="HTMLtoPDF()">Download PDF</a>
 </div>
 </body>

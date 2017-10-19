@@ -6,17 +6,24 @@
 
 #customers td, #customers th {
     border: 1px solid #ddd;
-    padding: 15px;
+    padding: 10px;
 
 }
 #customers th {
-	font-size: large;
+	font-size: medium;
+}
+.hoverable:hover {
+    background-color: #ccc;
 }
 
-
-
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
+.cc{
+    width: 50px;
+} 
+input[readonly]{
+  background-color:transparent;
+  border: 0;
+  font-size: 1em;
+}
 
 #customers th {
     padding-top: 12px;

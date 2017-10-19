@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlrpc.XmlRpcException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -28,6 +29,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.DaoClasses.StudentFromOdoo_BatchId;
 import com.EntityClasses.Batch_Master;
+import com.EntityClasses.KIT_Point_Student_Wise;
 import com.EntityClasses.Project_Category_Master;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Member;
@@ -133,6 +135,7 @@ public class ControllerFile {
 //============================Retreive all users and ProjectCategory from DB send through Ajax========================
 			@RequestMapping(value="/userNProjectCategoryList", method=RequestMethod.GET)
 			public @ResponseBody Map<?,?> getUserNProjectCategoryListNStage(@RequestParam(value = "id", required=false, defaultValue = "0") Integer id) throws Exception{
+				System.out.println("Hello");
 				Project_Master project = usersService1.getProjectById(id);
 				 Map<String,Object> map = new HashMap<String,Object>();
 				 Map<String,Object> error = new HashMap<String,Object>();
@@ -193,7 +196,8 @@ public class ControllerFile {
 				if (id==0)	
 				 {
 					List<Project_Master> listProject = usersService1.getAllProject();
-					if (listProject == null)
+					List<Student> listStudent = usersService1.getAllStudent();
+					if (listProject == null || listStudent ==null)
 						{
 							error.put("message","Data not found");
 							return error;
@@ -201,6 +205,7 @@ public class ControllerFile {
 					else
 						{
 							map.put("project", listProject);
+							map.put("student", listStudent);
 							return map;
 						}	
 				}
@@ -284,6 +289,8 @@ public class ControllerFile {
 						
 					{
 						usersService1.saveMember(id,m);
+						if(pm.getStatus().equals("Completed Project"))
+							usersService1.addPointStudent(m, id, Float.parseFloat(df2.format(pointNbudget.get("point"))), pm.getInitially_planned());
 						map.put("status","200");
 						map.put("message","Your record has been saved successfully");
 						
@@ -295,7 +302,7 @@ public class ControllerFile {
 						return map;
 					}
 				}
-//========================Save Project========================================================
+//========================projectReportSubmit========================================================
 			@RequestMapping(value="/projectReportSubmit", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> projectReportSubmit(Project_Model pm) throws Exception{
 					Map<String,Object> map = new HashMap<String,Object>();
@@ -313,6 +320,87 @@ public class ControllerFile {
 						map.put("message","Failed");
 						return map;
 					}
+				}
+//========================projectReportSubmit========================================================
+			@RequestMapping(value="/updatePointSubmit", method=RequestMethod.GET)
+			public @ResponseBody Map<String,Object> updatePointSubmit(KIT_Point_Student_Wise p) throws Exception{
+					System.out.println("ID "+p.getUser_id());
+					System.out.println("P "+p.getKit_point());
+					Map<String,Object> map = new HashMap<String,Object>();
+					if(usersService1.updatePoint(p))
+						
+					{
+						map.put("status","200");
+						map.put("message","You have updated successfully");		
+						return map;
+					}
+					else {
+						map.put("status","999");
+						map.put("message","It is not updated");
+						return map;
+					}
+				}
+
+//=================view points============================
+			@RequestMapping(value="/viewPoint", method=RequestMethod.GET)
+			public ModelAndView viewPoint(@RequestParam("id") int id) {
+				return new ModelAndView("viewPoint", "message", id);
+				}	
+//=================update points============================
+			@RequestMapping(value="/updatePoint", method=RequestMethod.GET)
+			public ModelAndView updatePoint(@RequestParam("id") int id) {
+				return new ModelAndView("updatePoint", "message", id);
+				}	
+//========================taskReportSubmit========================================================
+			@RequestMapping(value="/taskReportSubmit", method=RequestMethod.GET)
+			public @ResponseBody Map<String,Object> taskReportSubmit(Task_Model tm) throws Exception{
+					Map<String,Object> map = new HashMap<String,Object>();
+					List<Task_Master> tasks= usersService1.getTaskReporting(tm);
+					if(tasks!=null)
+						
+					{
+						map.put("status","200");
+						map.put("message","Succeeded");		
+						map.put("data", tasks);
+						return map;
+					}
+					else {
+						map.put("status","999");
+						map.put("message","Failed");
+						return map;
+					}
+				}
+//========================get All point========================================================
+			@RequestMapping(value="/getAllPoint", method=RequestMethod.GET)
+			public @ResponseBody Map<String,Object> getAllPoint(@RequestParam("id") int batch_id){
+					Map<String,Object> map = new HashMap<String,Object>();
+					List<Student> students= usersService1.getAllPoint(batch_id);
+					if(students!=null)
+						
+					{
+						map.put("status","200");
+						map.put("message","Succeeded");		
+						map.put("data", students);
+						return map;
+					}
+					else {
+						map.put("status","999");
+						map.put("message","Failed");
+						return map;
+					}
+				}
+//========================update All point========================================================
+			@RequestMapping(value="/updateAllPoint", method=RequestMethod.GET)
+			public ModelAndView updateAllPoint(@RequestParam("id") int user_id) throws Exception{
+					ObjectMapper mapper = new ObjectMapper();
+					List<KIT_Point_Student_Wise> points =  usersService1.updateAllPoint(user_id);
+					String json = "";
+					try {
+						json = mapper.writeValueAsString(points);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return new ModelAndView("updatePoint", "message", json);
 				}
 //========================Update Project========================================================
 			@RequestMapping(value="/updateProject", method=RequestMethod.GET)
@@ -360,8 +448,11 @@ public class ControllerFile {
 					else{
 						pm.setKit_point(df2.format(Float.parseFloat(pm.getKit_point())));
 					}
+					
 					if(usersService1.updateProject(pm))
 					{
+						if(pm.getStatus().equals("Completed Project")&&!project.getStatus().equals("Completed Project"))
+							usersService1.addPointStudent(pm.getMember(), pm.getId(), Float.parseFloat(pm.getKit_point()), pm.getInitially_planned());
 						map.put("status","200");
 						map.put("message","Your record has been saved successfully");
 						return map;
@@ -446,7 +537,18 @@ public class ControllerFile {
 	@RequestMapping(value="/kitpoint", method=RequestMethod.GET)
 	public ModelAndView viewkitpoint() {
 		String message = "Hello World";
-		return new ModelAndView("viewKitPoint", "message", message);
+		return new ModelAndView("viewKitPoint", "message", message);}
+//	================kitpoint_value============================
+				@RequestMapping(value="/kitpoint_value", method=RequestMethod.GET)
+				public ModelAndView kitpoint_value() {
+					String message = "Hello World";
+					return new ModelAndView("kitpoint_value", "message", message);
+	}
+//	================view_update_point============================
+				@RequestMapping(value="/view_update_point", method=RequestMethod.GET)
+				public ModelAndView view_update_point() {
+					String message = "Hello World";
+					return new ModelAndView("view_update_point", "message", message);
 	}
 //	=================view project category============================
 	@RequestMapping(value="/projectCategory", method=RequestMethod.GET)

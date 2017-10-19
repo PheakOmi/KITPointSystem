@@ -1,13 +1,12 @@
 <body onload="load()">
 <script type="text/javascript">
-var projectdata;
 load = function(){
 	$('#mybtn').trigger('click');
 	$.ajax({
 	      url : 'userNProjectCategoryList',
 	      method : 'GET',
 	      success : function(response) {
-	    	  console.log("res"+response);
+	    	  	p=response;	
 				category = response.category;
 				user = response.user;
 				student = response.student;
@@ -25,11 +24,9 @@ load = function(){
 }
 $(document).ready(function(){
 	$("#submitBtn").click(function(e){
-		console.log("dddd");
 		e.preventDefault();
 		var t = $("#to").val();
 		var f = $("#from").val();
-		console.log(t+"  "+f)
         if(t==""||f=="")
         	{
         		swal("Oops!", "Both From and End has to be filled out", "error")
@@ -57,9 +54,8 @@ $(document).ready(function(){
     					end_date:$("#to").val(),},
     		traditional: true,			
     		success: function(response){
-    				console.log(response);
     				if(response.status=="200")
-    					projectdata = response;
+    					 showTable(response.data);
     				else 
 						swal("Oops!", "There is an error while querying data", "error")
 					
@@ -70,11 +66,135 @@ $(document).ready(function(){
     				}
     		
     			});	
-    	console.log(projectdata);
 		}
 		}
 	});		
 });
+showTable = function(projects){
+	category = p.category;
+	user = p.user;
+	student = p.student;
+	console.log(p);
+	for (i=0;i<projects.length;i++)
+	{
+		for(j=0;j<category.length;j++)
+			{
+			if(projects[i].project_type==category[j].id)
+				{
+					projects[i].project_type = category[j].name;
+					break;
+				}
+			}
+		for(k=0;k<user.length;k++)
+		{
+			if(projects[i].project_co==user[k].id)
+				{
+					projects[i].project_co = user[k].name;
+					break;
+				}
+		}
+		for(l=0;l<student.length;l++)
+		{
+			if(projects[i].project_leader==student[l].id)
+				{
+					projects[i].project_leader = student[l].name;
+					break;
+				}
+		}
+	}
+	$("#myModal").hide();
+	for (i=0;i<projects.length;i++)
+		{
+		if (projects[i].start_date==null)
+			projects[i].start_date="";
+		else
+			projects[i].start_date=formatDate(projects[i].start_date);
+		if (projects[i].end_date==null)
+			projects[i].end_date="";
+		else
+			projects[i].end_date=formatDate(projects[i].end_date);
+		if (projects[i].deadline==null)
+			projects[i].deadline="";
+		else
+			projects[i].deadline=formatDate(projects[i].deadline);
+		var row = "<tr><td>"+(i+1)+"</td>"+
+						"<td>"+projects[i].project_name+"</td>"+
+						"<td class='pcode'>"+projects[i].project_code+"</td>"+
+						"<td>"+projects[i].project_co+"</td>"+
+						"<td>"+projects[i].project_leader+"</td>"+
+						"<td class='ptype'>"+projects[i].project_type+"</td>"+
+						"<td>"+projects[i].start_date+"</td>"+
+						"<td>"+projects[i].end_date+"</td>"+
+						"<td>"+projects[i].deadline+"</td>"+
+						"<td class='pbudget'>"+projects[i].budget+"</td>"+
+						"<td class='ppoint'>"+projects[i].kit_point+"</td>"+
+						"<td>"+projects[i].status+"</td></tr>";
+		$("#customers").append(row);
+		}
+	$(".pcode").hide();
+	$(".ptype").hide();
+	$(".pbudget").hide();
+	$(".ppoint").hide();
+	swal("Succeed!", projects.length+" result(s) returned", "success")
+	$("#customers").removeAttr('style');
+	$("#btnGenerate").removeAttr('style');
+}
+generateReport = function()
+{
+	if($("#format").val()=='excel')
+		{
+			var data_type = 'data:application/vnd.ms-excel';
+		    var table_div = document.getElementById('tablewrapper');
+		    var table_html = table_div.outerHTML.replace(/ /g, '%20');
+		
+		    var a = document.createElement('a');
+		    a.href = data_type + ', ' + table_html;
+		    a.download = 'Projects_Report' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
+		    a.click();
+		}
+}
+
+
+function HTMLtoPDF(){
+	var pdf = new jsPDF('p', 'pt', 'letter');
+	source = $('#tablewrapper')[0];
+	specialElementHandlers = {
+		'#bypassme': function(element, renderer){
+			return true
+		}
+	}
+	margins = {
+	    top: 50,
+	    left: 20,
+	    right: 20,
+	    width: 700
+	  };
+	pdf.fromHTML(
+	  	source // HTML string or DOM elem ref.
+	  	, margins.left // x coord
+	  	, margins.top // y coord
+	  	, {
+	  		'width': margins.width // max width of content on PDF
+	  		, 'elementHandlers': specialElementHandlers
+	  	},
+	  	function (dispose) {
+	  	  // dispose: object with X, Y of the last line add to the PDF
+	  	  //          this allow the insertion of new lines after html
+	        pdf.save('html2pdf.pdf');
+	      }
+	  )		
+	}
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [month, day, year].join('/');
+};
 </script>
 <button style="display: none;"class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="mybtn">
     Login modal</button>
@@ -85,7 +205,7 @@ $(document).ready(function(){
             <div class="modal-header">
                 <button type="button" class="close" onclick="location.href = 'reporting';">
                    <span class="glyphicon glyphicon-remove"></span></button>
-                <h4 class="modal-title" id="myModalLabel">Project Lists Report</h4>
+                <h4 class="modal-title" id="myModalLabel">Projects List Report</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -167,9 +287,9 @@ $(document).ready(function(){
                                     <label for="email" class="col-sm-2 control-label">
                                         Report Format</label>
                                     <div class="col-sm-4 pull-right">
-                                        <select class="form-control" id="status">
-                                        	<option>In PDF Format</option>
-                                        	<option>In Excel Format</option>
+                                        <select class="form-control" id="format">
+                                          	<option value="excel">In Excel Format</option>
+                                        	<option value="pdf">In PDF Format</option>
                                         </select>
                                     </div>
                                 </div>
@@ -184,10 +304,36 @@ $(document).ready(function(){
                 <div class="modal-header">
                 <button class="btn btn-default btn-md" onclick="location.href = 'reporting';">Cancel</button>
                 <button type="submit" class="btn btn-primary btn-md" id ="submitBtn" style="background-color:#51a351;border-color:#51a351;">
-                                            Generate Report</button>
+                                            View before generating</button>
                 
             </div>
             </div>
         </div>
     </div>
+    
+   
+<div class="row " id="margin-body">
+<div id="tablewrapper">
+<table id="customers" style="display:none;">
+  <tr>
+    <th>No</th>
+    <th>Name</th>
+    <th class ="pcode">Code</th>
+    <th>Coordinator</th>
+    <th>Leader</th>
+    <th class="ptype">Category</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Deadline</th>
+    <th class="pbudget">Budget</th>
+    <th class="ppoint">Point</th>
+    <th>Status</th>
+  </tr>
+</table>
+</div>
+<br>
+<br>
+       <button onclick="generateReport()" type="button" class="btn btn-success pull-right" id="btnGenerate" style="display:none;">Generate Report</button> 
+       <a href="#" onclick="HTMLtoPDF()">Download PDF</a>
+</div>
 </body>

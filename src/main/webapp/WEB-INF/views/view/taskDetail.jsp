@@ -111,7 +111,7 @@
                         	</div>
                             <div class="form-group">
                                 <label>Project: </label>
-                                <select class="form-control" id="project" type="text" required>
+                                <select class="form-control" id="project" required>
                                     <option></option>
                                 </select>
                         	</div>

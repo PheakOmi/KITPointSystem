@@ -64,7 +64,14 @@
 					$("#startdate").val(currentproject.start_date);
 					$("#enddate").val(currentproject.end_date);
 					$('#member').children("option[value=" + $('#teamleader').val() + "]").remove();
-				
+				if(currentproject.status=="Completed Project")
+					{
+					$("#teamleader").prop('disabled', true);
+					$("#planninghour").prop('disabled', true);
+					$("#kitpoint").prop('disabled', true);
+					$("#member").prop('disabled', true);
+					$("#status").prop('disabled', true);
+					}
 			},
 			
 		error: function(err){
@@ -183,6 +190,11 @@
     	}
     	});
     });	
+	redirect = function(e, url){
+		e.preventDefault();
+		location.href=url;
+	}
+	
 </script>	
 			<form id="myForm">
  			<div class="row">
@@ -299,7 +311,7 @@
                             </div>
                           	 <div class="ol-sm-offset-2 col-sm-10">	
 			                   <button type="submit" class="btn btn-default">Update</button>
-			                   <button onclick="location.href = 'project';" class="btn btn-default">Cancel</button>
+			                   <button onclick="redirect(event,'project')" class="btn btn-default preventDefault">Cancel</button>
 	                    </div>
                   		  </div>
 	                    </div>                   

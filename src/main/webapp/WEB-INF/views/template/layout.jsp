@@ -52,12 +52,16 @@
 <spring:url value="/resources/Bootstrap/css/sweetalert-form.css" var="alertForm"/>
       <link rel="stylesheet" href="${alertForm}">
 <spring:url value="/resources/Bootstrap/js/sweetalert-form.js" var="alertFormJS"/>
-      <script src="${alertFormJS}"></script>	
+      <script src="${alertFormJS}"></script>
+<spring:url value="/resources/Bootstrap/js/toPDF.js" var="toPDF"/>
+      <script src="${toPDF}"></script>	
          
           
 <!-- Checkbox CSS -->
 <spring:url value="/resources/Bootstrap/css/checkbox/build.css" var="checkboxStyle"/>
       <link rel="stylesheet" href="${checkboxStyle}"> 
+<spring:url value="/resources/Bootstrap/css/select.css" var="select"/>
+      <link rel="stylesheet" href="${select}"> 
       
 <!-- Date Picker -->     
 <spring:url value="/resources/Bootstrap/js/date/jquery.js" var="dateJS"/>
@@ -86,7 +90,9 @@
 <link rel="stylesheet" href="${ReportingCSS}">
 <spring:url value="/resources/Bootstrap/css/projectTable.css" var="projectTableReport"/>
 <link rel="stylesheet" href="${projectTableReport}">
-
+<script>
+	var p = [];
+</script>
 
 </head>
 

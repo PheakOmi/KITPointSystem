@@ -163,7 +163,7 @@
                            <div class="form-group">
                                 <label class="col-sm-4 control-label">Team Leader</label>
 	                            <div class="col-sm-8">    
-	                                <select class="form-control" id="teamleader" required>
+	                                <select class="form-control" id="teamleader" required >
 	                                    <option></option>
 	                                </select>
 	                            </div>

@@ -3,6 +3,7 @@ package com.DaoClasses;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -50,11 +51,18 @@ import org.springframework.stereotype.Repository;
 
 
 
+
+
+
+
+
+
 //import org.springframework.stereotype.Service;
 import com.EncryptionDecryption.Decryption;
 import com.EncryptionDecryption.Encryption;
 import com.EncryptionDecryption.SecretKeyClass;
 import com.EntityClasses.Batch_Master;
+import com.EntityClasses.KIT_Point_Student_Wise;
 import com.EntityClasses.Project_Category_Master;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Member;
@@ -1961,6 +1969,241 @@ public class userDaoImpl implements usersDao{
 			session.close();
 		}
 		return projects;
+	}
+	public List<Task_Master> getTaskReporting(Task_Model task) throws ParseException {
+		List<Task_Master> tasks= null;
+		Date start_date;
+		Date end_date;
+		start_date = new SimpleDateFormat("MM/dd/yyyy").parse(task.getStart_date());
+   		end_date = new SimpleDateFormat("MM/dd/yyyy").parse(task.getEnd_date());
+		String status = task.getStatus();
+		int project = task.getProject_id();
+		int assigned_to = task.getAssigned_to();
+		String query = "from Task_Master t where t.start_date between :start_date1 and :end_date1 and t.end_date between :start_date2 and :end_date2";
+   		if(project!=0)
+   			query=query+" and project_id=:project";
+   		if(assigned_to!=0)
+   			query=query+" and assigned_to=:assigned_to";
+   		if(status!="")
+			query=query+" and status=:status";
+   		System.out.println(start_date);
+   		System.out.println(end_date);
+   		System.out.println(status);
+   		System.out.println("project "+project);
+   		System.out.println("assigned to "+assigned_to);
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			List<Map<String,Object>> list_map = new ArrayList<Map<String,Object>>();
+			trns25  = session.beginTransaction();
+  		 	Query q = session.createQuery(query);
+  		 	q.setDate("start_date1", start_date);
+  		 	q.setDate("start_date2", start_date);
+  		 	q.setDate("end_date1", end_date);
+  		 	q.setDate("end_date2", end_date);
+  		 	if(project!=0)
+  	   			q.setInteger("project", project);
+  	   		if(assigned_to!=0)
+  	   			q.setInteger("assigned_to", assigned_to);
+  	   		if(status!="")
+  	   			q.setString("status", status);
+ 		 	tasks = q.list();
+ 		 	System.out.println(("Size"+tasks.size()));
+ 		 	
+		}
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();
+			return tasks;
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+		return tasks;
+	}
+	public void addPointStudent (int students[],int project_id,float point,int hours){
+		DecimalFormat df2 = new DecimalFormat(".##");
+		float eachPoint = (float)point/students.length;
+		Transaction trns14 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Timestamp created_at = new Timestamp(System.currentTimeMillis());
+        try {
+            trns14 = session.beginTransaction();
+    		for (int i = 0; i<students.length; i++)
+    		{
+    			User_Info user = getUserById(students[i]);
+    			KIT_Point_Student_Wise kitpoint = new KIT_Point_Student_Wise();
+    			kitpoint.setProject_id(project_id);
+    			kitpoint.setKit_point(df2.format(eachPoint));
+    			kitpoint.setUser_id(students[i]);
+    			kitpoint.setCreated_at(created_at);
+    			kitpoint.setBatch_id(user.getBatch_id());
+    			session.save(kitpoint);
+    		}  
+    		session.getTransaction().commit();
+        } catch (RuntimeException e) {
+        	if (trns14 != null) {
+                trns14.rollback();
+            }
+            e.printStackTrace();
+           
+        } finally {
+            session.flush();
+            session.close();
+        }
+	}
+
+
+	public User_Info getUserById(int id) {
+		User_Info user = new User_Info();
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			trns25  = session.beginTransaction();
+ 		 	String queryString  = "from User_Info where id=:id";
+ 		 	Query query = session.createQuery(queryString);
+ 		 	query.setInteger("id", id);
+ 		 	user = (User_Info) query.uniqueResult();
+ 		 	
+		}
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();			
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+		return user;
+	}
+	public List<Student> getAllPoint(int batch_id){
+		List<Student> students = getAllStudentByBatchId(batch_id);
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			trns25  = session.beginTransaction();
+			String queryString  = "from KIT_Point_Student_Wise where user_id=:user_id";
+			for(int i=0;i<students.size();i++)
+			{
+	 		 	Query query = session.createQuery(queryString);
+	 		 	query.setInteger("user_id", Integer.parseInt(students.get(i).getId()));
+	 		 	List<KIT_Point_Student_Wise> points= query.list();
+	 		 	float p = 0f;
+	 		 	for (KIT_Point_Student_Wise point:points)
+	 		 		p=(float)p+Float.parseFloat(point.getKit_point());
+	 		 	students.get(i).setText(Float.toString(p));
+	 		 }
+ 		 }
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();			
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+		return students;
+		
+	}
+
+	public List<Student> getAllStudentByBatchId(int batch_id){
+	List<Student> students = new ArrayList<Student>();
+	Transaction trns25 = null;
+	Session session = HibernateUtil.getSessionFactory().openSession();
+	try{
+		List<Map<String,Object>> list_map = new ArrayList<Map<String,Object>>();
+		trns25  = session.beginTransaction();
+		 	String queryString  = "from UserRole where role=:role";
+		 	Query query = session.createQuery(queryString);
+		 	query.setString("role", "ROLE_USER");
+		 	List<UserRole> roles = query.list();
+		 	for(int i=0;i<roles.size();i++)
+		 	{
+		 		Student student = new Student();
+		 		User_Info user = roles.get(i).getUser_info();
+		 		if(batch_id==user.getBatch_id())
+		 		{
+		 			int id= user.getId();
+		 			student.setBatch_id(Integer.toString(batch_id));
+			 		student.setId(Integer.toString(id));
+			 		student.setText(user.getName());
+			 		student.setName(user.getName());
+			 		students.add(student);
+		 		}	
+		 	}
+	}
+	catch(RuntimeException e)
+	{
+		e.printStackTrace();			
+	}
+	finally{
+		session.flush();
+		session.close();
+	}
+    return students;
+}
+	public List<KIT_Point_Student_Wise> updateAllPoint(int user_id) throws Exception{
+		List<KIT_Point_Student_Wise> points = new ArrayList<KIT_Point_Student_Wise>();
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			trns25  = session.beginTransaction();
+			String queryString  = "from KIT_Point_Student_Wise where user_id=:user_id";
+			Query query = session.createQuery(queryString);
+ 		 	query.setInteger("user_id", user_id);
+ 		 	points= query.list();
+ 		 	for (KIT_Point_Student_Wise point:points)
+ 		 	{
+ 		 		Project_Master project = getProjectById(point.getProject_id());
+ 		 		point.setName(project.getProject_name());
+ 		 	}
+	 		 
+ 		 }
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();			
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+		return points;
+	}
+	
+	public boolean updatePoint(KIT_Point_Student_Wise p){
+		String str = p.getKit_point();
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			trns25  = session.beginTransaction();
+			String queryString = "from KIT_Point_Student_Wise where project_id=:project_id and user_id=:user_id";
+			for (String st:str.split("/"))
+		 	{
+		 		String[] s=st.split(",");
+		 		System.out.println("P id "+s[0]+" U id"+p.getUser_id()+" point "+s[1]);
+		 		KIT_Point_Student_Wise point = new KIT_Point_Student_Wise();
+		 		Query query = session.createQuery(queryString);
+		 		query.setInteger("project_id", Integer.parseInt(s[0]));
+		 		query.setInteger("user_id", p.getUser_id());
+		 		point = (KIT_Point_Student_Wise) query.uniqueResult();
+		 		point.setKit_point(s[1]);
+		 		session.update(point);
+		 	}
+			session.getTransaction().commit();
+	 		
+	 		 
+ 		 }
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+		return true;
 	}
 	
 }

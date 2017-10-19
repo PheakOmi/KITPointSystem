@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.DaoClasses.usersDao;
 import com.EntityClasses.Batch_Master;
+import com.EntityClasses.KIT_Point_Student_Wise;
 import com.EntityClasses.Project_Category_Master;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Member;
@@ -185,6 +186,24 @@ public class usersServiceImpl implements usersService{
 	public List<Project_Master> getProjectReporting(Project_Model project) throws ParseException {
 		// TODO Auto-generated method stub
 		return usersDao1.getProjectReporting(project);
+	}
+	public List<Task_Master> getTaskReporting(Task_Model task) throws ParseException{
+		return usersDao1.getTaskReporting(task);
+	}
+	public void addPointStudent (int students[],int project_id,float point,int hours){
+		usersDao1.addPointStudent(students, project_id, point, hours);
+	}
+	public List<Student> getAllPoint(int batch_id){
+		return usersDao1.getAllPoint(batch_id);
+	}
+	public List<Student> getAllStudentByBatchId(int batch_id){
+		return usersDao1.getAllStudentByBatchId(batch_id);
+	}
+	public List<KIT_Point_Student_Wise> updateAllPoint(int user_id) throws Exception{
+		return usersDao1.updateAllPoint(user_id);
+	}
+	public boolean updatePoint(KIT_Point_Student_Wise point){
+		return usersDao1.updatePoint(point);
 	}
 }
 

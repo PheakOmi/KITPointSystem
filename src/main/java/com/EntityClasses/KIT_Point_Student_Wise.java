@@ -1,13 +1,14 @@
 package com.EntityClasses;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
 
 public class KIT_Point_Student_Wise {
 	private int id;
 	private int user_id;
 	private int project_id;
+	private int batch_id;
 	private String kit_point;
-	private int hours;
+	private String name;
 	private Timestamp created_at;
 	private Timestamp updated_at;
 	public int getId() {
@@ -15,6 +16,12 @@ public class KIT_Point_Student_Wise {
 	}
 	public void setId(int id) {
 		this.id = id;
+	}
+	public int getBatch_id() {
+		return batch_id;
+	}
+	public void setBatch_id(int batch_id) {
+		this.batch_id = batch_id;
 	}
 	public int getUser_id() {
 		return user_id;
@@ -34,11 +41,11 @@ public class KIT_Point_Student_Wise {
 	public void setKit_point(String kit_point) {
 		this.kit_point = kit_point;
 	}
-	public int getHours() {
-		return hours;
+	public String getName() {
+		return name;
 	}
-	public void setHours(int hours) {
-		this.hours = hours;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public Timestamp getCreated_at() {
 		return created_at;

@@ -15,6 +15,14 @@
 		<put-attribute name="title" value="Project" />
 		<put-attribute name="body" value="/WEB-INF/views/view/viewProject.jsp" />		
 	</definition>
+	<definition name="viewPoint" extends="base.definition">
+		<put-attribute name="title" value="Project" />
+		<put-attribute name="body" value="/WEB-INF/views/view/viewPoint.jsp" />		
+	</definition>
+	<definition name="updatePoint" extends="base.definition">
+		<put-attribute name="title" value="Project" />
+		<put-attribute name="body" value="/WEB-INF/views/view/updatePoint.jsp" />		
+	</definition>
 	
 	<definition name="projectDetail" extends="base.definition">
 		<put-attribute name="title" value="Project detail" />
@@ -65,6 +73,14 @@
 		<definition name="viewKitPoint" extends="base.definition">
 		<put-attribute name="title" value="setting" />
 		<put-attribute name="body" value="/WEB-INF/views/view/kitpoint.jsp" />
+	</definition>
+	<definition name="kitpoint_value" extends="base.definition">
+		<put-attribute name="title" value="setting" />
+		<put-attribute name="body" value="/WEB-INF/views/view/kitpoint_value.jsp" />
+	</definition>
+	<definition name="view_update_point" extends="base.definition">
+		<put-attribute name="title" value="setting" />
+		<put-attribute name="body" value="/WEB-INF/views/view/view_update_point.jsp" />
 	</definition>
 		<definition name="createUser" extends="base.definition">
 		<put-attribute name="title" value="setting" />
