@@ -28,22 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	
 
-	private static final String[] ADMIN_MATCHERS = {         
-		"/admin/**",
-		"/setting/**",
-        "/newUser/**",
-        "/batch/**",
-        "/createBatch/**",
-        "/kitpoint/**",
-        "/projectCategory/**",
-        "/valuePerHour/**"
-      
-      
-       
-   
-    };
-	
-	private static final String[] PUBLIC_MATCHERS = {
+	private static final String[] SUPER_ADMIN_MATCHERS = {
 		"/",
 		"/project/**",
 		"/projectDetail/**",
@@ -53,10 +38,39 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		"/task/**",
 		"/profile/**",
 		"/updateTaskDetail**",
-		"/updateProjectDetail**",
 		"/userNProjectCategoryList**",
-		"/updateProject/**"
+		"/admin/**",
+		"/setting/**",
+        "/newUser/**",
+        "/batch/**",
+        "/createBatch/**",
+        "/kitpoint/**",
+        "/projectCategory/**",
+        "/valuePerHour/**",
+		"/updateProjectDetail**",
+ 
+    };
+	private static final String[] ADMIN_MATCHERS = {
+		"/",
+		"/admin/**",
+		"/projectAdminView",
+		"/projectDetailAdminView",
+		"/taskDetailAdminView",
+		"/updateProjectDetail**",
+		"/taskAdminView",
+		"/ProjectNTask**",
+		"/profile/**",
 		
+   
+    };
+	private static final String[] PUBLIC_MATCHERS = {
+		"/",
+		"/projectUserView",
+		"/projectDetailUserView",
+		"/taskDetailUserView",
+		"/taskUserView",
+		"/ProjectNTask**",
+		"/profile/**",
    
     };
 
@@ -65,17 +79,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		
 		http.authorizeRequests()
-		.antMatchers(ADMIN_MATCHERS).access("hasRole('ROLE_ADMIN')").and().formLogin().loginPage("/login").failureUrl("/login?error")
+		.antMatchers(SUPER_ADMIN_MATCHERS).access("hasRole('ROLE_ADMIN')").and().formLogin().loginPage("/login").failureUrl("/login?error")
 				.usernameParameter("username")
 				.passwordParameter("password")
 				.and().logout().logoutSuccessUrl("/login?logout")
 				.and().csrf()
 				.and().exceptionHandling().accessDeniedPage("/403");
-		
-		
+	/*access right for admin */
+		http.authorizeRequests()
+        .antMatchers(ADMIN_MATCHERS).access("hasRole('ROLE_N_ADMIN')").and().formLogin().loginPage("/login").failureUrl("/login?error")
+		   .usernameParameter("username")
+		   .passwordParameter("password")
+		   .and().logout().logoutSuccessUrl("/login?logout")
+		   .and().csrf()
+		   .and().exceptionHandling().accessDeniedPage("/403");
 		
 		http.authorizeRequests()
-        .antMatchers(PUBLIC_MATCHERS).access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_N_ADMIN')").and().formLogin().loginPage("/login").failureUrl("/login?error")
+        .antMatchers(PUBLIC_MATCHERS).access("hasRole('ROLE_USER')").and().formLogin().loginPage("/login").failureUrl("/login?error")
 		   .usernameParameter("username")
 		   .passwordParameter("password")
 		   .and().logout().logoutSuccessUrl("/login?logout")

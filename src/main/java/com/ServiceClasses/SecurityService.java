@@ -50,8 +50,7 @@ public class SecurityService implements UserDetailsService {
 	
 	
 	private User buildUserForAuthentication(com.EntityClasses.User_Info user_info, List<GrantedAuthority> authorities) {
-		System.out.println(user_info.getName()+"  "+user_info.getPassword());
-		return new User(user_info.getName(), user_info.getPassword(), user_info.isEnabled(), true, true, true, authorities);
+			return new User(user_info.getName(), user_info.getPassword(), user_info.isEnabled(), true, true, true, authorities);
 	}
 
 	

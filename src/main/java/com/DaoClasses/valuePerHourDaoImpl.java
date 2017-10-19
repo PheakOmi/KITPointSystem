@@ -19,7 +19,10 @@ import com.EncryptionDecryption.Encryption;
 import com.EncryptionDecryption.SecretKeyClass;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.Project_Master;
+import com.EntityClasses.Project_Member;
 import com.EntityClasses.Project_Stage_Master;
+import com.EntityClasses.Task_Master;
+import com.EntityClasses.User_Info;
 import com.EntityClasses.Value_Per_Hour;
 import com.HibernateUtil.HibernateUtil;
 import com.MainController.ValuePerHourController;
@@ -124,6 +127,129 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 			  }
 			  return project;
 			 }
+		  /*=====================  show Project data based on user============================*/
+			 public List < Project_Master > getProjectDataBaseOnAdmin(String username) {
+				  List < Project_Master > project = new ArrayList < Project_Master > ();
+				  List <User_Info> user_info= new ArrayList <User_Info>();
+				  Transaction trns2 = null;
+				  System.out.print("/n here ");
+				  Session session = HibernateUtil.getSessionFactory().openSession();
+				  try {
+				   trns2 = session.beginTransaction();
+				   String queryStrings="from User_Info where name=:username";
+				   Query query=session.createQuery(queryStrings);
+				   query.setString("username", username);
+				   user_info =query.list();
+				   int user_id = user_info.get(0).getId();
+				   
+				   String queryString= "from Project_Master where project_co=:user_id";
+				   Query querying=session.createQuery(queryString);
+				   querying.setInteger("user_id", user_id);
+				   project=querying.list();
+					  
+				  } catch (RuntimeException e) {
+				   e.printStackTrace();
+				   return project;
+				  } finally {
+				   session.flush();
+				   session.close();
+				  }
+				  return project;
+				 }
+			 /*=====================  show Project data based on user============================*/
+			 public List < Project_Master > getProjectDataBaseOnUser(String username) {
+				  List < Project_Master > project = new ArrayList < Project_Master > ();
+				  List <Project_Member> project_member= new ArrayList <Project_Member>();
+				  Transaction trns2 = null;
+				  Session session = HibernateUtil.getSessionFactory().openSession();
+				  try {
+				   trns2 = session.beginTransaction();
+				   String queryStrings="from Project_Member where user_name=:username";
+				   Query query=session.createQuery(queryStrings);
+				   query.setString("username", username);
+				   project_member =query.list();
+				   for (int i=0 ; i<project_member.size();i++)
+				   {
+				   List < Project_Master > localproject = new ArrayList < Project_Master > ();
+				   int project_id = project_member.get(i).getProject_id();
+				   String queryString= "from Project_Master where id=:project_id";
+				   Query querying=session.createQuery(queryString);
+				   querying.setInteger("project_id", project_id);
+				   localproject=querying.list();
+				   project.addAll(localproject);
+				   }
+				   for (int i =0;i<project.size();i++)
+				   {
+					   System.out.print(project.get(i).getProject_name());
+				   }
+					  
+				  } catch (RuntimeException e) {
+				   e.printStackTrace();
+				   return project;
+				  } finally {
+				   session.flush();
+				   session.close();
+				  }
+				  return project;
+				 }
+			//===========================Get all task for admin===================================
+			    public List<Task_Master> getAllTaskBaseOnAdmin(String username)
+			    {
+			    	List<Task_Master> tasks= new ArrayList<Task_Master>();
+			    	List <User_Info> user_info= new ArrayList <User_Info>();
+			        Transaction trns18 = null;
+			        
+			        Session session = HibernateUtil.getSessionFactory().openSession();
+			        try {
+			            trns18 = session.beginTransaction();
+			            String queryStrings="from User_Info where name=:username";
+						   Query query=session.createQuery(queryStrings);
+						   query.setString("username", username);
+						   user_info =query.list();
+						   int user_id = user_info.get(0).getId();
+						   
+						   String queryString= "from Task_Master where assigned_to=:user_id";
+						   Query querying=session.createQuery(queryString);
+						   querying.setInteger("user_id", user_id);
+						   tasks=querying.list();
+			        } catch (RuntimeException e) {
+			            e.printStackTrace();
+			            return tasks;
+			        } finally {
+			            session.flush();
+			            session.close();
+			        }
+			        return tasks;
+			    }
+			  //===========================Get all task for User===================================
+			    public List<Task_Master> getAllTaskBaseOnUser(String username)
+			    {
+			    	List<Task_Master> tasks= new ArrayList<Task_Master>();
+			    	List <User_Info> user_info= new ArrayList <User_Info>();
+			        Transaction trns18 = null;
+			        
+			        Session session = HibernateUtil.getSessionFactory().openSession();
+			        try {
+			            trns18 = session.beginTransaction();
+			            String queryStrings="from User_Info where name=:username";
+						   Query query=session.createQuery(queryStrings);
+						   query.setString("username", username);
+						   user_info =query.list();
+						   int user_id = user_info.get(0).getId();
+						   
+						   String queryString= "from Task_Master where assigned_to=:user_id";
+						   Query querying=session.createQuery(queryString);
+						   querying.setInteger("user_id", user_id);
+						   tasks=querying.list();
+			        } catch (RuntimeException e) {
+			            e.printStackTrace();
+			            return tasks;
+			        } finally {
+			            session.flush();
+			            session.close();
+			        }
+			        return tasks;
+			    }
 		 /*=====================  show Project data ============================*/
 		public static List<Object> countAllTask() {
 				 Transaction trns3 = null;
@@ -142,6 +268,68 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 				 }
 				 return project ;
 		}
+		 /*=====================  show Project data by status============================*/
+		public List < Project_Master > getProjectBasedOnStatusUser(String statusData,String username) {
+			 List < Project_Master > project = new ArrayList < Project_Master > ();
+			 List <Project_Member> project_member= new ArrayList <Project_Member>();
+			 Transaction trns4 = null;
+			 Session session = HibernateUtil.getSessionFactory().openSession();
+			 try {
+			  trns4 = session.beginTransaction();
+			   String queryStrings="from Project_Member where user_name=:username";
+			   Query query=session.createQuery(queryStrings);
+			   query.setString("username", username);
+			   project_member =query.list();
+			   for (int i=0 ; i<project_member.size();i++)
+			   {
+			   List < Project_Master > localproject = new ArrayList < Project_Master > ();
+			   int project_id = project_member.get(i).getProject_id();
+			   String queryString= "from Project_Master where id=:project_id and status=:statusData";
+			   Query querying=session.createQuery(queryString);
+			   querying.setInteger("project_id", project_id);
+			   querying.setString("statusData", statusData);
+			   localproject=querying.list();
+			   project.addAll(localproject);
+			   }
+			 
+			 } catch (RuntimeException e) {
+			  e.printStackTrace();
+			  return project;
+			 } finally {
+			  session.flush();
+			  session.close();
+			 }
+			 return project;
+			}
+		 /*=====================  show Project data by status============================*/
+			public List < Project_Master > getProjectBasedOnStatusAdmin(String statusData,String username) {
+				 List < Project_Master > project = new ArrayList < Project_Master > ();
+				 List <User_Info> user_info= new ArrayList <User_Info>();
+				 Transaction trns4 = null;
+				 Session session = HibernateUtil.getSessionFactory().openSession();
+				 try {
+				  trns4 = session.beginTransaction();
+				  String queryStrings="from User_Info where name=:username";
+				   Query query=session.createQuery(queryStrings);
+				   query.setString("username", username);
+				   user_info =query.list();
+				   int user_id = user_info.get(0).getId();
+				   
+				   String queryString= "from Project_Master where project_co=:user_id and status=:statusData";
+				   Query querying=session.createQuery(queryString);
+				   querying.setInteger("user_id", user_id);
+				   querying.setString("statusData", statusData);
+				   project=querying.list();
+				 
+				 } catch (RuntimeException e) {
+				  e.printStackTrace();
+				  return project;
+				 } finally {
+				  session.flush();
+				  session.close();
+				 }
+				 return project;
+				}
 		 /*=====================  show Project data by status============================*/
 		public List < Project_Master > getProjectBasedOnStatus(String statusData) {
 			 List < Project_Master > project = new ArrayList < Project_Master > ();

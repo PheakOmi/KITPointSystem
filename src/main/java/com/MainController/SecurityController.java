@@ -1,7 +1,11 @@
 package com.MainController;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
@@ -22,7 +26,29 @@ public class SecurityController {
 	public ModelAndView defaultPage() {
 
 		ModelAndView model = new ModelAndView();
-		model.setViewName("project");
+
+		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		 UserDetails userDetails=(UserDetails) auth.getPrincipal();
+		 
+		 Map<String ,Object> role= new HashMap<String ,Object>();
+		 role.put("role1",userDetails.getAuthorities());
+		 Object role2=(Object) role.get("role1");
+		 StringBuffer userRole=new StringBuffer(role2.toString());
+		 if ("[ROLE_ADMIN]".contentEquals(userRole))
+		 {
+			 model.setViewName("project");
+		 }
+		 if ("[ROLE_N_ADMIN]".contentEquals(userRole))
+		 {
+			 model.setViewName("projectAdminView");
+		 }
+		 if ("[ROLE_USER]".contentEquals(userRole))
+		 {
+			 model.setViewName("projectUserView");
+		 }
+		 
+		 
+		
 		return model;
 
 	}
@@ -31,7 +57,7 @@ public class SecurityController {
 	public ModelAndView adminPage() {
 
 		ModelAndView model = new ModelAndView();
-		model.setViewName("project");
+		model.setViewName("projectAdminView");
 
 		return model;
 
