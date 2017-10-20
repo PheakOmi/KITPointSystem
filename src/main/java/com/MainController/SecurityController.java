@@ -28,6 +28,7 @@ public class SecurityController {
 		ModelAndView model = new ModelAndView();
 
 		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	
 		 UserDetails userDetails=(UserDetails) auth.getPrincipal();
 		 
 		 Map<String ,Object> role= new HashMap<String ,Object>();

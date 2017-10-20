@@ -116,7 +116,7 @@
 	    	                 text: "You have deleted it successfully!",
 	    	                 type: "success"
 	    	             }, function() {
-	    	                 window.location = "task";
+	    	                 window.location = "taskUserView";
 	    	             });
 	    	         }, 10);
 

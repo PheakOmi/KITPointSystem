@@ -40,10 +40,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         "/project/**",
 		"/projectDetail/**",
 		"/ProjectNTask",
-		"/updateTask**",
-		"/taskDetail/**",
 		"/task/**",
-		"/profile/**",
+		
  
     };
 	private static final String[] ADMIN_MATCHERS = {
@@ -51,22 +49,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		"/projectDetailAdminView",
 		"/taskDetailAdminView",
 		"/taskAdminView",
-		"/updateTask**",
+		"/updateTaskDetail/**",
 		"/ProjectNTaskAdmin",
-		"/taskDetail",
 		
    
     };
-	private static final String[] PUBLIC_MATCHERS = {
+	private static final String[] USER_MATCHERS = {
+
 		"/projectUserView",
 		"/projectDetailUserView",
 		"/taskDetailUserView",
 		"/taskUserView",
-		"/updateTask**",
 		"/ProjectNTask**",
    
     };
+	private static final String[] PUBLIC_MATCHERS = {
 
+		"/profile/**",
+		"/updateTask**",
+		"/updateTaskDetail/**",
+		"/taskDetail",
+   
+    };
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
@@ -88,7 +92,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		   .and().exceptionHandling().accessDeniedPage("/403");
 		
 		http.authorizeRequests()
-        .antMatchers(PUBLIC_MATCHERS).access("hasRole('ROLE_USER')").and().formLogin().loginPage("/login").failureUrl("/login?error")
+        .antMatchers(USER_MATCHERS).access("hasRole('ROLE_USER')").and().formLogin().loginPage("/login").failureUrl("/login?error")
+		   .usernameParameter("username")
+		   .passwordParameter("password")
+		   .and().logout().logoutSuccessUrl("/login?logout")
+		   .and().csrf()
+		   .and().exceptionHandling().accessDeniedPage("/403");
+		http.authorizeRequests()
+        .antMatchers(PUBLIC_MATCHERS).access("hasRole('ROLE_USER')or hasRole('ROLE_ADMIN') or hasRole('ROLE_N_ADMIN') ").and().formLogin().loginPage("/login").failureUrl("/login?error")
 		   .usernameParameter("username")
 		   .passwordParameter("password")
 		   .and().logout().logoutSuccessUrl("/login?logout")
@@ -107,3 +118,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
