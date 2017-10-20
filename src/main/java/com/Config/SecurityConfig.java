@@ -30,15 +30,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	private static final String[] SUPER_ADMIN_MATCHERS = {
 		"/",
-		"/project/**",
-		"/projectDetail/**",
-		"/ProjectNTask/**",
-		"/updateTask/**",
-		"/taskDetail/**",
-		"/task/**",
-		"/profile/**",
-		"/updateTaskDetail**",
-		"/userNProjectCategoryList**",
 		"/admin/**",
 		"/setting/**",
         "/newUser/**",
@@ -47,7 +38,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         "/kitpoint/**",
         "/projectCategory/**",
         "/valuePerHour/**",
-		"/updateProjectDetail**",
+        "/project/**",
+		"/projectDetail/**",
+		"/ProjectNTask**",
+		"/updateTask**",
+		"/taskDetail/**",
+		"/task/**",
+		"/profile/**",
  
     };
 	private static final String[] ADMIN_MATCHERS = {
@@ -56,10 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		"/projectAdminView",
 		"/projectDetailAdminView",
 		"/taskDetailAdminView",
-		"/updateProjectDetail**",
 		"/taskAdminView",
 		"/ProjectNTask**",
-		"/profile/**",
 		
    
     };
@@ -70,7 +65,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		"/taskDetailUserView",
 		"/taskUserView",
 		"/ProjectNTask**",
-		"/profile/**",
    
     };
 

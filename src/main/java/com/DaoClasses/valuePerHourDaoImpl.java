@@ -177,12 +177,7 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 				   querying.setInteger("project_id", project_id);
 				   localproject=querying.list();
 				   project.addAll(localproject);
-				   }
-				   for (int i =0;i<project.size();i++)
-				   {
-					   System.out.print(project.get(i).getProject_name());
-				   }
-					  
+				   }  
 				  } catch (RuntimeException e) {
 				   e.printStackTrace();
 				   return project;

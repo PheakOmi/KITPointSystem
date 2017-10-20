@@ -34,6 +34,7 @@ public class SecurityController {
 		 role.put("role1",userDetails.getAuthorities());
 		 Object role2=(Object) role.get("role1");
 		 StringBuffer userRole=new StringBuffer(role2.toString());
+		 System.out.print(userRole);
 		 if ("[ROLE_ADMIN]".contentEquals(userRole))
 		 {
 			 model.setViewName("project");
@@ -46,8 +47,6 @@ public class SecurityController {
 		 {
 			 model.setViewName("projectUserView");
 		 }
-		 
-		 
 		
 		return model;
 
