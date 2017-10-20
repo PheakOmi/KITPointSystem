@@ -64,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    
     };
 	private static final String[] PUBLIC_MATCHERS = {
-
+        "/",
 		"/profile/**",
 		"/updateTask**",
 		"/updateTaskDetail/**",
