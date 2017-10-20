@@ -1,41 +1,8 @@
-<body>
+<body onload="load()">
 <script type="text/javascript">
-ip="a";
-var db_name;
-var admin_name;
-var admin_password;
 var buttonLabel = "Create";
-
-function doesConnectionExist() {
-    var xhr = new XMLHttpRequest();
-    var file = "http://kit.edu.kh/admission.php";
-    var randomNum = Math.round(Math.random() * 10000);
- 
-    xhr.open('HEAD', file + "?rand=" + randomNum, true);
-    xhr.send();
-     
-    xhr.addEventListener("readystatechange", processRequest, false);
- 
-    function processRequest(e) {
-      if (xhr.readyState == 4) {
-        if (xhr.status >= 200 && xhr.status < 304) {
-          alert("connection exists!");
-        } else {
-          alert("connection doesn't exist!");
-        }
-      }
-    }
-}
-
-
-
-
-
-
-
 setIp = function ()
 {
-console.log(ip);
 swal.withForm({
 title: 'SMS Server Information',
 text: 'Any text that you consider useful for the form',
@@ -44,10 +11,10 @@ confirmButtonColor: '#8CD4F5',
 confirmButtonText: buttonLabel,
 closeOnConfirm: false,
 formFields: [
-    { id: 'ip', placeholder:'IP',value:ip},
-    { id: 'db_name', placeholder:'Database Name',value:db_name },
-    { id: 'admin_name', placeholder:'Admin Name',value:admin_name },
-    { id: 'admin_password', placeholder:'Admin Password',value:admin_password }
+    { id: 'ip', placeholder:'IP',value:p.data.ip},
+    { id: 'db_name', placeholder:'Database Name',value:p.data.db_name },
+    { id: 'admin_name', placeholder:'Admin Name',value:p.data.admin_name },
+    { id: 'admin_password', placeholder:'Admin Password',value:p.data.admin_password }
 ]
 }, 
 function(isConfirm) {
@@ -93,6 +60,8 @@ $.ajax({
 
 }
 
+
+
 confirm =  function(id)
 {
 swal({
@@ -101,7 +70,7 @@ swal({
     type: "warning",
     showCancelButton: true,
     confirmButtonColor: "#30A9DE",
-    confirmButtonText: "Update	",
+    confirmButtonText: buttonLabel,
     cancelButtonText: "Cancel",
     closeOnConfirm: false,
     closeOnCancel: false
@@ -131,6 +100,7 @@ swal({
     });
     }
 
+
 function load(){
 	//ip = '';
 		$.ajax({
@@ -140,20 +110,37 @@ function load(){
 				//console.log(response);
 				if(response.data!=null)
 					{
-					info = response.data; 
-					ip = info.ip;
-					console.log("In"+ip);
-					db_name = info.db_name;
-					admin_name = info.admin_name;
-					admin_password  = info.admin_password;
+					p = response;
+					if(p.length>0)
 					buttonLabel = "Update";
-					}				
+					}
+				setIp();
 				}				
 	});	
 }
-console.log(ip);
-load();
-setIp();
+
+
+function doesConnectionExist() {
+    var xhr = new XMLHttpRequest();
+    var file = "http://kit.edu.kh/admission.php";
+    var randomNum = Math.round(Math.random() * 10000);
+ 
+    xhr.open('HEAD', file + "?rand=" + randomNum, true);
+    xhr.send();
+     
+    xhr.addEventListener("readystatechange", processRequest, false);
+ 
+    function processRequest(e) {
+      if (xhr.readyState == 4) {
+        if (xhr.status >= 200 && xhr.status < 304) {
+          alert("connection exists!");
+        } else {
+          alert("connection doesn't exist!");
+        }
+      }
+    }
+}
+
 
 </script>
 </body>
