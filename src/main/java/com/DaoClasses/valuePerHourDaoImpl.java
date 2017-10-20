@@ -203,9 +203,8 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 						   user_info =query.list();
 						   int user_id = user_info.get(0).getId();
 						   
-						   String queryString= "from Task_Master where assigned_to=:user_id";
+						   String queryString= "from Task_Master";
 						   Query querying=session.createQuery(queryString);
-						   querying.setInteger("user_id", user_id);
 						   tasks=querying.list();
 			        } catch (RuntimeException e) {
 			            e.printStackTrace();
