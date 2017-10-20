@@ -23,6 +23,9 @@ load = function(){
 	      });
 }
 $(document).ready(function(){
+	$("[name=date]").keydown(function (event) {
+	    event.preventDefault();
+	});
 	$("#submitBtn").click(function(e){
 		e.preventDefault();
 		var t = $("#to").val();
@@ -156,33 +159,10 @@ generateReport = function()
 
 
 function HTMLtoPDF(){
-	var pdf = new jsPDF('p', 'pt', 'letter');
-	source = $('#tablewrapper')[0];
-	specialElementHandlers = {
-		'#bypassme': function(element, renderer){
-			return true
-		}
-	}
-	margins = {
-	    top: 50,
-	    left: 20,
-	    right: 20,
-	    width: 700
-	  };
-	pdf.fromHTML(
-	  	source // HTML string or DOM elem ref.
-	  	, margins.left // x coord
-	  	, margins.top // y coord
-	  	, {
-	  		'width': margins.width // max width of content on PDF
-	  		, 'elementHandlers': specialElementHandlers
-	  	},
-	  	function (dispose) {
-	  	  // dispose: object with X, Y of the last line add to the PDF
-	  	  //          this allow the insertion of new lines after html
-	        pdf.save('html2pdf.pdf');
-	      }
-	  )		
+	var doc = new jsPDF()
+
+	doc.text($("#tablewrapper")[0], 10, 10)
+	doc.save('a4.pdf')
 	}
 function formatDate(date) {
     var d = new Date(date),
@@ -263,6 +243,7 @@ function formatDate(date) {
                                         From</label>
                                     <div class="col-sm-4 pull-right">
                                         <input class="form-control" id="from"  name="date" placeholder="MM/DD/YYY" type="text" required/>
+                                        
                                     </div>
                                 </div>
                                 <div class="form-group">

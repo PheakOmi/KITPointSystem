@@ -2,7 +2,7 @@
 <script type="text/javascript">
 	load = function(){	
 		$.ajax({
-			url:'ProjectNUser',
+			url:'ProjectNUser2',
 			type:'GET',
 			success: function(response){
 				
@@ -77,7 +77,7 @@
     				            text: "You have created it successfully!",
     				            type: "success"
     				        }, function() {
-    				            window.location = "task";
+    				            window.location = "taskAdminView";
     				        });
     				    }, 10);
     					

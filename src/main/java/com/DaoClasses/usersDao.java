@@ -100,4 +100,5 @@ public interface usersDao {
 	public List<Student> getAllStudentByBatchId(int batch_id);
 	public List<KIT_Point_Student_Wise> updateAllPoint(int user_id) throws Exception;
 	public boolean updatePoint(KIT_Point_Student_Wise point);
+	public int getUserIdByName(String name);
 }

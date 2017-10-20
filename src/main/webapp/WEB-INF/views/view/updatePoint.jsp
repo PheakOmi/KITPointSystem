@@ -22,9 +22,10 @@ load = function()
 {
 	$("#update").hide();
 	var data = ${message};
-	$("#update").attr("user_id",data[0].user_id);
-	if(data.length==0)
+	if(isEmpty(data))
 		$("#edit").hide();
+	else
+		$("#update").attr("user_id",data[0].user_id);
 //	$("#update").attr("user_id",data.)
 	var sum=0;
 	for(i=0;i<data.length;i++)
@@ -74,8 +75,15 @@ function update(){
 		traditional: true,			
 		success: function(response){
 				if(response.status=="200")
-					{swal("Success!", response.message, "success")
-					window.history.back();}
+					{setTimeout(function() {
+				        swal({
+				            title: "Done!",
+				            text: "You have updated it successfully!",
+				            type: "success"
+				        }, function() {
+				            window.location = "view_update_point";
+				        });
+				    }, 10);}
 				else 
 					swal("Oops!", response,message, "error")
 					
@@ -88,6 +96,13 @@ function update(){
 			});	
 	
 }
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}	
 $(document).ready(function() {
     $('li#settingStlye').addClass('active');
 });

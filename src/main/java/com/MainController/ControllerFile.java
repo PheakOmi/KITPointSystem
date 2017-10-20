@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.DaoClasses.StudentFromOdoo_BatchId;
+import com.DaoClasses.valuePerHourDaoImpl;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.KIT_Point_Student_Wise;
 import com.EntityClasses.Project_Category_Master;
@@ -50,6 +51,8 @@ public class ControllerFile {
 		
 	@Autowired
 	usersService usersService1;	
+	@Autowired
+	valuePerHourDaoImpl valuePerHour;
 	
 //	=================project============================
 	@RequestMapping(value="/project", method=RequestMethod.GET)
@@ -84,6 +87,21 @@ public class ControllerFile {
 	public ModelAndView viewProjectdetail() {
 		//String message = "Hello World";
 		return new ModelAndView("projectDetail");
+	}
+	@RequestMapping(value="/profileMenu", method=RequestMethod.GET)
+	public ModelAndView profileMenu() {
+		//String message = "Hello World";
+		return new ModelAndView("profileMenu");
+	}
+	@RequestMapping(value="/showCurrentPoint", method=RequestMethod.GET)
+	public ModelAndView showCurrentPoint() {
+		//String message = "Hello World";
+		return new ModelAndView("showCurrentPoint");
+	}
+	@RequestMapping(value="/showEditProfile", method=RequestMethod.GET)
+	public ModelAndView showEditProfile() {
+		//String message = "Hello World";
+		return new ModelAndView("showEditProfile");
 	}
 //	=================project report table============================
 	@RequestMapping(value="/projectTable", method=RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
@@ -196,6 +214,51 @@ public class ControllerFile {
 				if (id==0)	
 				 {
 					List<Project_Master> listProject = usersService1.getAllProject();
+					List<Student> listStudent = usersService1.getAllStudent();
+					if (listProject == null || listStudent ==null)
+						{
+							error.put("message","Data not found");
+							return error;
+						}
+					else
+						{
+							map.put("project", listProject);
+							map.put("student", listStudent);
+							return map;
+						}	
+				}
+				
+				else
+				{
+					Task_Master currenttask = usersService1.getTaskById(id);
+					int projectId = usersService1.getProjectIdByTaskId(id);
+					List<Project_Member> listMember = usersService1.getMemberByProjectId(projectId);
+					Project_Master project = usersService1.getProjectById(projectId);
+					if (currenttask == null||listMember==null)
+					{
+						error.put("message","Data not found");
+						return error;
+					}
+				else
+					{
+						map.put("currenttask", currenttask);
+						map.put("member", listMember);
+						map.put("project", project);
+						return map;
+					}	
+				}
+}
+			//=======================get Project and User===========================
+			@RequestMapping(value="/ProjectNUser2", method=RequestMethod.GET)
+			public @ResponseBody Map<?,?> getProjectNUser2(@RequestParam(value = "id", required=false,defaultValue = "0") Integer id) throws Exception{				
+				 Map<String,Object> map = new HashMap<String,Object>();
+				 Map<String,Object> error = new HashMap<String,Object>();
+				   // DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
+				if (id==0)	
+				 {
+					Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+					UserDetails userDetails=(UserDetails) auth.getPrincipal();
+					List<Project_Master> listProject= valuePerHour.getProjectDataBaseOnAdmin(userDetails.getUsername());
 					List<Student> listStudent = usersService1.getAllStudent();
 					if (listProject == null || listStudent ==null)
 						{
@@ -401,6 +464,21 @@ public class ControllerFile {
 						e.printStackTrace();
 					}
 					return new ModelAndView("updatePoint", "message", json);
+				}
+			@RequestMapping(value="/updateAllPoint2", method=RequestMethod.GET)
+			public ModelAndView updateAllPoint2() throws Exception{
+					Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+					UserDetails userDetails=(UserDetails) auth.getPrincipal();
+					ObjectMapper mapper = new ObjectMapper();
+					List<KIT_Point_Student_Wise> points =  usersService1.updateAllPoint(usersService1.getUserIdByName(userDetails.getUsername()));
+					System.out.println("size "+points.size());
+					String json = "";
+					try {
+						json = mapper.writeValueAsString(points);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return new ModelAndView("showCurrentPoint", "message", json);
 				}
 //========================Update Project========================================================
 			@RequestMapping(value="/updateProject", method=RequestMethod.GET)
@@ -660,7 +738,7 @@ public class ControllerFile {
 					 else
 					 {
 						 map.put("status", 111);
-						 map.put("message", "No updation"); 
+						 map.put("message", "No updation, Please check with SMS server info. properly!"); 
 					 }
 					 return map;
 				}
@@ -729,13 +807,13 @@ public @ResponseBody Map<String,Object> saveServerInfo(Sms_Server_Info info){
 	else
 	{
 		if(usersService1.updateServerInfo(info)){
-			map.put("status","200");
+			map.put("status","201");
 			map.put("message","Your record has been updated successfully");
 			return map;
 		}
 		else {
 			//System.out.println("Else Runs");
-			map.put("status","999");
+			map.put("status","1000");
 			map.put("message","Your record has not been updated successfully");
 			return map;
 		}
@@ -786,7 +864,7 @@ public @ResponseBody Map<String,Object> saveServerInfo(Sms_Server_Info info){
 		}
 		else {
 			map.put("status","999");
-			map.put("message","Email already existed");
+			map.put("message","Email or Name already existed");
 			return map;
 		}
 		

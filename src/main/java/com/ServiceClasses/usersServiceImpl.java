@@ -205,5 +205,8 @@ public class usersServiceImpl implements usersService{
 	public boolean updatePoint(KIT_Point_Student_Wise point){
 		return usersDao1.updatePoint(point);
 	}
+	public int getUserIdByName(String name){
+		return usersDao1.getUserIdByName(name);
+	}
 }
 

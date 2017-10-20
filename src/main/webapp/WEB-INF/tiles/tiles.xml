@@ -78,6 +78,18 @@
 		<put-attribute name="title" value="Project detail" />
 		<put-attribute name="body" value="/WEB-INF/views/view/projectDetail.jsp" />
 	</definition>
+	<definition name="showCurrentPoint" extends="base.definition">
+		<put-attribute name="title" value="Current Point" />
+		<put-attribute name="body" value="/WEB-INF/views/view/showCurrentPoint.jsp" />
+	</definition>
+	<definition name="showEditProfile" extends="base.definition">
+		<put-attribute name="title" value="Edit Profile" />
+		<put-attribute name="body" value="/WEB-INF/views/view/showEditProfile.jsp" />
+	</definition>
+	<definition name="profileMenu" extends="base.definition">
+		<put-attribute name="title" value="Profile" />
+		<put-attribute name="body" value="/WEB-INF/views/view/profileMenu.jsp" />
+	</definition>
 	
 	<definition name="updateProjectDetail" extends="base.definition">
 		<put-attribute name="title" value="Update project" />

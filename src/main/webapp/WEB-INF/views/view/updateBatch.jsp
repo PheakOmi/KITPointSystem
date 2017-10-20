@@ -1,26 +1,35 @@
 <body onload="load()">
 <script type="text/javascript">
-var buttonLabel = "Create";
-setIp = function ()
+setIp = function (s,p)
 {
+var ip="";
+var db_name="";
+var admin_name="";
+var admin_password="";
+if(!isEmpty(p))
+	{
+	ip=p.data.ip;
+	db_name=p.data.db_name;
+	admin_name=p.data.admin_name;
+	admin_password=p.data.admin_password;
+	}
 swal.withForm({
 title: 'SMS Server Information',
 text: 'Any text that you consider useful for the form',
 showCancelButton: true,
 confirmButtonColor: '#8CD4F5',
-confirmButtonText: buttonLabel,
+confirmButtonText: s,
 closeOnConfirm: false,
 formFields: [
-    { id: 'ip', placeholder:'IP',value:p.data.ip},
-    { id: 'db_name', placeholder:'Database Name',value:p.data.db_name },
-    { id: 'admin_name', placeholder:'Admin Name',value:p.data.admin_name },
-    { id: 'admin_password', placeholder:'Admin Password',value:p.data.admin_password }
+    { id: 'ip', placeholder:'IP',value:ip},
+    { id: 'db_name', placeholder:'Database Name',value:db_name },
+    { id: 'admin_name', placeholder:'Admin Name',value:admin_name},
+    { id: 'admin_password', placeholder:'Admin Password',value: admin_password}
 ]
 }, 
 function(isConfirm) {
 	
 	if (isConfirm) {
-console.log(this.swalForm.ip);
 $.ajax({
 	url:'serverInfoSubmit',
 	type:'GET',
@@ -32,27 +41,26 @@ $.ajax({
 	success: function(response)
 		{
 			if(response.status=="200")
-				{
-				setTimeout(function() {
-			        swal({
-			            title: "Done!",
-			            text: response.message,
-			            type: "success"
-			        }, function() {
-			            window.location = "setting";
-			        });
-			    }, 10);
-				}
-			    
-			else 
-				swal("Oops!", "Batch name already existed", "error")
+			{
+				swal("Done!",response.message,"success")
+				confirm();
+			}
+			else if(response.status=="201")
+			{
+				swal("Done!",response.message,"success")
+				confirm();
+			}
+			else if(response.status=="999")
+				swal("Oops!", response.message, "error")
+			else if(response.status=="1000")
+				swal("Oops!", response.message, "error")
 				
 		},
 	error: function(err){
 			console.log(JSON.stringify(err));
 			 } 
 	
-		});
+		});	
 }
 	else 
 		 location.href = 'setting';
@@ -62,7 +70,7 @@ $.ajax({
 
 
 
-confirm =  function(id)
+confirm =  function()
 {
 swal({
     title: "Do you want to update batch and student information?",
@@ -70,7 +78,7 @@ swal({
     type: "warning",
     showCancelButton: true,
     confirmButtonColor: "#30A9DE",
-    confirmButtonText: buttonLabel,
+    confirmButtonText: "Update",
     cancelButtonText: "Cancel",
     closeOnConfirm: false,
     closeOnCancel: false
@@ -83,11 +91,41 @@ swal({
     			success: function(response){
     			message = response.message;
     			if(response.status=="999")
-    				alert("Both are updated");
+				{
+				setTimeout(function() {
+			        swal({
+			            title: "Done!",
+			            text: response.message,
+			            type: "success"
+			        }, function() {
+			            window.location = "batch";
+			        });
+			    }, 10);
+				}
     			else if(response.status=="888")
-    				alert("Batch updated");
+				{
+				setTimeout(function() {
+			        swal({
+			            title: "Done!",
+			            text: response.message,
+			            type: "success"
+			        }, function() {
+			            window.location = "batch";
+			        });
+			    }, 10);
+				}
     			else
-    				alert("No updation");
+				{
+				setTimeout(function() {
+			        swal({
+			            title: "Oops!",
+			            text: response.message,
+			            type: "error"
+			        }, function() {
+			            window.location = "batch";
+			        });
+			    }, 10);
+				}
     					},
 				error: function(err){
 					console.log(JSON.stringify(err));
@@ -107,17 +145,30 @@ function load(){
 		url:'getSmsServerInfo',
 		type:'GET',
 		success: function(response){
+				var s;
 				//console.log(response);
-				if(response.data!=null)
+				if(response.status=="999")
 					{
+					s = "Update";
 					p = response;
-					if(p.length>0)
-					buttonLabel = "Update";
 					}
-				setIp();
+				else{
+					s = "Create";
+				}
+				confirm();
+				setIp(s,p);
 				}				
 	});	
 }
+
+
+function isEmpty(obj) {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+}	
 
 
 function doesConnectionExist() {
@@ -140,7 +191,9 @@ function doesConnectionExist() {
       }
     }
 }
-
+$(document).ready(function(){
+	
+});
 
 </script>
 </body>

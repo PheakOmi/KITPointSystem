@@ -27,6 +27,9 @@ load = function(){
 
 	
 $(document).ready(function(){
+	$("[name=date]").keydown(function (event) {
+	    event.preventDefault();
+	});
 	$("#submitBtn").click(function(e){
 		e.preventDefault();
 		var t = $("#to").val();

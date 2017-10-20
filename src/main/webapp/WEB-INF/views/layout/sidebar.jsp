@@ -26,9 +26,6 @@
 	                    <li id="taskStlye">
 	                        <a href="taskAdminView"><i class="fa fa-fw fa-file fa-3x"></i>&nbsp;&nbsp;Tasks</a>
 	                    </li>
-	                    <li id="reportingStyle">
-	                        <a href="reporting"><i class="fa fa-fw fa-bar-chart-o fa-3x"></i>&nbsp;Report</a>
-	                    </li>
             		</sec:authorize>
             		 <sec:authorize access="hasRole('ROLE_USER')">
 	                    <li id="projectStlye">
@@ -38,9 +35,7 @@
 	                    <li id="taskStlye">
 	                        <a href="taskUserView"><i class="fa fa-fw fa-file fa-3x"></i>&nbsp;&nbsp;Tasks</a>
 	                    </li>
-	                    <li id="reportingStyle">
-	                        <a href="reporting"><i class="fa fa-fw fa-bar-chart-o fa-3x"></i>&nbsp;Report</a>
-	                    </li>
+	                    
             		</sec:authorize>
                 </ul>
 </div>

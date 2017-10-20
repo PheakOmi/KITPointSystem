@@ -3,7 +3,7 @@
 	load = function(){
 		var id = ${id};
 		$.ajax({
-			url:'ProjectNUser',
+			url:'ProjectNUser2',
 			type:'GET',
 			data: {id: id},
 			success: function(response){

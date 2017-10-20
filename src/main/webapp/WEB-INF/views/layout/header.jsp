@@ -25,7 +25,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="color:#fff;"><i class="fa fa-user"></i> ${pageContext.request.userPrincipal.name}<b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="profile"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            <a href="profileMenu"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
 
                         <li class="divider"></li>

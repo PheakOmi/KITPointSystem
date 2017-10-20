@@ -175,7 +175,7 @@
  <!-- Page Heading -->
  <div class="row">
   <h3 class="page-header">
-   Task <a href="taskDetail" class="btn btn-default pull-right"
+   Task <a href="taskDetailAdminView" class="btn btn-default pull-right"
     style="margin-right: 40px; margin-bottom: 10px;">Create</a>
   </h3>
  </div>

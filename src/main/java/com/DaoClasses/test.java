@@ -46,14 +46,22 @@ import com.ModelClasses.ValuePerHourModel;
 @Repository
 public class test{
 		 public static void main(String args[]) throws Exception {
-			 	String str = "10,30.0";
-			 	for (String st:str.split("/"))
-			 	{
-			 		System.out.print("1   ");
-			 		String[] s=st.split(",");
-			 		System.out.print(s[0]+" ");
-			 		System.out.println(s[1]);
-			 	}
+			 Sms_Server_Info info= new Sms_Server_Info();
+		        Transaction trns30 = null;
+		        Session session = HibernateUtil.getSessionFactory().openSession();
+		        try {
+		            trns30 = session.beginTransaction();
+		            String queryString = "from Sms_Server_Info";
+		            Query query = session.createQuery(queryString);
+		            info=(Sms_Server_Info)query.uniqueResult();
+		        } catch (RuntimeException e) {
+		            e.printStackTrace();
+		       
+		        } finally {
+		            session.flush();
+		            session.close();
+		        }
+		        System.out.println(info);
 		 }
 		
 }

@@ -140,7 +140,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Project Name</label>
                                 <div class="col-sm-8">
-                                	<input type="text" class="form-control" maxlength="30" id="project_name" required>
+                                	<input type="text" class="form-control" maxlength="30" id="project_name" disabled>
                                 </div>
                         </div>
                             <div class="form-group">

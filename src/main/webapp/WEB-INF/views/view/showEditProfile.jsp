@@ -1,3 +1,5 @@
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <script>
 $(document).ready(function(){
 	
@@ -81,6 +83,13 @@ $(document).ready(function(){
                                 <label class="col-sm-2 control-label">Confirm Password</label>
                                 <div  class="col-sm-10">
                                 <input type="password" class="form-control" id="confirmpassword" required>
+                                </div>
+                       		 </div>
+                       		 <div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div  class="col-sm-10">
+                                <sec:authorize access="hasRole('ROLE_USER')"><button class="btn btn-default" onclick="relocate_create()">CREATE</button>
+                                </sec:authorize>
                                 </div>
                        		 </div>
                        

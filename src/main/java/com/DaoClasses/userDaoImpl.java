@@ -57,6 +57,7 @@ import org.springframework.stereotype.Repository;
 
 
 
+
 //import org.springframework.stereotype.Service;
 import com.EncryptionDecryption.Decryption;
 import com.EncryptionDecryption.Encryption;
@@ -133,9 +134,10 @@ public class userDaoImpl implements usersDao{
         int batch_id = user.getBatch_id();
         try {
 
-        	String queryString = "from User_Info where email= :email";
+        	String queryString = "from User_Info where email= :email or name= :name";
             Query query = session.createQuery(queryString);
             query.setString("email",email );
+            query.setString("name",username );
             List<User_Info> userDataBase=query.list();
         	if (userDataBase.size()==0){
         		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -2223,6 +2225,29 @@ public class userDaoImpl implements usersDao{
 			session.close();
 		}
 		return true;
+	}
+	public int getUserIdByName(String name){
+		User_Info user = new User_Info();
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			trns25  = session.beginTransaction();
+ 		 	String queryString  = "from User_Info where name=:name";
+ 		 	Query query = session.createQuery(queryString);
+ 		 	query.setString("name", name);
+ 		 	user = (User_Info) query.uniqueResult();
+ 		 	
+		}
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();			
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+		return user.getId();
+		
 	}
 	
 }
