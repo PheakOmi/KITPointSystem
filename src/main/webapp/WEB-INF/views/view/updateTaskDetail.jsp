@@ -58,6 +58,12 @@
 	}
 	
 	$(document).ready(function(){
+		document.querySelector("#time").addEventListener("keypress", function (evt) {
+	        if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+	        {
+	            evt.preventDefault();
+	        }
+	    });
 		$("[name=date]").keydown(function (event) {
 		    event.preventDefault();
 		});
@@ -78,11 +84,6 @@
 				swal("Oops!", "You cannot input special characters", "error")  
 				return
 				}
-			if(format.test(time))
-			{
-			swal("Oops!", "You can only input number", "error")  
-			return
-			}
     		id = ${id};
     		var deadline = Date.parse($("#deadline").val());
             var startdate = Date.parse($("#startdate").val());
@@ -97,9 +98,9 @@
     		type:'GET',
     		data:{		id:id,
     					project_id:$("#project").val(),
-    					name:$("#name").val(),
+    					name:$("#name").val().trim(),
     					assigned_to:$("#user").val(),
-    					description:$("#description").val(),
+    					description:$("#description").val().trim(),
     					status:$("#status").val(),
     					time_spend:parseInt($("#time").val()),
     					deadline:$("#deadline").val(),
@@ -159,7 +160,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Planning Hour</label>
-                                <input class="form-control" id="time" maxlength="4" type="text" required>
+                                <input class="form-control" id="time" maxlength="3" type="text" required>
                         	</div>
     						<div class="form-group">
                                 <label>Description</label>

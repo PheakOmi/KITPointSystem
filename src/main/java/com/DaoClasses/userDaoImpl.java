@@ -1223,6 +1223,7 @@ public class userDaoImpl implements usersDao{
             query.setInteger("id",id);
             project=(Project_Master)query.uniqueResult();
             deleteMemberByProjectId(id);
+            deletePointByProjectId(id);
             deleteTaskByProjectId(id);
             session.delete(project);
             session.getTransaction().commit();
@@ -1282,6 +1283,24 @@ public class userDaoImpl implements usersDao{
         try {
            	trns23 = session.beginTransaction();
             String queryString = "delete from Project_Member where project_id=:id";
+            Query query = session.createQuery(queryString);
+            query.setInteger("id",id);
+            query.executeUpdate();
+            session.getTransaction().commit();
+         
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+        } finally {
+            session.flush();
+            session.close();
+        }
+	}
+	public void deletePointByProjectId(int id){
+		Transaction trns23 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+           	trns23 = session.beginTransaction();
+            String queryString = "delete from KIT_Point_Student_Wise where project_id=:id";
             Query query = session.createQuery(queryString);
             query.setInteger("id",id);
             query.executeUpdate();

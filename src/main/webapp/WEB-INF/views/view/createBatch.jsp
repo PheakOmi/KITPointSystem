@@ -69,7 +69,7 @@ $(document).ready(function(){
 				url:'batchSubmit',
 				type:'GET',
 				data:{
-						name:$("#name1").val(),
+						name:$("#name1").val().trim(),
 						start_date:$("#startdate").val(),
 						end_date:$("#enddate").val()},
 				success: function(response)

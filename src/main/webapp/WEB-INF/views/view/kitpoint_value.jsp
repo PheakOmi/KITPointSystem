@@ -13,13 +13,16 @@
 			
 		});
 		}
+	
+	
 		$(document).ready(function(){
-			$("#value1").keyup(function () {
-		    
-		      if (this.value != this.value.replace(/[^0-9]/g, '')) {
-		         this.value = this.value.replace(/[^0-9]/g, '');
-		      }
-			});
+			document.querySelector("#value1").addEventListener("keypress", function (evt) {
+		        if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+		        {
+		            evt.preventDefault();
+		        }
+		    });
+	
 			
 			$('li#settingStlye').addClass('active');
 			$("#myForm").on('submit',function(e){
@@ -66,7 +69,7 @@
                                 <label class="col-sm-2 control-label" id="point">1 KIT Point</label>
                                 <div class="col-sm-10 input-group">
                                 	<span class="input-group-addon">$</span>
-                               		 <input type="text" maxlength="10" class="form-control" id="value1" name="value" required>
+                               		 <input type="text" maxlength="3" class="form-control" id="value1" name="value" required>
                                 </div>
                         </div>
                          <div class="col-sm-offset-2 col-sm-10">
@@ -76,4 +79,3 @@
                       </div>
                     </div>
        </form>
-</script>

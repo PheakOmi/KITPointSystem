@@ -84,6 +84,12 @@
 	}
 
 	$(document).ready(function(){
+		document.querySelector("#planninghour").addEventListener("keypress", function (evt) {
+	        if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+	        {
+	            evt.preventDefault();
+	        }
+	    });
 		$('#teamleader').on('change', function() {
 			$('#member').children("option[value=" + this.value + "]").remove();	
 			})
@@ -126,11 +132,6 @@
 			swal("Oops!", "You cannot input special characters", "error")  
 			return
 			}
-    		if(formats.test(planninghour))
-    			{
-    			swal("Oops!", "You can only input number", "error")  
-    			return
-    			}
             id = ${id};
             var deadline = Date.parse($("#deadline").val());
             var startdate = Date.parse($("#startdate").val());
@@ -245,7 +246,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Planning Hours</label>
                                 <div class="col-sm-8">
-                                	<input class="form-control" maxlength="4" id="planninghour" type="number" required>
+                                	<input class="form-control" maxlength="4" id="planninghour" type="text" required>
                                 </div>
                         </div>
                            <div class="form-group">

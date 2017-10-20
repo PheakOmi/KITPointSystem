@@ -16,7 +16,7 @@
 						  <div class="form-group">
 						    <label class="col-sm-2 control-label">Name</label>
 						    <div class="col-sm-10">
-						      <input type="text" class="form-control" name="name" id="name" required>
+						      <input type="text" class="form-control" name="name" maxlength="30" id="name" required>
 						    </div>
 						  </div>
 						  <div class="form-group">
@@ -86,9 +86,9 @@
 						 $.ajax({
 								url:'addUser',
 								type:"GET",
-								data:{name:$('#name').val(),
-									email:$('#email').val(), 
-									password:$('#password').val(),
+								data:{name:$('#name').val().trim(),
+									email:$('#email').val().trim(), 
+									password:$('#password').val().trim(),
 									user_type:$("input[name='optionsRadiosInline']:checked").val(),
 									batch:$('#batch').val()},
 								success: function(response){

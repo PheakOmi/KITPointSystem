@@ -20,6 +20,12 @@
 		
 	}
 	$(document).ready(function(){
+		document.querySelector("#time").addEventListener("keypress", function (evt) {
+	        if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+	        {
+	            evt.preventDefault();
+	        }
+	    });
 		$("[name=date]").keydown(function (event) {
 		    event.preventDefault();
 		});
@@ -41,11 +47,6 @@
 				swal("Oops!", "You cannot input special characters", "error")  
 				return
 				}
-			if(format.test(time))
-			{
-			swal("Oops!", "Only Integer Accepted in Planning Hour", "error")  
-			return
-			}
 			var deadline = Date.parse($("#deadline").val());
             var startdate = Date.parse($("#startdate").val());
             var enddate = Date.parse($("#enddate").val());
@@ -58,9 +59,9 @@
              		url:'saveTask',
              		type:'GET',
              		data:{		project_id:$("#project").val(),
-             					name:$("#name").val(),
+             					name:$("#name").val().trim(),
              					assigned_to:$("#user").val(),
-             					description:$("#description").val(),
+             					description:$("#description").val().trim(),
              					status:$("#status").val(),
              					time_spend:parseInt($("#time").val()),
              					deadline:$("#deadline").val(),
@@ -123,7 +124,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Planning Hour</label>
-                                <input class="form-control" maxlength="4" id="time" type="text" required>
+                                <input class="form-control" maxlength="3" id="time" type="text" required>
                         	</div>
     						<div class="form-group">
                                 <label>Description</label>
