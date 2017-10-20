@@ -26,6 +26,8 @@ public class SecurityController {
 	public ModelAndView defaultPage() {
 
 		ModelAndView model = new ModelAndView();
+		
+		model.setViewName("project");
 
 		 Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	
