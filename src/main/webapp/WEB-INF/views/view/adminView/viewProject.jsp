@@ -396,7 +396,7 @@ $(document).ready(function() {
                     
                 <div id="project">
                 </div>
-                </div>
+            
         
 
                 

@@ -381,8 +381,17 @@ $(document).ready(function() {
                                 </li>
                                 <li id="id5" onclick='showProjectBasedStatus("Completed Project");'><a>Completed Project</a>
                                 </li>
-                               <sec:authorize access="hasRole('ROLE_ADMIN')"> <li class="pull-right"> <button class="btn btn-default" onclick="relocate_create()">CREATE</button>
-                                </li></sec:authorize>
+                                <div class="col-sm-4 pull-right" style="margin-bottom:-1em;">
+					            <div class="form-group">
+					                  <div class="input-group">
+					                    <input type="text" class="form-control"
+					                           placeholder="Type to search for any project..." id="txtbox"/>
+					                    <span class="input-group-addon">
+					                        <i class="fa fa-search"></i>
+					                    </span>
+					                </div>
+					            </div>
+					        </div>
                             </ul>
                         
                         <!--/.nav-collapse -->
@@ -391,21 +400,10 @@ $(document).ready(function() {
               
                 
                 
-                <div class="row">
-                <div class="col-lg-4 pull-right">
-            <div class="form-group">
-                  <div class="input-group">
-                    <input type="text" class="form-control"
-                           placeholder="Type to search for any project..." id="txtbox"/>
-                    <span class="input-group-addon">
-                        <i class="fa fa-search"></i>
-                    </span>
-                </div>
-            </div>
-        </div><br><br><br><br><br>
+             
                 <div id="project">
                 </div>
-         </div>
+   
 
                 
                 

@@ -1,3 +1,5 @@
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <body onload="load();">
 <script type="text/javascript">
 	load = function(){	
@@ -297,10 +299,12 @@
                                 	<input class="form-control" id="budget" maxlength="7" type="text" required>
                                 </div>
                             </div>
+                            <sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_N_ADMIN')">
                           	 <div class="ol-sm-offset-2 col-sm-10">	
 			                   <button type="submit" class="btn btn-default">Update</button>
 			                   <button onclick="location.href = 'project';" class="btn btn-default">Cancel</button>
 	                    </div>
+	                    </sec:authorize>
                   		  </div>
 	                    </div>                   
                     </div>
