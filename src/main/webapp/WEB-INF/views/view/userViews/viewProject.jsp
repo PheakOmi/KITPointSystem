@@ -119,8 +119,6 @@ $(document).ready(function() {
 						 switch(project[i].status){
 							case "To approve Project":
 								panel="panel-default";
-								approved_button="<button type='submit' class='btn btn-warning' onclick='approveProject("+project[i].id+");'>Approve</button>";
-								
 								break;
 							case "Approved Project":
 								panel="panel-primary";
@@ -155,7 +153,7 @@ $(document).ready(function() {
                                     "</div>"+
                                "</div>"+
                                "<div class='row'>"+
-                               "<div class='col-xs-6'>"+approved_button+
+                               "<div class='col-xs-6'>"+
                                "</div>"+
                                "<div class='col-xs-6 text-right'>"+ 
                                "<div class='huge'>"+project[i].kit_point+"</div>"+ 
@@ -290,7 +288,6 @@ $(document).ready(function() {
 					 switch(project[i].status){
 						case "To approve Project":
 							panel="panel-default";
-							approved_button="<button class='btn btn-warning' onclick='approveProject("+project[i].id+")'>Approve</button>"
 							break;
 						case "Approved Project":
 							panel="panel-primary";
@@ -341,14 +338,7 @@ $(document).ready(function() {
                                 "<div class='panel-footer'>"+
                                 "<a href='updateProjectDetail?id="+project[i].id+"'>"+
                                     "<span class='pull-left'>View Details</span>"+ 
-                                    
                                     "</a>"+
-                                    '<div>'+
-                                    "<a href='javascript:func("+project[i].id+")'>"+
-                                    '<span class="pull-right deleteProject">Delete</span>'+ 
-                                    "</a>"+
-                                    "</div>"+
-                                    
                                     "<div class='clearfix'></div>"+
                                 "</div>"+
                            
