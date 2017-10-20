@@ -49,12 +49,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     };
 	private static final String[] ADMIN_MATCHERS = {
 		"/",
-		"/admin/**",
 		"/projectAdminView",
 		"/projectDetailAdminView",
 		"/taskDetailAdminView",
 		"/taskAdminView",
+		"/updateTask**",
 		"/ProjectNTask**",
+		"/taskDetail",
 		
    
     };
@@ -64,6 +65,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		"/projectDetailUserView",
 		"/taskDetailUserView",
 		"/taskUserView",
+		"/updateTask**",
 		"/ProjectNTask**",
    
     };

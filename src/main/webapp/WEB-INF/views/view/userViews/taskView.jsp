@@ -5,7 +5,7 @@
   	$(slickjs).attr('src', '/KIT_Point_Management_System/resources/Bootstrap/js/slider/slick.min.js');
   	$(slickjs).appendTo('body');
    $.ajax({
-      url : 'ProjectNTask',
+      url : 'ProjectNTasKUser',
       method : 'GET',
       success : function(response) {
     	
@@ -74,9 +74,8 @@
 	  					+task[i].deadline+
 	  					'</div></div><button'+' onclick=\'location.href ='+'"updateTaskDetail?id='
 	  					+task[i].id +'";'+
-	  					'\'class="btn btn-primary btn-xs btn-update btn-add-card ">Update</button>'+
-	  					'<button onclick="func('+task[i].id+');"'+
-	  					'\' class="btn btn-danger btn-xs btn-update btn-add-card pull-right">Delete</button></div></div>';
+	  					'\'class="btn btn-primary btn-xs btn-update btn-add-card ">View</button>'+
+	  					'</div></div>';
       
         
         $("#" + task[i].project_id).append(taskcard);
@@ -175,21 +174,8 @@
  <!-- Page Heading -->
  <div class="row">
   <h3 class="page-header">
-   Task <a href="taskDetail" class="btn btn-default pull-right"
-    style="margin-right: 40px; margin-bottom: 10px;">Create</a>
-  </h3>
- </div>
- <table style="width:75%;">
- <tr>
- </tr>
- <tr>
- <td><i class="fa fa-square" style="font-size:20px;color:#a5dff9"><span style="font-size:20px;color:#a5dff9">&nbsp&nbsp&nbsp&nbsp&nbspIn Progress</span> </i></td>
- <td><i class="fa fa-square" style="font-size:20px;color:#65eea6"><span style="font-size:20px;color:#65eea6">&nbsp&nbsp&nbsp&nbsp&nbspCompleted</span> </i></td>
- <td><i class="fa fa-square" style="font-size:20px;color:#aaaabb"><span style="font-size:20px;color:#aaaabb">&nbsp&nbsp&nbsp&nbsp&nbspPostponed</span> </i></td>
- <td><i class="fa fa-square" style="font-size:20px;color:#ec6e57"><span style="font-size:20px;color:#ec6e57">&nbsp&nbsp&nbsp&nbsp&nbspDelayed</span> </i></td>
- </tr>
- </table><br>
- <div class="col-lg-4 pull-right">
+   Task 
+     <div class="col-lg-4 pull-right" style="margin-top:-3px;">
             <div class="form-group">
                   <div class="input-group">
                     <input type="text" class="form-control"
@@ -200,6 +186,19 @@
                 </div>
             </div>
         </div>
+  </h3>
+ </div>
+ <table style="width:75%;">
+ <tr>
+ </tr>
+ <tr>
+ <td><i class="fa fa-square" style="font-size:20px;color:#a5dff9"><span style="font-size:20px;color:#a5dff9">&nbsp&nbsp&nbsp&nbspIn Progress</span> </i></td>
+ <td><i class="fa fa-square" style="font-size:20px;color:#65eea6"><span style="font-size:20px;color:#65eea6">&nbsp&nbsp&nbsp&nbspCompleted</span> </i></td>
+ <td><i class="fa fa-square" style="font-size:20px;color:#aaaabb"><span style="font-size:20px;color:#aaaabb">&nbsp&nbsp&nbsp&nbspPostponed</span> </i></td>
+ <td><i class="fa fa-square" style="font-size:20px;color:#ec6e57"><span style="font-size:20px;color:#ec6e57">&nbsp&nbsp&nbsp&nbspDelayed</span> </i></td>
+ </tr>
+ </table><br>
+
  <div class="project-list__wrapper">
   <div class="inner">
    <div class="projects"></div>

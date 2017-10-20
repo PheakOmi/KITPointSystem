@@ -1,3 +1,5 @@
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <body onload="load();">
 <script type="text/javascript">
 	load = function(){
@@ -201,7 +203,9 @@
         </div>            
 
 </div>
+<sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_N_ADMIN')">
 <button type="submit" class="btn btn-default">Update</button>
-<button onclick="location.href = 'task';" class="btn btn-default">Cancel</button>
+<button onclick="location.href = 'task';" class="btn btn-default">Cancel</button>      
+   </sec:authorize>
 </form>
 </body>
