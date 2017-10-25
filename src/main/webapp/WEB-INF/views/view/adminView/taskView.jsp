@@ -72,7 +72,7 @@
 	  					+task[i].start_date+
 	  					'</div><br><i>Deadline:</i><div class="pull-right" style="font-size: 1.3rem;">'
 	  					+task[i].deadline+
-	  					'</div></div><button'+' onclick=\'location.href ='+'"updateTaskDetail?id='
+	  					'</div></div><button'+' onclick=\'location.href ='+'"updateTaskDetailAdminView?id='
 	  					+task[i].id +'";'+
 	  					'\'class="btn btn-primary btn-xs btn-update btn-add-card ">Update</button>'+
 	  					'<button onclick="func('+task[i].id+');"'+

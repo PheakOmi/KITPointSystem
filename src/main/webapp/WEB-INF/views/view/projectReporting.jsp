@@ -1,4 +1,4 @@
-<body onload="load()">
+<body onload="load()" style="overflow:scroll;">
 <script type="text/javascript">
 load = function(){
 	$('#mybtn').trigger('click');
@@ -108,6 +108,8 @@ showTable = function(projects){
 	$("#myModal").hide();
 	for (i=0;i<projects.length;i++)
 		{
+		if (projects[i].kit_point==""||projects[i].kit_point==null)
+			projects[i].kit_point="0.00";
 		if (projects[i].start_date==null)
 			projects[i].start_date="";
 		else
@@ -138,7 +140,7 @@ showTable = function(projects){
 	$(".ptype").hide();
 	$(".pbudget").hide();
 	$(".ppoint").hide();
-	swal("Succeed!", projects.length+" result(s) returned", "success")
+	swal("Succeed!", projects.length+" project(s) were found", "success")
 	$("#customers").removeAttr('style');
 	$("#btnGenerate").removeAttr('style');
 }
@@ -159,10 +161,19 @@ generateReport = function()
 
 
 function HTMLtoPDF(){
-	var doc = new jsPDF()
+	var doc = new jsPDF();
+	var specialElementHandlers = {
+	    '#editor': function (element, renderer) {
+	        return true;
+	    }
+	};
 
-	doc.text($("#tablewrapper")[0], 10, 10)
-	doc.save('a4.pdf')
+	  
+	    doc.fromHTML($('#tablewrapper').html(), 15, 15, {
+	        'width': 170,
+	            'elementHandlers': specialElementHandlers
+	    });
+	    doc.save('sample-file.pdf');
 	}
 function formatDate(date) {
     var d = new Date(date),
@@ -312,9 +323,10 @@ function formatDate(date) {
   </tr>
 </table>
 </div>
+<div id="editor"></div>
 <br>
 <br>
        <button onclick="generateReport()" type="button" class="btn btn-success pull-right" id="btnGenerate" style="display:none;">Generate Report</button> 
-       <a href="#" onclick="HTMLtoPDF()">Download PDF</a>
+       <button class="create_pdf" onclick="createPDFClick();" myprint="#tablewrapper" id="btn">Generate PDF</button>
 </div>
 </body>

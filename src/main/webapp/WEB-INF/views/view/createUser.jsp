@@ -78,7 +78,7 @@
 						swal("Oops!", "You cannot input special characters", "error")  
 						return
 						}
-					if(formatemail.test(email))
+					if( !validateEmail(email))
 					{
 					swal("Oops!", "You cannot input special character", "error")  
 					return
@@ -112,5 +112,8 @@
 						
 				});
 			});	
-				
+			function validateEmail($email) {
+				  var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+				  return emailReg.test( $email );
+				}			
 </script>

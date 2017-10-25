@@ -119,11 +119,21 @@
     		//var skillset = $("#skillset").val().trim();
     		var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
     		var formats = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]+/;
-    		if((projectname=='') || (projectcode=='')||(planninghour==''))
-    			{
-    			swal("Oops!", "The input cannot be empty", "error")
-    			return
-    			}
+    		if((projectname==''))
+			{
+			swal("Oops!", "Project name cannot be empty", "error")
+			return
+			}
+		if((projectcode==''))
+		{
+		swal("Oops!", "Project code cannot be empty", "error")
+		return
+		}
+		if((planninghour==''))
+		{
+		swal("Oops!", "Planning hour cannot be empty", "error")
+		return
+		}
     		if((format.test(projectname)) || (format.test(projectcode)))
     			{
     			swal("Oops!", "You cannot input special characters", "error")  

@@ -1,3 +1,5 @@
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <body onload="load();">
 <script type="text/javascript">
 	load = function(){	
@@ -64,7 +66,14 @@
 					$("#startdate").val(currentproject.start_date);
 					$("#enddate").val(currentproject.end_date);
 					$('#member').children("option[value=" + $('#teamleader').val() + "]").remove();
-				
+				if(currentproject.status=="Completed Project")
+					{
+					$("#teamleader").prop('disabled', true);
+					$("#planninghour").prop('disabled', true);
+					$("#kitpoint").prop('disabled', true);
+					$("#member").prop('disabled', true);
+					$("#status").prop('disabled', true);
+					}
 			},
 			
 		error: function(err){
@@ -110,11 +119,21 @@
     		//var skillset = $("#skillset").val().trim();
     		var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
     		var formats = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]+/;
-    		if((projectname=='') || (projectcode=='')||(planninghour==''))
-    			{
-    			swal("Oops!", "The input cannot be empty", "error")
-    			return
-    			}
+    		if((projectname==''))
+			{
+			swal("Oops!", "Project name cannot be empty", "error")
+			return
+			}
+		if((projectcode==''))
+		{
+		swal("Oops!", "Project code cannot be empty", "error")
+		return
+		}
+		if((planninghour==''))
+		{
+		swal("Oops!", "Planning hour cannot be empty", "error")
+		return
+		}
     		if((format.test(projectname)) || (format.test(projectcode)))
     			{
     			swal("Oops!", "You cannot input special characters", "error")  
@@ -163,7 +182,7 @@
 			            text: "You have updated it successfully!",
 			            type: "success"
 			        }, function() {
-			            window.location = "project";
+			            window.location = "projectAdminView";
 			        });
 			    }, 10);
 				
@@ -184,6 +203,11 @@
     	}
     	});
     });	
+	redirect = function(e, url){
+		e.preventDefault();
+		location.href=url;
+	}
+	
 </script>	
 			<form id="myForm">
  			<div class="row">
@@ -298,10 +322,12 @@
                                 	<input class="form-control" id="budget" maxlength="7" type="text" required>
                                 </div>
                             </div>
+         
                           	 <div class="ol-sm-offset-2 col-sm-10">	
 			                   <button type="submit" class="btn btn-default">Update</button>
-			                   <button onclick="location.href = 'project';" class="btn btn-default">Cancel</button>
+			                   <button onclick="redirect(event,'projectAdminView')" class="btn btn-default preventDefault">Cancel</button>
 	                    </div>
+	               
                   		  </div>
 	                    </div>                   
                     </div>

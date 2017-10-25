@@ -10,7 +10,10 @@
 </table>
 </div>
 </div>
-<a onclick="goBack()" href="#" class="btn btn-info btn-md center" style="margin:1cm 5cm 3cm 8.3cm;width:110px;background-color:#4CAF50;">
+<a onclick="parent.history.go(-1)" class="btn btn-info btn-md center" id="goBack1" style="margin:1cm 5cm 3cm 8.3cm;width:110px;background-color:#4CAF50;">
+          <span class="glyphicon glyphicon-chevron-left"></span> Go Back
+        </a>
+<a onclick="parent.history.go(-2)" class="btn btn-info btn-md center" id="goBack2" style="margin:1cm 6cm 3cm 8cm;width:110px;background-color:#4CAF50;">
           <span class="glyphicon glyphicon-chevron-left"></span> Go Back
         </a>
 <a onclick="edit()" id ="edit" href="#" class="btn btn-info btn-md center" style="margin:-3.85cm 45cm 15cm 5cm;color:white;width:80px;background-color:#ccc;border-color:#ccc">
@@ -21,6 +24,7 @@
 load = function()
 {
 	$("#update").hide();
+	$("#goBack2").hide();
 	var data = ${message};
 	if(isEmpty(data))
 		$("#edit").hide();
@@ -28,7 +32,8 @@ load = function()
 		$("#update").attr("user_id",data[0].user_id);
 //	$("#update").attr("user_id",data.)
 	var sum=0;
-	for(i=0;i<data.length;i++)
+//	console.log(data[1].kit_point)
+	for(i=0;i<data.length-1;i++)
 	{
 		sum += parseFloat(data[i].kit_point);
 		var row = "<tr class='record'><td>"+(i+1)+"</td>"+
@@ -55,6 +60,8 @@ function edit(){
 	$("#edit").hide();
 	$("#update").css('margin','-3.85cm 40cm 15cm 3cm');
 	$("#update").show();
+	$("#goBack2").show();
+	$("#goBack1").hide();
 }
 function update(){
 	var user_id = $("#update").attr("user_id");

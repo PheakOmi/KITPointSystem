@@ -27,7 +27,7 @@ load = function()
 	    	  console.log(data)
 	    	  for (i=0;i<data.length;i++)
 	    	  {
-		    	  var row = "<tr class='hoverable' data-url='updateAllPoint?id="+data[i].id+"' ><td>"+(i+1)+"</td>"+
+		    	  var row = "<tr class='hoverable' data-url='updateAllPoint?id="+data[i].id+"&name="+data[i].name+"' ><td>"+(i+1)+"</td>"+
 					"<td>"+data[i].name+"</td>"+
 					"<td>"+data[i].text+"</td></tr>";
 		    	  $("#customers").append(row);

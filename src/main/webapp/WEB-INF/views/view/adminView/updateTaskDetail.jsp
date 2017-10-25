@@ -3,7 +3,7 @@
 	load = function(){
 		var id = ${id};
 		$.ajax({
-			url:'ProjectNUser2',
+			url:'ProjectNUser',
 			type:'GET',
 			data: {id: id},
 			success: function(response){
@@ -72,19 +72,30 @@
     		e.preventDefault();
     		var name = $("#name").val().trim();
 			var time = $("#time").val().trim();
+			var user = $("#user").val();
+			
 			var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
 			var formats = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]+/;
-			if((name=='')||(time==''))
+			if((user==''))
+			{
+			swal("Oops!", "Assigned to cannot be empty", "error")
+			return
+			}
+			if((name==''))
 				{
-				swal("Oops!", "The input cannot be empty", "error")
+				swal("Oops!", "Name cannot be empty", "error")
 				return
 				}
+			if((time==''))
+			{
+			swal("Oops!", "Time cannot be empty", "error")
+			return
+			}
 			if(format.test(name))
 				{
 				swal("Oops!", "You cannot input special characters", "error")  
 				return
 				}
-			
     		id = ${id};
     		var deadline = Date.parse($("#deadline").val());
             var startdate = Date.parse($("#startdate").val());
@@ -117,7 +128,7 @@
 			            text: "You have updated it successfully!",
 			            type: "success"
 			        }, function() {
-			            window.location = "task";
+			            window.location = "taskAdminView";
 			        });
 			    }, 10);
 				
@@ -204,6 +215,6 @@
 
 </div>
 <button type="submit" class="btn btn-default">Update</button>
-<button onclick="location.href = 'task';" class="btn btn-default">Cancel</button>
+<button onclick="location.href = 'taskAdminView';" class="btn btn-default">Cancel</button>      
 </form>
 </body>

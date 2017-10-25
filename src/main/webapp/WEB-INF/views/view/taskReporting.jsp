@@ -1,4 +1,4 @@
-<body onload="load()">
+<body onload="load()" style="overflow:scroll;">
 <script type="text/javascript">
 var projectdata;
 load = function(){	
@@ -127,7 +127,7 @@ showTable = function(tasks){
 						"<td>"+tasks[i].status+"</td></tr>";
 		$("#customers").append(row);
 		}
-	swal("Succeed!", tasks.length+" result(s) returned", "success")
+	swal("Succeed!", tasks.length+" task(s) were found", "success")
 	$("#customers").removeAttr('style');
 	$("#btnGenerate").removeAttr('style');
 }
@@ -233,6 +233,7 @@ function formatDate(date) {
                                         Status</label>
                                     <div class="col-sm-4 pull-right">
                                         <select class="form-control" id="status">
+                                        <option></option>
                                         <option value="In Progress">In Progress</option>
 	                                    <option value="Completed">Completed</option>
 	                                    <option value="Delayed">Delayed</option>

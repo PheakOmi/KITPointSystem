@@ -454,9 +454,12 @@ public class ControllerFile {
 				}
 //========================update All point========================================================
 			@RequestMapping(value="/updateAllPoint", method=RequestMethod.GET)
-			public ModelAndView updateAllPoint(@RequestParam("id") int user_id) throws Exception{
+			public ModelAndView updateAllPoint(@RequestParam("id") int user_id/*,@RequestParam("name") String name*/) throws Exception{
 					ObjectMapper mapper = new ObjectMapper();
 					List<KIT_Point_Student_Wise> points =  usersService1.updateAllPoint(user_id);
+//					KIT_Point_Student_Wise p = new KIT_Point_Student_Wise();
+	//				p.setKit_point(name);
+					//points.add(p);
 					String json = "";
 					try {
 						json = mapper.writeValueAsString(points);
@@ -484,11 +487,16 @@ public class ControllerFile {
 			@RequestMapping(value="/updateProject", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> toUpdateProject(Project_Model pm) throws Exception{
 	        		//int[] s = pm.getStage();
-					DecimalFormat df2 = new DecimalFormat(".##");
+				if(pm.getKit_point().isEmpty())
+					pm.setKit_point("0");	
+				DecimalFormat df2 = new DecimalFormat(".##");
 					Project_Master project = new Project_Master();
 					Map<String,Object> map = new HashMap<String,Object>();	
 					Map<Integer, String> mm = usersService1.getStudentSemester(pm.getMember());
 					project = usersService1.getProjectById(pm.getId());
+					if(project.getKit_point() == null) {
+						project.setKit_point("");
+					}
 					if (project.getKit_point().equals(pm.getKit_point()))
 					{
 						int newa[] = pm.getMember();
@@ -880,10 +888,24 @@ public @ResponseBody Map<String,Object> saveServerInfo(Sms_Server_Info info){
 		view.addObject("id",id);
 		return view;
 		}
+	@RequestMapping(value="/updateProjectDetailAdminView", method = RequestMethod.GET)
+	public ModelAndView updateProjectDetailAdminView(@RequestParam(value = "id", required=false) Integer id){
+		ModelAndView view =new ModelAndView("updateProjectDetailAdminView");
+		//System.out.println("ID in Controller is "+id);
+		view.addObject("id",id);
+		return view;
+		}
 	
 	@RequestMapping(value="/updateTaskDetail", method = RequestMethod.GET)
 	public ModelAndView updateTask(@RequestParam(value = "id", required=false) Integer id){
 		ModelAndView view =new ModelAndView("updateTaskDetail");
+		//System.out.println("ID in Controller is "+id);
+		view.addObject("id",id);
+		return view;
+		}
+	@RequestMapping(value="/updateTaskDetailAdminView", method = RequestMethod.GET)
+	public ModelAndView updateTaskDetailAdminView(@RequestParam(value = "id", required=false) Integer id){
+		ModelAndView view =new ModelAndView("updateTaskDetailAdminView");
 		//System.out.println("ID in Controller is "+id);
 		view.addObject("id",id);
 		return view;

@@ -12,7 +12,6 @@
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>	 
 <script>
 $(document).ready(function(){
-	$("#myForm").validate();
 	$("#myForm").on("submit",function(e){
 		e.preventDefault();
 		var text = $("#username").val().trim();
