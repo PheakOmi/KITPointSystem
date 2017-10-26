@@ -1,5 +1,4 @@
 /target/
-src/main/resources/hibernate.cfg.xml
 src/main/java/com/ATable/Create.java
 src/main/java/com/ATable/creation.java
 target/classes/com/ATable
