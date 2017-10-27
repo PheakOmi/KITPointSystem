@@ -32,8 +32,8 @@ load = function()
 		$("#update").attr("user_id",data[0].user_id);
 //	$("#update").attr("user_id",data.)
 	var sum=0;
-//	console.log(data[1].kit_point)
-	for(i=0;i<data.length-1;i++)
+	console.log(data)
+	for(i=0;i<data.length;i++)
 	{
 		sum += parseFloat(data[i].kit_point);
 		var row = "<tr class='record'><td>"+(i+1)+"</td>"+
@@ -88,7 +88,7 @@ function update(){
 				            text: "You have updated it successfully!",
 				            type: "success"
 				        }, function() {
-				            window.location = "view_update_point";
+				        	parent.history.go(-2)
 				        });
 				    }, 10);}
 				else 
