@@ -1,6 +1,6 @@
 var
     form,
- a4 = [595.28, 841.89]; // for a4 size paper width and height
+ a4 = [1065, 726.67]; // for a4 size paper width and height
 $(document).ready(function () {
     $(".create_pdf").on("click", function (e) {
         $('body').scrollTop(0);
@@ -12,17 +12,22 @@ $(document).ready(function () {
 function createPDF(selector) {
     form = $(selector);
     getCanvas().then(function (canvas) {
-        var cache_width = form.width()
-
+        var cache_width = form.width();
+        var cache_height= form.height();
+        var myHeight=300;
+        if (cache_height>400)
+        	myHeight = cache_height;
         var
          img = canvas.toDataURL("image/png"),
          doc = new jsPDF({
+        	 orientation: 'landscape',
              unit: 'px',
-             format: 'a4'
+             format: [cache_width/1.7, myHeight]
          });
         doc.addImage(img, 'JPEG', 20, 20);
-        doc.save('techumber-html-to-pdf.pdf');
+        doc.save('Project_Report.pdf');
         form.width(cache_width);
+        form.css("border-color", "yellow");
     });
 }
 

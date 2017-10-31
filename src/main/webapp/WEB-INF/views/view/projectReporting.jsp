@@ -142,6 +142,7 @@ showTable = function(projects){
 	$(".ppoint").hide();
 	swal("Succeed!", projects.length+" project(s) were found", "success")
 	$("#customers").removeAttr('style');
+
 	$("#btnGenerate").removeAttr('style');
 }
 generateReport = function()
@@ -157,6 +158,8 @@ generateReport = function()
 		    a.download = 'Projects_Report' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
 		    a.click();
 		}
+	else
+		$('#btn').trigger('click');
 }
 
 
@@ -327,6 +330,6 @@ function formatDate(date) {
 <br>
 <br>
        <button onclick="generateReport()" type="button" class="btn btn-success pull-right" id="btnGenerate" style="display:none;">Generate Report</button> 
-       <button class="create_pdf" onclick="createPDFClick();" myprint="#tablewrapper" id="btn">Generate PDF</button>
+         <button class="create_pdf" onclick="createPDFClick();" myprint="#tablewrapper" id="btn" style="display:none;">Generate PDF</button>	
 </div>
 </body>

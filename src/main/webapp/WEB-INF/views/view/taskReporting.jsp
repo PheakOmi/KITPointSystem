@@ -1,6 +1,8 @@
 <body onload="load()" style="overflow:scroll;">
 <script type="text/javascript">
 var projectdata;
+	
+	
 load = function(){	
 	$('#mybtn').trigger('click');
 	$.ajax({
@@ -27,6 +29,45 @@ load = function(){
 
 	
 $(document).ready(function(){
+	$('#project').on('change', function() {
+		console.log("Changed");
+		var projectid = this.value;
+		if(projectid==0)
+			{
+			response=p.student;
+			$('#assigned_to')
+		    .find('option')
+		    .remove()
+		    .end();
+			for(i=0; i<response.length; i++)
+				$("#assigned_to").append("<option value="+response[i].id+">"+response[i].name+" </option>");
+			}
+		else{
+		$.ajax({
+			url:'studentInTask',
+			type:'GET',
+			data: {id: projectid},
+			success: function(response){
+			console.log(response);
+			student=response.student;
+			$('#assigned_to')
+		    .find('option')
+		    .remove()
+		    .end();
+
+			for(i=0; i<student.length; i++)
+				$("#assigned_to").append("<option value="+student[i].user_id+">"+student[i].user_name+" </option>");
+			
+			},
+			error: function (err)
+			{
+				console.log(JSON.stringify(err));
+			}
+		});	  
+		}
+		})
+		
+		
 	$("[name=date]").keydown(function (event) {
 	    event.preventDefault();
 	});
@@ -120,13 +161,14 @@ showTable = function(tasks){
 						"<td>"+tasks[i].name+"</td>"+
 						"<td>"+tasks[i].project_id+"</td>"+
 						"<td>"+tasks[i].assigned_to+"</td>"+
-						"<td>"+tasks[i].time_spend+"</td>"+
+						"<td class='ttime'>"+tasks[i].time_spend+"</td>"+
 						"<td>"+tasks[i].start_date+"</td>"+
 						"<td>"+tasks[i].end_date+"</td>"+
 						"<td>"+tasks[i].deadline+"</td>"+
 						"<td>"+tasks[i].status+"</td></tr>";
 		$("#customers").append(row);
 		}
+	$(".ttime").hide();
 	swal("Succeed!", tasks.length+" task(s) were found", "success")
 	$("#customers").removeAttr('style');
 	$("#btnGenerate").removeAttr('style');
@@ -144,6 +186,8 @@ generateReport = function()
 		    a.download = 'Tasks_Report' + Math.floor((Math.random() * 9999999) + 1000000) + '.xls';
 		    a.click();
 		}
+	else
+		$('#btn').trigger('click');
 }
 
 
@@ -303,7 +347,7 @@ function formatDate(date) {
     <th>Name</th>
     <th>Project</th>
     <th>Assigned To</th>
-    <th>Time Spent</th>
+    <th class="ttime">Time Spent</th>
     <th>Start</th>
     <th>End</th>
     <th>Deadline</th>
@@ -311,9 +355,10 @@ function formatDate(date) {
   </tr>
 </table>
 </div>
+<div id="editor"></div>
 <br>
 <br>
        <button onclick="generateReport()" type="button" class="btn btn-success pull-right" id="btnGenerate" style="display:none;">Generate Report</button> 
-       <a href="#" onclick="HTMLtoPDF()">Download PDF</a>
+<button class="create_pdf" myprint="#tablewrapper" id="btn" style="display:none;">Generate PDF</button>
 </div>
 </body>

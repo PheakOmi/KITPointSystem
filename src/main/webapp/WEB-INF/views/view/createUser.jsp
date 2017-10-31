@@ -62,7 +62,8 @@
 				$("#myForm").on('submit',function(e){
 					e.preventDefault();
 					var name = $("#name").val().trim();
-					var email = $("#email").val().trim();
+					var email = $("#email").val().trim().toLowerCase();
+					console.log(email)
 					var password = $("#password").val().trim();
 					var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
 					var formatemail = /[!#$%^&*()+\-=\[\]{};':"\\|,<>\/?]+/;
@@ -75,12 +76,12 @@
 					if(format.test(name))
 						{
 						console.log("JJ");
-						swal("Oops!", "You cannot input special characters", "error")  
+						swal("Oops!", "You cannot input special characters in name", "error")  
 						return
 						}
 					if( !validateEmail(email))
 					{
-					swal("Oops!", "You cannot input special character", "error")  
+					swal("Oops!", "Email is not validated", "error")  
 					return
 					}		 	
 						 $.ajax({

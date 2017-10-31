@@ -489,13 +489,14 @@ public class ControllerFile {
 	        		//int[] s = pm.getStage();
 				if(pm.getKit_point().isEmpty())
 					pm.setKit_point("0");	
-				DecimalFormat df2 = new DecimalFormat(".##");
+					
+					DecimalFormat df2 = new DecimalFormat(".##");
 					Project_Master project = new Project_Master();
 					Map<String,Object> map = new HashMap<String,Object>();	
 					Map<Integer, String> mm = usersService1.getStudentSemester(pm.getMember());
 					project = usersService1.getProjectById(pm.getId());
 					if(project.getKit_point() == null) {
-						project.setKit_point("");
+						project.setKit_point("0");
 					}
 					if (project.getKit_point().equals(pm.getKit_point()))
 					{
