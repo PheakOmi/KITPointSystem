@@ -13,12 +13,15 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import javax.crypto.SecretKey;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
@@ -27,6 +30,14 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
+
+
+
+
+
+
+
+
 
 
 
@@ -70,6 +81,8 @@ import com.EntityClasses.Project_Member;
 import com.EntityClasses.Project_Stage;
 import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
+import com.EntityClasses.Skillset_Master;
+import com.EntityClasses.Skillset_Project_Wise;
 import com.EntityClasses.Sms_Server_Info;
 import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
@@ -410,6 +423,39 @@ public class userDaoImpl implements usersDao{
         }
         return true;
     }
+    public boolean createSkillset(Skillset_Master skillset)
+    {
+    	Transaction trns9 = null;
+        
+    	Skillset_Master skillset2 = skillset;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try {
+        	
+            trns9 = session.beginTransaction();
+            String queryString = "FROM Skillset_Master where name=:name";
+            Query query = session.createQuery(queryString);
+            query.setString("name",skillset.getName());
+            skillset=(Skillset_Master)query.uniqueResult();
+    			if(skillset!=null)
+    				return false;
+    		Timestamp created_at = new Timestamp(System.currentTimeMillis());
+    		skillset2.setCreated_at(created_at);
+            session.save(skillset2);  
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+        	if (trns9 != null) {
+                trns9.rollback();
+            }
+            e.printStackTrace();
+           
+            return false;
+        } finally {
+            session.flush();
+            session.close();
+        }
+        return true;
+    }
 //=================================Save task=========================================
     public boolean toSaveTask(Task_Model t) throws ParseException
     {
@@ -569,12 +615,14 @@ public class userDaoImpl implements usersDao{
     		     }
     		    else{
     		      session.delete(getAMemberById(old[i],project.getId()));
+    		      session.delete(getAStudentPointById(old[i],project.getId()));
     		     }
     		   }
     		   for (int i = 0; i < newa.length; i++)
     		   {
     		    if(contains(old,newa[i]))
     		     {
+    		    	
     		     }
     		    else{
     		    	myList.add(newa[i]);
@@ -585,9 +633,50 @@ public class userDaoImpl implements usersDao{
     		   Integer[] temp = myList.toArray(new Integer[size]);
     		   for (int n = 0; n < size; ++n) 
     		       save[n] = temp[n];
-   		    saveMember(project.getId(),save);
-    		
-    		Project_Master pm = new Project_Master();
+   		    	saveMember(project.getId(),save);
+   		    	
+   		    	
+   		    	
+   		    	
+   		    	
+   		    	
+   		    	
+   		    	
+   		      int old_skill[] = getSkillsetByProjectId(project.getId());
+      		  int new_skill [] = project.getSkill();
+      		  List<Integer> myList2 = new ArrayList<Integer>();
+      		   Arrays.sort(new_skill);
+      		   Arrays.sort(old_skill);
+         		   for (int i = 0; i < old_skill.length; i++)
+      		   {
+      		    if(contains(new_skill,old_skill[i]))
+      		     {
+      		     }
+      		    else{
+      		      session.delete(getASkillsetById(old_skill[i],project.getId()));
+      		     }
+      		   }
+      		   for (int i = 0; i < new_skill.length; i++)
+      		   {
+      		    if(contains(old_skill,new_skill[i]))
+      		     {
+      		    	
+      		     }
+      		    else{
+      		    	myList2.add(new_skill[i]);
+      		     }
+      		   }
+      		   int size_skill = myList2.size();
+      		   int[] save_skill = new int[size_skill];
+      		   Integer[] temp2 = myList2.toArray(new Integer[size_skill]);
+      		   for (int n = 0; n < size_skill; ++n) 
+      		       save_skill[n] = temp2[n];
+     		    	saveSkillset(project.getId(),save_skill);
+   		    	  		    	
+   		    Project_Master p = getProjectById(project.getId());
+   		    String status = p.getStatus();
+   		    
+   		    Project_Master pm = new Project_Master();
     	
     		pm.setId(project.getId());
     		pm.setProject_name(project.getProject_name());
@@ -610,6 +699,16 @@ public class userDaoImpl implements usersDao{
     		session.update(pm); 
     	    //int id = pm.getId();
     		session.getTransaction().commit();
+    		if(project.getStatus().equals("Completed Project"))
+		    	{
+		    		addPointStudent(save,project.getId(),Float.parseFloat(project.getKit_point()),project.getInitially_planned());
+		    		if(!status.equals("Completed Project"))
+		    		{	
+		    		updatePointStudent(getMembersIdByProjectId(project.getId()),project.getId(),Float.parseFloat(project.getKit_point()),project.getInitially_planned());
+		    		}
+		    	}
+		    	else
+		    		addPointStudent(save,project.getId(),0,project.getInitially_planned());
     		
     		
         } catch (RuntimeException e) {
@@ -729,6 +828,39 @@ public class userDaoImpl implements usersDao{
         }
        
     }
+    public void saveSkillset(int projectid, int arr[]) throws Exception
+    {
+    	
+       	Transaction trns14 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Timestamp created_at = new Timestamp(System.currentTimeMillis());
+        try {
+        	//System.out.println("Student is "+students);
+            trns14 = session.beginTransaction();
+    		for (int i = 0; i<arr.length; i++)
+    		{
+    			Skillset_Project_Wise skillset = new Skillset_Project_Wise();
+    			skillset.setSkillset_name(getSkillsetById(arr[i]).getName());
+    			skillset.setProject_id(projectid);
+    			skillset.setSkillset_id(arr[i]);
+    			skillset.setCreated_at(created_at);
+    			session.save(skillset);
+    			
+    		}  
+    		session.getTransaction().commit();
+        } catch (RuntimeException e) {
+        	if (trns14 != null) {
+                trns14.rollback();
+            }
+            e.printStackTrace();
+           
+        } finally {
+            session.flush();
+            session.close();
+        }
+       
+    }
+
 
 //===================Get a list of semesters=================================
     public List<Semester_Master> getAllSemester() {
@@ -756,6 +888,25 @@ public class userDaoImpl implements usersDao{
         try {
             trns16 = session.beginTransaction();
             p = session.createQuery("from Project_Category_Master").list();
+
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return p;
+        } finally {
+            session.flush();
+            session.close();
+        }
+        return p;
+    }
+    public List<Skillset_Master> getAllSkillset() {
+        List<Skillset_Master> p= new ArrayList<Skillset_Master>();
+        Transaction trns16 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            trns16 = session.beginTransaction();
+            p = session.createQuery("from Skillset_Master").list();
+            for (Skillset_Master s : p)
+            	s.setText(s.getName());
 
         } catch (RuntimeException e) {
             e.printStackTrace();
@@ -829,6 +980,31 @@ public class userDaoImpl implements usersDao{
             session.close();
         }
         return project;
+    }
+    public Skillset_Master getSkillsetById(int id) throws Exception
+    {
+    	Skillset_Master s= new Skillset_Master();
+        Transaction trns19 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            trns19 = session.beginTransaction();
+            String queryString = "from Skillset_Master where id=:id";
+            Query query = session.createQuery(queryString);
+            query.setInteger("id",id);
+            s=(Skillset_Master)query.uniqueResult();
+//            SecretKey secKey = SecretKeyClass.getSecretEncryptionKey();
+//		    String decryptedPoint;
+//		    decryptedPoint = decrypt.decryptText(project.getKit_point(), secKey);
+//		    decryptedPoint.trim();
+//		    project.setKit_point(decryptedPoint);
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return s;
+        } finally {
+            session.flush();
+            session.close();
+        }
+        return s;
     }
 	public Task_Master getTaskById(int id) {
 		
@@ -1149,6 +1325,32 @@ public class userDaoImpl implements usersDao{
 		return null;
 
 	}
+	public int[] getSkillsetByProjectId(int project_id)
+	{
+		Transaction trns24 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			trns24 = session.beginTransaction();
+			String queryString = "select skillset_id from Skillset_Project_Wise where project_id =:project_id";
+			Query query = session.createQuery(queryString);
+			query.setInteger("project_id", project_id);
+			List user_id = query.list();
+			int size = user_id.size();
+			int[] members = new int[size];
+			Integer[] temp = (Integer[]) user_id.toArray(new Integer[size]);
+			for (int n = 0; n < size; ++n) 
+			    members[n] = temp[n];
+			return members;
+			}
+		 catch (RuntimeException e) {
+				e.printStackTrace();
+			} finally {
+				session.flush();
+				session.close();
+			}
+		return null;
+
+	}
 //=============To find an element in array==============================
 	public static boolean contains(int[] arr, int item) {
 	      int index = Arrays.binarySearch(arr, item);
@@ -1164,6 +1366,47 @@ public class userDaoImpl implements usersDao{
 			query.setInteger("id", id);
 			query.setInteger("project_id", project_id);
 			Project_Member member = (Project_Member) query.uniqueResult();
+			return member;
+		}
+		catch (RuntimeException e) {
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return null;
+		
+	}
+	public Skillset_Project_Wise getASkillsetById (int id, int project_id){
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			trns25 = session.beginTransaction();
+			String queryString = "from Skillset_Project_Wise where skillset_id =:id and project_id =:project_id";
+			Query query = session.createQuery(queryString);
+			query.setInteger("id", id);
+			query.setInteger("project_id", project_id);
+			Skillset_Project_Wise member = (Skillset_Project_Wise) query.uniqueResult();
+			return member;
+		}
+		catch (RuntimeException e) {
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return null;
+		
+	}
+	public List<Skillset_Project_Wise> getAllSkillsetById (int id){
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			trns25 = session.beginTransaction();
+			String queryString = "from Skillset_Project_Wise where skillset_id =:id";
+			Query query = session.createQuery(queryString);
+			query.setInteger("id", id);
+			List<Skillset_Project_Wise> member = query.list();
 			return member;
 		}
 		catch (RuntimeException e) {
@@ -1953,12 +2196,7 @@ public class userDaoImpl implements usersDao{
    			query=query+" and project_leader=:leader";
    		if(status!="")
 			query=query+" and status=:status";
-   		System.out.println(start_date);
-   		System.out.println(end_date);
-   		System.out.println(status);
-   		System.out.println("type "+type);
-   		System.out.println("co "+co);
-   		System.out.println("leader "+leader);
+   		
 		Transaction trns25 = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try{
@@ -2007,11 +2245,7 @@ public class userDaoImpl implements usersDao{
    			query=query+" and assigned_to=:assigned_to";
    		if(status!="")
 			query=query+" and status=:status";
-   		System.out.println(start_date);
-   		System.out.println(end_date);
-   		System.out.println(status);
-   		System.out.println("project "+project);
-   		System.out.println("assigned to "+assigned_to);
+   		
 		Transaction trns25 = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		try{
@@ -2097,6 +2331,31 @@ public class userDaoImpl implements usersDao{
 			session.close();
 		}
 		return user;
+	}
+	public int getUserByEmail(String email) {
+		int check = 0;
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			trns25  = session.beginTransaction();
+ 		 	String queryString  = "from User_Info where email=:email";
+ 		 	Query query = session.createQuery(queryString);
+ 		 	query.setString("email", email);
+ 		 	List<User_Info> user = query.list();
+ 		 	if(user.size()==0)
+ 		 		check = 0 ;
+ 		 	else check =1;
+ 		 	
+		}
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();			
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+		return check;
 	}
 	public List<Student> getAllPoint(int batch_id){
 		List<Student> students = getAllStudentByBatchId(batch_id);
@@ -2191,6 +2450,33 @@ public class userDaoImpl implements usersDao{
 		}
 		return points;
 	}
+	public List<KIT_Point_Student_Wise> getPointByProjectId(int project_id) throws Exception{
+		List<KIT_Point_Student_Wise> points = new ArrayList<KIT_Point_Student_Wise>();
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			trns25  = session.beginTransaction();
+			String queryString  = "from KIT_Point_Student_Wise where project_id=:project_id";
+			Query query = session.createQuery(queryString);
+ 		 	query.setInteger("project_id", project_id);
+ 		 	points= query.list();
+ 		 	for (KIT_Point_Student_Wise point:points)
+ 		 	{
+ 		 		Project_Master project = getProjectById(point.getProject_id());
+ 		 		point.setName(project.getProject_name());
+ 		 	}
+	 		 
+ 		 }
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();			
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+		return points;
+	}
 	
 	public boolean updatePoint(KIT_Point_Student_Wise p){
 		String str = p.getKit_point();
@@ -2205,8 +2491,42 @@ public class userDaoImpl implements usersDao{
 		 		System.out.println("P id "+s[0]+" U id"+p.getUser_id()+" point "+s[1]);
 		 		KIT_Point_Student_Wise point = new KIT_Point_Student_Wise();
 		 		Query query = session.createQuery(queryString);
-		 		query.setInteger("project_id", Integer.parseInt(s[0]));
-		 		query.setInteger("user_id", p.getUser_id());
+		 		query.setInteger("project_id", p.getProject_id() );
+		 		query.setInteger("user_id", Integer.parseInt(s[0]));
+		 		point = (KIT_Point_Student_Wise) query.uniqueResult();
+		 		point.setKit_point(s[1]);
+		 		session.update(point);
+		 	}
+			session.getTransaction().commit();
+	 		
+	 		 
+ 		 }
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+		return true;
+	}
+	public boolean updatePointMember(KIT_Point_Student_Wise p){
+		String str = p.getKit_point();
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			trns25  = session.beginTransaction();
+			String queryString = "from KIT_Point_Student_Wise where project_id=:project_id and user_id=:user_id";
+			for (String st:str.split("/"))
+		 	{
+		 		String[] s=st.split(",");
+		 		System.out.println("P id "+s[0]+" U id"+p.getProject_id()+" point "+s[1]);
+		 		KIT_Point_Student_Wise point = new KIT_Point_Student_Wise();
+		 		Query query = session.createQuery(queryString);
+		 		query.setInteger("user_id", Integer.parseInt(s[0]));
+		 		query.setInteger("project_id", p.getProject_id());
 		 		point = (KIT_Point_Student_Wise) query.uniqueResult();
 		 		point.setKit_point(s[1]);
 		 		session.update(point);
@@ -2249,6 +2569,131 @@ public class userDaoImpl implements usersDao{
 		return user.getId();
 		
 	}
+	public void updatePointStudent (int students[],int project_id,float point,int hours)
+	{
+		DecimalFormat df2 = new DecimalFormat(".##");
+		float eachPoint = (float)point/students.length;
+		Transaction trns14 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Timestamp updated_at = new Timestamp(System.currentTimeMillis());
+        try {
+            trns14 = session.beginTransaction();
+            String queryString =  "from KIT_Point_Student_Wise where user_id=:user_id and project_id=:project_id";
+    		for (int i = 0; i<students.length; i++)
+    		{
+    			Query querying=session.createQuery(queryString);
+    			querying.setInteger("user_id",students[i]);
+    			querying.setInteger("project_id", project_id);
+    			KIT_Point_Student_Wise kitpoint = (KIT_Point_Student_Wise) querying.uniqueResult();
+    			kitpoint.setKit_point(df2.format(eachPoint));
+    			kitpoint.setUpdated_at(updated_at);
+     			session.update(kitpoint);
+    		}  
+    		session.getTransaction().commit();
+        } catch (RuntimeException e) {
+        	if (trns14 != null) {
+                trns14.rollback();
+            }
+            e.printStackTrace();
+           
+        } finally {
+            session.flush();
+            session.close();
+        }
+	}
+	public void updatePointStudentSeperate (int student,int project_id,float point)
+	{
+		Transaction trns14 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Timestamp updated_at = new Timestamp(System.currentTimeMillis());
+        try {
+            trns14 = session.beginTransaction();
+            String queryString =  "from KIT_Point_Student_Wise where user_id=:user_id and project_id=:project_id";
+    			Query querying=session.createQuery(queryString);
+    			querying.setInteger("user_id",student);
+    			querying.setInteger("project_id", project_id);
+    			KIT_Point_Student_Wise kitpoint = (KIT_Point_Student_Wise) querying.uniqueResult();
+    			kitpoint.setKit_point(Float.toString(point));
+    			kitpoint.setUpdated_at(updated_at);
+     			session.update(kitpoint);
+    		
+    		session.getTransaction().commit();
+        } catch (RuntimeException e) {
+        	if (trns14 != null) {
+                trns14.rollback();
+            }
+            e.printStackTrace();
+           
+        } finally {
+            session.flush();
+            session.close();
+        }
+	}
+	public KIT_Point_Student_Wise getAStudentPointById (int id, int project_id){
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try {
+			trns25 = session.beginTransaction();
+			String queryString = "from KIT_Point_Student_Wise where user_id =:id and project_id =:project_id";
+			Query query = session.createQuery(queryString);
+			query.setInteger("id", id);
+			query.setInteger("project_id", project_id);
+			KIT_Point_Student_Wise member = (KIT_Point_Student_Wise) query.uniqueResult();
+			return member;
+		}
+		catch (RuntimeException e) {
+			e.printStackTrace();
+		} finally {
+			session.flush();
+			session.close();
+		}
+		return null;
+		
+	}
+
+	
+	public List<Project_Master> getProjectOnSkillset(int[] skill) throws Exception {
+		List<Integer> all = new ArrayList<Integer>();
+		List<Project_Master> projects = new ArrayList<Project_Master>();
+		for(int i=0;i<skill.length;i++)
+		{
+			List<Skillset_Project_Wise> skillsets = getAllSkillsetById(skill[i]);
+			for(Skillset_Project_Wise skillset:skillsets )
+				all.add(skillset.getProject_id());
+		}
+		Set<Integer> allNoDuplicate = new LinkedHashSet<Integer>(all);
+		all.clear();
+		all.addAll(allNoDuplicate);
+		
+		for (int i:all)
+		{
+			String sskill = new String ();
+			Project_Master project = getProjectById(i);
+			int s[] = getSkillsetByProjectId (i);
+			for (int l=0; l<s.length;l++)
+			{
+				Skillset_Master master = getSkillsetById(s[l]);
+				sskill = sskill+master.getName()+", ";
+				
+			}
+			project.setSkillset(sskill);
+			projects.add(project);
+		}
+		
+		return projects;
+	}
+	public String getSaltString() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 18) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
+
+    }
 	
 }
 

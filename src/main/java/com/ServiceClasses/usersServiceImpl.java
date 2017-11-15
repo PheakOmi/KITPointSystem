@@ -17,6 +17,7 @@ import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Member;
 import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
+import com.EntityClasses.Skillset_Master;
 import com.EntityClasses.Sms_Server_Info;
 import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
@@ -207,6 +208,38 @@ public class usersServiceImpl implements usersService{
 	}
 	public int getUserIdByName(String name){
 		return usersDao1.getUserIdByName(name);
+	}
+	public void updatePointStudent (int students[],int project_id,float point,int hours){
+		usersDao1.updatePointStudent(students, project_id, point, hours);
+	}
+	public List<KIT_Point_Student_Wise> getPointByProjectId(int project_id) throws Exception{
+		return usersDao1.getPointByProjectId(project_id);
+	}
+	public User_Info getUserById(int id){
+		return usersDao1.getUserById(id);
+	}
+	public boolean updatePointMember(KIT_Point_Student_Wise point){
+		return usersDao1.updatePoint(point);
+	}
+	public boolean createSkillset(Skillset_Master skillset){
+		return usersDao1.createSkillset(skillset);
+	}
+	public List<Skillset_Master> getAllSkillset(){
+		return usersDao1.getAllSkillset();
+	}
+	public void saveSkillset(int projectid, int arr[]) throws Exception{
+		usersDao1.saveSkillset(projectid, arr);
+	}
+	public int[] getSkillsetByProjectId(int project_id)
+	{
+		return usersDao1.getSkillsetByProjectId(project_id);
+	}
+	public List<Project_Master> getProjectOnSkillset(int[] skill) throws Exception 
+	{
+		return usersDao1.getProjectOnSkillset(skill);
+	}
+	public int getUserByEmail(String email) {
+		return usersDao1.getUserByEmail(email);
 	}
 }
 

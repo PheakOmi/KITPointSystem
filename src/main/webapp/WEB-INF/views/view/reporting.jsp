@@ -8,6 +8,10 @@
                         <a href="taskReporting"><i class="fa fa-fw fa-book fa-3x setting-icon" >
                         </i><span style="color: black;">Task Lists Report</span> </a>
                    </div>
+                   <div class="col-lg-4 ">
+                        <a href="skillSetReporting"><i class="fa fa-fw fa-book fa-3x setting-icon" >
+                        </i><span style="color: black;">Student Lists Report Base On Skill Set</span> </a>
+                   </div>
 
             </div>
 </div>

@@ -1,67 +1,25 @@
 package com.DaoClasses;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.sql.Timestamp;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import javax.crypto.SecretKey;
+import com.ModelClasses.Mail;
 
-import org.apache.xmlrpc.XmlRpcException;
-import org.apache.xmlrpc.client.XmlRpcClient;
-import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Repository;
-import org.springframework.util.StringUtils;
+public class test {
 
-import com.EncryptionDecryption.Decryption;
-import com.EncryptionDecryption.Encryption;
-import com.EncryptionDecryption.SecretKeyClass;
-import com.EntityClasses.Batch_Master;
-import com.EntityClasses.Project_Master;
-import com.EntityClasses.Project_Stage_Master;
-import com.EntityClasses.Sms_Server_Info;
-import com.EntityClasses.Student;
-import com.EntityClasses.Task_Master;
-import com.EntityClasses.UserRole;
-import com.EntityClasses.User_Info;
-import com.EntityClasses.Value_Per_Hour;
-import com.HibernateUtil.HibernateUtil;
-import com.MainController.ValuePerHourController;
-import com.ModelClasses.ProjectView_Model;
-import com.ModelClasses.ValuePerHourModel;
 
-@Repository
-public class test{
-		 public static void main(String args[]) throws Exception {
-			 Sms_Server_Info info= new Sms_Server_Info();
-		        Transaction trns30 = null;
-		        Session session = HibernateUtil.getSessionFactory().openSession();
-		        try {
-		            trns30 = session.beginTransaction();
-		            String queryString = "from Sms_Server_Info";
-		            Query query = session.createQuery(queryString);
-		            info=(Sms_Server_Info)query.uniqueResult();
-		        } catch (RuntimeException e) {
-		            e.printStackTrace();
-		       
-		        } finally {
-		            session.flush();
-		            session.close();
-		        }
-		        System.out.println(info);
-		 }
-		
+public static void main(String[] args) {
+ApplicationContext context = new ClassPathXmlApplicationContext(
+    "com/DaoClasses/mail-config.xml");
+
+  Mail mail = new Mail();
+  mail.setMailFrom("sopheakdy23@gmail.com");
+  mail.setMailTo("dysopheak15@kit.edu.kh");
+  mail.setMailSubject("KIT Point Management System Password Reset");
+  mail.setMailContent("Hello You,\n\nIt looks like you requested a new password.\nIf that sounds right, you can enter new password by clicking on the button below.\nhttps://www.google.com.kh/search?q=reset+password+email+template&source=lnms&tbm=isch&sa=X&ved=0ahUKEwjAwenJxr3XAhXEHpQKHQIJBFkQ_AUICigB&biw=1366&bih=662#imgrc=qrL_4AQORqoW9M:");
+  
+  Mailer mailer = (Mailer) context.getBean("mailer");
+  mailer.sendMail(mail);
+
+ }
 }

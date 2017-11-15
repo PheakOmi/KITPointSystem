@@ -33,6 +33,9 @@
          <mapping resource ="userRole.hbm.xml"/>
          <mapping resource ="value_per_hour.hbm.xml"/>
          <mapping resource ="student.hbm.xml"/>
-          <mapping resource ="sms_server_info.hbm.xml"/>
+         <mapping resource ="sms_server_info.hbm.xml"/>
+         <mapping resource ="skillset_master.hbm.xml"/>
+         <mapping resource ="skillset_project_wise.hbm.xml"/>
+         
     </session-factory>
 </hibernate-configuration>

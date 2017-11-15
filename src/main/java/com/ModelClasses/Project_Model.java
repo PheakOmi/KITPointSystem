@@ -22,9 +22,23 @@ public class Project_Model {
 	private Timestamp updated_at;
 	private String status;
 	private int member[];
+	private int skill[];
+	private boolean auto;
 	
 	
 	
+	public int[] getSkill() {
+		return skill;
+	}
+	public void setSkill(int[] skill) {
+		this.skill = skill;
+	}
+	public boolean isAuto() {
+		return auto;
+	}
+	public void setAuto(boolean auto) {
+		this.auto = auto;
+	}
 	public String getStatus() {
 		return status;
 	}

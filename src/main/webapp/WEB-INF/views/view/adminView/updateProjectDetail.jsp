@@ -13,6 +13,9 @@
 				student = response.student;
 				member = response.member;
 				currentproject = response.currentproject;
+				skillset = response.skillset;
+				currentskill = response.currentskill;
+				
 				function formatDate(date) {
 				    var d = new Date(date),
 				        month = '' + (d.getMonth() + 1),
@@ -37,10 +40,16 @@
 				else
 					currentproject.deadline=formatDate(currentproject.deadline);
 	           
+				
 				$('#member').select2({
 					  data: student
 					});
 				$('#member').val(member).trigger('change');
+				$('#skillset').select2({
+					  data: skillset
+					});
+				$('#skillset').val(currentskill).trigger('change');
+				
 				
 				for(i=0; i<category.length; i++)					
 					$("#projectcategory").append("<option value="+category[i].id+">"+category[i].name+" </option>");
@@ -52,6 +61,8 @@
 					 
 				}
 					
+					if(currentproject.status=="Completed Project")
+					$("#upoint").removeAttr('style');
 					$("#status").val(currentproject.status);
 					$("#project_name").val(currentproject.project_name);
 					$("#projectcode").val(currentproject.project_code);
@@ -60,7 +71,6 @@
 					$("#teamleader").val(currentproject.project_leader);
 					$("#planninghour").val(currentproject.initially_planned);
 					$("#budget").val(currentproject.budget);
-					$("#skillset").val(currentproject.skillset);
 					$("#kitpoint").val(currentproject.kit_point);
 					$("#deadline").val(currentproject.deadline);
 					$("#startdate").val(currentproject.start_date);
@@ -70,7 +80,6 @@
 					{
 					$("#teamleader").prop('disabled', true);
 					$("#planninghour").prop('disabled', true);
-					$("#kitpoint").prop('disabled', true);
 					$("#member").prop('disabled', true);
 					$("#status").prop('disabled', true);
 					}
@@ -111,6 +120,7 @@
   	 
     	$("#myForm").on("submit",function(e){	
     		var member = $('#member').val(); 
+    		var skillset = $('#skillset').val(); 
     		member.push($('#teamleader').val());
             e.preventDefault();
             var projectname = $("#project_name").val().trim();
@@ -166,6 +176,7 @@
     					project_leader:$("#teamleader").val(),
     					initially_planned:$("#planninghour").val(),
     					budget:$("#budget").val(),
+    					skill:skillset,
     					member:member,
     					kit_point:$("#kitpoint").val(),
     					deadline:$("#deadline").val(),
@@ -202,11 +213,74 @@
     			});	
     	}
     	});
+    	
+    	$("#myForm2").on("submit",function(e){
+    		e.preventDefault();
+    		var a = $("#sname").val().trim();
+    		var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+    		if(a=='')
+    			{
+    			swal("Oops!", "The input cannot be empty", "error")
+    			return
+    			}
+    		if(format.test(a))
+    			{
+    			swal("Oops!", "You cannot input special characters", "error")  
+    			return
+    			}
+    			$.ajax({
+    				url:'skillsetCreate',
+    				type:'GET',
+    				data:{name:$("#sname").val()},
+    				success: function(response){
+    					if(response.status=="200")
+    						{
+    						
+    						$.ajax({
+										url:'getSkillset',
+										type:'GET',
+										success: function(response){
+											$("#sname").val("");
+											$('#skillset').select2({data: response.skill});
+										}				
+									});
+    						
+    						
+    						$('#closing').trigger('click');
+    						}
+    					//var obj = jQuery.parseJSON(response);
+    					    
+    					else 
+    						{
+    						swal("Oops!", "Skill Set already existed", "error")
+    						
+    						}
+    						
+    				},
+    				error: function(err){
+    					console.log(JSON.stringify(err));
+    				}
+    			});		
+    			
+    	
+});	
+	
     });	
 	redirect = function(e, url){
 		e.preventDefault();
 		location.href=url;
 	}
+	redirect2 = function(e, url){
+		e.preventDefault();
+		var id = ${id};
+		location.href="updatePointMember?id="+id;
+	}
+	goTO = function(){
+		$('#bsubmit').trigger('click');
+	}
+	
+	
+	
 	
 </script>	
 			<form id="myForm">
@@ -322,14 +396,60 @@
                                 	<input class="form-control" id="budget" maxlength="7" type="text" required>
                                 </div>
                             </div>
-         
-                          	 <div class="ol-sm-offset-2 col-sm-10">	
+                             <div class="form-group">
+                                <label class="col-sm-4 control-label">Skill Set	</label>
+	                            <div class="col-sm-8">    
+	                                <select class="js-example-basic-multiple form-control" id="skillset" multiple="multiple">
+									
+									</select>
+	                            </div>
+                            </div>    
+                            <div style="margin:-0.3cm 0cm 1.2cm 14cm;"	>
+                            <a href="#" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal">
+          <span class="glyphicon glyphicon-new-window" ></span> Create a skill set</a>
+                           
+                            </div>
+                            <sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_N_ADMIN')">
+                          	 <div style="text-align: center; margin-top: 50px;">	
+                          	   <button onclick="redirect2(event,'updatePointMember')" class="btn btn-default" style="display:none;margin-left:1cm;" id="upoint">Update Point For Members</button>
 			                   <button type="submit" class="btn btn-default">Update</button>
-			                   <button onclick="redirect(event,'projectAdminView')" class="btn btn-default preventDefault">Cancel</button>
+			                   <button onclick="redirect(event,'projectAdminView')" class="btn btn-default preventDefault" >Cancel</button>
+			                   
 	                    </div>
-	               
+	                    </sec:authorize>
                   		  </div>
 	                    </div>                   
                     </div>
                     </form>
+                    
+                    
+                    <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Create a skill set</h4>
+        </div>
+        <div class="modal-body">
+     <form class="form-group" id="myForm2">
+    <div>
+      <label class="col-sm-4" for="email">Skill Set Name:</label>
+      <div class="col-sm-7">
+      <input type="text" class="form-control" id="sname" maxlength="60" placeholder="Enter Name" required>
+      <button id="bsubmit" type="submit" class="btn btn-default" style="display:none;">Create</button>
+      </div>
+    </div>
+  </form>
+  <br>
+        </div>
+        <div class="modal-footer">
+          <button onClick="goTO()" class="btn btn-default">Create</button>
+          <button type="button" id="closing" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>	
                     </body>

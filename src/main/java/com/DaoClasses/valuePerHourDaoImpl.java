@@ -216,33 +216,30 @@ public class valuePerHourDaoImpl implements valuePerHourDao {
 			        return tasks;
 			    }
 			  //===========================Get all task for User===================================
-			    public List<Task_Master> getAllTaskBaseOnUser(String username)
+			    public List<Task_Master> getAllTaskBaseOnUser(List<Project_Master> projects)
 			    {
 			    	List<Task_Master> tasks= new ArrayList<Task_Master>();
-			    	List <User_Info> user_info= new ArrayList <User_Info>();
+			    	List<Task_Master> all= new ArrayList<Task_Master>();
 			        Transaction trns18 = null;
 			        
 			        Session session = HibernateUtil.getSessionFactory().openSession();
 			        try {
 			            trns18 = session.beginTransaction();
-			            String queryStrings="from User_Info where name=:username";
-						   Query query=session.createQuery(queryStrings);
-						   query.setString("username", username);
-						   user_info =query.list();
-						   int user_id = user_info.get(0).getId();
-						   
-						   String queryString= "from Task_Master where assigned_to=:user_id";
+						   String queryString= "from Task_Master where project_id=:project_id";
+						   for(int i=0;i<projects.size();i++){
 						   Query querying=session.createQuery(queryString);
-						   querying.setInteger("user_id", user_id);
+						   querying.setInteger("project_id", projects.get(i).getId());
 						   tasks=querying.list();
+						   all.addAll(tasks);
+						   }
 			        } catch (RuntimeException e) {
 			            e.printStackTrace();
-			            return tasks;
+			            return all;
 			        } finally {
 			            session.flush();
 			            session.close();
 			        }
-			        return tasks;
+			        return all;
 			    }
 		 /*=====================  show Project data ============================*/
 		public static List<Object> countAllTask() {

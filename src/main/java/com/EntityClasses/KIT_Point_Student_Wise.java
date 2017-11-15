@@ -9,10 +9,17 @@ public class KIT_Point_Student_Wise {
 	private int batch_id;
 	private String kit_point;
 	private String name;
+	private String tpoint;
 	private Timestamp created_at;
 	private Timestamp updated_at;
 	public int getId() {
 		return id;
+	}
+	public String getTpoint() {
+		return tpoint;
+	}
+	public void setTpoint(String tpoint) {
+		this.tpoint = tpoint;
 	}
 	public void setId(int id) {
 		this.id = id;

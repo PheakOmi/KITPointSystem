@@ -31,15 +31,21 @@ public class UserController {
 		return new ModelAndView("projectUserView", "message", message);
 	}
 //	=================projectDetail============================
-	@RequestMapping(value="/projectDetailUserView", method=RequestMethod.GET)
-	public ModelAndView viewProjectdetail() {
-		return new ModelAndView("projectDetailUserView");
-	}
+	@RequestMapping(value="/projectDetailUserView", method = RequestMethod.GET)
+	public ModelAndView projectDetailUserView(@RequestParam(value = "id", required=false) Integer id){
+		ModelAndView view =new ModelAndView("projectDetailUserView");
+		//System.out.println("ID in Controller is "+id);
+		view.addObject("id",id);
+		return view;
+		}
 //	=================taskDetails============================
-	@RequestMapping(value="/taskDetailUserView", method=RequestMethod.GET)
-	public ModelAndView viewTaskdetail() {
-		return new ModelAndView("taskDetailUserView");
-	}
+	@RequestMapping(value="/taskDetailUserView", method = RequestMethod.GET)
+	public ModelAndView viewTaskdetail(@RequestParam(value = "id", required=false) Integer id){
+		ModelAndView view =new ModelAndView("taskDetailUserView");
+		//System.out.println("ID in Controller is "+id);
+		view.addObject("id",id);
+		return view;
+		}
 //	=================taskDetails============================
 	@RequestMapping(value="/taskUserView", method=RequestMethod.GET)
 	public ModelAndView viewTaskView() {
@@ -93,7 +99,7 @@ public class UserController {
 			 UserDetails userDetails=(UserDetails) auth.getPrincipal();
 			 String username=userDetails.getUsername();
 				List<Project_Master> listProject = valuePerHour.getProjectDataBaseOnUser(username);
-				List<Task_Master> listTask = valuePerHour.getAllTaskBaseOnUser(username);
+				List<Task_Master> listTask = valuePerHour.getAllTaskBaseOnUser(listProject);
 				 		
 				if (listProject == null || listTask == null)
 					{

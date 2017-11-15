@@ -22,11 +22,12 @@ function createPDF(selector) {
          doc = new jsPDF({
         	 orientation: 'landscape',
              unit: 'px',
-             format: [cache_width/1.7, myHeight]
+             format: [cache_width/1.7, myHeigh-100]
          });
         doc.addImage(img, 'JPEG', 20, 20);
+        doc.addPage();
         doc.save('Project_Report.pdf');
-        form.width(cache_width);
+        form.width(cache_width);	
         form.css("border-color", "yellow");
     });
 }

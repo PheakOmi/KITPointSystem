@@ -1,15 +1,54 @@
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <body onload="load();">
 <script type="text/javascript">
-	load = function(){	
+	load = function(){
+		var id = ${id};
 		$.ajax({
 			url:'ProjectNUser',
 			type:'GET',
+			data: {id: id},
 			success: function(response){
-				
+				console.log(response)
+				member = response.member;
+				currenttask =response.currenttask;
 				project = response.project;
-				for(i=0; i<project.length; i++)					
-					$("#project").append("<option value="+project[i].id+">"+project[i].project_name+" </option>");
-				
+				function formatDate(date) {
+				    var d = new Date(date),
+				        month = '' + (d.getMonth() + 1),
+				        day = '' + d.getDate(),
+				        year = d.getFullYear();
+
+				    if (month.length < 2) month = '0' + month;
+				    if (day.length < 2) day = '0' + day;
+
+				    return [month, day, year].join('/');
+				};
+				if (currenttask.start_date==null)
+	            	$("#startdate").val("");
+				else
+					currenttask.start_date=formatDate(currenttask.start_date);
+				if (currenttask.end_date==null)
+	            	$("#enddate").val("");
+				else
+					currenttask.end_date=formatDate(currenttask.end_date);
+				if (currenttask.deadline==null)
+	            	$("#deadline").val("");
+				else
+					currenttask.deadline=formatDate(currenttask.deadline);
+	           
+				for(i=0; i<member.length; i++)
+					$("#user").append("<option value="+member[i].user_id+">"+member[i].user_name+" </option>");
+				$("#project").append("<option value="+project.id+">"+project.project_name+" </option>");
+				$("#project").attr("disabled", "disabled");
+				$("#name").val(currenttask.name).prop('disabled', true);
+				$("#user").val(currenttask.assigned_to).prop('disabled', true);;
+				$("#description").val(currenttask.description).prop('disabled', true);;
+				$("#status").val(currenttask.status).prop('disabled', true);;
+				$("#time").val(currenttask.time_spend).prop('disabled', true);;
+				$("#deadline").val(currenttask.deadline).prop('disabled', true);;
+				$("#startdate").val(currenttask.start_date).prop('disabled', true);;
+				$("#enddate").val(currenttask.end_date).prop('disabled', true);;
 			},
 		error: function(err){
 			
@@ -19,131 +58,151 @@
 		});
 		
 	}
+	
 	$(document).ready(function(){
+		document.querySelector("#time").addEventListener("keypress", function (evt) {
+	        if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+	        {
+	            evt.preventDefault();
+	        }
+	    });
 		$("[name=date]").keydown(function (event) {
 		    event.preventDefault();
 		});
-		
-		 $('li#taskStlye').addClass('active');
-		$("#myForm").on('submit',function(e){
-			e.preventDefault();
-			var name = $("#name").val().trim();
+		$('li#taskStlye').addClass('active');
+    	$("#myForm").on("submit",function(e){    
+    		e.preventDefault();
+    		var name = $("#name").val().trim();
 			var time = $("#time").val().trim();
+			var user = $("#user").val();
+			
 			var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
 			var formats = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]+/;
-			if((name=='')||(time==''))
+			if((user==''))
+			{
+			swal("Oops!", "Assigned to cannot be empty", "error")
+			return
+			}
+			if((name==''))
 				{
-				swal("Oops!", "The input cannot be empty", "error")
+				swal("Oops!", "Name cannot be empty", "error")
 				return
 				}
+			if((time==''))
+			{
+			swal("Oops!", "Time cannot be empty", "error")
+			return
+			}
 			if(format.test(name))
 				{
 				swal("Oops!", "You cannot input special characters", "error")  
 				return
 				}
-			if(format.test(time))
-			{
-			swal("Oops!", "Only Integer Accepted in Planning Hour", "error")  
-			return
-			}
-			var deadline = Date.parse($("#deadline").val());
+    		id = ${id};
+    		var deadline = Date.parse($("#deadline").val());
             var startdate = Date.parse($("#startdate").val());
             var enddate = Date.parse($("#enddate").val());
             if(startdate>enddate)
         		swal("Oops!", "Your End Date is before Start Date", "error")
         	else if(startdate>deadline)
                	swal("Oops!", "Your Deadline is before Start Date", "error")
-			else {
-					$.ajax({
-             		url:'saveTask',
-             		type:'GET',
-             		data:{		project_id:$("#project").val(),
-             					name:$("#name").val(),
-             					assigned_to:$("#user").val(),
-             					description:$("#description").val(),
-             					status:$("#status").val(),
-             					time_spend:parseInt($("#time").val()),
-             					deadline:$("#deadline").val(),
-             					start_date:$("#startdate").val(),
-             					end_date:$("#enddate").val(),},
-             		traditional: true,			
-             		success: function(response){
-             			if(response.status=="200")
-    					{
-    					setTimeout(function() {
-    				        swal({
-    				            title: "Done!",
-    				            text: "You have created it successfully!",
-    				            type: "success"
-    				        }, function() {
-    				            window.location = "task";
-    				        });
-    				    }, 10);
-    					
-    					}
+            else{
+            $.ajax({
+    		url:'updateTask',
+    		type:'GET',
+    		data:{		id:id,
+    					project_id:$("#project").val(),
+    					name:$("#name").val().trim(),
+    					assigned_to:$("#user").val(),
+    					description:$("#description").val().trim(),
+    					status:$("#status").val(),
+    					time_spend:parseInt($("#time").val()),
+    					deadline:$("#deadline").val(),
+    					start_date:$("#startdate").val(),
+    					end_date:$("#enddate").val(),},
+    		traditional: true,			
+    		success: function(response){
+    			if(response.status=="200")
+				{
+				setTimeout(function() {
+			        swal({
+			            title: "Done!",
+			            text: "You have updated it successfully!",
+			            type: "success"
+			        }, function() {
+			            window.location = "task";
+			        });
+			    }, 10);
+				
+				}
     				//var obj = jQuery.parseJSON(response);
     				    
-    				else 
-    					{
-    					swal("Oops!", response.message, "error")
-    					
-    					}
-             				},
-             		error: function(err){
-             				console.log(JSON.stringify(err));
-             				
-             				}
-             		
-             			});		
-		}
-		});
-	});		
+				else 
+ 					swal("Oops!", response.message, "error")    
+				
+				},
+    		error: function(err){
+    				console.log(JSON.stringify(err));
+    				
+    				}
+    		
+    			});			
+            }
+    	});
+    });	
+	
+	redirect = function(e, url){
+		e.preventDefault();
+		location.href=url;
+	}
 </script>		
-<form id="myForm">
+<form role="form" id="myForm">
 <div class="wrapper">
- <div class="row">
-                 
+ <div class="row">     
                     <div class="col-lg-6">
 
                             <div class="form-group">
                                 <label>Task Name</label>
-                                <input class="form-control" id="name" maxlength="30" type="text" required>
+                                <input class="form-control" id="name" type="text" required>
                         	</div>
                             <div class="form-group">
                                 <label>Project: </label>
-                                <select class="form-control" id="project" type="text" required>
-                                    <option></option>
+                                <select class="form-control" id="project">
+                                    
                                 </select>
                         	</div>
                             <div class="form-group">
                                 <label>Assign to:</label>
                                 <select class="form-control" id="user">
-                                   
+                                    
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label>Planning Hour</label>
-                                <input class="form-control" maxlength="4" id="time" type="text" required>
+                                <input class="form-control" id="time" maxlength="3" type="text" required>
                         	</div>
     						<div class="form-group">
                                 <label>Description</label>
-                                <input class="form-control" id="description" type="text" required>
+                                <input class="form-control" id="description">
                         	</div>
+                                 
+                            
+                           
                         </div>
                            
                          <div class="col-lg-6">
                            
                             <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">Start Date</label>
-                                  <input class="form-control" id="startdate" name="date" placeholder="MM/DD/YYY" type="text" />
+                                  <input class="form-control" id="startdate" name="date" placeholder="MM/DD/YYY" type="text"/>
                             </div>
     					 <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">End Date</label>
-                              <input class="form-control" id="enddate" name="date" placeholder="MM/DD/YYY" type="text" />
+                              <input class="form-control" id="enddate" name="date" placeholder="MM/DD/YYY" type="text"/>
                             </div>
                                  <div class="form-group col-lg-6">
                                 <label class="control-label" for="date">Deadline</label>
-                                <input class="form-control" id="deadline" name="date" placeholder="MM/DD/YYY" type="text" />
+                                <input class="form-control" id="deadline" name="date" placeholder="MM/DD/YYY" type="text"/>
                         </div>
                                  <div class="form-group col-lg-6">
                                 <label>Status</label>
@@ -155,36 +214,15 @@
                                     
                                 </select>
                             </div>                      
-                  		  </div>  
+                  		  </div>
+                   
+             
+	                                        
         </div>            
-</div>
-<button type="submit" class="btn btn-default">Create</button>
-<button onclick="location.href = 'task';" class="btn btn-default">Cancel</button>
-</form>
-<script type="text/javascript">
-$('#project').on('change', function() {
-	var projectid = this.value;
-	$.ajax({
-		url:'studentInTask',
-		type:'GET',
-		data: {id: projectid},
-		success: function(response){
-		console.log(response);
-		student=response.student;
-		$('#user')
-	    .find('option')
-	    .remove()
-	    .end();
 
-		for(i=0; i<student.length; i++)
-			$("#user").append("<option value="+student[i].user_id+">"+student[i].user_name+" </option>");
-		
-		},
-		error: function (err)
-		{
-			console.log(JSON.stringify(err));
-		}
-	});	  
-	})
-</script>
+</div>
+<a onclick="redirect(event,'taskUserView')" class="btn btn-info btn-md center" id="goBack2" style="margin:1.5cm 0cm 0cm -16cm;width:110px;background-color:#4CAF50;">
+          <span class="glyphicon glyphicon-chevron-left"></span> Go Back
+        </a>  
+</form>
 </body>

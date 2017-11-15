@@ -163,7 +163,7 @@ $(document).ready(function() {
                             "</div>"+
                               
                                 "<div class='panel-footer'>"+
-                                "<a href='updateProjectDetail?id="+project[i].id+"'>"+
+                                "<a href='projectDetailUserView?id="+project[i].id+"'>"+
                                     "<span class='pull-left'>View Details</span>"+                                    
                                     "</a>"+
                                     '<div>'+
@@ -336,7 +336,7 @@ $(document).ready(function() {
                             "</div>"+
                               
                                 "<div class='panel-footer'>"+
-                                "<a href='updateProjectDetail?id="+project[i].id+"'>"+
+                                "<a href='projectDetailUserView?id="+project[i].id+"'>"+
                                     "<span class='pull-left'>View Details</span>"+ 
                                     "</a>"+
                                     "<div class='clearfix'></div>"+

@@ -7,7 +7,6 @@
  	 <id name="id" column="id" >    
  	    <generator class="increment"/>    
  	 </id>
- 	 <property name="batch_id"  column="batch_id"/>
     <property name="user_id"  column="user_id"/>
     <property name="project_id" column="project_id"/>
     <property name="kit_point" column="kit_point"/>

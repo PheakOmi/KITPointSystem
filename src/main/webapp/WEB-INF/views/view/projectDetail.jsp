@@ -10,6 +10,7 @@
 				category = response.category;
 				user = response.user;
 				student = response.student;
+				skillset = response.skillset;
 				
 				for(i=0; i<category.length; i++)					
 					$("#projectcategory").append("<option value="+category[i].id+">"+category[i].name+" </option>");
@@ -17,7 +18,9 @@
 					$("#projectcoordinator").append("<option value="+user[i].id+">"+user[i].name+" </option>");
 				for(i=0; i<student.length; i++)
 					$("#teamleader").append("<option value="+student[i].id+">"+student[i].name+" </option>");
-		$('#member').select2({data: student});					
+		$('#member').select2({data: student});
+		$('#skillset').select2({data: skillset});
+		
 			
 			},
 		error: function(err){
@@ -30,6 +33,19 @@
 	}
 	
 	$(document).ready(function(){
+		$('input[type=radio][name=auto]').change(function() {
+	        if (this.value == 'no') {
+	        	$("#kitpoint").prop('disabled', false);
+	        	
+	            
+	        }
+	        else {
+	        	$("#kitpoint").prop('disabled', true);
+	        	
+	        }
+
+
+	    });
 		document.querySelector("#planninghour").addEventListener("keypress", function (evt) {
 	        if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
 	        {
@@ -51,7 +67,7 @@
     		
     		var member = $('#member').val(); 
     		member.push($('#teamleader').val());
-    		
+    		var skillset = $("#skillset").val();
     		e.preventDefault();
     		var projectname = $("#project_name").val().trim();
     		var projectcode = $("#projectcode").val().trim();
@@ -82,6 +98,12 @@
         	else if(startdate>deadline)
                	swal("Oops!", "Your Deadline is before Start Date", "error")
     		else{
+    		var auto;
+    		var check = $("input[name='auto']:checked").val();
+    		if (check=="yes")
+    			auto=true;
+    		else 
+    			auto=false;
         	$.ajax({
         		url:'saveProject',
         		type:'GET',
@@ -97,6 +119,8 @@
         					deadline:$("#deadline").val(),
         					start_date:$("#startdate").val(),
         					end_date:$("#enddate").val(),
+        					auto:auto,
+        					skill:skillset,
         					member:member,},
         		traditional: true,			
         		success: function(response){
@@ -130,7 +154,61 @@
         			});	
     		}
     	});		
+    	
+    	
+    	$("#myForm2").on("submit",function(e){
+    		e.preventDefault();
+    		var a = $("#sname").val().trim();
+    		var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+    		if(a=='')
+    			{
+    			swal("Oops!", "The input cannot be empty", "error")
+    			return
+    			}
+    		if(format.test(a))
+    			{
+    			swal("Oops!", "You cannot input special characters", "error")  
+    			return
+    			}
+    			$.ajax({
+    				url:'skillsetCreate',
+    				type:'GET',
+    				data:{name:$("#sname").val()},
+    				success: function(response){
+    					if(response.status=="200")
+    						{
+    						
+    						$.ajax({
+										url:'getSkillset',
+										type:'GET',
+										success: function(response){
+											$('#skillset').select2({data: response.skill});
+											$("#sname").val("");
+										}				
+									});
+    						
+    						
+    						$('#closing').trigger('click');
+    						}
+    					//var obj = jQuery.parseJSON(response);
+    					    
+    					else 
+    						{
+    						swal("Oops!", "Skill Set already existed", "error")
+    						
+    						}
+    						
+    				},
+    				error: function(err){
+    					console.log(JSON.stringify(err));
+    				}
+    			});			
+    	});
+    	
 });	
+	goTO = function(){
+		$('#bsubmit').trigger('click');
+	}
     
 </script>
 <form id="myForm">
@@ -227,15 +305,21 @@
                                 	<input class="form-control" name="date" id="deadline" placeholder="MM/DD/YYY" type="text"/>
                                 </div>
                         </div>
-<%--                                  <div class="form-group">
-                                <label class="col-sm-4 control-label">Project Stage</label>
+                                 <div class="form-group">
+                                <label class="col-sm-4 control-label">Auto Point Calculation?	</label>
 	                            <div class="col-sm-8">
 	                            
-	                            <div id="stage" class="checkbox checkbox-primary">
-	                   					
+	                            <div  style="margin: 0cm 2cm 0cm 0.5cm;">
+	                   					 <label class="radio-inline">
+									      <input type="radio" name="auto" value="yes" checked>Yes
+									    </label>
+									    <label class="radio-inline">
+									      <input type="radio" name="auto" value="no">No	
+									    </label>
+    
 	                            </div>
 	                            </div>
-                            </div>		--%>
+                            </div>		
                             
                               
                              <div class="form-group">
@@ -247,17 +331,59 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Budget</label>
                                 <div class="col-sm-8">	
-                                	<input type="text" class="form-control" maxlength="7" id="budget" disabled>
+                                	<input type="text" class="form-control" maxlength="7" id="budget">
                                 </div>
                             </div>
-                            
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Skill Set	</label>
+	                            <div class="col-sm-8">    
+	                                <select class="js-example-basic-multiple form-control" id="skillset" multiple="multiple">
+									
+									</select>
+	                            </div>
+                            </div>    
+                            <div style="margin:-0.3cm 0cm 1.2cm 14cm;"	>
+                            <a href="#" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal">
+          <span class="glyphicon glyphicon-new-window" ></span> Create a skill set</a>
+                           
+                            </div>
                           	
                   		  </div>
                   	
 	                    </div>
                     </div>
-     </form>            
-
-
+     </form>      
+     
+           
+ 
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Create a skill set</h4>
+        </div>
+        <div class="modal-body">
+     <form class="form-group" id="myForm2">
+    <div>
+      <label class="col-sm-4" for="email">Skill Set Name:</label>
+      <div class="col-sm-7">
+      <input type="text" class="form-control" id="sname" maxlength="60" placeholder="Enter Name" required>
+      <button id="bsubmit" type="submit" class="btn btn-default" style="display:none;">Create</button>
+      </div>
+    </div>
+  </form>
+  <br>
+        </div>
+        <div class="modal-footer">
+          <button onClick="goTO()" class="btn btn-default">Create</button>
+          <button type="button" id="closing" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>		 
                     </body>                   
 			

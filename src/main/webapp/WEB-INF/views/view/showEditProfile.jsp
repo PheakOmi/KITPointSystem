@@ -87,18 +87,23 @@ $(document).ready(function(){
                        		 </div>
                        		 <div class="form-group">
                                 <label class="col-sm-2 control-label"></label>
-                                <div  class="col-sm-10">
-                                <sec:authorize access="hasRole('ROLE_USER')"><button class="btn btn-default" onclick="relocate_create()">CREATE</button>
-                                </sec:authorize>
-                                </div>
+                                
                        		 </div>
                        
                             <div class="col-sm-offset-2 col-sm-10">
                             <button type="submit" class="btn btn-default">Save</button>
+                            <sec:authorize access="hasRole('ROLE_USER')">
+                            <button onclick="location.href = 'projectUserView';" class="btn btn-default">Cancel</button>
+                            </sec:authorize>  
+                            <sec:authorize access="hasRole('ROLE_ADMIN')">
                             <button onclick="location.href = 'project';" class="btn btn-default">Cancel</button>
+                            </sec:authorize>  
+                            <sec:authorize access="hasRole('ROLE_N_ADMIN')">
+                            <button onclick="location.href = 'projectAdminView';" class="btn btn-default">Cancel</button>
+                            </sec:authorize>  
 						</div>
 						</div>
-                       
+                     
 						
                         
                      </form>

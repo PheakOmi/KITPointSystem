@@ -1,4 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@page session="true"%>
 <c:url value="/logout" var="logoutUrl" />
 	<form action="${logoutUrl}" method="post" id="logoutForm">
@@ -17,7 +19,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                
+                <sec:authorize access="hasRole('ROLE_USER')">
+                <a class="navbar-brand" href="projectUserView" style="color:#fff;">KIT POINT SYSTEM</a>
+                </sec:authorize>  
+                <sec:authorize access="hasRole('ROLE_ADMIN')">
                 <a class="navbar-brand" href="project" style="color:#fff;">KIT POINT SYSTEM</a>
+                </sec:authorize>  
+                <sec:authorize access="hasRole('ROLE_N_ADMIN')">
+                <a class="navbar-brand" href="projectAdminView" style="color:#fff;">KIT POINT SYSTEM</a>
+                </sec:authorize> 
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">

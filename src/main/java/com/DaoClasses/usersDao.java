@@ -33,6 +33,7 @@ import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Member;
 import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
+import com.EntityClasses.Skillset_Master;
 import com.EntityClasses.Sms_Server_Info;
 import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
@@ -101,4 +102,13 @@ public interface usersDao {
 	public List<KIT_Point_Student_Wise> updateAllPoint(int user_id) throws Exception;
 	public boolean updatePoint(KIT_Point_Student_Wise point);
 	public int getUserIdByName(String name);
+	public void updatePointStudent (int students[],int project_id,float point,int hours);
+	public List<KIT_Point_Student_Wise> getPointByProjectId(int project_id) throws Exception;
+	public boolean updatePointMember(KIT_Point_Student_Wise point);
+	public boolean createSkillset(Skillset_Master skillset);
+	public List<Skillset_Master> getAllSkillset();
+	public void saveSkillset(int projectid, int arr[]) throws Exception;
+	public int[] getSkillsetByProjectId(int project_id);
+	public List<Project_Master> getProjectOnSkillset(int[] skill) throws Exception;
+	public int getUserByEmail(String email) ;
 }

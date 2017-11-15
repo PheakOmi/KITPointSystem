@@ -35,6 +35,7 @@ import com.EntityClasses.Project_Category_Master;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Member;
 import com.EntityClasses.Semester_Master;
+import com.EntityClasses.Skillset_Master;
 import com.EntityClasses.Sms_Server_Info;
 import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
@@ -88,6 +89,11 @@ public class ControllerFile {
 		//String message = "Hello World";
 		return new ModelAndView("projectDetail");
 	}
+	@RequestMapping(value="/skillSetReporting", method=RequestMethod.GET)
+	public ModelAndView skillSetReporting() {
+		//String message = "Hello World";
+		return new ModelAndView("skillSetReporting");
+	}
 	@RequestMapping(value="/profileMenu", method=RequestMethod.GET)
 	public ModelAndView profileMenu() {
 		//String message = "Hello World";
@@ -118,6 +124,21 @@ public class ControllerFile {
 			
 				   // DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
 					List<Project_Category_Master> list = usersService1.getProjectCategories();
+					 		
+					if (list != null)
+						map.put("data", list);
+					else
+						map.put("message","Data not found");			
+					
+					return map;
+			}
+			@RequestMapping(value="/skillSetList", method=RequestMethod.GET)
+			public @ResponseBody Map<String,Object> getSkillset(){
+						
+				 Map<String,Object> map = new HashMap<String,Object>();
+			
+				   // DaoClasses.userDaoImpl dao = new DaoClasses.userDaoImpl();
+					List<Skillset_Master> list = usersService1.getAllSkillset();
 					 		
 					if (list != null)
 						map.put("data", list);
@@ -158,6 +179,7 @@ public class ControllerFile {
 				 Map<String,Object> map = new HashMap<String,Object>();
 				 Map<String,Object> error = new HashMap<String,Object>();
 					List<Project_Category_Master> listProjectCategory = usersService1.getProjectCategories();
+					List<Skillset_Master> skillsets = usersService1.getAllSkillset();					
 					List<User_Info> listUser = usersService1.getAllUser();
 					List<Student> student = usersService1.getAllStudent();
 					if (listProjectCategory == null || listUser == null)
@@ -173,9 +195,12 @@ public class ControllerFile {
 							map.put("category", listProjectCategory);
 							map.put("user", listUser);
 							map.put("student",student);
+							map.put("skillset", skillsets);
 							if(project!=null){
 							map.put("currentproject",project);
 							int members[] = usersService1.getMembersIdByProjectId(project.getId());
+							int currentskill[] =  usersService1.getSkillsetByProjectId(project.getId());
+							map.put("currentskill", currentskill);
 							map.put("member", members);
 							}
 							return map;
@@ -320,13 +345,21 @@ public class ControllerFile {
 //========================Save Project========================================================
 			@RequestMapping(value="/saveProject", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> toSaveProject(Project_Model pm) throws Exception{
+				if(pm.getKit_point().isEmpty())
+					pm.setKit_point("0");	
 					DecimalFormat df2 = new DecimalFormat(".##");
 					Map<String, Float> pointNbudget = new HashMap<String, Float>();
 					int[] m = pm.getMember();
+					int [] skill = pm.getSkill();
 					Map<String,Object> map = new HashMap<String,Object>();
 					Map<Integer, String> mm = usersService1.getStudentSemester(m);
 //					mm={	{11,Semester 2, 4}, {11,Semester 2, 4}....}  11:student_id, 4:batch_id
+					if(pm.isAuto())
 					pointNbudget =usersService1.pointCalculation(mm,pm.getInitially_planned());
+					else{
+						pointNbudget.put("budget", (float) pm.getBudget());
+						pointNbudget.put("point", Float.parseFloat(pm.getKit_point()));
+					}
 					if (pointNbudget.containsKey("No Value"))
 							{
 								int batch_id = Math.round(pointNbudget.get("batch_id"));
@@ -352,8 +385,11 @@ public class ControllerFile {
 						
 					{
 						usersService1.saveMember(id,m);
+						usersService1.saveSkillset(id, skill);
 						if(pm.getStatus().equals("Completed Project"))
 							usersService1.addPointStudent(m, id, Float.parseFloat(df2.format(pointNbudget.get("point"))), pm.getInitially_planned());
+						else
+							usersService1.addPointStudent(m, id, 0, pm.getInitially_planned());
 						map.put("status","200");
 						map.put("message","Your record has been saved successfully");
 						
@@ -384,6 +420,27 @@ public class ControllerFile {
 						return map;
 					}
 				}
+			
+			
+			@RequestMapping(value="/skillSetReportingSubmit", method=RequestMethod.GET)
+			public @ResponseBody Map<String,Object> skillSetReportingSubmit(Project_Model pm) throws Exception{
+					int skill[] = pm.getSkill();
+					Map<String,Object> map = new HashMap<String,Object>();
+					List<Project_Master> projects = usersService1.getProjectOnSkillset(skill);
+					if(projects!=null)
+						
+					{
+						map.put("status","200");
+						map.put("message","Succeeded");		
+						map.put("data", projects);
+						return map;
+					}
+					else {
+						map.put("status","999");
+						map.put("message","Failed");
+						return map;
+					}
+				}
 //========================projectReportSubmit========================================================
 			@RequestMapping(value="/updatePointSubmit", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> updatePointSubmit(KIT_Point_Student_Wise p) throws Exception{
@@ -391,6 +448,23 @@ public class ControllerFile {
 					System.out.println("P "+p.getKit_point());
 					Map<String,Object> map = new HashMap<String,Object>();
 					if(usersService1.updatePoint(p))
+						
+					{
+						map.put("status","200");
+						map.put("message","You have updated successfully");		
+						return map;
+					}
+					else {
+						map.put("status","999");
+						map.put("message","It is not updated");
+						return map;
+					}
+				}
+
+			@RequestMapping(value="/updatePointMemberSubmit", method=RequestMethod.GET)
+			public @ResponseBody Map<String,Object> updatePointMemberSubmit(KIT_Point_Student_Wise p) throws Exception{
+					Map<String,Object> map = new HashMap<String,Object>();
+					if(usersService1.updatePointMember(p))
 						
 					{
 						map.put("status","200");
@@ -468,6 +542,37 @@ public class ControllerFile {
 					}
 					return new ModelAndView("updatePoint", "message", json);
 				}
+			@RequestMapping(value="/viewAllMember", method=RequestMethod.GET)
+			public ModelAndView viewAllMember(@RequestParam("id") int project_id/*,@RequestParam("name") String name*/) throws Exception{
+					ObjectMapper mapper = new ObjectMapper();
+					List<Project_Member> members =  usersService1.getMemberByProjectId(project_id);
+					String json = "";
+					try {
+						json = mapper.writeValueAsString(members);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return new ModelAndView("viewAllMember", "message", json);
+				}
+			
+			
+			@RequestMapping(value="/viewAllProjectBySkill", method=RequestMethod.GET)
+			public ModelAndView viewAllProjectBySkill(@RequestParam("data") int s[]) throws Exception{
+				ObjectMapper mapper = new ObjectMapper();
+				int skill[] = s;
+				Map<String,Object> map = new HashMap<String,Object>();
+				List<Project_Master> projects = usersService1.getProjectOnSkillset(skill);
+				
+				String json = "";
+				try {
+					json = mapper.writeValueAsString(projects);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return new ModelAndView("viewAllProjectBySkill", "message", json);
+			}
+			
+			
 			@RequestMapping(value="/updateAllPoint2", method=RequestMethod.GET)
 			public ModelAndView updateAllPoint2() throws Exception{
 					Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -483,6 +588,34 @@ public class ControllerFile {
 					}
 					return new ModelAndView("showCurrentPoint", "message", json);
 				}
+			@RequestMapping(value="/updatePointMember", method=RequestMethod.GET)
+			public ModelAndView updatePointMember(@RequestParam("id") int project_id) throws Exception{
+					List<Student> student = usersService1.getAllStudent();
+					ObjectMapper mapper = new ObjectMapper();
+					List<KIT_Point_Student_Wise> points =  usersService1.getPointByProjectId(project_id);
+					List<Integer> myList = new ArrayList<Integer>();
+					for(Student s:student)
+						myList.add(Integer.parseInt(s.getId()));
+					int size = myList.size();
+  	    		    Integer[] users = myList.toArray(new Integer[size]);
+					Arrays.sort(users);
+					for (int i=0;i<points.size();i++)
+					{
+						if(contains(users,points.get(i).getUser_id()))
+		    		     {
+							int id = points.get(i).getUser_id();
+							points.get(i).setName(usersService1.getUserById(id).getName());
+		    		     }
+					}
+					points.get(0).setTpoint(usersService1.getProjectById(points.get(0).getProject_id()).getKit_point());
+					String json = "";
+					try {
+						json = mapper.writeValueAsString(points);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return new ModelAndView("updatePointMember", "message", json);
+				}
 //========================Update Project========================================================
 			@RequestMapping(value="/updateProject", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> toUpdateProject(Project_Model pm) throws Exception{
@@ -490,14 +623,15 @@ public class ControllerFile {
 				if(pm.getKit_point().isEmpty())
 					pm.setKit_point("0");	
 					
-					DecimalFormat df2 = new DecimalFormat(".##");
+//					DecimalFormat df2 = new DecimalFormat(".##");
 					Project_Master project = new Project_Master();
-					Map<String,Object> map = new HashMap<String,Object>();	
-					Map<Integer, String> mm = usersService1.getStudentSemester(pm.getMember());
 					project = usersService1.getProjectById(pm.getId());
+					Map<String,Object> map = new HashMap<String,Object>();
+/*						
+					Map<Integer, String> mm = usersService1.getStudentSemester(pm.getMember());	
 					if(project.getKit_point() == null) {
 						project.setKit_point("0");
-					}
+					}	
 					if (project.getKit_point().equals(pm.getKit_point()))
 					{
 						int newa[] = pm.getMember();
@@ -534,12 +668,14 @@ public class ControllerFile {
 					}
 					else{
 						pm.setKit_point(df2.format(Float.parseFloat(pm.getKit_point())));
-					}
+					}*/
 					
 					if(usersService1.updateProject(pm))
 					{
-						if(pm.getStatus().equals("Completed Project")&&!project.getStatus().equals("Completed Project"))
+/*						if(pm.getStatus().equals("Completed Project")&&!project.getStatus().equals("Completed Project"))
 							usersService1.addPointStudent(pm.getMember(), pm.getId(), Float.parseFloat(pm.getKit_point()), pm.getInitially_planned());
+						if(pm.getStatus().equals("Completed Project")&&project.getStatus().equals("Completed Project"))
+							usersService1.updatePointStudent(pm.getMember(), pm.getId(), Float.parseFloat(pm.getKit_point()), pm.getInitially_planned());*/
 						map.put("status","200");
 						map.put("message","Your record has been saved successfully");
 						return map;
@@ -659,6 +795,22 @@ public class ControllerFile {
 				}
 				
 			}
+		//================================Skill set Create============================================
+				@RequestMapping(value="/skillsetCreate", method=RequestMethod.GET)
+				public @ResponseBody Map<String,Object> skillsetCreate(Skillset_Master skillset){
+						Map<String,Object> map = new HashMap<String,Object>();				
+						if(usersService1.createSkillset(skillset)){
+							map.put("status","200");
+							map.put("message","Your record has been saved successfully");
+							return map;
+						}
+						else {
+							map.put("status","999");
+							map.put("message","Your record already existed");
+							return map;
+						}
+						
+					}
 
 //	=================create new user============================
 	@RequestMapping(value="/newUser", method=RequestMethod.GET)
@@ -775,6 +927,23 @@ public class ControllerFile {
 						
 						
 					}
+				@RequestMapping(value="/getSkillset", method=RequestMethod.GET)
+				public @ResponseBody Map<String,?> showBatch(){
+					 Map<String,List> map = new HashMap<String,List>();
+					 Map<String,Object> error = new HashMap<String,Object>();
+						List<Skillset_Master> skills = usersService1.getAllSkillset();
+						if (skills == null)
+							{
+								error.put("message","batch not found");
+								return error;
+							}
+							
+						else
+							{
+								map.put("skill", skills);
+								return map;
+							}	
+				}
 //================================Save Batch============================================
 @RequestMapping(value="/batchSubmit", method=RequestMethod.GET)
 public @ResponseBody Map<String,Object> toCreateProjectCategory(Batch_Master batch){
@@ -889,6 +1058,8 @@ public @ResponseBody Map<String,Object> saveServerInfo(Sms_Server_Info info){
 		view.addObject("id",id);
 		return view;
 		}
+	
+	
 	@RequestMapping(value="/updateProjectDetailAdminView", method = RequestMethod.GET)
 	public ModelAndView updateProjectDetailAdminView(@RequestParam(value = "id", required=false) Integer id){
 		ModelAndView view =new ModelAndView("updateProjectDetailAdminView");
@@ -926,7 +1097,7 @@ public @ResponseBody Map<String,Object> saveServerInfo(Sms_Server_Info info){
 			else if(check==2)
 			{
 				map.put("status", "777");
-				map.put("message", "You cannot change name for others!");
+				map.put("message", "You cannot edit profile for others!");
 			}
 			else
 			{
@@ -936,6 +1107,30 @@ public @ResponseBody Map<String,Object> saveServerInfo(Sms_Server_Info info){
 			return map;
 			
 		}
+	@RequestMapping(value="/forgetPasswordSubmit", method=RequestMethod.GET)
+	public @ResponseBody Map<String,String> forgetPasswordSubmit(User_Info user) throws Exception{
+		System.out.println("Hello pp"+user.getEmail());
+			String email = user.getEmail();
+			Map<String,String> map = new HashMap<String,String>();
+			int check = usersService1.getUserByEmail(email);
+			if(check==0)
+			{
+				map.put("status", "999");
+				map.put("message", "Email does not exist");
+			}
+			else
+			{
+				map.put("status", "888");
+				map.put("message", "Done!");
+			}
+			return map;
+			
+		}
+	//=============To find an element in array==============================
+		public static boolean contains(Integer[] users, int item) {
+		      int index = Arrays.binarySearch(users, item);
+		      return index >= 0;
+		   }
 }
 
 

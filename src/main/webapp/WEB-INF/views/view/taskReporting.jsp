@@ -1,3 +1,5 @@
+<style type="text/css">
+</style>
 <body onload="load()" style="overflow:scroll;">
 <script type="text/javascript">
 var projectdata;

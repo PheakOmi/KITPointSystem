@@ -228,6 +228,7 @@ $(document).ready(function() {
 			$("#id2").removeClass("active");
 			$("#id3").removeClass("active");
 			$("#id4").removeClass("active");
+			$("#over").removeClass("active");
 			project_status="Completed Project";
 		}
 		else if (statusData=="Approved Project")
@@ -237,6 +238,7 @@ $(document).ready(function() {
 			$("#id3").removeClass("active");
 			$("#id4").removeClass("active");
 			$("#id5").removeClass("active");
+			$("#over").removeClass("active");
 			
 			project_status="Approved Project";
 		}
@@ -248,6 +250,7 @@ $(document).ready(function() {
 			$("#id2").removeClass("active");
 			$("#id4").removeClass("active");
 			$("#id5").removeClass("active");
+			$("#over").removeClass("active");
 			project_status="To approve Project";
 		}
 		else if (statusData=="Pending Project")
@@ -257,6 +260,7 @@ $(document).ready(function() {
 			$("#id2").removeClass("active");
 			$("#id3").removeClass("active");
 			$("#id5").removeClass("active");
+			$("#over").removeClass("active");
 			project_status="Pending Project";
 		}	else 
 		{
@@ -264,6 +268,7 @@ $(document).ready(function() {
 			$("#id3").removeClass("active");
 			$("#id4").removeClass("active");
 			$("#id5").removeClass("active");
+			$("#over").removeClass("active");
 			$("div #project").html('');
 			load();
 			return;
@@ -367,6 +372,133 @@ $(document).ready(function() {
 	     location.href = "projectDetail";
 	}
 	
+	
+	
+	showProjectOverDeadline=function(){
+			$("li#id5").removeClass("active");
+			$("#id1").removeClass("active");
+			$("#id2").removeClass("active");
+			$("#id3").removeClass("active");
+			$("#id4").removeClass("active");
+			$("#over").addClass("active");
+			$("div #project").html('');
+			$.ajax({
+				url:'getProject',
+				type:'GET',
+				success: function(response){
+						
+						project=response.project;
+						var today = new Date();
+						var dd = today.getDate();
+						var mm = today.getMonth()+1; //January is 0!
+						var yyyy = today.getFullYear();
+
+						if(dd<10) {
+						    dd = '0'+dd
+						} 
+
+						if(mm<10) {
+						    mm = '0'+mm
+						} 
+
+						today = mm + '/' + dd + '/' + yyyy;
+						var todaydate = Date.parse(today);
+						for(i=0; i<project.length; i++){
+							
+							
+							if (project[i].kit_point==""||project[i].kit_point==null)
+								project[i].kit_point="0.00";
+							if (project[i].start_date==null||project[i].start_date=="")
+								project[i].start_date="";
+							else
+								project[i].start_date=formatDate(project[i].start_date);
+							if (project[i].deadline==null||project[i].deadline=="")
+								project[i].deadline="";
+							else
+								project[i].deadline=formatDate(project[i].deadline);
+					        var deadlinedate = Date.parse(project[i].deadline);
+					        if(todaydate>deadlinedate && project[i].status!="Completed Project" )
+					    {
+					        	
+					        var panel, approved_button="";
+							 switch(project[i].status){
+								case "To approve Project":
+									panel="panel-default";
+									approved_button="<button type='submit' class='btn btn-warning' onclick='approveProject("+project[i].id+");'>Approve</button>";
+									
+									break;
+								case "Approved Project":
+									panel="panel-primary";
+									break;
+								case "Completed Project":
+									panel="panel-success";
+									break;
+								case "Pending Project":
+									panel="panel-danger";
+									break;
+								default:
+									panel="panel-default";
+									break;
+							
+							 }
+							var projectDiv =
+							"<div class='col-sm-4' data-project-status='"+project[i].status+
+							"'>"+
+							"<div class='panel "+panel+"'>"+
+								"<div class='panel-heading'>"+
+									"<h3 class='panel-title' project-title='"+project[i].project_name+"'>"+ project[i].project_name+"</h3>"+
+	                            "</div>"+
+	                            "<div class='panel-body'>"+
+	                               
+	                
+	                               "<div class='row'>"+
+	                                    "<div class='col-xs-6' style='color:lightred;'>"+
+	                                    "<label style='color:#CC3333;'>Number of days crossed :</label>"+daydiff(deadlinedate,todaydate)+
+	                                    " day(s)</div>"+
+	                                    "<div class='col-xs-6'>"+
+	                                    "<label>Deadline :</label>"+project[i].deadline+
+	                                    "</div>"+
+	                               "</div>"+
+	                               "<div class='row'>"+
+	                               "<div class='col-xs-6'>"+approved_button+
+	                               "</div>"+
+	                               "<div class='col-xs-6 text-right'>"+ 
+	                               "<div class='huge'>"+project[i].kit_point+"</div>"+ 
+	                                   "<div>KIT point</div>"+ 
+	                                   "</div>"+
+	                          "</div>"+
+	                            "</div>"+
+	                              
+	                                "<div class='panel-footer'>"+
+	                                "<a href='updateProjectDetail?id="+project[i].id+"'>"+
+	                                    "<span class='pull-left'>View Details</span>"+                                    
+	                                    "</a>"+
+	                                    '<div>'+
+	                                    "<a href='javascript:func("+project[i].id+")'>"+
+	                                    '<span class="pull-right deleteProject">Delete</span>'+ 
+	                                    "</a>"+
+	                                    "</div>"+
+	                                    "<div class='clearfix'></div>"+
+	                                   
+	                                "</div>"+
+	                            
+	                        "</div>"+
+	                        "</div>";
+							
+							$("#project").append(projectDiv);
+
+						}
+				}
+				}				
+			});	
+		
+		
+	}
+	
+	function daydiff(first, second) {
+	    return Math.round((second-first)/(1000*60*60*24));
+	}
+	
 </script>
 <body onload="load();">
                     <div class="container">
@@ -382,6 +514,8 @@ $(document).ready(function() {
                                 <li id="id4" onclick='showProjectBasedStatus("Pending Project");'><a>Pending Project</a>
                                 </li>
                                 <li id="id5" onclick='showProjectBasedStatus("Completed Project");'><a>Completed Project</a>
+                                </li>
+                                <li id="over" onclick='showProjectOverDeadline()'><a>Behind-Deadline Project</a>
                                 </li>
                                <sec:authorize access="hasRole('ROLE_ADMIN')"> <li class="pull-right"> <button class="btn btn-default" onclick="relocate_create()">CREATE</button>
                                 </li></sec:authorize>
