@@ -18,16 +18,11 @@
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">update</property>
          <mapping resource ="batch_master.hbm.xml"/>
-         <mapping resource ="budget.hbm.xml"/>
-         <mapping resource ="budget_master.hbm.xml"/>
          <mapping resource ="kit_point.hbm.xml"/>
          <mapping resource ="kit_point_student_wise.hbm.xml"/>
          <mapping resource ="project_category_master.hbm.xml"/>
          <mapping resource ="project_master.hbm.xml"/>
          <mapping resource ="project_member.hbm.xml"/>
-         <mapping resource ="project_stage.hbm.xml"/>
-         <mapping resource ="project_stage_master.hbm.xml"/>
-         <mapping resource ="semester_master.hbm.xml"/>
          <mapping resource ="task_master.hbm.xml"/>
          <mapping resource ="user_info.hbm.xml"/>
          <mapping resource ="userRole.hbm.xml"/>

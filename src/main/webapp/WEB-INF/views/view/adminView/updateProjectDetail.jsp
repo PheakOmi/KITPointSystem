@@ -404,15 +404,14 @@
 									</select>
 	                            </div>
                             </div>    
-                            <div style="margin:-0.3cm 0cm 1.2cm 14cm;"	>
+                            <div style="margin:1% 0cm 10% 80%;"	>
                             <a href="#" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal">
           <span class="glyphicon glyphicon-new-window" ></span> Create a skill set</a>
                            
                             </div>
                             <sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_N_ADMIN')">
                           	 <div style="text-align: center; margin-top: 50px;">	
-                          	   <button onclick="redirect2(event,'updatePointMember')" class="btn btn-default" style="display:none;margin-left:1cm;" id="upoint">Update Point For Members</button>
-			                   <button type="submit" class="btn btn-default">Update</button>
+   			                   <button type="submit" class="btn btn-default">Update</button>
 			                   <button onclick="redirect(event,'projectAdminView')" class="btn btn-default preventDefault" >Cancel</button>
 			                   
 	                    </div>

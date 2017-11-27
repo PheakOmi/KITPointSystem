@@ -52,17 +52,16 @@ goTO = function(){
         </div>
         <div class="modal-body">
      <form class="form-group" id="myForm2">
-    <div>
+    <div class="clearfix">
       <label class="col-sm-2" for="email">Skill Set:</label>
       <div class="col-sm-7">
-		      <select class="js-example-basic-multiple form-control" id="skillset" multiple="multiple" required>
+		      <select style="width: 100%;" class="js-example-basic-multiple form-control" id="skillset" multiple="multiple" required>
 											
 			  </select>
-      <button id="bsubmit" type="submit" class="btn btn-default" style="display:none;">Submit</button>
+      		<button id="bsubmit" type="submit" class="btn btn-default" style="display:none;">Submit</button>
       </div>
     </div>
-  </form>
-  <br>
+  </form>	
         </div>
         <div class="modal-footer">
           <button onClick="goTO()" class="btn btn-default">Submit</button>
@@ -78,7 +77,7 @@ goTO = function(){
    
 <div class="row " id="margin-body">
 <div id="tablewrapper" >
-<table id="customers" style="display:none;width:50%;margin: 0 AUTO;">
+<table id="customers" style="display:none;width:100%;margin: 0 AUTO;">
   <tr>
     <th>No</th>
     <th>Name</th>

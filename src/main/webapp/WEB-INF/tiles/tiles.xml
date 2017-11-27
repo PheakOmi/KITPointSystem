@@ -10,6 +10,10 @@
 		<put-attribute name="sidebar" value="/WEB-INF/views/layout/sidebar.jsp" />
 		<put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp" />
 	</definition>
+	<definition name="base.definition2"
+		template="/WEB-INF/views/template/layout2.jsp">
+		<put-attribute name="title" value="" />
+	</definition>
 	
 	<!-- user page view  -->
 		<definition name="projectUserView" extends="base.definition">
@@ -62,6 +66,14 @@
 	
 	<!-- super admin page view -->
 	
+	<definition name="reset_password" extends="base.definition2">
+		<put-attribute name="title" value="Reset Password" />
+		<put-attribute name="body" value="/WEB-INF/views/view/reset_password.jsp" />		
+	</definition>
+	<definition name="reset_password_invalid" extends="base.definition2">
+		<put-attribute name="title" value="Reset Password" />
+		<put-attribute name="body" value="/WEB-INF/views/view/reset_password_invalid.jsp" />		
+	</definition>
 	<definition name="viewAllProjectBySkill" extends="base.definition">
 		<put-attribute name="title" value="Related Projects" />
 		<put-attribute name="body" value="/WEB-INF/views/view/viewAllProjectBySkill.jsp" />		

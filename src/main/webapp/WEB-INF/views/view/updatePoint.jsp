@@ -40,11 +40,18 @@ load = function()
 		"<td class='project' id='"+data[i].project_id+"'>"+data[i].name+"</td>"+
 		"<td><input type='text' readonly class='cc' maxlength='3' style='border: none;border-color: transparent;' id='idd' value="+data[i].kit_point+"></td></tr>";
 		$("#customers").append(row);
-		document.querySelector(".cc").addEventListener("keypress", function (evt) {
-	        if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
-	        {
-	            evt.preventDefault();
-	        }
+		$('.cc').keypress(function(evt){
+	    	var event = evt || window.event;
+	   	  	var keyentered = event.keyCode || event.which;
+	   	  	var keyentered = String.fromCharCode(keyentered);
+
+	   	  	var regex = /[0-9]/;
+	   	  	//var regex2 = /^[a-zA-Z.,;:|\\\/~!@#$%^&*_-{}\[\]()`"'<>?\s]+$/;
+
+	   	  	if(!regex.test(keyentered)) {
+	   	    	event.returnValue = false;
+	   	    	if(event.preventDefault) event.preventDefault();
+	   	  	}
 	    });
 	}
 	var r = "<tr><td colspan='2' style='background-color:	#ccc';><center>Total</center></td><td>"+sum+" Point"+"(s)"+"</td></tr>";

@@ -1,6 +1,7 @@
 package com.MainController;
 
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -11,7 +12,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.xmlrpc.XmlRpcException;
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -20,14 +25,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.DaoClasses.StudentFromOdoo_BatchId;
 import com.DaoClasses.valuePerHourDaoImpl;
 import com.EntityClasses.Batch_Master;
 import com.EntityClasses.KIT_Point_Student_Wise;
@@ -41,6 +44,7 @@ import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User_Info;
 import com.ModelClasses.Project_Model;
+import com.ModelClasses.Reset_Password;
 import com.ModelClasses.Task_Model;
 import com.ServiceClasses.usersService;
 
@@ -83,6 +87,46 @@ public class ControllerFile {
 				return model;
 			}
 		}
+		
+		
+		@RequestMapping(value = "/reset_password", method = RequestMethod.GET)
+		public ModelAndView reset_password(HttpServletRequest request,String name) throws JsonGenerationException, JsonMappingException, IOException {
+			ObjectMapper obj = new ObjectMapper();
+			String json = "";
+			ModelAndView view = null;
+			List<User_Info> user=usersService1.check_valid_tocken(name);
+	        System.out.println(name);
+			try{
+				if(user.size()==0)
+				{
+					Map<String, Object> model = new HashMap<String, Object>();
+					model.put("status", "incorrect");
+					json = obj.writeValueAsString(model);
+					view = new ModelAndView("reset_password","model",json);
+				}
+						
+				else
+				{
+					Map<String, Object> model = new HashMap<String, Object>();
+					model.put("id", user.get(0).getId());
+					model.put("status", "fine");
+					json = obj.writeValueAsString(model);
+					view = new ModelAndView("reset_password","model",json);
+					
+				}
+			}catch (RuntimeException e)//NullpointerException
+			{
+				
+				Map<String, Object> model = new HashMap<String, Object>();
+				model.put("status", "incorrect");
+				json = obj.writeValueAsString(model);
+				view = new ModelAndView("reset_password","model",json);
+				
+			}
+			return view;
+		}	
+		
+		
 //	=================projectDetail============================
 	@RequestMapping(value="/projectDetail", method=RequestMethod.GET)
 	public ModelAndView viewProjectdetail() {
@@ -420,6 +464,23 @@ public class ControllerFile {
 						return map;
 					}
 				}
+			@RequestMapping(value="/resetPwSubmit", method=RequestMethod.GET)
+			public @ResponseBody Map<String,Object> resetPwSubmit(Reset_Password pw) throws Exception{
+					Map<String,Object> map = new HashMap<String,Object>();
+					if(usersService1.reset_passwordd(pw))
+						
+					{
+						map.put("status","200");
+						map.put("message","Succeeded");
+						return map;
+					}
+					else {
+						map.put("status","999");
+						map.put("message","Failed");
+						return map;
+					}
+				}
+			
 			
 			
 			@RequestMapping(value="/skillSetReportingSubmit", method=RequestMethod.GET)
@@ -463,7 +524,9 @@ public class ControllerFile {
 
 			@RequestMapping(value="/updatePointMemberSubmit", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> updatePointMemberSubmit(KIT_Point_Student_Wise p) throws Exception{
-					Map<String,Object> map = new HashMap<String,Object>();
+				System.out.println("ID "+p.getProject_id());
+				System.out.println("P "+p.getKit_point());	
+				Map<String,Object> map = new HashMap<String,Object>();
 					if(usersService1.updatePointMember(p))
 						
 					{
@@ -546,9 +609,12 @@ public class ControllerFile {
 			public ModelAndView viewAllMember(@RequestParam("id") int project_id/*,@RequestParam("name") String name*/) throws Exception{
 					ObjectMapper mapper = new ObjectMapper();
 					List<Project_Member> members =  usersService1.getMemberByProjectId(project_id);
+					Map<String,Object> map = new HashMap<String,Object>();
+					map.put("data", members);
+					map.put("name", usersService1.getProjectById(project_id).getProject_name());
 					String json = "";
 					try {
-						json = mapper.writeValueAsString(members);
+						json = mapper.writeValueAsString(map);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -1120,6 +1186,7 @@ public @ResponseBody Map<String,Object> saveServerInfo(Sms_Server_Info info){
 			}
 			else
 			{
+				usersService1.forgot_password_email_sending(email);
 				map.put("status", "888");
 				map.put("message", "Done!");
 			}

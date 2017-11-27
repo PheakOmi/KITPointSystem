@@ -39,6 +39,7 @@ import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User_Info;
 import com.ModelClasses.Project_Model;
+import com.ModelClasses.Reset_Password;
 import com.ModelClasses.Task_Model;
 
 
@@ -111,4 +112,7 @@ public interface usersDao {
 	public int[] getSkillsetByProjectId(int project_id);
 	public List<Project_Master> getProjectOnSkillset(int[] skill) throws Exception;
 	public int getUserByEmail(String email) ;
+	public boolean forgot_password_email_sending(String email);
+	public List<User_Info> check_valid_tocken(String token);
+	public Boolean reset_passwordd(Reset_Password pw);
 }

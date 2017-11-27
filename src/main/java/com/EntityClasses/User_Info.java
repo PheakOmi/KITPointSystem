@@ -11,6 +11,13 @@ public class User_Info {
 		private int batch_id;
 		private String name;
 		private String email;
+		private String reset_token;
+		public String getReset_token() {
+			return reset_token;
+		}
+		public void setReset_token(String reset_token) {
+			this.reset_token = reset_token;
+		}
 		private String password;
 		private String user_type;
 		private Timestamp created_at;

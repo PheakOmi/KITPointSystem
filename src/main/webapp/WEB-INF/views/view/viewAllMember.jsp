@@ -16,12 +16,15 @@
 load = function()
 {
 	var data = ${message};
-	for(i=0;i<data.length;i++)
+	var members = data.data;
+	for(i=0;i<members.length;i++)
 	{
 		var row = "<tr class='record'><td>"+(i+1)+"</td>"+
-		"<td>"+data[i].user_name+"</td>";
+		"<td>"+members[i].user_name+"</td>";
 		$("#customers").append(row);
 	}
+	var lrow = "<tr style='background-color:lightgray;text-align: center;'><td colspan='2'><b>Project Name: </b>"+data.name+"</td></tr>";
+	$("#customers").append(lrow);
 }
 
 function goBack() {

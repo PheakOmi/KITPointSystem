@@ -1,98 +1,118 @@
 package com.ModelClasses;
 
+
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class Mail {
 
- private String mailFrom;
+   private String mailFrom;
 
- private String mailTo;
+   private String mailTo;
 
- private String mailCc;
+   private String mailCc;
 
- private String mailBcc;
+   private String mailBcc;
 
- private String mailSubject;
+   private String mailSubject;
 
- private String mailContent;
+   private String mailContent;
 
- private String contentType;
+   private String contentType;
+   
+   private String file_name;
 
- public Mail() {
-  contentType = "text/plain";
- }
+   public String getFile_name() {
+	return file_name;
+   }
 
- public String getContentType() {
-  return contentType;
- }
+public void setFile_name(String file_name) {
+	this.file_name = file_name;
+}
 
- public void setContentType(String contentType) {
-  this.contentType = contentType;
- }
+private List < Object > attachments;
 
- public String getMailBcc() {
-  return mailBcc;
- }
+   private Map < String, Object > model;
 
- public void setMailBcc(String mailBcc) {
-  this.mailBcc = mailBcc;
- }
+   public Mail() {
+       contentType = "text/plain";
+   }
 
- public String getMailCc() {
-  return mailCc;
- }
+   public String getContentType() {
+       return contentType;
+   }
 
- public void setMailCc(String mailCc) {
-  this.mailCc = mailCc;
- }
+   public void setContentType(String contentType) {
+       this.contentType = contentType;
+   }
 
- public String getMailFrom() {
-  return mailFrom;
- }
+   public String getMailBcc() {
+       return mailBcc;
+   }
 
- public void setMailFrom(String mailFrom) {
-  this.mailFrom = mailFrom;
- }
+   public void setMailBcc(String mailBcc) {
+       this.mailBcc = mailBcc;
+   }
 
- public String getMailSubject() {
-  return mailSubject;
- }
+   public String getMailCc() {
+       return mailCc;
+   }
 
- public void setMailSubject(String mailSubject) {
-  this.mailSubject = mailSubject;
- }
+   public void setMailCc(String mailCc) {
+       this.mailCc = mailCc;
+   }
 
- public String getMailTo() {
-  return mailTo;
- }
+   public String getMailFrom() {
+       return mailFrom;
+   }
 
- public void setMailTo(String mailTo) {
-  this.mailTo = mailTo;
- }
+   public void setMailFrom(String mailFrom) {
+       this.mailFrom = mailFrom;
+   }
 
- public Date getMailSendDate() {
-  return new Date();
- }
+   public String getMailSubject() {
+       return mailSubject;
+   }
 
- public String getMailContent() {
-  return mailContent;
- }
+   public void setMailSubject(String mailSubject) {
+       this.mailSubject = mailSubject;
+   }
 
- public void setMailContent(String mailContent) {
-  this.mailContent = mailContent;
- }
+   public String getMailTo() {
+       return mailTo;
+   }
 
- @Override
- public String toString() {
-  StringBuilder lBuilder = new StringBuilder();
-  lBuilder.append("Mail From:- ").append(getMailFrom());
-  lBuilder.append("Mail To:- ").append(getMailTo());
-  lBuilder.append("Mail Cc:- ").append(getMailCc());
-  lBuilder.append("Mail Bcc:- ").append(getMailBcc());
-  lBuilder.append("Mail Subject:- ").append(getMailSubject());
-  lBuilder.append("Mail Send Date:- ").append(getMailSendDate());
-  lBuilder.append("Mail Content:- ").append(getMailContent());
-  return lBuilder.toString();
- }
+   public void setMailTo(String mailTo) {
+       this.mailTo = mailTo;
+   }
+
+   public Date getMailSendDate() {
+       return new Date();
+   }
+
+   public String getMailContent() {
+       return mailContent;
+   }
+
+   public void setMailContent(String mailContent) {
+       this.mailContent = mailContent;
+   }
+
+   public List < Object > getAttachments() {
+       return attachments;
+   }
+
+   public void setAttachments(List < Object > attachments) {
+       this.attachments = attachments;
+   }
+
+   public Map < String, Object > getModel() {
+       return model;
+   }
+
+   public void setModel(Map < String, Object > model) {
+       this.model = model;
+   }
 
 }

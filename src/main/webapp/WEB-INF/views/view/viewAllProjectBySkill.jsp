@@ -1,11 +1,11 @@
 <body onload="load()">
 <div class="row " id="margin-body">
 <div id="tablewrapper" >
-<table id="customers" style="display:none;width:50%;margin: 0 AUTO;">
+<table id="customers" style="display:none;width:75%;margin: 0 AUTO;">
   <tr>
     <th>No</th>
     <th>Name</th>
-    <th>Skill Set
+    <th>Skill Set</th>
   </tr>
   
 </table>
@@ -36,7 +36,7 @@ load = function()
 	    	location.href=$(this).attr('data-url');
 		});
 	$("#customers").removeAttr('style');
-	$("#customers").css('width','50%');
+	$("#customers").css('width','75%');
 	$("#customers").css('margin','0 AUTO');
 }
 $(document).ready(function() {

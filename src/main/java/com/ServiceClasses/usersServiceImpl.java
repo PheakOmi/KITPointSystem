@@ -23,6 +23,7 @@ import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User_Info;
 import com.ModelClasses.Project_Model;
+import com.ModelClasses.Reset_Password;
 import com.ModelClasses.Task_Model;
 
 
@@ -219,7 +220,7 @@ public class usersServiceImpl implements usersService{
 		return usersDao1.getUserById(id);
 	}
 	public boolean updatePointMember(KIT_Point_Student_Wise point){
-		return usersDao1.updatePoint(point);
+		return usersDao1.updatePointMember(point);
 	}
 	public boolean createSkillset(Skillset_Master skillset){
 		return usersDao1.createSkillset(skillset);
@@ -240,6 +241,15 @@ public class usersServiceImpl implements usersService{
 	}
 	public int getUserByEmail(String email) {
 		return usersDao1.getUserByEmail(email);
+	}
+	public boolean forgot_password_email_sending(String email){
+		return usersDao1.forgot_password_email_sending(email);
+	}
+	public List<User_Info> check_valid_tocken(String token){
+		return usersDao1.check_valid_tocken(token);
+	}
+	public Boolean reset_passwordd(Reset_Password pw){
+		return usersDao1.reset_passwordd(pw);
 	}
 }
 

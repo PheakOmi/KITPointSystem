@@ -342,7 +342,7 @@
 									</select>
 	                            </div>
                             </div>    
-                            <div style="margin:-0.3cm 0cm 1.2cm 14cm;"	>
+                            <div style="margin:1% 0cm 10% 80%;"	>
                             <a href="#" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal">
           <span class="glyphicon glyphicon-new-window" ></span> Create a skill set</a>
                            

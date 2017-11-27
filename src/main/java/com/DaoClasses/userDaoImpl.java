@@ -1,7 +1,9 @@
 package com.DaoClasses;
 
+import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -21,15 +23,29 @@ import java.util.Set;
 
 import javax.crypto.SecretKey;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -78,8 +94,6 @@ import com.EntityClasses.KIT_Point_Student_Wise;
 import com.EntityClasses.Project_Category_Master;
 import com.EntityClasses.Project_Master;
 import com.EntityClasses.Project_Member;
-import com.EntityClasses.Project_Stage;
-import com.EntityClasses.Project_Stage_Master;
 import com.EntityClasses.Semester_Master;
 import com.EntityClasses.Skillset_Master;
 import com.EntityClasses.Skillset_Project_Wise;
@@ -89,12 +103,16 @@ import com.EntityClasses.Task_Master;
 import com.EntityClasses.UserRole;
 import com.EntityClasses.User_Info;
 import com.HibernateUtil.HibernateUtil;
-import com.ModelClasses.ProjectView_Model;
+import com.ModelClasses.Mail;
 import com.ModelClasses.Project_Model;
+import com.ModelClasses.Reset_Password;
 import com.ModelClasses.Task_Model;
-import com.ModelClasses.retrieve;
-import com.ModelClasses.submit;
+import com.client_mail.ApplicationConfig;
 //import com.ServiceClasses.usersService;
+//import com.client_mail.ApplicationConfig;
+//import com.client_mail.MailService;
+import com.client_mail.MailService;
+
 
 
 
@@ -108,7 +126,15 @@ public class userDaoImpl implements usersDao{
 	
 	//===================For SS========================================  
     
-    public User_Info findByUserName(String username) {
+	public String Key(int mount){
+		 SecureRandom random = new SecureRandom();
+		    String key;
+		  
+		    key=  new BigInteger(mount*5, random).toString(32);
+		   
+		return key;
+	}
+	public User_Info findByUserName(String username) {
     	Transaction trns1 = null;
         Session session = HibernateUtil.getSessionFactory().openSession();
         
@@ -2332,6 +2358,73 @@ public class userDaoImpl implements usersDao{
 		}
 		return user;
 	}
+	public User_Info getUserByEmail2(String email) {
+		User_Info user = new User_Info();
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			trns25  = session.beginTransaction();
+ 		 	String queryString  = "from User_Info where email=:email";
+ 		 	Query query = session.createQuery(queryString);
+ 		 	query.setString("email", email);
+ 		 	user = (User_Info) query.uniqueResult();
+ 		 	
+		}
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();			
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+		return user;
+	}
+	public boolean forgot_password_email_sending(String email) {
+		Boolean ret=false;
+		Transaction trns = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			System.out.println("Sending");
+			trns  = session.beginTransaction();
+		        String key = Key(60);
+	  	        String hql1 = "UPDATE User_Info set reset_token = :key "  + 
+	  	                   "WHERE email = :email";
+	  		    Query query1 = session.createQuery(hql1);
+	  		    query1.setString("key", key);
+	  		    query1.setString("email", email);
+	  		    int result = query1.executeUpdate();
+	  		    session.getTransaction().commit();
+		        
+		        Mail mail = new Mail();
+		        mail.setMailFrom("vkirirom_shuttlebus@gmail.com.com");
+		        mail.setMailTo(email);
+		        mail.setMailSubject("KIT Point Management System Password Reset");
+		 
+		        Map < String, Object > model = new HashMap < String, Object > ();
+		        model.put("fullname", getUserByEmail2(email).getName());
+		        model.put("email", email);
+		        model.put("key", key);
+		        mail.setModel(model);
+		        mail.setFile_name("forget_password_template.txt");
+		        
+		 
+		        AbstractApplicationContext context = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+		        MailService mailService = (MailService) context.getBean("mailService");
+		        mailService.sendEmail(mail);
+		        context.close();
+		        ret=true;
+		}
+		catch (RuntimeException e){
+            if (trns != null) {
+                trns.rollback();
+            }
+     	}finally {
+            session.flush();
+            session.close();
+          }
+        return ret;
+	}
 	public int getUserByEmail(String email) {
 		int check = 0;
 		Transaction trns25 = null;
@@ -2479,6 +2572,7 @@ public class userDaoImpl implements usersDao{
 	}
 	
 	public boolean updatePoint(KIT_Point_Student_Wise p){
+		int user_id = p.getUser_id();
 		String str = p.getKit_point();
 		Transaction trns25 = null;
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -2491,8 +2585,8 @@ public class userDaoImpl implements usersDao{
 		 		System.out.println("P id "+s[0]+" U id"+p.getUser_id()+" point "+s[1]);
 		 		KIT_Point_Student_Wise point = new KIT_Point_Student_Wise();
 		 		Query query = session.createQuery(queryString);
-		 		query.setInteger("project_id", p.getProject_id() );
-		 		query.setInteger("user_id", Integer.parseInt(s[0]));
+		 		query.setInteger("project_id", Integer.parseInt(s[0]));
+		 		query.setInteger("user_id",user_id);
 		 		point = (KIT_Point_Student_Wise) query.uniqueResult();
 		 		point.setKit_point(s[1]);
 		 		session.update(point);
@@ -2694,6 +2788,68 @@ public class userDaoImpl implements usersDao{
         return saltStr;
 
     }
+	public void forgotPassword(String email)
+	{
+		ApplicationContext context = new ClassPathXmlApplicationContext(
+			    "com/DaoClasses/mail-config.xml");
+
+			  Mail mail = new Mail();
+			  mail.setMailFrom("sopheakdy23@gmail.com");
+			  mail.setMailTo(email);
+			  mail.setMailSubject("KIT Point Management System Password Reset");
+			  mail.setMailContent("Hello You,\n\nIt looks like you requested a new password.\nIf that sounds right, you can enter new password by clicking on the button below.\nlocalhost:8089/");
+			  
+			  Mailer mailer = (Mailer) context.getBean("mailer");
+			  mailer.sendMail(mail);
+	}
+	public List<User_Info> check_valid_tocken(String token){
+		Transaction trns = null;
+		List<User_Info> user= new ArrayList<User_Info>();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+     	try {
+            trns = session.beginTransaction();
+            String hql ="from User_Info where reset_token=:token";
+	        Query query =  session.createQuery(hql);
+	        query.setString("token", token);
+	        user = query.list();
+	        
+        }catch (RuntimeException e){
+            if (trns != null) {
+                trns.rollback();
+            }
+     	}finally {
+            session.flush();
+            session.close();
+          }
+        return user;
+	}
+	public Boolean reset_passwordd(Reset_Password pw) {
+		Boolean ret=false;
+		Transaction trns = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        try {
+            trns = session.beginTransaction();
+            
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    		String hashedPassword = passwordEncoder.encode(pw.getConfirm_pw());
+        	String hql1 = "UPDATE User_Info set password =:pass, reset_token=null WHERE id=:id";
+ 		    Query query1 = session.createQuery(hql1);
+ 		    query1.setParameter("pass", hashedPassword);
+ 		    query1.setParameter("id", pw.getId());
+ 		    int result = query1.executeUpdate();
+ 		    session.getTransaction().commit();
+ 		    ret=true;
+            
+        } catch (RuntimeException e) {
+        	System.out.println(e);
+            if (trns != null) {
+                trns.rollback();
+            }
+        } finally {
+            session.close();
+        }
+		return ret;
+	   }
 	
 }
 

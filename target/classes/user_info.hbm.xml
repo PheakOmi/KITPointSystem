@@ -12,6 +12,7 @@
     <property name="password" column="password"/>
     <property name="created_at" column="created_at"/>
     <property name="updated_at" column="updated_at"/>
+    <property name="reset_token" column="reset_token"/>
     <property name="batch_id" column="batch_id"/>
     <property name="enabled" type="java.lang.Boolean">
             <column name="enabled" not-null="true" />

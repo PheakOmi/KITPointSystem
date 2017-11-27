@@ -160,7 +160,7 @@
         </div>            
 </div>
 <button type="submit" class="btn btn-default">Create</button>
-<button onclick="location.href = 'task';" class="btn btn-default">Cancel</button>
+<button onclick="location.href = 'taskAdminView';" class="btn btn-default">Cancel</button>
 </form>
 <script type="text/javascript">
 $('#project').on('change', function() {

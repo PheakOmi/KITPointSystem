@@ -116,6 +116,7 @@ $(document).ready(function(){
 </body>
 <script type="text/javascript">
 $("#myForm2").on("submit",function(e){
+	e.preventDefault();
 		$.ajax({
 			url:'forgetPasswordSubmit',
 			type:'GET',
@@ -123,13 +124,15 @@ $("#myForm2").on("submit",function(e){
 			success: function(response){
 				if(response.status=="999")
 					{
-					swal("Oops!", response.message, "error")
+					//swal("Oops!", response.message, "error")
+					alert("No")
 					}
 				
 				else 
 					{
-					swal("Oops!",Done, "error")
-					
+					//swal("Oops!","We found you! Please check your email to reset new passwird!", "success")
+					alert("We found you! Please check your email to reset new passwird!")
+					//alert("<div class="alert alert-success"><strong>Success!</strong> This alert box could indicate a successful or positive action.</div>")
 					}
 					
 			},
