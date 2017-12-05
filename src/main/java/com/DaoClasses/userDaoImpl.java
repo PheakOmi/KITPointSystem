@@ -85,6 +85,7 @@ import org.springframework.stereotype.Repository;
 
 
 
+
 //import org.springframework.stereotype.Service;
 import com.EncryptionDecryption.Decryption;
 import com.EncryptionDecryption.Encryption;
@@ -102,6 +103,7 @@ import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.UserRole;
 import com.EntityClasses.User_Info;
+import com.EntityClasses.additional_hour;
 import com.HibernateUtil.HibernateUtil;
 import com.ModelClasses.Mail;
 import com.ModelClasses.Project_Model;
@@ -369,6 +371,30 @@ public class userDaoImpl implements usersDao{
     		Timestamp created_at = new Timestamp(System.currentTimeMillis());
         	batch2.setCreated_at(created_at);
             session.save(batch2);  
+            session.getTransaction().commit();
+        } catch (RuntimeException e) {
+        	if (trns7 != null) {
+                trns7.rollback();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            session.flush();
+            session.close();
+        }
+        return true;
+    }
+    public boolean additional_hour_submit(additional_hour hour)
+    {
+    	Transaction trns7 = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+
+        try {
+        	
+            trns7 = session.beginTransaction();
+    		Timestamp created_at = new Timestamp(System.currentTimeMillis());
+        	hour.setCreated_at(created_at);
+            session.save(hour);  
             session.getTransaction().commit();
         } catch (RuntimeException e) {
         	if (trns7 != null) {
@@ -1315,7 +1341,7 @@ public class userDaoImpl implements usersDao{
 		{
 			Date from=new SimpleDateFormat("yyyy-MM-dd").parse(semester.getStart_date());
 			Date to=new SimpleDateFormat("yyyy-MM-dd").parse(semester.getEnd_date());
-			if(semester.getName().contains("Semester"))
+			if(semester.getName().contains("Semester")||semester.getName().contains("semester"))
 			{
 	        if(today.after(from) && today.before(to)||today.equals(from)||today.equals(to))
 	            return semester.getName();
@@ -1745,8 +1771,9 @@ public class userDaoImpl implements usersDao{
 	            //e.printStackTrace();
 	        }
 	          
-	          
-	          students = exchangeBatchValue(students);
+	          for (Student s:students)
+	        	  System.out.println(s.getName()+"   "+s.getText());
+	      	  students = exchangeBatchValue(students);
 	          if (students==null)
 	        	  return false;
 	          List<Student> studentDB= new ArrayList<Student>();
@@ -1780,10 +1807,13 @@ public class userDaoImpl implements usersDao{
 	        	else
 	        	{
 	        		
+	        		int count=0;
 	        		for(Student student : students)
        			{
 	        			if(validateStudent(student,studentDB))
 	        			{
+	        				System.out.println("See");
+	        				//count++;
 	        			}
 	        			else
 	        			{
@@ -1794,8 +1824,10 @@ public class userDaoImpl implements usersDao{
 			        		user.setUser_type("ROLE_USER");
 			        		user.setBatch_id(Integer.parseInt(student.getBatch_id()));
 			        		addUser2(user);
+			        		count++;
 	        			}
        			}
+	        		System.out.println("Validated is "+count);
 	        	
 	        	}
 	        }
@@ -1803,7 +1835,22 @@ public class userDaoImpl implements usersDao{
 	        
 	        
 	 }
-
+	
+	
+	public boolean validateStudent(Student studentValidate,List<Student> studentDB) {
+		for(Student student : studentDB)
+	    {
+	    	if(student.getEmail().toLowerCase().equals(studentValidate.getText().toLowerCase()))
+	    	{
+	    		
+	    			return true;
+	    		
+	    	}
+	    }
+		return false;
+	}
+	
+	
 	public List<Student> getAllStudent(){
 		List<Student> students = new ArrayList<Student>();
 		Transaction trns25 = null;
@@ -1825,7 +1872,7 @@ public class userDaoImpl implements usersDao{
  		 		student.setId(Integer.toString(id));
  		 		student.setText(user.getName());
  		 		student.setName(user.getName());
- 		 		
+ 		 		student.setEmail(user.getEmail());
  		 		students.add(student);
  		 	}
  		 	
@@ -1875,20 +1922,6 @@ public class userDaoImpl implements usersDao{
 		 return exchangedStudent;
 	}
 
-
-	public boolean validateStudent(Student studentValidate,List<Student> studentDB) {
-		for(Student student : studentDB)
-	    {
-	    	if(student.getName()==studentValidate.getName())
-	    	{
-	    		if(student.getBatch_id()==student.getBatch_id())
-	    		{
-	    			return true;
-	    		}
-	    	}
-	    }
-		return false;
-	}
 
 
 	public List<Batch_Master> pullAllBatch() throws Exception {
@@ -2571,6 +2604,30 @@ public class userDaoImpl implements usersDao{
 		return points;
 	}
 	
+	
+	public List<additional_hour> getAdditionalHourProjectId(int project_id) throws Exception{
+		List<additional_hour> hours = new ArrayList<additional_hour>();
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			trns25  = session.beginTransaction();
+			String queryString  = "from additional_hour where project_id=:project_id";
+			Query query = session.createQuery(queryString);
+ 		 	query.setInteger("project_id", project_id);
+ 		 	hours= query.list();	 		 
+ 		 }
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();			
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+		return hours;
+	}
+	
+	
 	public boolean updatePoint(KIT_Point_Student_Wise p){
 		int user_id = p.getUser_id();
 		String str = p.getKit_point();
@@ -2624,6 +2681,39 @@ public class userDaoImpl implements usersDao{
 		 		point = (KIT_Point_Student_Wise) query.uniqueResult();
 		 		point.setKit_point(s[1]);
 		 		session.update(point);
+		 	}
+			session.getTransaction().commit();
+	 		
+	 		 
+ 		 }
+		catch(RuntimeException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		finally{
+			session.flush();
+			session.close();
+		}
+		return true;
+	}
+	public boolean additional_hour_update(additional_hour p){
+		String str = p.getName();
+		Transaction trns25 = null;
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		try{
+			trns25  = session.beginTransaction();
+			String queryString = "from additional_hour where project_id=:project_id and user_id=:user_id";
+			for (String st:str.split("/"))
+		 	{
+		 		String[] s=st.split(",");
+		 		additional_hour hour = new additional_hour();
+		 		Query query = session.createQuery(queryString);
+		 		query.setInteger("user_id", Integer.parseInt(s[0]));
+		 		query.setInteger("project_id", p.getProject_id());
+		 		hour = (additional_hour) query.uniqueResult();
+		 		hour.setAdditional_hour(Integer.parseInt(s[1]));
+		 		session.update(hour);
 		 	}
 			session.getTransaction().commit();
 	 		

@@ -80,6 +80,8 @@ function update(){
 	$('#customers .record').each(function() {
 	    var user_id = $(this).find(".member").attr("id");    
 	    var point = $(this).find(".cc").val();
+	    if(point=="" || point==null)
+	    	point=0;
 	    console.log(point)	
 	    kitPoint +=user_id+","+point+"/";
 	    });

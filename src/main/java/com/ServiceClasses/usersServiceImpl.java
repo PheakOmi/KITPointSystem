@@ -22,6 +22,7 @@ import com.EntityClasses.Sms_Server_Info;
 import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User_Info;
+import com.EntityClasses.additional_hour;
 import com.ModelClasses.Project_Model;
 import com.ModelClasses.Reset_Password;
 import com.ModelClasses.Task_Model;
@@ -251,5 +252,15 @@ public class usersServiceImpl implements usersService{
 	public Boolean reset_passwordd(Reset_Password pw){
 		return usersDao1.reset_passwordd(pw);
 	}
+	public List<additional_hour> getAdditionalHourProjectId(int project_id) throws Exception{
+		return usersDao1.getAdditionalHourProjectId(project_id);
+	}
+	public boolean additional_hour_submit(additional_hour hour){
+		return usersDao1.additional_hour_submit(hour);
+	}
+	public boolean additional_hour_update(additional_hour p){
+		return usersDao1.additional_hour_update(p);
+	}
 }
+
 

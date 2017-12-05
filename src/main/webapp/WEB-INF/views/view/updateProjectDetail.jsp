@@ -274,6 +274,12 @@
 		var id = ${id};
 		location.href="updatePointMember?id="+id;
 	}
+	redirect3 = function(e, url){
+		e.preventDefault();
+		var id = 5;
+		location.href="additional_hour?id="+id;
+	}
+	
 	goTO = function(){
 		$('#bsubmit').trigger('click');
 	}
@@ -412,6 +418,7 @@
                           	 <div style="text-align: center; margin-top: 50px;">	
                           	   <button onclick="redirect2(event,'updatePointMember')" class="btn btn-default" style="display:none;margin-left:1cm;" id="upoint">Update Point For Members</button>
 			                   <button type="submit" class="btn btn-default">Update</button>
+			                   <button onclick="redirect3(event,'additional_hour')" class="btn btn-default preventDefault">View Students' additional hour </button>
 			                   <button onclick="redirect(event,'project')" class="btn btn-default preventDefault" >Cancel</button>
 			                   
 	                    </div>

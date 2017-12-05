@@ -6,9 +6,20 @@ public class Student {
 	private String id;
 	private String gender;
 	private String batch_id;
+	private String email;
 	private int student_id;
 	
 	
+	
+	
+	
+	
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	public int getStudent_id() {
 		return student_id;
 	}

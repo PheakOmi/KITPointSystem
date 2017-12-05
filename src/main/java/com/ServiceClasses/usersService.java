@@ -19,6 +19,7 @@ import com.EntityClasses.Sms_Server_Info;
 import com.EntityClasses.Student;
 import com.EntityClasses.Task_Master;
 import com.EntityClasses.User_Info;
+import com.EntityClasses.additional_hour;
 import com.ModelClasses.Project_Model;
 import com.ModelClasses.Reset_Password;
 import com.ModelClasses.Task_Model;
@@ -95,4 +96,7 @@ public interface usersService {
 	public boolean forgot_password_email_sending(String email);
 	public List<User_Info> check_valid_tocken(String token);
 	public Boolean reset_passwordd(Reset_Password pw);
+	public List<additional_hour> getAdditionalHourProjectId(int project_id) throws Exception;
+	public boolean additional_hour_submit(additional_hour hour);
+	public boolean additional_hour_update(additional_hour p);
 }

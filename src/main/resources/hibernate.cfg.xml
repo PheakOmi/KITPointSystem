@@ -31,6 +31,7 @@
          <mapping resource ="sms_server_info.hbm.xml"/>
          <mapping resource ="skillset_master.hbm.xml"/>
          <mapping resource ="skillset_project_wise.hbm.xml"/>
+         <mapping resource ="additional_hour.hbm.xml"/>
          
     </session-factory>
 </hibernate-configuration>

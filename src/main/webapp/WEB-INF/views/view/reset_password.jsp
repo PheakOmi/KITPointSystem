@@ -55,9 +55,12 @@
 	}
 	$(document).ready(function(){
 		$("#myForm").on('submit',function(e){
-			if($("#newpw").val()!=$("#cfpw").val())
-				swal("Oops!", "Passwords are not matched", "error")
 			e.preventDefault();
+			if($("#newpw").val()!=$("#cfpw").val())
+				{
+				swal("Oops!", "Passwords are not matched", "error")
+				}
+			else{				
 				 $.ajax({
 					url:'resetPwSubmit',
 					type:'GET',
@@ -91,7 +94,7 @@
 							 } 
 					
 						}); 
-				 
+		}
 			
 		});
 	});	

@@ -34,10 +34,7 @@
    	    <link href="${customfontCSS }" rel="stylesheet" type="text/css">
    	    
    	    <!-- Sweet alert -->
-<spring:url value="/resources/Bootstrap/css/sweetalert-form.css" var="alertForm"/>
-      <link rel="stylesheet" href="${alertForm}">
-<spring:url value="/resources/Bootstrap/js/sweetalert-form.js" var="alertFormJS"/>
-      <script src="${alertFormJS}"></script>
+
    	    	 
 <script>
 $(document).ready(function(){
@@ -90,6 +87,7 @@ $(document).ready(function(){
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Find Your Account</h4>
+          
         </div>
         <div class="modal-body">
      <form class="form-group" id="myForm2">
@@ -97,17 +95,23 @@ $(document).ready(function(){
     <div>
       
       <div class="col-sm-7">
+      <div style="display: inline-block;">
       <input type="text" class="form-control" id="eemail" maxlength="60" placeholder="Enter your email" required>
+      
+      </div>
       <br>
       <button id="bsubmit" type="submit" class="btn btn-default" style="display:none;">Submit</button>
       </div>
+      
     </div>
   </form>
   <br>
         </div>
         <div class="modal-footer">
+       	  <div class="loader"></div>	
           <button onClick="goTO()" class="btn btn-default">Submit</button>
           <button type="button" id="closing" class="btn btn-default" data-dismiss="modal">Close</button>
+           
         </div>
       </div>
       
@@ -121,11 +125,11 @@ $("#myForm2").on("submit",function(e){
 			url:'forgetPasswordSubmit',
 			type:'GET',
 			data:{email:$("#eemail").val()},
-			success: function(response){
+			success: function(response){			     
 				if(response.status=="999")
 					{
-					//swal("Oops!", response.message, "error")
-					alert("No")
+					swal("Oops!", "No", "error")
+					//alert("No")
 					}
 				
 				else 
