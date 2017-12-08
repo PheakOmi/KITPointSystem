@@ -121,6 +121,9 @@ body {
   height: 30px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
+      display: inline-block;
+    vertical-align: middle;
+    margin-left: 20px;
 }
 
 /* Safari */

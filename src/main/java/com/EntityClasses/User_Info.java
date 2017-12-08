@@ -11,6 +11,7 @@ public class User_Info {
 		private int batch_id;
 		private String name;
 		private String email;
+		private String roll_number;
 		private String reset_token;
 		public String getReset_token() {
 			return reset_token;
@@ -37,8 +38,15 @@ public class User_Info {
 			this.created_at=created_at2;
 			
 		}*/
+		
 		public int getId() {
 			return id;
+		}
+		public String getRoll_number() {
+			return roll_number;
+		}
+		public void setRoll_number(String roll_number) {
+			this.roll_number = roll_number;
 		}
 		public void setId(int id) {
 			this.id = id;
@@ -61,6 +69,8 @@ public class User_Info {
 		public void setPassword(String password) {
 			this.password = password;
 		}
+		
+		
 		public String getUser_type() {
 			return user_type;
 		}

@@ -7,6 +7,7 @@ public class Student {
 	private String gender;
 	private String batch_id;
 	private String email;
+	private String roll_number;
 	private int student_id;
 	
 	
@@ -14,6 +15,12 @@ public class Student {
 	
 	
 	
+	public String getRoll_number() {
+		return roll_number;
+	}
+	public void setRoll_number(String roll_number) {
+		this.roll_number = roll_number;
+	}
 	public String getEmail() {
 		return email;
 	}

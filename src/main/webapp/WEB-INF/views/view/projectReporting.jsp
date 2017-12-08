@@ -330,6 +330,6 @@ function formatDate(date) {
 <br>
 <br>
        <button onclick="generateReport()" type="button" class="btn btn-success pull-right" id="btnGenerate" style="display:none;">Generate Report</button> 
-         <button class="create_pdf" onclick="createPDFClick();" myprint="#tablewrapper" id="btn" style="display:none;">Generate PDF</button>	
+         <button class="create_pdf" myprint="#tablewrapper" id="btn">Generate PDF</button>	
 </div>
 </body>

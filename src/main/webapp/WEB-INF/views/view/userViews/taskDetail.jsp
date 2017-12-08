@@ -221,7 +221,7 @@
         </div>            
 
 </div>
-<a onclick="redirect(event,'taskUserView')" class="btn btn-info btn-md center" id="goBack2" style="margin:1.5cm 0cm 0cm -16cm;width:110px;background-color:#4CAF50;">
+<a onclick="redirect(event,'taskUserView')" class="btn btn-info btn-md center" id="goBack2" style="margin:5% 0% 0% -45%;width:110px;background-color:#4CAF50;">
           <span class="glyphicon glyphicon-chevron-left"></span> Go Back
         </a>  
 </form>

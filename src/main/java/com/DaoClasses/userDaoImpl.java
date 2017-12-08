@@ -221,6 +221,65 @@ public class userDaoImpl implements usersDao{
 		
     }
     
+    public boolean addUser3(User_Info user) {
+        Transaction transaction = null;
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Timestamp created_at= new Timestamp(System.currentTimeMillis()); 
+        String roll_number = user.getRoll_number();
+        String password=user.getPassword();
+        String email=user.getEmail();
+        String user_type=user.getUser_type();
+        String username= user.getName();
+        int batch_id = user.getBatch_id();
+        try {
+
+        	String queryString = "from User_Info where email= :email or name= :name";
+            Query query = session.createQuery(queryString);
+            query.setString("email",email );
+            query.setString("name",username );
+            List<User_Info> userDataBase=query.list();
+        	if (userDataBase.size()==0){
+        		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        		String hashedPassword = passwordEncoder.encode(password);
+	            User_Info userData =new User_Info();
+	            userData.setName(username);
+	            userData.setEmail(email);
+	            userData.setEnabled(true);
+	            userData.setPassword(hashedPassword);
+	            userData.setCreated_at(created_at);
+	            userData.setBatch_id(batch_id);
+	            userData.setRoll_number(roll_number);
+	            UserRole user_role= new UserRole();
+	            user_role.setRole(user_type);
+	            user_role.setCreated_at(created_at);
+	            user_role.setUser_info(userData);
+	            transaction = session.beginTransaction();
+	            Set<UserRole> userrole= new HashSet<UserRole>();
+	            userrole.add(user_role);
+	            userData.setUserRole(userrole);
+	            session.save(userData);
+	            transaction.commit();
+	            transaction = session.beginTransaction();
+	            session.save(user_role);
+	            transaction.commit();
+            return true;
+        	}
+        	else{
+        		return false;
+        	}
+        } catch (RuntimeException e) {
+            if (transaction != null) {
+            	transaction.rollback();
+            }
+            return false;
+        } catch (Exception e) {
+			return false;
+		} finally {
+            session.close();
+        }
+		
+    }
+    
     
   //===================Get a list of user=================================
     public List<User_Info> getAllUser() {
@@ -1722,7 +1781,7 @@ public class userDaoImpl implements usersDao{
 	        			    		    //OR
 	        			    		//Arrays.asList("customer", "=", true))),  //To bring the all value customer should be true
 	        			    new HashMap() {{
-	        			        put("fields", Arrays.asList("id","name","batch_id","gender","last_name","email"));
+	        			        put("fields", Arrays.asList("id","name","batch_id","roll_number","last_name","email"));
 	        			        //put("limit", 5);
 	        			    }}
 	        			)));
@@ -1737,7 +1796,7 @@ public class userDaoImpl implements usersDao{
 	        
 	                 Integer id=(Integer)complete_Result.get("id");
 	                 student.setId(Integer.toString(id));
-	                 String gender=(String)complete_Result.get("gender");
+	                 String gender=(String)complete_Result.get("roll_number");
 	                 student.setGender(gender);
 	                 String name=(String)complete_Result.get("name");
 	                 student.setName(name);
@@ -1771,8 +1830,6 @@ public class userDaoImpl implements usersDao{
 	            //e.printStackTrace();
 	        }
 	          
-	          for (Student s:students)
-	        	  System.out.println(s.getName()+"   "+s.getText());
 	      	  students = exchangeBatchValue(students);
 	          if (students==null)
 	        	  return false;
@@ -1796,10 +1853,11 @@ public class userDaoImpl implements usersDao{
 	        			User_Info user = new User_Info();		        			
 		        		user.setEmail(student.getText());
 		        		user.setName(student.getName());
+		        		user.setRoll_number(student.getGender());
 		        		user.setPassword("password");
 		        		user.setUser_type("ROLE_USER");
 		        		user.setBatch_id(Integer.parseInt(student.getBatch_id()));
-		        		addUser2(user);
+		        		addUser3(user);
 	        			}
 	        		
 	        	}
@@ -1813,7 +1871,7 @@ public class userDaoImpl implements usersDao{
 	        			if(validateStudent(student,studentDB))
 	        			{
 	        				System.out.println("See");
-	        				//count++;
+	        				count++;
 	        			}
 	        			else
 	        			{
@@ -1823,8 +1881,8 @@ public class userDaoImpl implements usersDao{
 			        		user.setPassword("password");
 			        		user.setUser_type("ROLE_USER");
 			        		user.setBatch_id(Integer.parseInt(student.getBatch_id()));
-			        		addUser2(user);
-			        		count++;
+			        		user.setRoll_number(student.getGender());
+			        		addUser3(user);
 	        			}
        			}
 	        		System.out.println("Validated is "+count);
@@ -1840,7 +1898,7 @@ public class userDaoImpl implements usersDao{
 	public boolean validateStudent(Student studentValidate,List<Student> studentDB) {
 		for(Student student : studentDB)
 	    {
-	    	if(student.getEmail().toLowerCase().equals(studentValidate.getText().toLowerCase()))
+	    	if(student.getRoll_number().toLowerCase().equals(studentValidate.getGender().toLowerCase()))
 	    	{
 	    		
 	    			return true;
@@ -1873,6 +1931,7 @@ public class userDaoImpl implements usersDao{
  		 		student.setText(user.getName());
  		 		student.setName(user.getName());
  		 		student.setEmail(user.getEmail());
+ 		 		student.setRoll_number(user.getRoll_number());
  		 		students.add(student);
  		 	}
  		 	
@@ -2156,6 +2215,9 @@ public class userDaoImpl implements usersDao{
 	        
 	        catch (RuntimeException e) {
 			    e.printStackTrace();
+			    if (trns != null) {
+	            	trns.rollback();
+	            }
 			   } finally {
 			    session.flush();
 			    session.close();

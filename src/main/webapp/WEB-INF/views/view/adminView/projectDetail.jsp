@@ -65,12 +65,12 @@
     			}
     		if((format.test(projectname)) || (format.test(projectcode)))
     			{
-    			swal("Oops!", "You cannot input special characters", "error")  
+    			swal("Oops!", "You cannot input special characters for name and code", "error")  
     			return
     			}
     		if((format.test(projectname)) || (format.test(projectcode)))
 			{
-			swal("Oops!", "You cannot input special characters", "error")  
+			swal("Oops!", "You cannot input special characters for name and code", "error")  
 			return
 			}
     		var deadline = Date.parse($("#deadline").val());

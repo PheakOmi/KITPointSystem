@@ -624,13 +624,13 @@ public class ControllerFile {
 			@RequestMapping(value="/updateAllPoint", method=RequestMethod.GET)
 			public ModelAndView updateAllPoint(@RequestParam("id") int user_id/*,@RequestParam("name") String name*/) throws Exception{
 					ObjectMapper mapper = new ObjectMapper();
+					Map<String,Object> map = new HashMap<String,Object>();
 					List<KIT_Point_Student_Wise> points =  usersService1.updateAllPoint(user_id);
-//					KIT_Point_Student_Wise p = new KIT_Point_Student_Wise();
-	//				p.setKit_point(name);
-					//points.add(p);
+					map.put("data", points);
+					map.put("name", usersService1.getUserById(user_id).getName());
 					String json = "";
 					try {
-						json = mapper.writeValueAsString(points);
+						json = mapper.writeValueAsString(map);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

@@ -11,6 +11,8 @@
     	
        task = response.task;	
        project = response.project;
+       project.sort(compare);
+       task.sort(compare2);
        function formatDate(date) {
 		    var d = new Date(date),
 		        month = '' + (d.getMonth() + 1),
@@ -170,6 +172,32 @@
 	    });
    
   });
+  
+  
+  function compare(a, b) {
+	  const genreA = a.project_name.toUpperCase();
+	  const genreB = b.project_name.toUpperCase();
+	  
+	  let comparison = 0;
+	  if (genreA > genreB) {
+	    comparison = 1;
+	  } else if (genreA < genreB) {
+	    comparison = -1;
+	  }
+	  return comparison;
+	}
+  function compare2(a, b) {
+	  const genreA = a.name.toUpperCase();
+	  const genreB = b.name.toUpperCase();
+	  
+	  let comparison = 0;
+	  if (genreA > genreB) {
+	    comparison = 1;
+	  } else if (genreA < genreB) {
+	    comparison = -1;
+	  }
+	  return comparison;
+	}
  </script>
  	
  <!-- Page Heading -->

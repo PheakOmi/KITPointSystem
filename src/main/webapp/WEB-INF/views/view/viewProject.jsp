@@ -102,6 +102,7 @@ $(document).ready(function() {
 			success: function(response){
 					
 					project=response.project;
+					project.sort(compare);
 					for(i=0; i<project.length; i++){
 						
 						if (project[i].kit_point==""||project[i].kit_point==null)
@@ -280,6 +281,7 @@ $(document).ready(function() {
 			success: function(response){
 				
 				project=response.project;
+				project.sort(compare);
 				$("div #project").html('');
 				for(i=0; i<project.length; i++){
 					if (project[i].kit_point==""||project[i].kit_point==null)
@@ -388,6 +390,7 @@ $(document).ready(function() {
 				success: function(response){
 						
 						project=response.project;
+						project.sort(compare);
 						var today = new Date();
 						var dd = today.getDate();
 						var mm = today.getMonth()+1; //January is 0!
@@ -498,6 +501,18 @@ $(document).ready(function() {
 	function daydiff(first, second) {
 	    return Math.round((second-first)/(1000*60*60*24));
 	}
+	function compare(a, b) {
+		  const genreA = a.project_name.toUpperCase();
+		  const genreB = b.project_name.toUpperCase();
+		  
+		  let comparison = 0;
+		  if (genreA > genreB) {
+		    comparison = 1;
+		  } else if (genreA < genreB) {
+		    comparison = -1;
+		  }
+		  return comparison;
+		}
 	
 </script>
 <body onload="load();">

@@ -146,12 +146,12 @@
 		}
     		if((format.test(projectname)) || (format.test(projectcode)))
     			{
-    			swal("Oops!", "You cannot input special characters", "error")  
+    			swal("Oops!", "You cannot input special characters for name and code", "error")  
     			return
     			}
     		if((format.test(projectname)) || (format.test(projectcode)))
 			{
-			swal("Oops!", "You cannot input special characters", "error")  
+			swal("Oops!", "You cannot input special characters for name and code", "error")  
 			return
 			}
             id = ${id};
@@ -276,7 +276,7 @@
 	}
 	redirect3 = function(e, url){
 		e.preventDefault();
-		var id = 5;
+		var id = ${id};
 		location.href="additional_hour?id="+id;
 	}
 	
@@ -334,12 +334,8 @@
 	                            </div>
                             </div>  
                             
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">Planning Hours</label>
-                                <div class="col-sm-8">
-                                	<input class="form-control" maxlength="4" id="planninghour" type="text" required>
-                                </div>
-                        </div>
+                            
+                        
                            <div class="form-group">
                                 <label class="col-sm-4 control-label">Status</label>
 	                            <div class="col-sm-8">    
@@ -350,7 +346,19 @@
                                     	<option value="Completed Project">Completed Project</option> 
 	                                </select>
 	                            </div>
-                            </div>       
+                            </div>  
+                            
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Planning Hours</label>
+                                <div class="col-sm-8">
+                                	<input class="form-control" maxlength="4" id="planninghour" type="text" required>
+                                </div>
+                        </div>
+                            <div style="margin:1% 0cm 10% 68%;"	>
+                            <a onclick="redirect3(event,'additional_hour')" href="#" class="btn btn-success btn-xs">
+          <span class="glyphicon glyphicon-new-window" ></span> View Students' additional hour</a>
+                           
+                            </div>     
                   		  </div>
                   		    
                          <div class="col-sm-6">
@@ -411,14 +419,13 @@
                             </div>    
                             <div style="margin:1% 0cm 10% 80%;"	>
                             <a href="#" class="btn btn-info btn-xs" data-toggle="modal" data-target="#myModal">
-          <span class="glyphicon glyphicon-new-window" ></span> Create a skill set</a>
+          <span class="glyphicon glyphicon-plus" ></span> Create a skill set</a>
                            
                             </div>
                             <sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_N_ADMIN')">
                           	 <div style="text-align: center; margin-top: 50px;">	
                           	   <button onclick="redirect2(event,'updatePointMember')" class="btn btn-default" style="display:none;margin-left:1cm;" id="upoint">Update Point For Members</button>
 			                   <button type="submit" class="btn btn-default">Update</button>
-			                   <button onclick="redirect3(event,'additional_hour')" class="btn btn-default preventDefault">View Students' additional hour </button>
 			                   <button onclick="redirect(event,'project')" class="btn btn-default preventDefault" >Cancel</button>
 			                   
 	                    </div>

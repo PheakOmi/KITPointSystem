@@ -146,12 +146,12 @@
 		}
     		if((format.test(projectname)) || (format.test(projectcode)))
     			{
-    			swal("Oops!", "You cannot input special characters", "error")  
+    			swal("Oops!", "You cannot input special characters for name and code", "error")  
     			return
     			}
     		if((format.test(projectname)) || (format.test(projectcode)))
 			{
-			swal("Oops!", "You cannot input special characters", "error")  
+			swal("Oops!", "You cannot input special characters for name and code", "error")  
 			return
 			}
             id = ${id};
@@ -275,6 +275,11 @@
 		var id = ${id};
 		location.href="updatePointMember?id="+id;
 	}
+	redirect3 = function(e, url){
+		e.preventDefault();
+		var id = ${id};
+		location.href="additional_hour?id="+id;
+	}
 	goTO = function(){
 		$('#bsubmit').trigger('click');
 	}
@@ -329,12 +334,7 @@
 	                            </div>
                             </div>  
                             
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label">Planning Hours</label>
-                                <div class="col-sm-8">
-                                	<input class="form-control" maxlength="4" id="planninghour" type="text" required>
-                                </div>
-                        </div>
+                            
                            <div class="form-group">
                                 <label class="col-sm-4 control-label">Status</label>
 	                            <div class="col-sm-8">    
@@ -346,6 +346,17 @@
 	                                </select>
 	                            </div>
                             </div>       
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Planning Hours</label>
+                                <div class="col-sm-8">
+                                	<input class="form-control" maxlength="4" id="planninghour" type="text" required>
+                                </div>
+                        </div>
+                            <div style="margin:1% 0cm 10% 68%;"	>
+                            <a onclick="redirect3(event,'additional_hour')" href="#" class="btn btn-success btn-xs">
+          <span class="glyphicon glyphicon-new-window" ></span> View Students' additional hour</a>
+                           
+                            </div>     
                   		  </div>
                   		    
                          <div class="col-sm-6">

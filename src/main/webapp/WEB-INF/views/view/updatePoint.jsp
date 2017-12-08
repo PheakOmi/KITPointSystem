@@ -1,5 +1,11 @@
 <body onload="load()">
 <div class="row " id="margin-body">
+<div class="text-center" id="hh">
+      <div>
+    <h1 style="color: grey;font-family: inherit;font-size:25px;">Name: <span id="ssname"></span></h1>
+    </div>
+  </div>
+ 
 <div id="tablewrapper" >
 <table id="customers" style="width:50%; width:50%;margin: 0 AUTO;">
   <tr>
@@ -25,14 +31,15 @@ load = function()
 {
 	$("#update").hide();
 	$("#goBack2").hide();
-	var data = ${message};
+	var dd = ${message};
+	var data = dd.data;
+	$("#ssname").text(dd.name);
 	if(isEmpty(data))
 		$("#edit").hide();
 	else
 		$("#update").attr("user_id",data[0].user_id);
 //	$("#update").attr("user_id",data.)
 	var sum=0;
-	console.log(data)
 	for(i=0;i<data.length;i++)
 	{
 		sum += parseFloat(data[i].kit_point);

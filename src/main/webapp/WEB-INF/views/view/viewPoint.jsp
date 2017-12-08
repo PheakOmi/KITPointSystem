@@ -24,7 +24,7 @@ load = function()
 	      data : {id:batch_id},
 	      success : function(response) {
 	    	  data = response.data;
-	    	  console.log(data)
+	    	  data.sort(compare);
 	    	  for (i=0;i<data.length;i++)
 	    	  {
 		    	  var row = "<tr class='hoverable' data-url='updateAllPoint?id="+data[i].id+"&name="+data[i].name+"' ><td>"+(i+1)+"</td>"+
@@ -42,6 +42,20 @@ load = function()
 		}
 	      });
 	}
+
+function compare(a, b) {
+	  const genreA = a.name.toUpperCase();
+	  const genreB = b.name.toUpperCase();
+	  
+	  let comparison = 0;
+	  if (genreA > genreB) {
+	    comparison = 1;
+	  } else if (genreA < genreB) {
+	    comparison = -1;
+	  }
+	  return comparison;
+	}
+
 function goBack() {
     window.history.back();
 }

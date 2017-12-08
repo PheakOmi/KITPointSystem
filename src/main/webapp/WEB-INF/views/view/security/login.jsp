@@ -34,7 +34,9 @@
    	    <link href="${customfontCSS }" rel="stylesheet" type="text/css">
    	    
    	    <!-- Sweet alert -->
-
+<!-- Sweet alert -->
+<spring:url value="/resources/Bootstrap/css/sweetalert.css" var="alertStyle"/>
+<spring:url value="/resources/Bootstrap/js/sweetalert.min.js" var="alertJS"/>
    	    	 
 <script>
 $(document).ready(function(){
@@ -53,6 +55,8 @@ $(document).ready(function(){
 </script>
   </head>
 <body onload='document.loginForm.username.focus()'>
+<script src="${alertJS}"></script>
+<link rel="stylesheet" href="${alertStyle}">
 <h1 align="center">${message}</h1>
   <div class="login-page">
   <div class="form">
@@ -87,11 +91,11 @@ $(document).ready(function(){
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Find Your Account</h4>
-          
         </div>
+        
         <div class="modal-body">
      <form class="form-group" id="myForm2">
-     <p><b>Please enter your email to search for your account.</b></p>
+     <p><b>Please enter your email to search for your account.</b><span id ="toload"></span></p>
     <div>
       
       <div class="col-sm-7">
@@ -107,8 +111,7 @@ $(document).ready(function(){
   </form>
   <br>
         </div>
-        <div class="modal-footer">
-       	  <div class="loader"></div>	
+        <div class="modal-footer">	
           <button onClick="goTO()" class="btn btn-default">Submit</button>
           <button type="button" id="closing" class="btn btn-default" data-dismiss="modal">Close</button>
            
@@ -121,6 +124,7 @@ $(document).ready(function(){
 <script type="text/javascript">
 $("#myForm2").on("submit",function(e){
 	e.preventDefault();
+	$("#toload").addClass("loader");
 		$.ajax({
 			url:'forgetPasswordSubmit',
 			type:'GET',
@@ -128,14 +132,16 @@ $("#myForm2").on("submit",function(e){
 			success: function(response){			     
 				if(response.status=="999")
 					{
-					swal("Oops!", "No", "error")
-					//alert("No")
+					$("#toload").removeClass("loader");
+					swal("We cannot find you!", "Please give a valid email!", "error")
+					$('#closing').trigger('click');
 					}
 				
 				else 
 					{
-					//swal("Oops!","We found you! Please check your email to reset new passwird!", "success")
-					alert("We found you! Please check your email to reset new passwird!")
+					$("#toload").removeClass("loader");
+					swal("Oops!","We found you! Please check your email to reset new password!", "success")
+					$('#closing').trigger('click');
 					//alert("<div class="alert alert-success"><strong>Success!</strong> This alert box could indicate a successful or positive action.</div>")
 					}
 					
