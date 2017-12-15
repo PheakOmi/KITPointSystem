@@ -13,6 +13,8 @@
 				student = response.student;
 				member = response.member;
 				currentproject = response.currentproject;
+				d=currentproject;
+				ee=member;
 				skillset = response.skillset;
 				currentskill = response.currentskill;
 				
@@ -119,16 +121,47 @@
         date_input.datepicker(options);
   	 
     	$("#myForm").on("submit",function(e){	
+    		e.preventDefault();
     		var member = $('#member').val(); 
     		var skillset = $('#skillset').val(); 
     		member.push($('#teamleader').val());
-            e.preventDefault();
             var projectname = $("#project_name").val().trim();
     		var projectcode = $("#projectcode").val().trim();
     		var planninghour = $("#planninghour").val().trim();
     		//var skillset = $("#skillset").val().trim();
     		var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
     		var formats = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz]+/;
+    		
+    		if(d.status=="Completed Project")
+			{
+				var mm  = member.sort();
+				for (var i=0;i<mm.length;i++)
+					mm[i]=parseInt(mm[i]);
+				if($("#teamleader").val()!=d.project_leader)
+					{
+					swal("Project already completed!", "You cannot change project leader", "error")
+					return
+					}
+				if(JSON.stringify(ee.sort())!=JSON.stringify(mm))
+					{
+					console.log(JSON.stringify(ee.sort()))
+					console.log(JSON.stringify(mm))
+					swal("Project already completed!", "You cannot change project member", "error")
+					return
+					}
+				if($("#status").val()!=d.status)
+					{
+					swal("Project already completed!", "You cannot change project status", "error")
+					return
+					}
+				if($("#planninghour").val()!=d.initially_planned)
+					{
+					swal("Project already completed!", "You cannot change planning hour", "error")
+					return
+					}
+				
+			}
+    		
     		if((projectname==''))
 			{
 			swal("Oops!", "Project name cannot be empty", "error")
@@ -278,7 +311,7 @@
 	redirect3 = function(e, url){
 		e.preventDefault();
 		var id = ${id};
-		location.href="additional_hour?id="+id;
+		location.href="additional_hour_admin?id="+id;
 	}
 	goTO = function(){
 		$('#bsubmit').trigger('click');
@@ -353,7 +386,7 @@
                                 </div>
                         </div>
                             <div style="margin:1% 0cm 10% 68%;"	>
-                            <a onclick="redirect3(event,'additional_hour')" href="#" class="btn btn-success btn-xs">
+                            <a onclick="redirect3(event,'additional_hour_admin')" href="#" class="btn btn-success btn-xs">
           <span class="glyphicon glyphicon-new-window" ></span> View Students' additional hour</a>
                            
                             </div>     

@@ -93,6 +93,11 @@
 			swal("Oops!", "Time cannot be empty", "error")
 			return
 			}
+			if(getlength(time)>3)
+    		{
+    			swal("Oops!", "Planning Hour Cannot Be More Than 3 Digits", "error")  
+    			return
+    		}
 			if(format.test(name))
 				{
 				swal("Oops!", "You cannot input special characters", "error")  
@@ -150,6 +155,10 @@
             }
     	});
     });	
+	
+	function getlength(number) {
+	    return number.toString().length;
+	}
 </script>		
 <form role="form" id="myForm">
 <div class="wrapper">

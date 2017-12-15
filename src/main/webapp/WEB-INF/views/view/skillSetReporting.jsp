@@ -37,7 +37,7 @@ goTO = function(){
 	$('#bsubmit').trigger('click');
 }
 </script>
-<button style="display: none;"class="btn btn-primary" data-toggle="modal" data-target="#myModal" id="mybtn">
+<button style="display: none;"class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" id="mybtn">
     Login modal</button>
     
     
@@ -65,7 +65,7 @@ goTO = function(){
         </div>
         <div class="modal-footer">
           <button onClick="goTO()" class="btn btn-default">Submit</button>
-          <button type="button" id="closing" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" id="closing" class="btn btn-default" onclick="location.href = 'reporting';">Close</button>
         </div>
       </div>
       

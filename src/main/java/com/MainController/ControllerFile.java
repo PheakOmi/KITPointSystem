@@ -750,6 +750,42 @@ public class ControllerFile {
 					}
 					return new ModelAndView("additional_hour", "message", json);
 				}
+			@RequestMapping(value="/additional_hour_admin", method=RequestMethod.GET)
+			public ModelAndView additional_hour_admin(@RequestParam("id") int project_id) throws Exception{
+					List<Student> student = usersService1.getAllStudent();
+					ObjectMapper mapper = new ObjectMapper();
+					List<additional_hour> hours =  usersService1.getAdditionalHourProjectId(project_id);
+					List<Integer> myList = new ArrayList<Integer>();
+					for(Student s:student)
+						myList.add(Integer.parseInt(s.getId()));
+					int size = myList.size();
+  	    		    Integer[] users = myList.toArray(new Integer[size]);
+					Arrays.sort(users);
+					System.out.println("USER "+users.length);
+					for (int i=0;i<hours.size();i++)
+					{
+						System.out.println("Idd "+hours.get(i).getUser_id());
+						if(contains(users,hours.get(i).getUser_id()))
+		    		     {
+							int id = hours.get(i).getUser_id();
+							System.out.println("Idd "+id);
+							hours.get(i).setName(usersService1.getUserById(id).getName());
+		    		     }
+					}
+					
+					Map<String, Object> map = new HashMap<String, Object>();
+					List<Project_Member> members =  usersService1.getMemberByProjectId(project_id);
+					map.put("hours", hours);
+					map.put("members", members);
+					//points.get(0).setTpoint(usersService1.getProjectById(points.get(0).getProject_id()).getKit_point());
+					String json = "";
+					try {
+						json = mapper.writeValueAsString(map);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					return new ModelAndView("additional_hour", "message", json);
+				}
 //========================Update Project========================================================
 			@RequestMapping(value="/updateProject", method=RequestMethod.GET)
 			public @ResponseBody Map<String,Object> toUpdateProject(Project_Model pm) throws Exception{

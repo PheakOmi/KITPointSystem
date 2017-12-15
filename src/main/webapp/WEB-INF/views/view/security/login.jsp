@@ -71,7 +71,7 @@ $(document).ready(function(){
 		</c:if>
      	<input type='text'placeholder="Username" name='username' id="username" required>
       <input type="password" placeholder="Password" name="password" required/>
-      <input type="submit" class="a" value="Login">
+      <input type="submit" class="a" value="Login" style="color:white;">
       <div style="font-size:10px;" class="gg">
       <a href ="#" data-toggle="modal" data-target="#myModal">Forgot Password?</a>
       </div>
@@ -140,7 +140,7 @@ $("#myForm2").on("submit",function(e){
 				else 
 					{
 					$("#toload").removeClass("loader");
-					swal("Oops!","We found you! Please check your email to reset new password!", "success")
+					swal("Done!","We found you! Please check your email to reset new password!", "success")
 					$('#closing').trigger('click');
 					//alert("<div class="alert alert-success"><strong>Success!</strong> This alert box could indicate a successful or positive action.</div>")
 					}

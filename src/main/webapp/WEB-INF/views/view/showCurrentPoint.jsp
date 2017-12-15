@@ -17,6 +17,7 @@
 load = function()
 {
   var data = ${message};
+  data.sort(compare);
   var sum=0;
   for(i=0;i<data.length;i++)
   {
@@ -33,5 +34,17 @@ load = function()
 function goBack() {
     window.history.back();
 }
+function compare(a, b) {
+	  const genreA = a.name.toUpperCase();
+	  const genreB = b.name.toUpperCase();
+	  
+	  let comparison = 0;
+	  if (genreA > genreB) {
+	    comparison = 1;
+	  } else if (genreA < genreB) {
+	    comparison = -1;
+	  }
+	  return comparison;
+	}
 </script>
 </body>

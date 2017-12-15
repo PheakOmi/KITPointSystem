@@ -363,13 +363,13 @@ $(document).ready(function() {
                             <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
                                 <li id="id1" onclick='showProjectBasedStatus("all");'><a>ALL</a>
                                 </li>
-                                <li id="id2" onclick='showProjectBasedStatus("Approved Project");'><a >Approved Project</a>
+                                <li id="id2" onclick='showProjectBasedStatus("Approved Project");'><a style="background-color:#337ab7;">Approved Project</a>
                                 </li>
-                                <li id="id3" onclick='showProjectBasedStatus("To approve Project");'><a>To approve Project</a>
+                                <li id="id3" onclick='showProjectBasedStatus("To approve Project");'><a style="background-color:#f5f5f5;">To approve Project</a>
                                 </li>
-                                <li id="id4" onclick='showProjectBasedStatus("Pending Project");'><a>Pending Project</a>
+                                <li id="id4" onclick='showProjectBasedStatus("Pending Project");'><a style="background-color:#f2dede;">Pending Project</a>
                                 </li>
-                                <li id="id5" onclick='showProjectBasedStatus("Completed Project");'><a>Completed Project</a>
+                                <li id="id5" onclick='showProjectBasedStatus("Completed Project");'><a style="background-color:#dff0d8;">Completed Project</a>
                                 </li>
                                 <div class="col-sm-4 pull-right" style="margin-bottom:-1em;">
 					            <div class="form-group">

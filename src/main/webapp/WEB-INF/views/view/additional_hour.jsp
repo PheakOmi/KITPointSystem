@@ -52,7 +52,7 @@
       </div><br><br>
       <label class="col-sm-4" for="email">Additional Hour</label>
       <div class="col-sm-7">
-      <input type="text" class="form-control cdd" id="shour" maxlength="60" placeholder="Input only integer" required>
+      <input type="text" class="form-control cdd" id="shour" maxlength="3" placeholder="Input only integer" required>
       </div>	
       <button id="bsubmit" type="submit" class="btn btn-default" style="display:none;">Create</button>
       
@@ -228,11 +228,16 @@ function isEmpty(obj) {
 
 
 $(document).ready(function() {
-    $('li#settingStlye').addClass('active');
+    $('li#projectStlye').addClass('active');
     
     
     $("#myForm2").on("submit",function(e){
 		e.preventDefault();
+		if(getlength($("#shour").val())>3)
+		{
+			swal("Oops!", "Hour Cannot Be More Than 3 Digits", "error")  
+			return
+		}
 		$.ajax({
     		url:'additional_hour_submit',
     		type:'GET',
@@ -275,5 +280,8 @@ $(document).ready(function() {
     });
     
 });
+function getlength(number) {
+    return number.toString().length;
+}
 </script>
 </body>

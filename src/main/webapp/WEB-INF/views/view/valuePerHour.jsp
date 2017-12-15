@@ -25,7 +25,7 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Semester 1</label>
 						<div class="col-sm-10">
-							<input type="text" maxlength="10"
+							<input type="text" maxlength="3"
 								class="form-control valueperhour" id="semester1" required>
 						</div>
 					</div>
@@ -33,21 +33,21 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Semester 2 </label>
 						<div class="col-sm-10">
-							<input type="text" maxlength="10"
+							<input type="text" maxlength="3"
 								class="form-control valueperhour" id="semester2" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Semester 3</label>
 						<div class="col-sm-10">
-							<input type="text" maxlength="10"
+							<input type="text" maxlength="3"
 								class="form-control valueperhour" id="semester3" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Semester 4</label>
 						<div class="col-sm-10">
-							<input type="text" maxlength="10"
+							<input type="text" maxlength="3"
 								class="form-control valueperhour" id="semester4" required>
 						</div>
 					</div>
@@ -57,7 +57,7 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Semester 5 </label>
 						<div class="col-sm-10">
-							<input type="text" maxlength="10"
+							<input type="text" maxlength="3"
 								class="form-control valueperhour" id="semester5" required>
 						</div>
 					</div>
@@ -65,21 +65,21 @@
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Semester 6 </label>
 						<div class="col-sm-10">
-							<input type="text" maxlength="10"
+							<input type="text" maxlength="3"
 								class="form-control valueperhour" id="semester6" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Semester 7</label>
 						<div class="col-sm-10">
-							<input type="text" maxlength="10"
+							<input type="text" maxlength="3"
 								class="form-control valueperhour" id="semester7" required>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Semester 8</label>
 						<div class="col-sm-10">
-							<input type="text" maxlength="10"
+							<input type="text" maxlength="3"
 								class="form-control valueperhour" id="semester8" required>
 						</div>
 					</div>
@@ -136,7 +136,12 @@
 				{
 				swal("Oops!", "You can only input number", "error")  
 				return
-				}	 
+				}
+			if(getlength(semester1)>2||getlength(semester2)>2||getlength(semester3)>2||getlength(semester4)>2||getlength(semester5)>2||getlength(semester6)>2||getlength(semester7)>2||getlength(semester8)>2)
+    		{
+    			swal("Oops!", "Value Per Hour Cannot Be More Than 2 Digits", "error")  
+    			return
+    		}
 				 $.ajax({
 						url:'getHour',
 						type:"GET",
@@ -234,6 +239,10 @@
 			}
 		});	  
 		})
+		
+		function getlength(number) {
+	    return number.toString().length;
+	}
 		
 </script>
 </body>

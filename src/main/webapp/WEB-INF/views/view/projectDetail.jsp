@@ -52,6 +52,18 @@
 	            evt.preventDefault();
 	        }
 	    });
+		document.querySelector("#kitpoint").addEventListener("keypress", function (evt) {
+	        if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+	        {
+	            evt.preventDefault();
+	        }
+	    });
+		document.querySelector("#budget").addEventListener("keypress", function (evt) {
+	        if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
+	        {
+	            evt.preventDefault();
+	        }
+	    });
 		
 		$('#teamleader').on('change', function() {
 			$('#member').select2({data: student});	
@@ -64,11 +76,16 @@
 		
 		$('li#projectStlye').addClass('active');
     	$("#myForm").on('submit',function(e){
-    		
+    		e.preventDefault();
     		var member = $('#member').val(); 
     		member.push($('#teamleader').val());
     		var skillset = $("#skillset").val();
-    		e.preventDefault();
+    		var point = $("#kitpoint").val();
+    		if(point==""||point==null)
+    			point=0;
+    		var budget = $("#budget").val();
+    		if(budget==""||budget==null)
+    			budget=0;
     		var projectname = $("#project_name").val().trim();
     		var projectcode = $("#projectcode").val().trim();
     		var planninghour = $("#planninghour").val().trim();
@@ -90,6 +107,21 @@
 			swal("Oops!", "You cannot input special characters for name and code", "error")  
 			return
 			}
+    		if(getlength(planninghour)>4)
+    		{
+    			swal("Oops!", "Planning Hour Cannot Be More Than 4 Digits", "error")  
+    			return
+    		}
+    		if(getlength(point)>3)
+    		{
+    			swal("Oops!", "Point Cannot Be More Than 3 Digits", "error")  
+    			return
+    		}
+    		if(getlength(budget)>7)
+    		{
+    			swal("Oops!", "Budget Cannot Be More Than 7 Digits", "error")  
+    			return
+    		}
     		var deadline = Date.parse($("#deadline").val());
             var startdate = Date.parse($("#startdate").val());
             var enddate = Date.parse($("#enddate").val());
@@ -209,6 +241,10 @@
 	goTO = function(){
 		$('#bsubmit').trigger('click');
 	}
+	
+	function getlength(number) {
+	    return number.toString().length;
+	}
     
 </script>
 <form id="myForm">
@@ -274,10 +310,7 @@
 	                                </select>
 	                            </div>
                             </div>       
-                              <div class="form-group">
-                                <button type="submit" id="btnSubmit" class="btn btn-default">Create</button>
-			                   <button onclick="location.href = 'project';" class="btn btn-default">Cancel</button>
-                            </div> 
+                              
                   		  </div>
                   		    
                          <div class="col-sm-6">
@@ -325,7 +358,7 @@
                              <div class="form-group">
                                 <label class="col-sm-4 control-label">KIT point</label>
                                 <div class="col-sm-8">	
-                                	<input class="form-control" id="kitpoint"  disabled>
+                                	<input class="form-control" id="kitpoint"  disabled maxlength="3">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -347,6 +380,10 @@
           <span class="glyphicon glyphicon-new-window" ></span> Create a skill set</a>
                            
                             </div>
+                            <div id ="el" style="display: inline-block;margin:-7% 10% 0% 40%;">
+                                <button type="submit" id="btnSubmit" class="btn btn-default">Create</button>
+			                   <button onclick="location.href = 'project';" class="btn btn-default">Cancel</button>
+                            </div> 
                           	
                   		  </div>
                   	

@@ -28,47 +28,106 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	
 
-	private static final String[] SUPER_ADMIN_MATCHERS = {
-		"/admin/**",
-		"/setting/**",
-        "/newUser/**",
-        "/batch/**",
-        "/createBatch/**",
-        "/kitpoint/**",
-        "/projectCategory/**",
-        "/valuePerHour/**",
-        "/project/**",
+	private static final String[] SUPER_ADMIN_MATCHERS = {		
+		
+		"/project.**",
+		"/projectDetail.**",
+		"/updateProjectDetail.**",
+		"/additional_hour.**",
+		"/updatePointMember.**",
+		"/task.**",
+		"/taskDetail.**",
+		"/updateTaskDetail.**",
+		"/reporting.**",
+		"/projectReporting.**",
+		"/skillSetReporting.**",
+		"/taskReporting.**",
+		"/setting.**",
+		"/newUser.**",
+		"/batch.**",
+		"/createBatch.**",
+		"/showUpdateBatch.**",
+		"/kitpoint.**",
+		"/view_update_point.**",
+		"/viewPoint.**",
+		"/updateAllPoint.**",
+		"/kitpoint_value.**",
+		"/projectCategory.**",
+		"/valuePerHour.**",
+		
+		
+		
+		"/project/**",
 		"/projectDetail/**",
-		"/ProjectNTask",
+		"/updateProjectDetail/**",
+		"/additional_hour/**",
+		"/updatePointMember/**",
 		"/task/**",
+		"/taskDetail/**",
+		"/updateTaskDetail/**",
+		"/reporting/**",
+		"/projectReporting/**",
+		"/skillSetReporting/**",
+		"/taskReporting/**",
+		"/setting/**",
+		"/newUser/**",
+		"/batch/**",
+		"/createBatch/**",
+		"/showUpdateBatch/**",
+		"/kitpoint/**",
+		"/view_update_point/**",
+		"/viewPoint/**",
+		"/updateAllPoint/**",
+		"/kitpoint_value/**",
+		"/projectCategory/**",
+		"/valuePerHour/**",
+
 		
  
     };
 	private static final String[] ADMIN_MATCHERS = {
-		"/projectAdminView",
-		"/projectDetailAdminView",
-		"/taskDetailAdminView",
-		"/taskAdminView",
-		"/updateTaskDetail/**",
-		"/ProjectNTaskAdmin",
+
+		"/projectAdminView/**",
+		"/updateProjectDetailAdminView/**",
+		"/taskDetailAdminView/**",
+		"/taskAdminView/**",
+		"/updateTaskDetailAdminView/**",
+		"/ProjectNTaskAdmin/**",
+		"/additional_hour_admin/**",
+		
+		
+		
+		"/projectAdminView.**",
+		"/updateProjectDetailAdminView.**",
+		"/taskDetailAdminView.**",
+		"/taskAdminView.**",
+		"/updateTaskDetailAdminView.**",
+		"/ProjectNTaskAdmin.**",
+		"/additional_hour_admin.**",
 		
    
     };
 	private static final String[] USER_MATCHERS = {
 
-		"/projectUserView",
-		"/projectDetailUserView",
-		"/taskDetailUserView",
-		"/taskUserView",
-		"/ProjectNTask**",
+		"/projectUserView/**",
+		"/projectDetailUserView/**",
+		"/taskDetailUserView/**",
+		"/taskUserView/**",
+		
+		
+		"/projectUserView.**",
+		"/projectDetailUserView.**",
+		"/taskDetailUserView.**",
+		"/taskUserView.**",
+		
    
     };
 	private static final String[] PUBLIC_MATCHERS = {
         "/",
 		"/profile/**",
 		"/updateTask**",
-		"/updateTaskDetail/**",
-		"/taskDetail",
+		"/ProjectNTask.**",
+		"/ProjectNTask/**",
    
     };
 	@Override
