@@ -47,17 +47,12 @@ load = function()
 	var r = "<tr><td colspan='2' style='background-color:	#ccc';><center>Project's Point</center></td><td>"+data[0].tpoint+" Point"+"(s)"+"</td></tr>";
 	$("#customers").append(r);
 	$('.cc').keypress(function(evt){
-    	var event = evt || window.event;
-   	  	var keyentered = event.keyCode || event.which;
-   	  	var keyentered = String.fromCharCode(keyentered);
+		var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode != 46 && charCode > 31 
+          && (charCode < 48 || charCode > 57))
+           return false;
 
-   	  	var regex = /[0-9]/;
-   	  	//var regex2 = /^[a-zA-Z.,;:|\\\/~!@#$%^&*_-{}\[\]()`"'<>?\s]+$/;
-
-   	  	if(!regex.test(keyentered)) {
-   	    	event.returnValue = false;
-   	    	if(event.preventDefault) event.preventDefault();
-   	  	}
+        return true;
     });
 }
 
@@ -76,17 +71,24 @@ function edit(){
 function update(){
 	var project_id = $("#update").attr("project_id");
 	var kitPoint="";	
+	var cou =0;
+	var toVal=0;
 	
 	$('#customers .record').each(function() {
+		cou++;
 	    var user_id = $(this).find(".member").attr("id");    
 	    var point = $(this).find(".cc").val();
 	    if(point=="" || point==null)
 	    	point=0;
-	    console.log(point)	
+	    if($.isNumeric(point))
+	   		 toVal++;  
 	    kitPoint +=user_id+","+point+"/";
 	    });
 	kitPoint = kitPoint.substring(0, kitPoint.length-1);
-	console.log(kitPoint)
+	
+	if(toVal==cou)
+		
+	{
 	$.ajax({
 		url:'updatePointMemberSubmit',
 		type:'GET',
@@ -114,6 +116,12 @@ function update(){
 				}
 		
 			});	
+}
+	else{
+		console.log(cou)
+		console.log(toVal)
+		swal("It is not number!", "Please put only number", "error")
+	}
 	
 }
 function isEmpty(obj) {

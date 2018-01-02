@@ -455,10 +455,10 @@
                             </div>
                             <sec:authorize access="hasRole('ROLE_ADMIN') or hasRole('ROLE_N_ADMIN')">
                           	 <div style="text-align: center; margin-top: 50px;">	
-                          	   <button onclick="redirect2(event,'updatePointMember')" class="btn btn-default" style="display:none;margin-left:1cm;" id="upoint">Update Point For Members</button>
+                          	   
 			                   <button type="submit" class="btn btn-default">Update</button>
 			                   <button onclick="redirect(event,'project')" class="btn btn-default preventDefault" >Cancel</button>
-			                   
+			                   <button onclick="redirect2(event,'updatePointMember')" class="btn btn-success" style="display:none;margin-left:1cm;" id="upoint">Update Point For Members <span class="glyphicon glyphicon-chevron-right"></span></button>
 	                    </div>
 	                    </sec:authorize>
                   		  </div>

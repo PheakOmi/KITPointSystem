@@ -33,6 +33,7 @@ load = function()
 	$("#goBack2").hide();
 	var dd = ${message};
 	var data = dd.data;
+	data.sort(compare);
 	$("#ssname").text(dd.name);
 	if(isEmpty(data))
 		$("#edit").hide();
@@ -45,21 +46,17 @@ load = function()
 		sum += parseFloat(data[i].kit_point);
 		var row = "<tr class='record'><td>"+(i+1)+"</td>"+
 		"<td class='project' id='"+data[i].project_id+"'>"+data[i].name+"</td>"+
-		"<td><input type='text' readonly class='cc' maxlength='3' style='border: none;border-color: transparent;' id='idd' value="+data[i].kit_point+"></td></tr>";
+		"<td><input type='text' readonly class='cc' maxlength='6' style='border: none;border-color: transparent;' id='idd' value="+data[i].kit_point+"></td></tr>";
 		$("#customers").append(row);
+		
 		$('.cc').keypress(function(evt){
-	    	var event = evt || window.event;
-	   	  	var keyentered = event.keyCode || event.which;
-	   	  	var keyentered = String.fromCharCode(keyentered);
+			var charCode = (evt.which) ? evt.which : evt.keyCode;
+	          if (charCode != 46 && charCode > 31 
+	            && (charCode < 48 || charCode > 57))
+	             return false;
 
-	   	  	var regex = /[0-9]/;
-	   	  	//var regex2 = /^[a-zA-Z.,;:|\\\/~!@#$%^&*_-{}\[\]()`"'<>?\s]+$/;
-
-	   	  	if(!regex.test(keyentered)) {
-	   	    	event.returnValue = false;
-	   	    	if(event.preventDefault) event.preventDefault();
-	   	  	}
-	    });
+	          return true;
+	    });		
 	}
 	var r = "<tr><td colspan='2' style='background-color:	#ccc';><center>Total</center></td><td>"+sum+" Point"+"(s)"+"</td></tr>";
 	$("#customers").append(r);
@@ -80,15 +77,25 @@ function edit(){
 function update(){
 	var user_id = $("#update").attr("user_id");
 	var kitPoint="";	
-	
+	var cou =0;
+	var toVal=0;
 	$('#customers .record').each(function() {
+		cou++;
 	    var project_id = $(this).find(".project").attr("id");    
 	    var point = $(this).find(".cc").val();
-	    console.log(point)	
-	    kitPoint +=project_id+","+point+"/";
+	    if(point=="" || point==null)
+	    	point=0;
+	    if($.isNumeric(point))
+			toVal++;  
+		kitPoint +=project_id+","+point+"/";
 	    });
 	kitPoint = kitPoint.substring(0, kitPoint.length-1);
-	$.ajax({
+	console.log(cou)
+
+	if(toVal==cou)
+	
+	{
+		$.ajax({
 		url:'updatePointSubmit',
 		type:'GET',
 		data:{		user_id:user_id,
@@ -115,6 +122,10 @@ function update(){
 				}
 		
 			});	
+		}
+	else{
+		swal("It is not number!", "Please put only number", "error")
+	}
 	
 }
 function isEmpty(obj) {
@@ -127,5 +138,18 @@ function isEmpty(obj) {
 $(document).ready(function() {
     $('li#settingStlye').addClass('active');
 });
+
+function compare(a, b) {
+	  const genreA = a.name.toUpperCase();
+	  const genreB = b.name.toUpperCase();
+	  
+	  let comparison = 0;
+	  if (genreA > genreB) {
+	    comparison = 1;
+	  } else if (genreA < genreB) {
+	    comparison = -1;
+	  }
+	  return comparison;
+	}
 </script>
 </body>

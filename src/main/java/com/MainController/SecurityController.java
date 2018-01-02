@@ -55,7 +55,7 @@ public class SecurityController {
 
 	}
 
-	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
+/*	@RequestMapping(value = "/admin**", method = RequestMethod.GET)
 	public ModelAndView adminPage() {
 
 		ModelAndView model = new ModelAndView();
@@ -63,7 +63,7 @@ public class SecurityController {
 
 		return model;
 
-	}
+	}	*/
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public ModelAndView login(@RequestParam(value = "error", required = false) String error,

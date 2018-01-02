@@ -79,6 +79,7 @@ $(document).ready(function(){
 	});		
 });
 showTable = function(projects){
+	projects.sort(compare);
 	category = p.category;
 	user = p.user;
 	student = p.student;
@@ -195,6 +196,19 @@ function formatDate(date) {
     return [month, day, year].join('/');
 };
 
+function compare(a, b) {
+	  const genreA = a.project_name.toUpperCase();
+	  const genreB = b.project_name.toUpperCase();
+	  
+	  let comparison = 0;
+	  if (genreA > genreB) {
+	    comparison = 1;
+	  } else if (genreA < genreB) {
+	    comparison = -1;
+	  }
+	  return comparison;
+	}
+
 </script>
 <button style="display: none;"class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-backdrop="static" data-keyboard="false" id="mybtn">
     Login modal</button>
@@ -290,7 +304,7 @@ function formatDate(date) {
                                     <div class="col-sm-4 pull-right">
                                         <select class="form-control" id="format">
                                           	<option value="excel">In Excel Format</option>
-                                        	<option value="pdf">In PDF Format</option>
+                                  <!--      	<option value="pdf">In PDF Format</option>	 --> 
                                         </select>
                                     </div>
                                 </div>
@@ -336,6 +350,6 @@ function formatDate(date) {
 <br>
 <br>
        <button onclick="generateReport()" type="button" class="btn btn-success pull-right" id="btnGenerate" style="display:none;">Generate Report</button> 
-         <button class="create_pdf" myprint="#tablewrapper" id="btn">Generate PDF</button>	
+        <!--  <button class="create_pdf" myprint="#tablewrapper" id="btn">Generate PDF</button>	 -->
 </div>
 </body>

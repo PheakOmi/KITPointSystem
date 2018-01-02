@@ -17,17 +17,26 @@
 	
 		$(document).ready(function(){
 			document.querySelector("#value1").addEventListener("keypress", function (evt) {
-		        if (evt.which != 8 && evt.which != 0 && evt.which < 48 || evt.which > 57)
-		        {
-		            evt.preventDefault();
-		        }
+				var charCode = (evt.which) ? evt.which : evt.keyCode;
+		        if (charCode != 46 && charCode > 31 
+		          && (charCode < 48 || charCode > 57))
+		           return false;
+
+		        return true;
 		    });
 	
 			
 			$('li#settingStlye').addClass('active');
 			$("#myForm").on('submit',function(e){
 				e.preventDefault();
-				 
+				if($('#value1').val()==null||$('#value1').val()=="")
+					$('#value1').val(0);
+				if(!$.isNumeric($('#value1').val()))
+					{
+					swal("It is not number!", "Please put only number", "error")
+					return
+					}
+					
 					 $.ajax({
 							url:'submit1',
 							type:'GET',

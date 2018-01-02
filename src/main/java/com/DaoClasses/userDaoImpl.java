@@ -2698,6 +2698,7 @@ public class userDaoImpl implements usersDao{
 		try{
 			trns25  = session.beginTransaction();
 			String queryString = "from KIT_Point_Student_Wise where project_id=:project_id and user_id=:user_id";
+			System.out.println("**"+str);
 			for (String st:str.split("/"))
 		 	{
 		 		String[] s=st.split(",");

@@ -318,7 +318,7 @@ function formatDate(date) {
                                     <div class="col-sm-4 pull-right">
                                         <select class="form-control" id="format">
                                           	<option value="excel">In Excel Format</option>
-                                        	<option value="pdf">In PDF Format</option>
+                          <!--             	<option value="pdf">In PDF Format</option>	 -->  
                                         </select>
                                     </div>
                                 </div>
@@ -361,6 +361,6 @@ function formatDate(date) {
 <br>
 <br>
        <button onclick="generateReport()" type="button" class="btn btn-success pull-right" id="btnGenerate" style="display:none;">Generate Report</button> 
-<button class="create_pdf" myprint="#tablewrapper" id="btn" style="display:none;">Generate PDF</button>
+<!-- <button class="create_pdf" myprint="#tablewrapper" id="btn" style="display:none;">Generate PDF</button>	 -->
 </div>
 </body>
