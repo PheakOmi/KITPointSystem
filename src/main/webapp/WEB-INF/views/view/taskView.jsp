@@ -143,6 +143,8 @@
   $(document).ready(function() {
    $('li#taskStlye').addClass('active');
    $("#txtbox").keyup(function(){
+	   
+	   
 	   $(".project").each(function(){
  	         
 	          $(this).show();
