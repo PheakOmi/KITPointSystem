@@ -1,121 +1,74 @@
 package com.DaoClasses;
-
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.xmlrpc.client.XmlRpcClient;
-import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
-import com.EntityClasses.Sms_Server_Info;
-import com.EntityClasses.Student;
-import com.ModelClasses.Mail;
-
-public class test {
+import java.sql.*;  
 
 
-public static void main(String[] args) {
-	List <Student> students=new ArrayList<Student>();
-	  //final String url = "http://192.168.7.222:8069";
-		Sms_Server_Info  info =  new Sms_Server_Info();
-	info = new userDaoImpl().getSmsServerInfo(); 
-	final String url = info.getIp(); 
-    final String db = info.getDb_name(); 
-    final String username = info.getAdmin_name(); 
-    final String password = info.getAdmin_password();
-     
-    try { 
-    final XmlRpcClient authClient = new XmlRpcClient(); 
-       final XmlRpcClientConfigImpl authStartConfig = new XmlRpcClientConfigImpl(); 
-       authStartConfig.setServerURL(new URL(String.format("%s/xmlrpc/2/common", url))); 
-        
-   
-       List configList = new ArrayList(); 
-       Map paramMap = new HashMap(); 
-        
-       configList.add(db); 
-       configList.add(username); 
-       configList.add(password); 
-       configList.add(paramMap); 
-        
-       int uid = (Integer)authClient.execute( 
-               authStartConfig, "authenticate", configList); 
-       
-       System.out.println("Connection Success"); 
-       
-       final XmlRpcClient objClient = new XmlRpcClient(); 
-       final XmlRpcClientConfigImpl objStartConfig = new XmlRpcClientConfigImpl(); 
-       objStartConfig.setServerURL(new URL(String.format("%s/xmlrpc/2/object", url))); 
-       objClient.setConfig(objStartConfig); 
-        
-      
-     // List<Object> a= Arrays.asList((Object[])objClient.execute("execute_kw", configList)); 
-   
-        
- 	  
-      	  final List get_Result=Arrays.asList((Object[])objClient.execute("execute_kw", Arrays.asList(
-      			    db, uid, password,
-      			    "op.student", "search_read",
-      			    Arrays.asList(Arrays.asList(
-      			    		Arrays.asList("id", ">", 0))),
-      			    		    //OR
-      			    		//Arrays.asList("customer", "=", true))),  //To bring the all value customer should be true
-      			    new HashMap() {{
-      			        put("fields", Arrays.asList("id","name","batch_id","roll_number","last_name","email"));
-      			        //put("limit", 5);
-      			    }}
-      			)));
-      	  
- 	  
-      	   for(int i=0;i<get_Result.size();i++)
-             {
-      		 Student student = new Student();
-      		 //HashMap complete_Result = (HashMap) get_Result.get(i);                 
-      		   
-               HashMap<String,Object> complete_Result = (HashMap<String,Object>) get_Result.get(i);               
-      
-               Integer id=(Integer)complete_Result.get("id");
-               student.setId(Integer.toString(id));
-               String gender=(String)complete_Result.get("roll_number");
-               student.setGender(gender);
-               String name=(String)complete_Result.get("name");
-               student.setName(name);
-               String email=(String)complete_Result.get("email");
-               student.setText(email);
-               String lname = (String)complete_Result.get("last_name");
-               name = lname+" "+name;
-               student.setName(name);
-               
-               Object batch_id1=(Object)complete_Result.get("batch_id");   //batch_id is object so we must get this value as an object       	         	  
-            	 String batch_id2=Arrays.deepToString((Object[]) batch_id1).toString();
-           	 String batch_id3=batch_id2.substring(1,batch_id2.length()-1);  //To trim bracket
-            	 String[] batch_id4=batch_id3.split(",");  //splits the string based on whitespace  
-              int count=0;
-            	for(String batch_id5:batch_id4){
-	                 String batch_id6 = batch_id5.trim();     //Remove first space
-	                 String batch_id7= batch_id6.replaceAll(" ", "");
-	                 count++;
-	                 if(count==1)//Remove space
-	                 student.setBatch_id(batch_id7);
-	                }
-            	students.add(student);
-        	  
+public class test
+{
+
+    public static void main(String args[]) 
+    {
+        try 
+        {
+           //step1 Register the driver  
+        	Class.forName("org.postgresql.Driver");
+        	
+            //step2 Get the connection from db 
+        	Connection con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/SBS","postgres", "admin");
+
+            //step3 create the statement object  
+            Statement stmt = con.createStatement();
+            
+            //step4 Excecute the query
+            stmt.executeUpdate("create table bus_master(id serial primary key, plate_number varchar(10),name varchar(50), number_of_seat integer, Created_at timestamp, Updated_at timestamp,enabled boolean)");
+ //           stmt.executeUpdate("create table User_info(id serial primary key, Name varchar(100),Email varchar(100), Password varchar(100),Created_at timestamp, Updated_at timestamp, enabled boolean)");
+            stmt.executeUpdate("create table location_master(id serial primary key,name varchar(50),Created_at timestamp, Updated_at timestamp,enabled boolean)");
+            stmt.executeUpdate("create table pick_up_location(id serial primary key, Name varchar(20),location_id integer,Created_at timestamp, Updated_at timestamp,enabled boolean)");
+            stmt.executeUpdate("create table schedule_master(id serial primary key, bus_id integer, driver_id integer,dept_date date,dept_time time,description varchar (200),number_seat integer, arrival_time time, remaining_seat integer, Created_at timestamp, Updated_at timestamp)");
+            stmt.executeUpdate("create table booking_master(id serial primary key,destination_id integer, source_id integer, schedule_id integer, notification varchar(200),qr varchar(200),description varchar(100), Created_at timestamp, Updated_at timestamp)");
+//            stmt.executeUpdate("create table user_role(id serial primary key, User_id integer, Project_id integer,Batch_id integer, KIT_Point varchar(40), Hours integer,Created_at timestamp, Updated_at timestamp)");
+            stmt.executeUpdate("create table driver_bus_assigned(id serial primary key, schedule_id integer,driver_id integer,bus_id integer,dept_date date,dept_time time, Created_at timestamp, Updated_at timestamp)");
+//            stmt.executeUpdate("create table Budget_Master(id serial primary key, Name varchar(150), Created_at timestamp, Updated_at timestamp)");
+//            stmt.executeUpdate("create table Budget(id serial primary key,Budget_id integer, Project_id integer, Cost integer, Created_at timestamp, Updated_at timestamp)");
+//            stmt.executeUpdate("create table Project_Stage_Master(id serial primary key, Stage_name varchar(70), Created_at timestamp, Updated_at timestamp)");
+//            stmt.executeUpdate("create table Project_Stage(id serial primary key, Project_id integer, Stage_id integer, Created_at timestamp, Updated_at timestamp)");
+//            stmt.executeUpdate("create table Task_Master(id serial primary key, Project_id integer, Name varchar(150), Assigned_To integer, Description varchar(500),Status varchar(70), Time_spend integer DEFAULT 0, Deadline date, Start_date date, End_date date,Created_at timestamp, Updated_at timestamp)");
+//            stmt.executeUpdate("create table Project_Master(id serial primary key, Project_Name varchar(150), Project_Code varchar(40), Skillset varchar(150), Project_type integer, Project_Co integer, Project_leader integer, Project_member varchar(40),Description varchar(500), Status varchar(40),Initially_planned integer, Budget integer DEFAULT 0, KIT_point varchar(40), Deadline date, Start_date date, End_date date, Created_at timestamp, Updated_at timestamp)");
+//            stmt.executeUpdate("create table Student(student_id serial primary key, Name varchar(100), Text varchar(100),id varchar(20),gender varchar(20),batch_id varchar(20))");         
+//            stmt.executeUpdate("create table sms_server_info(id serial primary key, ip varchar(100), db_name varchar(100))");         
+//              stmt.executeUpdate("create table Skillset_Master(id serial primary key, Name varchar(150), Created_at timestamp, Updated_at timestamp)");
+//            stmt.executeUpdate("create table Skillset_Project_Wise(id serial primary key, Project_id integer,skillset_id integer, skillset_name varchar(40),Created_at timestamp, Updated_at timestamp)");
+//            stmt.executeUpdate("create table additional_hour(id serial primary key, User_id integer, Project_id integer,additional_hour integer,Created_at timestamp, Updated_at timestamp)");
+            System.out.println("Success");
+            //Don't forget to set budget,timespent in task default as 0
+            
+
+            //step5 close the connection object   	
+            con.close();
+
+        } 
+        catch (Exception e) 
+        {
+            System.out.println(e.toString());
+            
         }
-      	  
-       
-      }
-      catch (Exception e) {
-      	System.err.println(e);
-          //e.printStackTrace();
-      }
-    
-    for (Student s: students)
-    	System.out.println(s.getId()+"  "+	s.getName()+"  "+s.getGender());
-    
+
+    }
 }
-}
+
+
+
+//C:\oraclexe\app\oracle\product\10.2.0\server\jdbc\lib   --location of jdbc jar file 
+
+
+/*
+
+3 statement objects are available
+
+1- Statement
+2- prepared statement 
+3- callable statement
+
+
+prepared statement is much faster than other statements and secure too.
+
+*/
