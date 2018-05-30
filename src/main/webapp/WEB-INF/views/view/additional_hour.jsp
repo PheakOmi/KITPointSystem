@@ -5,7 +5,7 @@
   <tr>
     <th>No</th>
     <th>Name</th>
-    <th>Additional Hour</th>
+    <th>Working Hour</th>
   </tr>
 </table>
 </div>
@@ -38,7 +38,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Create student's additional hour record</h4>
+          <h4 class="modal-title">Create individual's working hour record</h4>
         </div>
         <div class="modal-body">
      <form class="form-group" id="myForm2">
@@ -50,7 +50,7 @@
 	  </select>
       
       </div><br><br>
-      <label class="col-sm-4" for="email">Additional Hour</label>
+      <label class="col-sm-4" for="email">Working Hour</label>
       <div class="col-sm-7">
       <input type="text" class="form-control cdd" id="shour" maxlength="3" placeholder="Input only integer" required>
       </div>	

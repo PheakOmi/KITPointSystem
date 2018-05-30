@@ -29,7 +29,7 @@ load = function()
 	    	  {
 		    	  var row = "<tr class='hoverable' data-url='updateAllPoint?id="+data[i].id+"&name="+data[i].name+"' ><td>"+(i+1)+"</td>"+
 					"<td>"+data[i].name+"</td>"+
-					"<td>"+data[i].text+"</td></tr>";
+					"<td>"+parseFloat(data[i].text).toFixed(3)+"</td></tr>";
 		    	  $("#customers").append(row);
 				}
 	    	  

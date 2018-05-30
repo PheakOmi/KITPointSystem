@@ -24,10 +24,10 @@ load = function()
     sum += parseFloat(data[i].kit_point);
     var row = "<tr class='record'><td>"+(i+1)+"</td>"+
     "<td class='project' id='"+data[i].project_id+"'>"+data[i].name+"</td>"+
-    "<td><input type='text' readonly class='cc' maxlength='3' style='border: none;border-color: transparent;' id='idd' value="+data[i].kit_point+"></td></tr>";
+    "<td><input type='text' readonly class='cc' maxlength='3' style='border: none;border-color: transparent;' id='idd' value="+parseFloat(data[i].kit_point).toFixed(3)+"></td></tr>";
     $("#customers").append(row);
   }
-  var r = "<tr><td colspan='2' style='background-color: #ccc';><center>Total</center></td><td>"+sum+" Point"+"(s)"+"</td></tr>";
+  var r = "<tr><td colspan='2' style='background-color: #ccc';><center>Total</center></td><td>"+sum.toFixed(3)+" Point"+"(s)"+"</td></tr>";
   $("#customers").append(r);
 }
 
